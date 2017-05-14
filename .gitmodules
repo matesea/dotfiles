@@ -52,3 +52,9 @@
 [submodule "vim/plugged/vim-linux-coding-style"]
 	path = vim/plugged/vim-linux-coding-style
 	url = https://github.com/vivien/vim-linux-coding-style
+[submodule "tmux/plugins/tpm"]
+	path = tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+[submodule "tmux/plugins/tmux-sensible"]
+	path = tmux/plugins/tmux-sensible
+	url = https://github.com/tmux-plugins/tmux-sensible
