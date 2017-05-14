@@ -1,5 +1,3 @@
-#shopt -s cdspell
-shopt -s cdspell
 alias ll='ls -l'
 alias la='ls -la'
 alias lh='ls -lh'
@@ -9,11 +7,12 @@ alias SL='ls'
 alias vi='nvim'
 alias tmux='tmux -2'
 alias recal='history |grep'
-alias v='f -e vim'
+# alias v='f -e vim'
 
 shopt -s cdspell
 shopt -s extglob
 shopt -s histappend
+set -o vi
 export HISTTIMEFORMAT="%F %T "
 #export XENVIRONMENT="/home/matesea/.Xdefaults.bak"
 
@@ -24,7 +23,6 @@ export EXO_MOUNT_IOCHARSET="utf8"
 export GREP_OPTION="--color=auto"
 
 #source ~/bin/bashmarks.sh
-eval "$(fasd --init auto)"
 function u(){
     local folder=..;
     if [ -z "$1" ] ; then
@@ -102,6 +100,7 @@ function gen_files(){
         echo gen $folder/files/$i.files...
         grep "^\.\/\<$i\>\/" $folder/files/src.files > $folder/files/$i.files
     done
+    sed -i -e 's#^\.\/##' $folder/files/*.files
 }
 
 function gen_mk(){
@@ -120,6 +119,7 @@ function gen_mk(){
         -o \( -name "[Mm]akefile*" -o -name "*.mk" -o -name "*.mak" -o -name "[kK]config*" \
         -o -name "[Kk]build*" -o -name "*.pl" -o -name "*.sh" -o -name "*.py" \) -print \
         | sort > $folder/files/mk.files
+    sed -i -e 's#^\.\/##' $folder/files/mk.files
 }
 
 function gen_css(){
@@ -331,4 +331,4 @@ function gen_cs(){
 export PATH="/opt/local/bin/:/Users/matesea/working/android-sdk/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:$PATH"
 PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\]'
 
-set -o vi
+eval "$(fasd --init auto)"
