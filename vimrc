@@ -6,7 +6,7 @@ filetype off
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
-Plug 'Lokaltog/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
@@ -19,7 +19,7 @@ Plug 'rking/ag.vim'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'airblade/vim-gitgutter'
 Plug 'chazy/cscope_maps'
-Plug 'MultipleSearch', { 'on': ['Search', 'SearchBuffers', 'SearchBuffersReset'] }
+Plug 'vim-scripts/MultipleSearch', { 'on': ['Search', 'SearchBuffers', 'SearchBuffersReset'] }
 Plug 'tomasr/molokai'
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }

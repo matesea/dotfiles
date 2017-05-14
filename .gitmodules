@@ -1,0 +1,51 @@
+[submodule "vim/plugged/LargeFile"]
+	path = vim/plugged/LargeFile
+	url = https://github.com/vim-scripts/LargeFile
+[submodule "vim/plugged/vim-easymotion"]
+	path = vim/plugged/vim-easymotion
+	url = https://github.com/easymotion/vim-easymotion
+[submodule "vim/plugged/vim-airline"]
+	path = vim/plugged/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "vim/plugged/nerdtree"]
+	path = vim/plugged/nerdtree
+	url = https://github.com/scrooloose/nerdtree
+[submodule "vim/plugged/tagbar"]
+	path = vim/plugged/tagbar
+	url = https://github.com/majutsushi/tagbar
+[submodule "vim/plugged/vim-yankstack"]
+	path = vim/plugged/vim-yankstack
+	url = https://github.com/maxbrunsfeld/vim-yankstack
+[submodule "vim/plugged/taglist.vim"]
+	path = vim/plugged/taglist.vim
+	url = https://github.com/vim-scripts/taglist.vim
+[submodule "vim/plugged/ctrlp.vim"]
+	path = vim/plugged/ctrlp.vim
+	url = https://github.com/ctrlpvim/ctrlp.vim
+[submodule "vim/plugged/ctrlp-z"]
+	path = vim/plugged/ctrlp-z
+	url = https://github.com/amiorin/ctrlp-z
+[submodule "vim/plugged/ag.vim"]
+	path = vim/plugged/ag.vim
+	url = https://github.com/rking/ag.vim
+[submodule "vim/plugged/vim-diff-enhanced"]
+	path = vim/plugged/vim-diff-enhanced
+	url = https://github.com/chrisbra/vim-diff-enhanced
+[submodule "vim/plugged/vim-gitgutter"]
+	path = vim/plugged/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+[submodule "vim/plugged/cscope_maps"]
+	path = vim/plugged/cscope_maps
+	url = https://github.com/chazy/cscope_maps
+[submodule "vim/plugged/MultiPleSearch"]
+	path = vim/plugged/MultiPleSearch
+	url = https://github.com/vim-scripts/MultiPleSearch
+[submodule "vim/plugged/molokai"]
+	path = vim/plugged/molokai
+	url = https://github.com/tomasr/molokai
+[submodule "vim/plugged/deoplete.nvim"]
+	path = vim/plugged/deoplete.nvim
+	url = https://github.com/Shougo/deoplete.nvim
+[submodule "vim/plugged/neocomplete.vim"]
+	path = vim/plugged/neocomplete.vim
+	url = https://github.com/Shougo/neocomplete.vim
