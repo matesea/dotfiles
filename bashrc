@@ -329,6 +329,10 @@ function gen_cs(){
     cscope -bkq -i files/$file.files -f files/$file.out 2>/dev/null
 }
 export PATH="/opt/local/bin/:/Users/matesea/working/android-sdk/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:$PATH"
-PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\]'
+if [[ ${EUID} == 0 ]] ; then
+	PS1='\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '
+else
+	PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] '
+fi
 
 eval "$(fasd --init auto)"
