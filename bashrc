@@ -22,20 +22,22 @@ export HISTSIZE=30000
 export EXO_MOUNT_IOCHARSET="utf8"
 export GREP_OPTION="--color=auto"
 
-#source ~/bin/bashmarks.sh
-function u(){
-    local folder=..;
-    if [ -z "$1" ] ; then
-        cd $folder
-    else
-        for ((i=$1 ; i>1 ; i--))
-        do
-            folder=$folder/..
-        done
-        cd $folder
-    fi
-    echo current folder: $(pwd)
+# go up N-th level or directory name match regex
+function cd_up() {
+    case $1 in
+        *[!0-9]*)
+            # regex case
+            # search argu1 in current path
+            cd $(pwd | sed "s|\(.*/$1[^/]*/\).*|\1|" )
+            ;;
+        *)
+            # cd ../../ (N dirs)
+            cd $(printf "%0.0s../" $(seq 1 $1));
+            ;;
+    esac
 }
+alias 'u'='cd_up'
+
 function gen_ids(){
     local folder=$1
 
