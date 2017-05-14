@@ -81,9 +81,12 @@ function gen_files(){
         -o -path $folder/sdk \
         -o -path $folder/prebuilt \
         -o -path $folder/kernel/out \
-        -o -path $folder/mediatek/custom/out \
-        \) -prune \
-        -o \( -name '*.[cCsShH]' -o -name '*.java' -o -name '*.cpp' -o -name "*.asm" \) -print | sort > $folder/files/src.files
+        \) -prune -o \( \
+        -name '*.[cCsShH]' \
+        -o -name '*.java' \
+        -o -name '*.cpp' \
+        -o -name "*.asm" \
+        \) -print | sort > $folder/files/src.files
     
     for i in $(find $folder -mindepth 1 -maxdepth 1 \
         \( \
@@ -100,7 +103,8 @@ function gen_files(){
         |grep -vw 'files' |sed 's#^\.\/##g')
     do
         echo gen $folder/files/$i.files...
-        grep "^\.\/\<$i\>\/" $folder/files/src.files > $folder/files/$i.files
+        grep "^\.\/\<$i\>\/" $folder/files/src.files \
+            > $folder/files/$i.files
     done
     sed -i -e 's#^\.\/##' $folder/files/*.files
 }
@@ -117,10 +121,18 @@ function gen_mk(){
     fi
     
     echo gen $folder/files/mk.files...
-    find $folder \( -path $folder/out -o -path $folder/kernel/out \) -prune \
-        -o \( -name "[Mm]akefile*" -o -name "*.mk" -o -name "*.mak" -o -name "[kK]config*" \
-        -o -name "[Kk]build*" -o -name "*.pl" -o -name "*.sh" -o -name "*.py" \) -print \
-        | sort > $folder/files/mk.files
+    find $folder \( -path $folder/out \
+        -o -path $folder/kernel/out \) -prune \
+        -o \( \
+        -name "[Mm]akefile*" \
+        -o -name "*.mk" \
+        -o -name "*.mak" \
+        -o -name "[kK]config*" \
+        -o -name "[Kk]build*" \
+        -o -name "*.pl" \
+        -o -name "*.sh" \
+        -o -name "*.py" \
+        \) -print | sort > $folder/files/mk.files
     sed -i -e 's#^\.\/##' $folder/files/mk.files
 }
 
@@ -279,7 +291,8 @@ function f(){
             if [ $folder == "." ] ; then
                 ack -h $i $folder/files/src.files
             else
-                ack -h $i $folder/files/src.files | sed -e "s!^\.\/!$folder\/!"
+                ack -h $i $folder/files/src.files \
+                    | sed -e "s!^\.\/!$folder\/!"
             fi
         done 2>/dev/null
     else

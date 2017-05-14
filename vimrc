@@ -6,21 +6,23 @@ filetype off
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
-Plug 'easymotion/vim-easymotion'
-Plug 'vim-airline/vim-airline'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-Plug 'vim-scripts/LargeFile'
-Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'amiorin/ctrlp-z'
-Plug 'rking/ag.vim'
-Plug 'chrisbra/vim-diff-enhanced'
 Plug 'airblade/vim-gitgutter'
+Plug 'amiorin/ctrlp-z'
 Plug 'chazy/cscope_maps'
-Plug 'vim-scripts/MultipleSearch', { 'on': ['Search', 'SearchBuffers', 'SearchBuffersReset'] }
+Plug 'chrisbra/vim-diff-enhanced'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'rking/ag.vim'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tomasr/molokai'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-scripts/LargeFile'
+Plug 'vim-scripts/MultipleSearch', { 'on': ['Search', 'SearchBuffers', 'SearchBuffersReset'] }
+Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
+Plug 'vivien/vim-linux-coding-style'
+
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
