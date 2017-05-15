@@ -73,7 +73,7 @@ function gen_files(){
     fi
     
     echo gen $folder/files/src.files...
-    find $folder \
+    find -L $folder \
         \( \
         -path $folder/out \
         -o -path $folder/build \
@@ -89,7 +89,7 @@ function gen_files(){
         -o -name '*.java' \
         -o -name '*.cpp' \
         -o -name "*.asm" \
-        \) -print | sort > $folder/files/src.files
+        \) -a -type f -print | sort > $folder/files/src.files
     
     for i in $(find $folder -mindepth 1 -maxdepth 1 \
         \( \
@@ -124,7 +124,7 @@ function gen_mk(){
     fi
     
     echo gen $folder/files/mk.files...
-    find $folder \( -path $folder/out \
+    find -L $folder \( -path $folder/out \
         -o -path $folder/kernel/out \) -prune \
         -o \( \
         -name "[Mm]akefile*" \
@@ -135,7 +135,7 @@ function gen_mk(){
         -o -name "*.pl" \
         -o -name "*.sh" \
         -o -name "*.py" \
-        \) -print | sort > $folder/files/mk.files
+        \) -a -type f -print | sort > $folder/files/mk.files
     sed -i -e 's#^\.\/##' $folder/files/mk.files
 }
 
