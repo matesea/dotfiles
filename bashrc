@@ -355,6 +355,6 @@ else
 fi
 
 # import local setting
-if [ -f ~/.bashrc.local ]; then
-    source ~/.bashrc.local
+if [ -f $HOME/.bashrc.local ]; then
+    source $HOME/.bashrc.local
 fi
