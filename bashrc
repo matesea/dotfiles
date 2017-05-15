@@ -8,6 +8,7 @@ alias vi='nvim'
 alias tmux='tmux -2'
 alias recal='history |grep'
 # alias v='f -e vim'
+unset command_not_found_handle
 
 shopt -s cdspell
 shopt -s extglob
@@ -20,7 +21,9 @@ export HISTTIMEFORMAT="%F %T "
 export HISTCONTROL=ignorespace:erasedups
 export HISTSIZE=30000
 export EXO_MOUNT_IOCHARSET="utf8"
-export GREP_OPTION="--color=auto"
+export GREP_OPTIONS="--color=auto"
+export VISUAL=nvim
+export EDITOR="$VISUAL"
 
 # go up N-th level or directory name match regex
 function cd_up() {
@@ -258,7 +261,7 @@ function idg(){
             cat $folder/files/src.files
         else
             cat $folder/files/*.files | sort | uniq
-        fi ) | xargs ack "$pattern" 2>/dev/null
+        fi ) | xargs ag "$pattern" 2>/dev/null
     else
         echo -e "${FUNCNAME}: no any index exists\n"
             "\tgen_ids or gen_files first please"
@@ -267,7 +270,7 @@ function idg(){
 }
 
 # find files
-# ack version
+# ag version
 function f(){
     local folder="."
     local args=""
@@ -289,9 +292,9 @@ function f(){
         for i in $args
         do
             if [ $folder == "." ] ; then
-                ack -h $i $folder/files/src.files
+                ag -h $i $folder/files/src.files
             else
-                ack -h $i $folder/files/src.files \
+                ag -h $i $folder/files/src.files \
                     | sed -e "s!^\.\/!$folder\/!"
             fi
         done 2>/dev/null
@@ -343,11 +346,15 @@ function gen_cs(){
     echo "gen files/$file.out..."
     cscope -bkq -i files/$file.files -f files/$file.out 2>/dev/null
 }
-export PATH="/opt/local/bin/:/Users/matesea/working/android-sdk/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:$PATH"
+
+export PATH="/opt/local/bin/:$HOME/bin:$PATH"
 if [[ ${EUID} == 0 ]] ; then
 	PS1='\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '
 else
 	PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] '
 fi
 
-eval "$(fasd --init auto)"
+# import local setting
+if [ -f ~/.bashrc.local ]; then
+    source ~/.bashrc.local
+fi
