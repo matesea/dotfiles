@@ -116,7 +116,7 @@ function gen_files(){
         |grep -vw 'files' |sed 's#^\.\/##g')
     do
         grep "^\.\/\<$i\>\/" $folder/files/$output \
-            > $folder/files/$i.files
+            |sed -e 's#^\.\/##' > $folder/files/$i.files
         if [ ! -s $folder/files/$i.files ]; then
             # clear empty files
             rm -f $folder/files/$i.files
@@ -124,7 +124,8 @@ function gen_files(){
             echo gen $folder/files/$i.files...
         fi
     done
-    sed -i -e 's#^\.\/##' $folder/files/*.files
+    sed -e 's#^\.\/##' -i .old $folder/files/$output
+    rm $folder/files/${output}.old
 }
 
 function gen_mk(){
@@ -153,8 +154,8 @@ function gen_mk(){
         -o -name "*.pl" \
         -o -name "*.sh" \
         -o -name "*.py" \
-        \) -a -type f -print | sort > $folder/files/mk.files
-    sed -i -e 's#^\.\/##' $folder/files/mk.files
+        \) -a -type f -print | \
+        sed -e 's#^\.\/##' |sort > $folder/files/mk.files
 }
 
 function gen_css(){
