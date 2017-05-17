@@ -71,8 +71,16 @@ function gen_files(){
     if [ ! -d $folder/files ] ; then
         mkdir $folder/files
     fi
-    
-    echo gen $folder/files/src.files...
+
+    local output=$2
+    if [ -z $output ] && [ ! -d $folder/src ] ; then
+        output=src.files
+    elif [ -z $output ] ; then
+        # add date to avoid conflict
+        output=src-$(date +%F).files
+    fi
+
+    echo gen $folder/files/$output...
     find -L $folder \
         \( \
         -path $folder/out \
@@ -90,7 +98,7 @@ function gen_files(){
         -o -name '*.java' \
         -o -name '*.cpp' \
         -o -name "*.asm" \
-        \) -a -type f -print | sort > $folder/files/src.files
+        \) -a -type f -print | sort > $folder/files/$output
     
     for i in $(find $folder -mindepth 1 -maxdepth 1 \
         \( \
@@ -107,9 +115,14 @@ function gen_files(){
         \) -prune -o ! -type d -o -print \
         |grep -vw 'files' |sed 's#^\.\/##g')
     do
-        echo gen $folder/files/$i.files...
-        grep "^\.\/\<$i\>\/" $folder/files/src.files \
+        grep "^\.\/\<$i\>\/" $folder/files/$output \
             > $folder/files/$i.files
+        if [ ! -s $folder/files/$i.files ]; then
+            # clear empty files
+            rm -f $folder/files/$i.files
+        else
+            echo gen $folder/files/$i.files...
+        fi
     done
     sed -i -e 's#^\.\/##' $folder/files/*.files
 }
