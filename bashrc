@@ -7,6 +7,7 @@ alias SL='ls'
 alias vi='nvim'
 alias tmux='tmux -2'
 alias recal='history |grep'
+alias grep='grep --color=auto'
 # alias v='f -e vim'
 unset command_not_found_handle
 
@@ -21,7 +22,6 @@ export HISTTIMEFORMAT="%F %T "
 export HISTCONTROL=ignorespace:erasedups
 export HISTSIZE=30000
 export EXO_MOUNT_IOCHARSET="utf8"
-export GREP_OPTIONS="--color=auto"
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
