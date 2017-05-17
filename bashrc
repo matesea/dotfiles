@@ -124,8 +124,8 @@ function gen_files(){
             echo gen $folder/files/$i.files...
         fi
     done
-    sed -e 's#^\.\/##' -i .old $folder/files/$output
-    rm $folder/files/${output}.old
+    sed -e 's#^\.\/##' -i.old $folder/files/$output
+    rm -f $folder/files/${output}.old
 }
 
 function gen_mk(){
