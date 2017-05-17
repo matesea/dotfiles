@@ -84,6 +84,7 @@ function gen_files(){
         -o -path $folder/sdk \
         -o -path $folder/prebuilt \
         -o -path $folder/kernel/out \
+        -o -path '*/\.*' \
         \) -prune -o \( \
         -name '*.[cCsShH]' \
         -o -name '*.java' \
@@ -102,6 +103,7 @@ function gen_files(){
         -o -path $folder/sdk \
         -o -path $folder/prebuilt \
         -o -path $folder/files \
+        -o -path '*/\.*' \
         \) -prune -o ! -type d -o -print \
         |grep -vw 'files' |sed 's#^\.\/##g')
     do
@@ -124,8 +126,11 @@ function gen_mk(){
     fi
     
     echo gen $folder/files/mk.files...
-    find -L $folder \( -path $folder/out \
-        -o -path $folder/kernel/out \) -prune \
+    find -L $folder \( \
+        -path $folder/out \
+        -o -path $folder/kernel/out \
+        -o -path '*/\.*' \
+        \) -prune \
         -o \( \
         -name "[Mm]akefile*" \
         -o -name "*.mk" \
