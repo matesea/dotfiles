@@ -25,9 +25,6 @@
 [submodule "vim/plugged/ctrlp-z"]
 	path = vim/plugged/ctrlp-z
 	url = https://github.com/amiorin/ctrlp-z
-[submodule "vim/plugged/ag.vim"]
-	path = vim/plugged/ag.vim
-	url = https://github.com/rking/ag.vim
 [submodule "vim/plugged/vim-diff-enhanced"]
 	path = vim/plugged/vim-diff-enhanced
 	url = https://github.com/chrisbra/vim-diff-enhanced
@@ -58,3 +55,6 @@
 [submodule "tmux/plugins/tmux-sensible"]
 	path = tmux/plugins/tmux-sensible
 	url = https://github.com/tmux-plugins/tmux-sensible
+[submodule "vim/plugged/vim-grepper"]
+	path = vim/plugged/vim-grepper
+	url = https://github.com/mhinz/vim-grepper

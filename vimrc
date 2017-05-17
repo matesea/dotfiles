@@ -14,7 +14,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'rking/ag.vim'
+Plug 'mhinz/vim-grepper'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tomasr/molokai'
 Plug 'vim-airline/vim-airline'
@@ -376,8 +376,6 @@ else
     let g:ctrlp_use_caching = 1
     let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
 endif
-nnoremap K :Ag "\b<C-R><C-W>\b" %:p:h<CR>:cw<CR>
-nnoremap ag :Ag<space>
 
 " => taglist plugin
 nmap <silent> <leader>tl :TlistToggle<cr>
@@ -451,3 +449,7 @@ let g:EasyMotion_leader_key = ',,'
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
 let g:gitgutter_eager = 0
+""""""""""""""""""""""""""""""
+" => vim-gitgutter plugin
+""""""""""""""""""""""""""""""
+nnoremap <leader>g :Grepper -tool ag -buffers<cr>
