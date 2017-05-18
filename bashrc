@@ -4,7 +4,6 @@ alias lh='ls -lh'
 alias sl='ls'
 alias LS='ls'
 alias SL='ls'
-alias vi='nvim'
 alias tmux='tmux -2'
 alias recal='history |grep'
 alias grep='grep --color=auto'
@@ -22,7 +21,14 @@ export HISTTIMEFORMAT="%F %T "
 export HISTCONTROL=ignorespace:erasedups
 export HISTSIZE=30000
 export EXO_MOUNT_IOCHARSET="utf8"
-export VISUAL=nvim
+
+if [ -x $(which nvim) ] ; then
+    alias vi='nvim'
+    export VISUAL=nvim
+else
+    alias vi='vim'
+    export VISUAL=vim
+fi
 export EDITOR="$VISUAL"
 
 # go up N-th level or directory name match regex
