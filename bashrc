@@ -23,13 +23,19 @@ export HISTSIZE=30000
 export EXO_MOUNT_IOCHARSET="utf8"
 export PROMPT_COMMAND='history -a'
 
+if which gsed 1>/dev/null 2>&1 ; then
+    _gsed=gsed
+else
+    _gsed=sed
+fi
+
 # go up N-th level or directory name match regex
 function cd_up() {
     case $1 in
         *[!0-9]*)
             # regex case
             # search argu1 in current path
-            cd $(pwd | sed "s|\(.*/$1[^/]*/\).*|\1|" )
+            cd $(pwd |${_gsed} "s|\(.*/$1[^/]*/\).*|\1|" )
             ;;
         *)
             # cd ../../ (N dirs)
@@ -88,7 +94,7 @@ function gen_ids() {
         \) -prune -o \
         \( ! -regex '.*/\..*' -a ! -regex '\./files/' \)\
         -a -type d -print\
-        |sed 's=^\.\/==' |sort -u)
+        |${_gsed} 's=^\.\/==' |sort -u)
     do
         echo gen $out_folder/$i.ids...
         mkid -o $out_folder/$i.ids $folder/$i 2>/dev/null
@@ -146,10 +152,10 @@ function gen_files() {
         -o -path $folder/files \
         -o -path '*/\.*' \
         \) -prune -o ! -type d -o -print \
-        |grep -vw 'files' |sed 's#^\.\/##g')
+        |grep -vw 'files' |${_gsed} 's#^\.\/##g')
     do
         grep "^\.\/\<$i\>\/" $folder/files/$output \
-            |sed -e 's#^\.\/##' > $folder/files/$i.files
+            |${_gsed} -e 's#^\.\/##' > $folder/files/$i.files
         if [ ! -s $folder/files/$i.files ]; then
             # clear empty files
             rm -f $folder/files/$i.files
@@ -157,7 +163,7 @@ function gen_files() {
             echo gen $folder/files/$i.files...
         fi
     done
-    sed -e 's#^\.\/##' -i.old $folder/files/$output
+    ${_gsed} -e 's#^\.\/##' -i.old $folder/files/$output
     rm -f $folder/files/${output}.old
 }
 
@@ -187,8 +193,9 @@ function gen_mk() {
         -o -name "*.pl" \
         -o -name "*.sh" \
         -o -name "*.py" \
-        \) -a -type f -print | \
-        sed -e 's#^\.\/##' |sort > $folder/files/mk.files
+        \) -a -type f -print \
+        |${_gsed} -e 's#^\.\/##' \
+        |sort > $folder/files/mk.files
 }
 
 # list files whose content match pattern
@@ -215,7 +222,7 @@ function idf() {
             lid $options -R filenames -f $i "$pattern"
         done 2>/dev/null \
                 |cut -d" " -f2- \
-                |sed -e 's#^\ \ *##' -e 's#\ \ *#\n#g' \
+                |${_gsed} -e 's#^\ \ *##' -e 's#\ \ *#\n#g' \
                 |sort -u
     else
         echo -e "${FUNCNAME}: no any index exists\n"
@@ -247,18 +254,18 @@ function idg() {
         do
             #if tty -s <&1; then
                 lid $options -R grep -f $i "$pattern" 2>/dev/null \
-                    | sort -u |grep "$pattern"
+                    |sort -u |grep "$pattern"
             #else
             #    lid $options -R grep -f $i "$pattern" 2>/dev/null \
-            #        | sort |uniq |grep "$pattern"
+            #        |sort |uniq |grep "$pattern"
             #fi
         done
     # elif ls $folder/files/*.files &> /dev/null; then
     #     ( if [ -e $folder/files/src.files ] ; then
     #         cat $folder/files/src.files
     #     else
-    #         cat $folder/files/*.files | sort | uniq
-    #     fi ) | xargs ag "$pattern" 2>/dev/null
+    #         cat $folder/files/*.files |sort -u
+    #     fi ) |xargs ag "$pattern" 2>/dev/null
     else
         echo -e "${FUNCNAME}: no index exists\n"
             "\tgen_ids first please"
@@ -343,13 +350,13 @@ function gen_css() {
     fi
 
     if [ ! -d $folder/files ] ; then
-        echo "$folder/files not exit"
+        echo "$folder/files not exist"
         return
     fi
 
-    for i in $(ls $folder/files/*.files | grep -v '\<all*.files\>' )
+    for i in $(ls $folder/files/*.files |grep -v '\<all*.files\>' )
     do
-        local out_name=$(echo $i | sed 's$\.files$\.out$')
+        local out_name=$(echo $i |${_gsed} 's$\.files$\.out$')
         echo gen $out_name...
         cscope -bkq -i $i -f $out_name 2>/dev/null
     done
@@ -368,7 +375,7 @@ if [ -f $HOME/.bashrc.local ]; then
 fi
 
 # nvim patch may depend on PATH & bashrc.local
-if [ -x $(which nvim) ] ; then
+if [ ! -z $(which nvim) ] && [ -x $(which nvim) ] ; then
     alias vi='nvim'
     export VISUAL=nvim
 else
