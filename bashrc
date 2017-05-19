@@ -6,7 +6,7 @@ alias LS='ls'
 alias SL='ls'
 alias tmux='tmux -2'
 alias recal='history |grep'
-alias grep='grep --color=auto'
+alias grep='grep --color=auto -i'
 # alias v='f -e vim'
 unset command_not_found_handle
 
@@ -21,15 +21,7 @@ export HISTTIMEFORMAT="%F %T "
 export HISTCONTROL=ignorespace:erasedups
 export HISTSIZE=30000
 export EXO_MOUNT_IOCHARSET="utf8"
-
-if [ -x $(which nvim) ] ; then
-    alias vi='nvim'
-    export VISUAL=nvim
-else
-    alias vi='vim'
-    export VISUAL=vim
-fi
-export EDITOR="$VISUAL"
+export PROMPT_COMMAND='history -a'
 
 # go up N-th level or directory name match regex
 function cd_up() {
@@ -47,7 +39,32 @@ function cd_up() {
 }
 alias 'u'='cd_up'
 
-function gen_ids(){
+# build id database for all files under current folder to files/all.ids
+function gen_id() {
+    local folder=$1
+
+    if [ -z $folder ] ; then
+        folder=.
+    fi
+
+    out_folder="$folder/files"
+    if [ ! -d $out_folder ]; then
+        mkdir $out_folder
+    fi
+
+    local output=$2
+    if [ -z $output ] && [ ! -d $folder/all ] ; then
+        output=all.ids
+    elif [ -z $output ] ; then
+        # add date to avoid conflict
+        output=all-$(date +%F).ids
+    fi
+    mkid -o $out_folder/$output $folder 2>/dev/null
+
+}
+
+# build id database for each subdirectory
+function gen_ids() {
     local folder=$1
 
     if [ -z $folder ] ; then
@@ -60,15 +77,25 @@ function gen_ids(){
     fi
 
     for i in $(find $folder -mindepth 1 -maxdepth 1 \
-        \( ! -regex '.*/\..*' -a ! -regex '\./files/' \) -type d\
-        |sed 's=^\.\/==')
+        \( -path $folder/out \
+        -o -path $folder/prebuilt \
+        -o -path $folder/build \
+        -o -path $folder/cts \
+        -o -path $folder/prebuilts \
+        -o -path $folder/ndk \
+        -o -path $folder/development \
+        -o -path $folder/sdk \
+        \) -prune -o \
+        \( ! -regex '.*/\..*' -a ! -regex '\./files/' \)\
+        -a -type d -print\
+        |sed 's=^\.\/==' |sort -u)
     do
         echo gen $out_folder/$i.ids...
         mkid -o $out_folder/$i.ids $folder/$i 2>/dev/null
     done
 }
 
-function gen_files(){
+function gen_files() {
     local folder=$1
     if [ -z $folder ] ; then
         folder=.
@@ -79,11 +106,11 @@ function gen_files(){
     fi
 
     local output=$2
-    if [ -z $output ] && [ ! -d $folder/src ] ; then
-        output=src.files
+    if [ -z $output ] && [ ! -d $folder/all ] ; then
+        output=all.files
     elif [ -z $output ] ; then
         # add date to avoid conflict
-        output=src-$(date +%F).files
+        output=all-$(date +%F).files
     fi
 
     echo gen $folder/files/$output...
@@ -104,7 +131,7 @@ function gen_files(){
         -o -name '*.java' \
         -o -name '*.cpp' \
         -o -name "*.asm" \
-        \) -a -type f -print | sort > $folder/files/$output
+        \) -a -type f -print |sort > $folder/files/$output
     
     for i in $(find $folder -mindepth 1 -maxdepth 1 \
         \( \
@@ -134,7 +161,7 @@ function gen_files(){
     rm -f $folder/files/${output}.old
 }
 
-function gen_mk(){
+function gen_mk() {
     local folder=$1
 
     if [ -z $folder ] ; then
@@ -164,59 +191,8 @@ function gen_mk(){
         sed -e 's#^\.\/##' |sort > $folder/files/mk.files
 }
 
-function gen_css(){
-    local folder=$1
-    if [ -z $folder ] ; then
-        folder=.
-    fi
-
-    if [ ! -d $folder/files ] ; then
-        echo "$folder/files not exit"
-        return
-    fi
-
-    for i in $(ls $folder/files/*.files | grep -v '\<src.files\>' )
-    do
-        local out_name=$(echo $i | sed 's$\.files$\.out$')
-        echo gen $out_name...
-        cscope -bkq -i $i -f $out_name 2>/dev/null
-    done
-}
-
-# function f(){
-#     local pattern=$1
-#     local force_grep=0
-# 
-#     for i in ${@:2}
-#     do
-#         case "$i" in
-#             (-f=*) folder=${i/-f=/} ;;
-#             (-g)   force_grep=1 ;;
-#             (-p=*) pattern=${i/-p=/} ;;
-#         esac
-#     done
-# 
-#     if [ -z "$folder" ]; then 
-#         folder="."
-#     fi
-# 
-#     if [ -z "$pattern" -o ! -d $folder/files ] ; then 
-#         echo -e "usage: ${FUNCNAME} <pattern> <folder>\n\tfind matching pattern under the specified folder"
-#     else
-#         local files=$(for i in $folder/files/*.ids
-#                 do
-#                     fnid "$pattern" -f $i -S newline
-#                 done 2>/dev/null)
-#         set -- $files
-#         ( echo $files |sed -e 's=\ =\n=g'; 
-#         if [ ${#@} == 0 -o "$force_grep" == "1" ]; then
-#             ( grep -h "$pattern" $folder/files/*.files ||\
-#                 find $folder -name "$pattern" ) | sed -e 's=^\.\/==' 2>/dev/null
-#         fi) | sort | uniq |grep "$pattern"
-#     fi
-# }
-
-function idf(){
+# list files whose content match pattern
+function idf() {
     local pattern=$1
     local options="-ils"
     local folder="$PWD"
@@ -231,29 +207,25 @@ function idf(){
     done
 
     if [ -z "$pattern" -o ! -d "$folder/files" ] ; then
-        echo -e "usage: ${FUNCNAME} pattern [ folder] [options]\n"
+        echo -e "usage: ${FUNCNAME} pattern [folder] [options]\n"
         lid --help
     elif ls $folder/files/*.ids &> /dev/null; then
         for i in $folder/files/*.ids
         do
-            lid $options -R filenames -f $i "$pattern" 2>/dev/null \
-                | cut -d" " -f2- \
-                | sort |uniq |tr '[:blank:]' '\n'
-        done
-    elif ls $folder/files/*.files &> /dev/null; then
-        ( if [ -e $folder/files/src.files ] ; then
-            cat $folder/files/src.files
-        else
-            cat $folder/files/*.files | sort | uniq
-        fi ) | xargs grep -l "$pattern" 2>/dev/null
+            lid $options -R filenames -f $i "$pattern"
+        done 2>/dev/null \
+                |cut -d" " -f2- \
+                |sed -e 's#^\ \ *##' -e 's#\ \ *#\n#g' \
+                |sort -u
     else
         echo -e "${FUNCNAME}: no any index exists\n"
-            "\tgen_ids or gen_files first please"
+            "\tgen_ids first please"
     fi
 
 }
 
-function idg(){
+# list files and the grep results whose content match pattern
+function idg() {
     local pattern=$1
     local options="-ils"
     local folder="$PWD"
@@ -268,35 +240,45 @@ function idg(){
     done
 
     if [ -z "$pattern" -o ! -d "$folder/files" ] ; then
-        echo -e "usage: ${FUNCNAME} pattern [ folder] [options]\n"
+        echo -e "usage: ${FUNCNAME} pattern [folder] [options]\n"
         lid --help
     elif ls $folder/files/*.ids &> /dev/null; then
         for i in $folder/files/*.ids
         do
-            if tty -s <&1; then
+            #if tty -s <&1; then
                 lid $options -R grep -f $i "$pattern" 2>/dev/null \
-                    | sort |uniq |grep "$pattern"
-            else
-                lid $options -R grep -f $i "$pattern" 2>/dev/null \
-                    | sort |uniq |grep "$pattern"
-            fi
+                    | sort -u |grep "$pattern"
+            #else
+            #    lid $options -R grep -f $i "$pattern" 2>/dev/null \
+            #        | sort |uniq |grep "$pattern"
+            #fi
         done
-    elif ls $folder/files/*.files &> /dev/null; then
-        ( if [ -e $folder/files/src.files ] ; then
-            cat $folder/files/src.files
-        else
-            cat $folder/files/*.files | sort | uniq
-        fi ) | xargs ag "$pattern" 2>/dev/null
+    # elif ls $folder/files/*.files &> /dev/null; then
+    #     ( if [ -e $folder/files/src.files ] ; then
+    #         cat $folder/files/src.files
+    #     else
+    #         cat $folder/files/*.files | sort | uniq
+    #     fi ) | xargs ag "$pattern" 2>/dev/null
     else
-        echo -e "${FUNCNAME}: no any index exists\n"
-            "\tgen_ids or gen_files first please"
+        echo -e "${FUNCNAME}: no index exists\n"
+            "\tgen_ids first please"
     fi
 
+}
+
+# grep files
+function gf() {
+    local folder="$PWD"
+    if ls $folder/files/all*.files 1>/dev/null 2>&1; then
+        cat $folder/files/all*.files |xargs ${@:1}
+    else
+        echo -e "${FUNCNAME}: no index exists\n"
+            "\tgen_files first"
+    fi
 }
 
 # find files
-# ag version
-function f(){
+function ff() {
     local folder="."
     local args=""
 
@@ -307,28 +289,29 @@ function f(){
                 folder=${i/-f=/}
                 ;;
             *)
-                args="$args $i"
+                args="$args -e $i"
                 ;;
         esac
     done
-    #echo "folder=$folder \$args=$args"
 
-    if [ -e $folder/files ] ; then
-        for i in $args
+    # TODO: generate cscope & ids in parallel
+    if ls $folder/files/*.ids 1>/dev/null 2>&1; then
+        for pattern in ${@:1}
         do
-            if [ $folder == "." ] ; then
-                ag -h $i $folder/files/src.files
-            else
-                ag -h $i $folder/files/src.files \
-                    | sed -e "s!^\.\/!$folder\/!"
-            fi
-        done 2>/dev/null
+            for id in $folder/files/*.ids
+            do
+                fnid -f $id "*$pattern*"
+            done
+        done 2>/dev/null |sort -u
+    elif  ls $folder/files/all*.files 1>/dev/null 2>&1; then
+        grep $args $folder/files/all*.files \
+            2>/dev/null |sort -u
     else
-        echo "$folder/files/src.files not exist"
+        echo "${FUNCNAME}: no index found in $folder/files..."
     fi
 }
 
-function foreach_in(){
+function foreach_in() {
     local local_path=$1
     #echo "$local_path"
     for i in ${@:2}
@@ -340,26 +323,7 @@ function foreach_in(){
     done
 }
 
-function gen_css(){
-    local folder=$1
-    if [ -z $folder ] ; then
-        folder=.
-    fi
-
-    if [ ! -d $folder/files ] ; then
-        echo $folder/files not exist
-        return
-    fi
-
-    for i in $(ls $folder/files/*.files|grep -v '\<src\.files\>')
-    do
-        local out_name=$(echo $i|sed 's$\.files$\.out$')
-        echo gen $out_name...
-        cscope -bkq -i $i -f $out_name 2>/dev/null
-    done
-}
-
-function gen_cs(){
+function gen_cs() {
     local file=$1
     if [ -z $file ] ; then
         echo argument needed
@@ -370,6 +334,25 @@ function gen_cs(){
     fi
     echo "gen files/$file.out..."
     cscope -bkq -i files/$file.files -f files/$file.out 2>/dev/null
+}
+
+function gen_css() {
+    local folder=$1
+    if [ -z $folder ] ; then
+        folder=.
+    fi
+
+    if [ ! -d $folder/files ] ; then
+        echo "$folder/files not exit"
+        return
+    fi
+
+    for i in $(ls $folder/files/*.files | grep -v '\<all*.files\>' )
+    do
+        local out_name=$(echo $i | sed 's$\.files$\.out$')
+        echo gen $out_name...
+        cscope -bkq -i $i -f $out_name 2>/dev/null
+    done
 }
 
 export PATH="/opt/local/bin/:$HOME/bin:$PATH"
@@ -383,3 +366,13 @@ fi
 if [ -f $HOME/.bashrc.local ]; then
     source $HOME/.bashrc.local
 fi
+
+# nvim patch may depend on PATH & bashrc.local
+if [ -x $(which nvim) ] ; then
+    alias vi='nvim'
+    export VISUAL=nvim
+else
+    alias vi='vim'
+    export VISUAL=vim
+fi
+export EDITOR="$VISUAL"
