@@ -254,7 +254,7 @@ function idg() {
         do
             #if tty -s <&1; then
                 lid $options -R grep -f $i "$pattern" 2>/dev/null \
-                    |sort -u |grep "$pattern"
+                    |sort -u |grep "$pattern" --color=auto
             #else
             #    lid $options -R grep -f $i "$pattern" 2>/dev/null \
             #        |sort |uniq |grep "$pattern"
@@ -277,7 +277,11 @@ function idg() {
 function gf() {
     local folder="$PWD"
     if ls $folder/files/all*.files 1>/dev/null 2>&1; then
-        cat $folder/files/all*.files |xargs ${@:1}
+        if [ "$1" = "grep" ] ; then
+            cat $folder/files/all*.files |xargs ${@:1} --color=auto
+        else
+            cat $folder/files/all*.files |xargs ${@:1}
+        fi
     else
         echo -e "${FUNCNAME}: no index exists\n"
             "\tgen_files first"
@@ -309,10 +313,10 @@ function ff() {
             do
                 fnid -f $id "*$pattern*"
             done
-        done 2>/dev/null |sort -u
+        done 2>/dev/null |sort -u |grep --color=auto $args
     elif  ls $folder/files/all*.files 1>/dev/null 2>&1; then
-        grep $args $folder/files/all*.files \
-            2>/dev/null |sort -u
+        sort -u $folder/files/all*.files \
+            2>/dev/null |grep --color=auto $args
     else
         echo "${FUNCNAME}: no index found in $folder/files..."
     fi
