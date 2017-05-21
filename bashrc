@@ -193,6 +193,10 @@ function gen_mk() {
         -o -name "*.pl" \
         -o -name "*.sh" \
         -o -name "*.py" \
+        -o -name "*.ld" \
+        -o -name "*.lds" \
+        -o -name "CMakeLists*" \
+        -o -name "SConstruct" \
         \) -a -type f -print \
         |${_gsed} -e 's#^\.\/##' \
         |sort > $folder/files/mk.files
@@ -225,8 +229,8 @@ function idf() {
                 |${_gsed} -e 's#^\ \ *##' -e 's#\ \ *#\n#g' \
                 |sort -u
     else
-        echo -e "${FUNCNAME}: no any index exists\n"
-            "\tgen_ids first please"
+        echo -ne "${FUNCNAME}: no any index exists, " \
+            "gen_ids first please\n"
     fi
 
 }
@@ -267,8 +271,8 @@ function idg() {
     #         cat $folder/files/*.files |sort -u
     #     fi ) |xargs ag "$pattern" 2>/dev/null
     else
-        echo -e "${FUNCNAME}: no index exists\n"
-            "\tgen_ids first please"
+        echo -ne "${FUNCNAME}: no index exists" \
+            "gen_ids first please\n"
     fi
 
 }
@@ -276,16 +280,49 @@ function idg() {
 # grep files
 function gf() {
     local folder="$PWD"
-    if ls $folder/files/all*.files 1>/dev/null 2>&1; then
-        if [ "$1" = "grep" ] ; then
-            cat $folder/files/all*.files |xargs ${@:1} --color=auto
-        else
-            cat $folder/files/all*.files |xargs ${@:1}
-        fi
-    else
-        echo -e "${FUNCNAME}: no index exists\n"
-            "\tgen_files first"
+    local _searcher="grep --color=auto"
+
+    if ! ls $folder/files/all*.files 1>/dev/null 2>&1; then
+        echo -ne "${FUNCNAME}: no index exists," \
+            "gen_files first\n"
+        return 1;
     fi
+
+    case "$1" in
+        ag)
+            _searcher="ag"
+            shift
+            ;;
+        grep)
+            # grep is already the default searcher
+            shift;
+            ;;
+    esac
+    cat $folder/files/all*.files |xargs ${_searcher} ${@:1}
+}
+
+# grep make files
+function gmk() {
+    local folder="$PWD"
+    local _searcher="grep --color=auto"
+
+    if [ ! -e $folder/files/mk.files ] ; then
+        echo -ne "${FUNCNAME}: no index exists," \
+            "gen_mk first\n"
+        return 1;
+    fi
+
+    case "$1" in
+        ag)
+            _searcher="ag"
+            shift
+            ;;
+        grep)
+            # grep is already the default searcher
+            shift;
+            ;;
+    esac
+    cat $folder/files/mk*.files |xargs ${_searcher} ${@:1}
 }
 
 # find files
