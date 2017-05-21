@@ -280,7 +280,7 @@ function idg() {
 # grep files
 function gf() {
     local folder="$PWD"
-    local _searcher="grep --color=auto"
+    local _searcher="grep --color=auto -i"
 
     if ! ls $folder/files/all*.files 1>/dev/null 2>&1; then
         echo -ne "${FUNCNAME}: no index exists," \
@@ -298,13 +298,13 @@ function gf() {
             shift;
             ;;
     esac
-    cat $folder/files/all*.files |xargs ${_searcher} ${@:1}
+    cat $folder/files/all*.files |xargs ${_searcher} "${@:1}"
 }
 
 # grep make files
 function gmk() {
     local folder="$PWD"
-    local _searcher="grep --color=auto"
+    local _searcher="grep --color=auto -i"
 
     if [ ! -e $folder/files/mk.files ] ; then
         echo -ne "${FUNCNAME}: no index exists," \
@@ -322,7 +322,7 @@ function gmk() {
             shift;
             ;;
     esac
-    cat $folder/files/mk*.files |xargs ${_searcher} ${@:1}
+    cat $folder/files/mk*.files |xargs ${_searcher} "${@:1}"
 }
 
 # find files
