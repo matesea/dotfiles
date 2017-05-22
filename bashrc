@@ -363,6 +363,32 @@ function ff() {
     fi
 }
 
+# find makefiles
+function fmk() {
+    local folder="."
+    local args=""
+
+    for i in ${@:1}
+    do
+        case "$i" in
+            -p=*)
+                folder=${i/-f=/}
+                ;;
+            *)
+                args="$args -e $i"
+                ;;
+        esac
+    done
+
+    # TODO: generate cscope & ids in parallel
+    if ls $folder/files/mk*.files 1>/dev/null 2>&1; then
+        sort -u $folder/files/mk*.files \
+            2>/dev/null |grep --color=auto $args
+    else
+        echo "${FUNCNAME}: no index found in $folder/files..."
+    fi
+}
+
 function foreach_in() {
     local local_path=$1
     #echo "$local_path"
