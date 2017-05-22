@@ -137,6 +137,10 @@ function gen_files() {
         -o -name '*.java' \
         -o -name '*.cpp' \
         -o -name "*.asm" \
+        -o -name '*.dts' \
+        -o -name '*.dtsi' \
+        -o -name '*.te' \
+        -o -name 'file_contexts' \
         \) -a -type f -print |sort > $folder/files/$output
     
     for i in $(find $folder -mindepth 1 -maxdepth 1 \
@@ -415,8 +419,9 @@ if [ -f $HOME/.bashrc.local ]; then
     source $HOME/.bashrc.local
 fi
 
+_nvim=$(which nvim 2>/dev/null)
 # nvim patch may depend on PATH & bashrc.local
-if [ ! -z $(which nvim) ] && [ -x $(which nvim) ] ; then
+if [ ! -z $_nvim ] && [ -x $_nvim ] ; then
     alias vi='nvim'
     export VISUAL=nvim
 else
