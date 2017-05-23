@@ -65,7 +65,14 @@ function gen_id() {
         # add date to avoid conflict
         output=all-$(date +%F).ids
     fi
-    mkid -o $out_folder/$output $folder 2>/dev/null
+    #if [ -e $folder/files/all.files ] ; then
+    #    cat $folder/files/all.files |tr '\n' '\0'\
+    #        > $folder/files/all0.files
+    #    mkid -o $out_folder/$output \
+    #        --file0-from=$folder/files/all0.files 2>/dev/null
+    #else
+        mkid -o $out_folder/$output $folder 2>/dev/null
+    #fi
 
 }
 
@@ -82,16 +89,27 @@ function gen_ids() {
         mkdir $out_folder
     fi
 
+    local _filter_folders="
+        -path $folder/out
+        -o -path $folder/build
+        -o -path $folder/cts
+        -o -path $folder/developers
+        -o -path $folder/development
+        -o -path $folder/files
+        -o -path $folder/kernel/out
+        -o -path $folder/ndk
+        -o -path $folder/pdk
+        -o -path $folder/platform_testing
+        -o -path $folder/prebuilt
+        -o -path $folder/prebuilts
+        -o -path $folder/sdk
+        -o -path $folder/test
+        -o -path $folder/toolchain
+        -o -path $folder/tools
+        -o -path '*/\.*'"
+
     for i in $(find $folder -mindepth 1 -maxdepth 1 \
-        \( -path $folder/out \
-        -o -path $folder/prebuilt \
-        -o -path $folder/build \
-        -o -path $folder/cts \
-        -o -path $folder/prebuilts \
-        -o -path $folder/ndk \
-        -o -path $folder/development \
-        -o -path $folder/sdk \
-        \) -prune -o \
+        \( $_filter_folders \) -prune -o \
         \( ! -regex '.*/\..*' -a ! -regex '\./files/' \)\
         -a -type d -print\
         |${_gsed} 's=^\.\/==' |sort -u)
@@ -100,6 +118,7 @@ function gen_ids() {
         mkid -o $out_folder/$i.ids $folder/$i 2>/dev/null
     done
 }
+
 
 function gen_files() {
     local folder=$1
@@ -119,43 +138,36 @@ function gen_files() {
         output=all-$(date +%F).files
     fi
 
+    local _filter_folders="
+        -path $folder/out
+        -o -path $folder/build
+        -o -path $folder/cts
+        -o -path $folder/developers
+        -o -path $folder/development
+        -o -path $folder/files
+        -o -path $folder/kernel/out
+        -o -path $folder/ndk
+        -o -path $folder/pdk
+        -o -path $folder/platform_testing
+        -o -path $folder/prebuilt
+        -o -path $folder/prebuilts
+        -o -path $folder/sdk
+        -o -path $folder/test
+        -o -path $folder/toolchain
+        -o -path $folder/tools
+        -o -path '*/\.*'"
+
     echo gen $folder/files/$output...
     find -L $folder \
-        \( \
-        -path $folder/out \
-        -o -path $folder/build \
-        -o -path $folder/cts \
-        -o -path $folder/prebuilts \
-        -o -path $folder/ndk \
-        -o -path $folder/development \
-        -o -path $folder/sdk \
-        -o -path $folder/prebuilt \
-        -o -path $folder/kernel/out \
-        -o -path '*/\.*' \
-        \) -prune -o \( \
+        \( $_filter_folders \) -prune -o \( \
         -name '*.[cCsShH]' \
         -o -name '*.java' \
         -o -name '*.cpp' \
         -o -name "*.asm" \
-        -o -name '*.dts' \
-        -o -name '*.dtsi' \
-        -o -name '*.te' \
-        -o -name 'file_contexts' \
         \) -a -type f -print |sort > $folder/files/$output
     
     for i in $(find $folder -mindepth 1 -maxdepth 1 \
-        \( \
-        -path $folder/out \
-        -o -path $folder/build \
-        -o -path $folder/cts \
-        -o -path $folder/prebuilts \
-        -o -path $folder/ndk \
-        -o -path $folder/development \
-        -o -path $folder/sdk \
-        -o -path $folder/prebuilt \
-        -o -path $folder/files \
-        -o -path '*/\.*' \
-        \) -prune -o ! -type d -o -print \
+        \( $_filter_folders \) -prune -o ! -type d -o -print \
         |grep -vw 'files' |${_gsed} 's#^\.\/##g')
     do
         grep "^\.\/\<$i\>\/" $folder/files/$output \
@@ -169,6 +181,84 @@ function gen_files() {
     done
     ${_gsed} -e 's#^\.\/##' -i.old $folder/files/$output
     rm -f $folder/files/${output}.old
+}
+
+function gen_dt() {
+    local folder=$1
+    if [ -z $folder ] ; then
+        folder=.
+    fi
+
+    if [ ! -d $folder/files ] ; then
+        mkdir $folder/files
+    fi
+
+    local _filter_folders="
+        -path $folder/out
+        -o -path $folder/build
+        -o -path $folder/cts
+        -o -path $folder/developers
+        -o -path $folder/development
+        -o -path $folder/files
+        -o -path $folder/kernel/out
+        -o -path $folder/ndk
+        -o -path $folder/pdk
+        -o -path $folder/platform_testing
+        -o -path $folder/prebuilt
+        -o -path $folder/prebuilts
+        -o -path $folder/sdk
+        -o -path $folder/test
+        -o -path $folder/toolchain
+        -o -path $folder/tools
+        -o -path '*/\.*'"
+
+    # find devicetree files
+    find -L $folder \
+        \( $_filter_folders \) -prune -o \( \
+        -name '*.dts' \
+        -o -name '*.dtsi' \
+        \) -a -type f -print \
+        |${_gsed} -e 's#^\.\/##' \
+        |sort > $folder/files/dt.files
+}
+
+function gen_te() {
+    local folder=$1
+    if [ -z $folder ] ; then
+        folder=.
+    fi
+
+    if [ ! -d $folder/files ] ; then
+        mkdir $folder/files
+    fi
+
+    local _filter_folders="
+        -path $folder/out
+        -o -path $folder/build
+        -o -path $folder/cts
+        -o -path $folder/developers
+        -o -path $folder/development
+        -o -path $folder/files
+        -o -path $folder/kernel/out
+        -o -path $folder/ndk
+        -o -path $folder/pdk
+        -o -path $folder/platform_testing
+        -o -path $folder/prebuilt
+        -o -path $folder/prebuilts
+        -o -path $folder/sdk
+        -o -path $folder/test
+        -o -path $folder/toolchain
+        -o -path $folder/tools
+        -o -path '*/\.*'"
+
+    # find selinux configuration files
+    find -L $folder \
+        \( $_filter_folders \) -prune -o \( \
+        -name '*.te' \
+        -o -name 'file_contexts' \
+        \) -a -type f -print \
+        |${_gsed} -e 's#^\.\/##' \
+        |sort > $folder/files/te.files
 }
 
 function gen_mk() {
@@ -302,7 +392,8 @@ function gf() {
             shift;
             ;;
     esac
-    cat $folder/files/all*.files |xargs ${_searcher} "${@:1}"
+    cat $folder/files/all*.files |tr '\n' '\0' \
+        |xargs -0 ${_searcher} "${@:1}"
 }
 
 # grep make files
@@ -326,7 +417,8 @@ function gmk() {
             shift;
             ;;
     esac
-    cat $folder/files/mk*.files |xargs ${_searcher} "${@:1}"
+    cat $folder/files/mk*.files |tr '\n' '\0' \
+        |xargs -0 ${_searcher} "${@:1}"
 }
 
 # find files
