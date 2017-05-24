@@ -341,6 +341,7 @@ let g:ctrlp_working_path_mode = 'c'
 let g:ctrlp_default_input = 1
 let g:ctrlp_lazy_update = 1
 noremap sr :CtrlPRoot<cr>
+nnoremap sb :CtrlPBuffer<cr>
 
 """"""""""""""""""""""""""""""
 " CtrlP-Z 
@@ -357,7 +358,10 @@ nnoremap <leader>tt :TagbarToggle<cr>
 """"""""""""""""""""""""""""""
 " => cscope plugin
 """"""""""""""""""""""""""""""
-nnoremap cs :cs<space>
+nnoremap cs :cscope<space>
+nnoremap cf :cscope find<space>
+nnoremap ca :cscope add<space>
+nnoremap caa :cscope add files/all.out<cr>
 
 """"""""""""""""""""""""""""""
 " => the silver searcher plugin
