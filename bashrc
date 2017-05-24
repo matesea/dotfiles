@@ -392,6 +392,12 @@ function gf() {
             shift;
             ;;
     esac
+
+    # rollback to grep if ag not available
+    if ! which ag 1>/dev/null 2>&1 ; then
+        _searcher="grep --color=auto -i"
+    fi
+
     cat $folder/files/all*.files |tr '\n' '\0' \
         |xargs -0 ${_searcher} "${@:1}"
 }
@@ -417,6 +423,12 @@ function gmk() {
             shift;
             ;;
     esac
+
+    # rollback to grep if ag not available
+    if ! which ag 1>/dev/null 2>&1 ; then
+        _searcher="grep --color=auto -i"
+    fi
+
     cat $folder/files/mk*.files |tr '\n' '\0' \
         |xargs -0 ${_searcher} "${@:1}"
 }
