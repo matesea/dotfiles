@@ -1,12 +1,13 @@
-alias ll='ls -l'
-alias la='ls -la'
-alias lh='ls -lh'
-alias sl='ls'
-alias LS='ls'
-alias SL='ls'
+alias ls='ls --color'
+alias ll='ls --color -l'
+alias la='ls --color -la'
+alias lh='ls --color -lh'
+alias sl='ls --color'
+alias LS='ls --color'
+alias SL='ls --color'
 alias tmux='tmux -2'
 alias recal='history |grep'
-alias grep='grep --color=auto -i'
+alias grep='grep --color -i'
 # alias v='f -e vim'
 unset command_not_found_handle
 
@@ -352,7 +353,7 @@ function idg() {
         do
             #if tty -s <&1; then
                 lid $options -R grep -f $i "$pattern" 2>/dev/null \
-                    |sort -u |grep "$pattern" --color=auto
+                    |sort -u |grep "$pattern" --color
             #else
             #    lid $options -R grep -f $i "$pattern" 2>/dev/null \
             #        |sort |uniq |grep "$pattern"
@@ -388,14 +389,14 @@ function gf() {
             shift
             ;;
         grep)
-            _searcher="grep --color=auto -i"
+            _searcher="grep --color -i"
             shift;
             ;;
     esac
 
     # rollback to grep if ag not available
     if ! which ag 1>/dev/null 2>&1 ; then
-        _searcher="grep --color=auto -i"
+        _searcher="grep --color -i"
     fi
 
     cat $folder/files/all*.files |tr '\n' '\0' \
@@ -419,14 +420,14 @@ function gmk() {
             shift
             ;;
         grep)
-            _searcher="grep --color=auto -i"
+            _searcher="grep --color -i"
             shift;
             ;;
     esac
 
     # rollback to grep if ag not available
     if ! which ag 1>/dev/null 2>&1 ; then
-        _searcher="grep --color=auto -i"
+        _searcher="grep --color -i"
     fi
 
     cat $folder/files/mk*.files |tr '\n' '\0' \
@@ -458,10 +459,10 @@ function ff() {
             do
                 fnid -f $id "*$pattern*"
             done
-        done 2>/dev/null |sort -u |grep --color=auto $args
+        done 2>/dev/null |sort -u |grep --color $args
     elif  ls $folder/files/all*.files 1>/dev/null 2>&1; then
         sort -u $folder/files/all*.files \
-            2>/dev/null |grep --color=auto $args
+            2>/dev/null |grep --color $args
     else
         echo "${FUNCNAME}: no index found in $folder/files..."
     fi
@@ -487,7 +488,7 @@ function fmk() {
     # TODO: generate cscope & ids in parallel
     if ls $folder/files/mk*.files 1>/dev/null 2>&1; then
         sort -u $folder/files/mk*.files \
-            2>/dev/null |grep --color=auto $args
+            2>/dev/null |grep --color $args
     else
         echo "${FUNCNAME}: no index found in $folder/files..."
     fi

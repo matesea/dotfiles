@@ -58,3 +58,6 @@
 [submodule "vim/plugged/vim-grepper"]
 	path = vim/plugged/vim-grepper
 	url = https://github.com/mhinz/vim-grepper
+[submodule "z"]
+	path = z
+	url = https://github.com/rupa/z
