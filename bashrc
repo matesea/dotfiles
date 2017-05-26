@@ -1,10 +1,16 @@
-alias ls='ls --color'
-alias ll='ls --color -l'
-alias la='ls --color -la'
-alias lh='ls --color -lh'
-alias sl='ls --color'
-alias LS='ls --color'
-alias SL='ls --color'
+if ls --color -d . >/dev/null 2>&1; then
+    alias ls='ls --color'
+else
+    # for BAD ls
+    export CLICOLOR=1
+fi
+alias ll='ls -l'
+alias la='ls -la'
+alias lh='ls -lh'
+alias sl='ls'
+alias LS='ls'
+alias SL='ls'
+
 alias tmux='tmux -2'
 alias recal='history |grep'
 alias grep='grep --color -i'
