@@ -395,7 +395,7 @@ function gf() {
     esac
 
     # rollback to grep if ag not available
-    if ! which ag 1>/dev/null 2>&1 ; then
+    if [ "$_searcher" = "ag" ] && [! which ag 1>/dev/null 2>&1 ]; then
         _searcher="grep --color -i"
     fi
 
@@ -426,7 +426,7 @@ function gmk() {
     esac
 
     # rollback to grep if ag not available
-    if ! which ag 1>/dev/null 2>&1 ; then
+    if [ "$_searcher" = "ag" ] && [! which ag 1>/dev/null 2>&1 ]; then
         _searcher="grep --color -i"
     fi
 

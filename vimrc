@@ -457,3 +457,8 @@ let g:gitgutter_eager = 0
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
 nnoremap <leader>g :Grepper -tool ag -buffers<cr>
+
+" import local config
+if filereadable($HOME."/.vimrc.local")
+    source $HOME/.vimrc.local
+endif
