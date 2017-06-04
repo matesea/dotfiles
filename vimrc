@@ -446,6 +446,10 @@ let g:gitgutter_eager = 0
 """"""""""""""""""""""""""""""
 nnoremap <leader>g :Grepper -tool ag -buffers<cr>
 
+""""""""""""""""""""""""""""""
+" => vim-gitgutter plugin
+""""""""""""""""""""""""""""""
+nmap <leader>M <Plug>MarkToggle
 " import local config
 if filereadable($HOME."/.vimrc.local")
     source $HOME/.vimrc.local
