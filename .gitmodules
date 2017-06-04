@@ -34,9 +34,6 @@
 [submodule "vim/plugged/cscope_maps"]
 	path = vim/plugged/cscope_maps
 	url = https://github.com/chazy/cscope_maps
-[submodule "vim/plugged/MultiPleSearch"]
-	path = vim/plugged/MultiPleSearch
-	url = https://github.com/vim-scripts/MultiPleSearch
 [submodule "vim/plugged/molokai"]
 	path = vim/plugged/molokai
 	url = https://github.com/tomasr/molokai
@@ -61,3 +58,6 @@
 [submodule "z"]
 	path = z
 	url = https://github.com/rupa/z
+[submodule "vim/plugged/vim-mark"]
+	path = vim/plugged/vim-mark
+	url = https://github.com/mihais/vim-mark

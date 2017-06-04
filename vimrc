@@ -19,7 +19,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tomasr/molokai'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-scripts/LargeFile'
-Plug 'vim-scripts/MultipleSearch', { 'on': ['Search', 'SearchBuffers', 'SearchBuffersReset'] }
+Plug 'mihais/vim-mark'
 Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
 Plug 'vivien/vim-linux-coding-style'
 
@@ -212,15 +212,6 @@ set si "Smart indet
 set wrap "Wrap lines
 set updatetime=250 "for vim-gitgutter
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => MultipleSearch
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <leader>s :Search<space>
-nmap <leader>sb :SearchBuffers<space>
-nmap <leader>sc :SearchBuffersReset<cr>
-
-nmap <leader>* :Search \<<c-r><c-w>\><cr>
-
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
@@ -324,10 +315,7 @@ nnoremap fvw :%v/\<<c-r><c-w>\>/d<cr>
 nnoremap fv :%v//d<left><left>
 nnoremap <leader>sv :vsp<space>
 nnoremap <leader>sp :sp<space>
-nnoremap <leader>n :new<cr>
-nnoremap <leader>vn :vnew<cr>
 nnoremap <leader>e  :e<space>
-nnoremap <leader>ex  :r !<space>
 " to reload current file
 nnoremap rl :edit!<cr>
 " toggle between relative line number & line number
