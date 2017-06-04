@@ -445,9 +445,8 @@ let g:gitgutter_eager = 0
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
 nnoremap <leader>g :Grepper -tool ag -buffers<cr>
-
 """"""""""""""""""""""""""""""
-" => vim-gitgutter plugin
+" => vim-mark plugin
 """"""""""""""""""""""""""""""
 nmap <leader>M <Plug>MarkToggle
 " import local config

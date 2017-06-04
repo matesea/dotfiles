@@ -1,7 +1,7 @@
 if ls --color -d . >/dev/null 2>&1; then
     alias ls='ls --color'
 else
-    # for BAD ls
+    # for BSD ls
     export CLICOLOR=1
 fi
 alias ll='ls -l'
@@ -171,7 +171,7 @@ function gen_files() {
         -o -name '*.java' \
         -o -name '*.cpp' \
         -o -name "*.asm" \
-        \) -a -type f -print |sort > $folder/files/$output
+        \) -a -type f -print 2>/dev/null |sort > $folder/files/$output
     
     for i in $(find $folder -mindepth 1 -maxdepth 1 \
         \( $_filter_folders \) -prune -o ! -type d -o -print \
@@ -224,7 +224,7 @@ function gen_dt() {
         \( $_filter_folders \) -prune -o \( \
         -name '*.dts' \
         -o -name '*.dtsi' \
-        \) -a -type f -print \
+        \) -a -type f -print 2>/dev/null \
         |${_gsed} -e 's#^\.\/##' \
         |sort > $folder/files/dt.files
 }
@@ -263,7 +263,7 @@ function gen_te() {
         \( $_filter_folders \) -prune -o \( \
         -name '*.te' \
         -o -name 'file_contexts' \
-        \) -a -type f -print \
+        \) -a -type f -print 2>/dev/null \
         |${_gsed} -e 's#^\.\/##' \
         |sort > $folder/files/te.files
 }
@@ -298,7 +298,7 @@ function gen_mk() {
         -o -name "*.lds" \
         -o -name "CMakeLists*" \
         -o -name "SConstruct" \
-        \) -a -type f -print \
+        \) -a -type f -print 2>/dev/null \
         |${_gsed} -e 's#^\.\/##' \
         |sort > $folder/files/mk.files
 }
