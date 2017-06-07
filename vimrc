@@ -93,13 +93,13 @@ elseif has("unix")
     " %     :save and restores the buffer list
     " n...  : where to save the viminfo files
     if has('nvim')
-        if exists("$XDG_CONFIG_HOME")
+        if exists("$XDG_DATA_HOME")
             set viminfo='10,\"100,:20,%,n$XDG_DATA_HOME/.nviminfo
         else
             set viminfo='10,\"100,:20,%,n$HOME/.nviminfo
         endif
     else
-        if exists("$XDG_CONFIG_HOME")
+        if exists("$XDG_DATA_HOME")
             set viminfo='10,\"100,:20,%,n$XDG_DATA_HOME/.viminfo
         else
             set viminfo='10,\"100,:20,%,n$HOME/.viminfo

@@ -25,9 +25,6 @@ export HISTTIMEFORMAT="%F %T "
 #export XENVIRONMENT="/home/matesea/.Xdefaults.bak"
 
 # initial a space of the command I execute to hide this command from log
-export HISTCONTROL=ignorespace:erasedups
-export HISTSIZE=-1
-export HISTFILESIZE=-1
 export EXO_MOUNT_IOCHARSET="utf8"
 export PROMPT_COMMAND='history -a'
 
@@ -36,6 +33,22 @@ if which gsed 1>/dev/null 2>&1 ; then
 else
     _gsed=sed
 fi
+
+function _version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+
+export HISTCONTROL=ignorespace:erasedups
+if [ $(_version $BASH_VERSION) -ge $(_version "4.3") ]; then
+    export HISTSIZE=-1
+    export HISTFILESIZE=-1
+else
+    export HISTSIZE=100000
+    export HISTFILESIZE=100000
+fi
+# set HISTSIZE & HISTFILESIZE -1 will make the history unlimited
+# but only support after bash-4.3
+# this will make bash fail to start on Mac
+# export HISTSIZE=-1
+# export HISTFILESIZE=-1
 
 # go up N-th level or directory name match regex
 function cd_up() {
