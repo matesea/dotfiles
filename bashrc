@@ -26,7 +26,8 @@ export HISTTIMEFORMAT="%F %T "
 
 # initial a space of the command I execute to hide this command from log
 export HISTCONTROL=ignorespace:erasedups
-export HISTSIZE=30000
+export HISTSIZE=-1
+export HISTFILESIZE=-1
 export EXO_MOUNT_IOCHARSET="utf8"
 export PROMPT_COMMAND='history -a'
 
@@ -554,6 +555,21 @@ fi
 # import local setting
 if [ -f $HOME/.bashrc.local ]; then
     source $HOME/.bashrc.local
+
+    ##### example for .bashrc.local #####
+    ## extend PATH ##
+    ## nvim ##
+    # export XDG_CONFIG_HOME=<DATA_PATH>/.config
+    # export XDG_DATA_HOME=<DATA_PATH>/.local/share
+
+    ## fasd ##
+    # export _FASD_DATA=<DATA_PATH>/.fasd
+    # eval "$(fasd --init auto)"
+    # alias l='fasd -l'
+
+    ## z ##
+    # export _Z_DATA=<DATA_PATH>/.z
+    # . ~/bin/z.sh
 fi
 
 _nvim=$(which nvim 2>/dev/null)

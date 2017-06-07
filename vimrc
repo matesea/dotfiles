@@ -3,8 +3,17 @@ set nocompatible
 " enable file type detection
 filetype off
 
-" vim-plug
-call plug#begin('~/.vim/plugged')
+" === vim-plug ===
+if exists("$XDG_CONFIG_HOME") && isdirectory($XDG_CONFIG_HOME.'/nvim/plugged')
+    " import plugin from ${XDG_CONFIG_HOME}/nvim/plugged if available
+    call plug#begin($XDG_CONFIG_HOME.'/nvim/plugged')
+elseif exists("$XDG_CONFIG_HOME") && isdirectory($XDG_CONFIG_HOME.'/vim/plugged')
+    " import plugin from ${XDG_CONFIG_HOME}/vim/plugged if available
+    call plug#begin($XDG_CONFIG_HOME.'/vim/plugged')
+else
+    " rollback to search $HOME/.vim/plugged
+    call plug#begin($HOME.'/.vim/plugged')
+endif
 
 Plug 'airblade/vim-gitgutter'
 Plug 'amiorin/ctrlp-z'
@@ -159,8 +168,13 @@ set ffs=unix,dos,mac "Default file types
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git anyway...
 set backup
-set backupdir=$HOME/.vim_runtime/backup/
-silent execute '!mkdir -p $HOME/.vim_runtime/backup/'
+if exists("$XDG_DATA_HOME")
+    set backupdir=$XDG_DATA_HOME/.local/vim/backup/
+    silent execute '!mkdir -p $XDG_DATA_HOME/.local/vim/backup/'
+else
+    set backupdir=$HOME/.local/vim/backup/
+    silent execute '!mkdir -p $HOME/.local/vim/backup/'
+endif
 
 set nowb
 set noswapfile
@@ -169,8 +183,10 @@ set noswapfile
 try
     if has("win32")
         set undodir=C:\Windows\Temp
+    elseif exists("$XDG_DATA_HOME")
+        set undodir=$XDG_DATA_HOME/.local/vim/undo
     else
-        set undodir=~/.vim_runtime/undo
+        set undodir=$HOME/.local/vim/undo
     endif
 
     set undofile
@@ -194,6 +210,7 @@ for i in range(0, 99)
     execute 'map <silent> '.i.'gb :b'.i.'<cr>'
 endfor
 inoremap jk <esc>
+inoremap <esc> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -317,7 +334,8 @@ nnoremap <leader>sv :vsp<space>
 nnoremap <leader>sp :sp<space>
 nnoremap <leader>e  :e<space>
 " to reload current file
-nnoremap rl :edit!<cr>
+nnoremap <leader>R :edit!<cr>
+nnoremap <leader>q :q<cr>
 " toggle between relative line number & line number
 
 """"""""""""""""""""""""""""""
@@ -366,7 +384,11 @@ else
     set grepprg=grep\ -nH
     let g:ctrlp_user_command = 'find %s -type f'
     let g:ctrlp_use_caching = 1
-    let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
+    if exists("$XDG_DATA_HOME")
+        let g:ctrlp_cache_dir = $XDG_DATA_HOME.'/.cache/ctrlp/'
+    else
+        let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
+    endif
 endif
 
 " => taglist plugin
@@ -449,7 +471,12 @@ nnoremap <leader>g :Grepper -tool ag -buffers<cr>
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
 nmap <leader>M <Plug>MarkToggle
+
 " import local config
+if exists("$XDG_CONFIG_HOME") && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
+    source $XDG_CONFIG_HOME/.vimrc.local
+endif
+
 if filereadable($HOME."/.vimrc.local")
     source $HOME/.vimrc.local
 endif
