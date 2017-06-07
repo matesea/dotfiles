@@ -44,7 +44,9 @@ filetype plugin indent on
 set cindent     " c code indentation
 set smartcase   " smart case detection while searching
 set wildmenu    " command-line completion operates in a enhanced mode
-set wildmode=full
+" set wildmode=longest:full,full
+" set wildmode=list:longest " select file with arrow key
+set wildmode=list:full
 set showmode
 set showcmd
 
