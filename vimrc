@@ -44,7 +44,7 @@ filetype plugin indent on
 set cindent     " c code indentation
 set smartcase   " smart case detection while searching
 set wildmenu    " command-line completion operates in a enhanced mode
-set wildmode=list:longest
+set wildmode=full
 set showmode
 set showcmd
 
@@ -368,7 +368,7 @@ nnoremap sf :CtrlPF<cr>
 """"""""""""""""""""""""""""""
 " tagbar plugin
 """"""""""""""""""""""""""""""
-nnoremap <leader>tt :TagbarToggle<cr>
+nnoremap tt :TagbarToggle<cr>
 """"""""""""""""""""""""""""""
 " => cscope plugin
 """"""""""""""""""""""""""""""
@@ -408,7 +408,8 @@ nmap <silent> <leader>tl :TlistToggle<cr>
 """"""""""""""""""""""""""""""
 let g:NERDTreeChDirMode=0
 let g:NERDTreeWinPos=0
-nmap <leader>f :NERDTreeToggle<CR>
+nmap nt :NERDTree %:p:h<cr>
+nmap nc :NERDTreeClose<cr>
 
 """"""""""""""""""""""""""""""
 " => YankRing plugin
