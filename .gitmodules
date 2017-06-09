@@ -61,3 +61,6 @@
 [submodule "vim/plugged/vim-mark"]
 	path = vim/plugged/vim-mark
 	url = https://github.com/mihais/vim-mark
+[submodule "vim/plugged/vim-lastplace"]
+	path = vim/plugged/vim-lastplace
+	url = https://github.com/farmergreg/vim-lastplace

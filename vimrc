@@ -15,23 +15,42 @@ else
     call plug#begin($HOME.'/.vim/plugged')
 endif
 
+" shows a git diff in the gutter and stages/undoes hunks
 Plug 'airblade/vim-gitgutter'
+" change the current working directory and to open files using fasd and NERDTree
 Plug 'amiorin/ctrlp-z'
+" key mapping to connect cscope db
 Plug 'chazy/cscope_maps'
+" better diff options for vim
 Plug 'chrisbra/vim-diff-enhanced'
+" full path fuzzy file, buffer, mru, tag, ... finder for vim
 Plug 'ctrlpvim/ctrlp.vim'
+" vim motion on speed
 Plug 'easymotion/vim-easymotion'
+" reopen files at the last edit position
+Plug 'farmergreg/vim-lastplace'
+" class outline viewer for vim 
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+" a lightweight implementation of emacs's kill-ring for vim
 Plug 'maxbrunsfeld/vim-yankstack'
+" help you win at grep
 Plug 'mhinz/vim-grepper'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" tree explorer plugin
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTree' }
+" molokai theme
 Plug 'tomasr/molokai'
+" lean & mean status/tabline for vim
 Plug 'vim-airline/vim-airline'
+" edit large file quickly
 Plug 'vim-scripts/LargeFile'
+" mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
+" source code browser
 Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
+" follow linux kernel coding style
 Plug 'vivien/vim-linux-coding-style'
 
+" completion system
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -105,18 +124,6 @@ elseif has("unix")
             set viminfo='10,\"100,:20,%,n$HOME/.viminfo
         endif
     endif
-
-    function! ResCur()
-        if line("'\"") <= line("$")
-            normal! g`"
-            return 1
-        endif
-    endfunction
-
-    augroup ResCur
-        autocmd!
-        autocmd BufWinEnter * call ResCur()
-    augroup End
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -179,8 +186,8 @@ set ffs=unix,dos,mac "Default file types
 " Turn backup off, since most stuff is in SVN, git anyway...
 set backup
 if exists("$XDG_DATA_HOME")
-    set backupdir=$XDG_DATA_HOME/.local/vim/backup/
-    silent execute '!mkdir -p $XDG_DATA_HOME/.local/vim/backup/'
+    set backupdir=$XDG_DATA_HOME/.vim/backup/
+    silent execute '!mkdir -p $XDG_DATA_HOME/.vim/backup/'
 else
     set backupdir=$HOME/.local/vim/backup/
     silent execute '!mkdir -p $HOME/.local/vim/backup/'
@@ -194,7 +201,7 @@ try
     if has("win32")
         set undodir=C:\Windows\Temp
     elseif exists("$XDG_DATA_HOME")
-        set undodir=$XDG_DATA_HOME/.local/vim/undo
+        set undodir=$XDG_DATA_HOME/.vim/undo
     else
         set undodir=$HOME/.local/vim/undo
     endif
@@ -395,7 +402,7 @@ else
     let g:ctrlp_user_command = 'find %s -type f'
     let g:ctrlp_use_caching = 1
     if exists("$XDG_DATA_HOME")
-        let g:ctrlp_cache_dir = $XDG_DATA_HOME.'/.cache/ctrlp/'
+        let g:ctrlp_cache_dir = $XDG_DATA_HOME.'/.vim/ctrlp/'
     else
         let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
     endif
