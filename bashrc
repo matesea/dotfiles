@@ -24,6 +24,14 @@ set -o vi
 export HISTTIMEFORMAT="%F %T "
 #export XENVIRONMENT="/home/matesea/.Xdefaults.bak"
 
+# tab completion
+set show-al-if-ambiguous on
+bind 'TAB:complete'
+bind '"\e[Z":menu-complete' #
+
+# auto enter directory with cd
+shopt -s autocd
+
 # initial a space of the command I execute to hide this command from log
 export EXO_MOUNT_IOCHARSET="utf8"
 export PROMPT_COMMAND='history -a'
@@ -594,4 +602,5 @@ else
     alias vi='vim'
     export VISUAL=vim
 fi
+alias va='vi files/all.files'
 export EDITOR="$VISUAL"

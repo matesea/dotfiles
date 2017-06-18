@@ -64,8 +64,7 @@ set cindent     " c code indentation
 set smartcase   " smart case detection while searching
 set wildmenu    " command-line completion operates in a enhanced mode
 " set wildmode=longest:full,full
-" set wildmode=list:longest " select file with arrow key
-set wildmode=list:full
+set wildmode=list:longest,full
 set showmode
 set showcmd
 
@@ -352,7 +351,7 @@ nnoremap <leader>sp :sp<space>
 nnoremap <leader>e  :e<space>
 " to reload current file
 nnoremap <leader>R :edit!<cr>
-nnoremap <leader>q :q<cr>
+nnoremap <leader>q :q!<cr>
 " toggle between relative line number & line number
 
 """"""""""""""""""""""""""""""
