@@ -25,7 +25,7 @@ export HISTTIMEFORMAT="%F %T "
 #export XENVIRONMENT="/home/matesea/.Xdefaults.bak"
 
 # tab completion
-set show-al-if-ambiguous on
+set show-all-if-ambiguous on
 bind 'TAB:complete'
 bind '"\e[Z":menu-complete' #
 

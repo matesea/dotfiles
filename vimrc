@@ -46,7 +46,7 @@ Plug 'vim-scripts/LargeFile'
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
 " source code browser
-Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
+" Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
 " follow linux kernel coding style
 Plug 'vivien/vim-linux-coding-style'
 
@@ -346,13 +346,9 @@ noremap j gj
 noremap k gk
 nnoremap fvw :%v/\<<c-r><c-w>\>/d<cr>
 nnoremap fv :%v//d<left><left>
-nnoremap <leader>sv :vsp<space>
-nnoremap <leader>sp :sp<space>
 nnoremap <leader>e  :e<space>
 " to reload current file
 nnoremap <leader>R :edit!<cr>
-nnoremap <leader>q :q!<cr>
-" toggle between relative line number & line number
 
 """"""""""""""""""""""""""""""
 " => CtrlP plugin

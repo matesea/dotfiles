@@ -16,9 +16,6 @@
 [submodule "vim/plugged/vim-yankstack"]
 	path = vim/plugged/vim-yankstack
 	url = https://github.com/maxbrunsfeld/vim-yankstack
-[submodule "vim/plugged/taglist.vim"]
-	path = vim/plugged/taglist.vim
-	url = https://github.com/vim-scripts/taglist.vim
 [submodule "vim/plugged/ctrlp.vim"]
 	path = vim/plugged/ctrlp.vim
 	url = https://github.com/ctrlpvim/ctrlp.vim
