@@ -29,7 +29,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'easymotion/vim-easymotion'
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
-
+" jump to any location specified by two characters
 Plug 'justinmk/vim-sneak'
 " class outline viewer for vim 
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
