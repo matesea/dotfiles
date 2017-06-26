@@ -1,9 +1,6 @@
 [submodule "vim/plugged/LargeFile"]
 	path = vim/plugged/LargeFile
 	url = https://github.com/vim-scripts/LargeFile
-[submodule "vim/plugged/vim-easymotion"]
-	path = vim/plugged/vim-easymotion
-	url = https://github.com/easymotion/vim-easymotion
 [submodule "vim/plugged/vim-airline"]
 	path = vim/plugged/vim-airline
 	url = https://github.com/vim-airline/vim-airline
@@ -61,3 +58,6 @@
 [submodule "vim/plugged/vim-lastplace"]
 	path = vim/plugged/vim-lastplace
 	url = https://github.com/farmergreg/vim-lastplace
+[submodule "vim/plugged/vim-sneak"]
+	path = vim/plugged/vim-sneak
+	url = https://github.com/justinmk/vim-sneak

@@ -26,9 +26,11 @@ Plug 'chrisbra/vim-diff-enhanced'
 " full path fuzzy file, buffer, mru, tag, ... finder for vim
 Plug 'ctrlpvim/ctrlp.vim'
 " vim motion on speed
-Plug 'easymotion/vim-easymotion'
+" Plug 'easymotion/vim-easymotion'
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
+
+Plug 'justinmk/vim-sneak'
 " class outline viewer for vim 
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " a lightweight implementation of emacs's kill-ring for vim
@@ -344,8 +346,8 @@ set foldlevel=100
 " fast file traverse
 noremap j gj
 noremap k gk
-nnoremap fvw :%v/\<<c-r><c-w>\>/d<cr>
-nnoremap fv :%v//d<left><left>
+nnoremap <leader>fw :%v/\<<c-r><c-w>\>/d<cr>
+nnoremap <leader>fv :%v//d<left><left>
 nnoremap <leader>e  :e<space>
 " to reload current file
 nnoremap <leader>R :edit!<cr>
@@ -464,7 +466,7 @@ endif
 """"""""""""""""""""""""""""""
 " => easymotion plugin
 """"""""""""""""""""""""""""""
-let g:EasyMotion_leader_key = ',,'
+" let g:EasyMotion_leader_key = ',,'
 """"""""""""""""""""""""""""""
 " => Minibuffer plugin
 """"""""""""""""""""""""""""""
@@ -485,6 +487,16 @@ nnoremap <leader>g :Grepper -tool ag -buffers<cr>
 """"""""""""""""""""""""""""""
 nmap <leader>M <Plug>MarkToggle
 
+""""""""""""""""""""""""""""""
+" => vim-sneak plugin
+""""""""""""""""""""""""""""""
+let g:sneak#label = 1
+map f <Plug>Sneak_s
+map F <Plug>Sneak_S
+
+""""""""""""""""""""""""""""""
+" => quick-scope plugin
+""""""""""""""""""""""""""""""
 " import local config
 if exists("$XDG_CONFIG_HOME") && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
     source $XDG_CONFIG_HOME/.vimrc.local
