@@ -29,6 +29,10 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'easymotion/vim-easymotion'
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
+" elegant buffer explorer'
+Plug 'fholgado/minibufexpl.vim'
+" A light and configurable statusline/tabline plugin for vim
+Plug 'itchyny/lightline.vim'
 " jump to any location specified by two characters
 Plug 'justinmk/vim-sneak'
 " class outline viewer for vim 
@@ -42,7 +46,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTree' }
 " molokai theme
 Plug 'tomasr/molokai'
 " lean & mean status/tabline for vim
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
 " edit large file quickly
 Plug 'vim-scripts/LargeFile'
 " mark: highlight several words in different colors simultaneously
@@ -228,7 +232,7 @@ for i in range(0, 99)
     execute 'map <silent> '.i.'gb :b'.i.'<cr>'
 endfor
 inoremap jk <esc>
-inoremap <esc> <nop>
+map <esc> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -444,9 +448,9 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 """"""""""""""""""""""""""""""
 " => airline plugin 
 """"""""""""""""""""""""""""""
-let g:airline_extensions = ['tabline']
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 0
+" let g:airline_extensions = ['tabline']
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tagbar#enabled = 0
 
 if has('nvim')
     """"""""""""""""""""""""""""""
@@ -468,12 +472,12 @@ endif
 """"""""""""""""""""""""""""""
 " let g:EasyMotion_leader_key = ',,'
 """"""""""""""""""""""""""""""
-" => Minibuffer plugin
+" => MinibufExpl plugin
 """"""""""""""""""""""""""""""
 " let g:miniBufExplBuffersNeeded = 0
-" let g:miniBufExplHideWhenDiff = 1
-" let g:miniBufExplCycleArround = 1
-" let g:bufExplorerSortBy = "name"
+let g:miniBufExplHideWhenDiff = 1
+let g:miniBufExplCycleArround = 1
+let g:miniBufExplShowBufNumbers = 0
 """"""""""""""""""""""""""""""
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
