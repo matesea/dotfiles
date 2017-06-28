@@ -64,3 +64,6 @@
 [submodule "vim/plugged/minibufexpl.vim"]
 	path = vim/plugged/minibufexpl.vim
 	url = https://github.com/fholgado/minibufexpl.vim
+[submodule "fasd"]
+	path = fasd
+	url = https://github.com/clvv/fasd
