@@ -477,7 +477,9 @@ endif
 " let g:miniBufExplBuffersNeeded = 0
 let g:miniBufExplHideWhenDiff = 1
 let g:miniBufExplCycleArround = 1
-let g:miniBufExplShowBufNumbers = 0
+let g:miniBufExplShowBufNumbers = 1
+" MiniBufExpl Colors
+hi link MBEVisibleActiveNormal  Constant
 """"""""""""""""""""""""""""""
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
