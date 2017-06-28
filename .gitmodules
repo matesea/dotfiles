@@ -61,3 +61,9 @@
 [submodule "vim/plugged/vim-sneak"]
 	path = vim/plugged/vim-sneak
 	url = https://github.com/justinmk/vim-sneak
+[submodule "vim/plugged/lightline.vim"]
+	path = vim/plugged/lightline.vim
+	url = https://github.com/itchyny/lightline.vim
+[submodule "vim/plugged/minibufexpl.vim"]
+	path = vim/plugged/minibufexpl.vim
+	url = https://github.com/fholgado/minibufexpl.vim
