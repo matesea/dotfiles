@@ -25,6 +25,8 @@ Plug 'chazy/cscope_maps'
 Plug 'chrisbra/vim-diff-enhanced'
 " full path fuzzy file, buffer, mru, tag, ... finder for vim
 Plug 'ctrlpvim/ctrlp.vim'
+" syntax file to highlight various log files
+Plug 'dzeban/vim-log-syntax'
 " vim motion on speed
 " Plug 'easymotion/vim-easymotion'
 " reopen files at the last edit position
@@ -39,8 +41,12 @@ Plug 'justinmk/vim-sneak'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " a lightweight implementation of emacs's kill-ring for vim
 Plug 'maxbrunsfeld/vim-yankstack'
+" speed up loading of large files
+Plug 'mhinz/vim-hugefile'
 " help you win at grep
 Plug 'mhinz/vim-grepper'
+" mark: highlight several words in different colors simultaneously
+Plug 'mihais/vim-mark'
 " tree explorer plugin
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTree' }
 " molokai theme
@@ -48,9 +54,7 @@ Plug 'tomasr/molokai'
 " lean & mean status/tabline for vim
 " Plug 'vim-airline/vim-airline'
 " edit large file quickly
-Plug 'vim-scripts/LargeFile'
-" mark: highlight several words in different colors simultaneously
-Plug 'mihais/vim-mark'
+" Plug 'vim-scripts/LargeFile'
 " source code browser
 " Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
 " follow linux kernel coding style
@@ -250,44 +254,6 @@ set ai "Auto indent
 set si "Smart indet
 set wrap "Wrap lines
 set updatetime=250 "for vim-gitgutter
-
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
-" Really useful!
-"  In visual mode when you press * or # to search for the current selection
-" vnoremap <silent> * :call VisualSearch('f')<cr>
-" vnoremap <silent> # :call VisualSearch('b')<cr>
-" 
-" " When you press gv you vimgrep after the selected text
-" vnoremap <silent> gv :call VisualSearch('gv')<cr>
-" "map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
-" 
-" function! CmdLine(str)
-"     exe "menu Foo.Bar :" . a:str
-"     emenu Foo.Bar
-"     unmenu Foo
-" endfunction
-" 
-" " From an idea by Michael Naumann
-" function! VisualSearch(direction) range
-"     let l:saved_reg = @"
-"     execute "normal! vgvy"
-" 
-"     let l:pattern = escape(@", '\\/.*$^~[]')
-"     let l:pattern = substitute(l:pattern, "\n$", "", "")
-" 
-"     if a:direction == 'b'
-"         execute "normal ?" . l:pattern . "^M"
-"     elseif a:direction == 'gv'
-"         call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
-"     elseif a:direction == 'f'
-"         execute "normal /" . l:pattern . "^M"
-"     endif
-" 
-"     let @/ = l:pattern
-"     let @" = l:saved_reg
-" endfunction
 
 " toggle highlight search
 nmap <silent> <leader>h :setlocal hls!<cr>
