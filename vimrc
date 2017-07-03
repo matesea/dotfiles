@@ -258,7 +258,7 @@ set updatetime=250 "for vim-gitgutter
 " toggle highlight search
 nmap <silent> <leader>h :setlocal hls!<cr>
 nmap <silent> <leader>b :setlocal wrap!<cr>
-nmap <silent> <leader>l :setlocal list!<cr>
+" nmap <silent> <leader>l :setlocal list!<cr>
 nmap <silent> <leader>rn :setlocal relativenumber!<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -316,8 +316,8 @@ set foldlevel=100
 " fast file traverse
 noremap j gj
 noremap k gk
-nnoremap <leader>fw :%v/\<<c-r><c-w>\>/d<cr>
-nnoremap <leader>fv :%v//d<left><left>
+nnoremap <leader>w :%v/\<<c-r><c-w>\>/d<cr>
+nnoremap <leader>v :%v//d<left><left>
 nnoremap <leader>e  :e<space>
 " to reload current file
 nnoremap <leader>R :edit!<cr>
@@ -467,8 +467,11 @@ map f <Plug>Sneak_s
 map F <Plug>Sneak_S
 
 """"""""""""""""""""""""""""""
-" => quick-scope plugin
+" => vim-log-syntax plugin
 """"""""""""""""""""""""""""""
+" change filetype to log
+nnoremap <leader>l :setlocal filetype=log<cr>
+
 " import local config
 if exists("$XDG_CONFIG_HOME") && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
     source $XDG_CONFIG_HOME/.vimrc.local
