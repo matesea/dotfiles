@@ -19,6 +19,8 @@ endif
 Plug 'airblade/vim-gitgutter'
 " change the current working directory and to open files using fasd and NERDTree
 Plug 'amiorin/ctrlp-z'
+" buffer tabs
+Plug 'ap/vim-buftabline'
 " key mapping to connect cscope db
 Plug 'chazy/cscope_maps'
 " better diff options for vim
@@ -32,7 +34,7 @@ Plug 'dzeban/vim-log-syntax'
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
 " elegant buffer explorer'
-Plug 'fholgado/minibufexpl.vim'
+" Plug 'fholgado/minibufexpl.vim'
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
 " jump to any location specified by two characters
@@ -471,6 +473,12 @@ map F <Plug>Sneak_S
 """"""""""""""""""""""""""""""
 " change filetype to log
 nnoremap <leader>l :setlocal filetype=log<cr>
+
+""""""""""""""""""""""""""""""
+" => vim-log-syntax plugin
+""""""""""""""""""""""""""""""
+let g:buftabline_show = 1
+let g:buftabline_numbers = 1
 
 " import local config
 if exists("$XDG_CONFIG_HOME") && filereadable($XDG_CONFIG_HOME."/.vimrc.local")

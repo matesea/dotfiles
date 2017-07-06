@@ -195,19 +195,24 @@ function gen_files() {
         -o -name "*.asm" \
         \) -a -type f -print 2>/dev/null |sort > $folder/files/$output
     
-    for i in $(find $folder -mindepth 1 -maxdepth 1 \
-        \( $_filter_folders \) -prune -o ! -type d -o -print \
-        |grep -vw 'files' |${_gsed} 's#^\.\/##g')
-    do
-        grep "^\.\/\<$i\>\/" $folder/files/$output \
-            |${_gsed} -e 's#^\.\/##' > $folder/files/$i.files
-        if [ ! -s $folder/files/$i.files ]; then
-            # clear empty files
-            rm -f $folder/files/$i.files
-        else
-            echo gen $folder/files/$i.files...
-        fi
-    done
+    # do not split file index for different folders
+    # if files number less than 10000
+    if [ $(wc -l < $folder/files/$output) -gt 100000 ]; then
+        for i in $(find $folder -mindepth 1 -maxdepth 1 \
+            \( $_filter_folders \) -prune -o ! -type d -o -print \
+            |grep -vw 'files' |${_gsed} 's#^\.\/##g')
+        do
+            grep "^\.\/\<$i\>\/" $folder/files/$output \
+                |${_gsed} -e 's#^\.\/##' > $folder/files/$i.files
+            if [ ! -s $folder/files/$i.files ]; then
+                # clear empty files
+                rm -f $folder/files/$i.files
+            else
+                echo gen $folder/files/$i.files...
+            fi
+        done
+    fi
+
     ${_gsed} -e 's#^\.\/##' -i.old $folder/files/$output
     rm -f $folder/files/${output}.old
 }
