@@ -478,6 +478,9 @@ function ff() {
             -p=*)
                 folder=${i/-f=/}
                 ;;
+            -*)
+                args="$args $i"
+                ;;
             *)
                 args="$args -e $i"
                 ;;
@@ -511,6 +514,9 @@ function fmk() {
         case "$i" in
             -p=*)
                 folder=${i/-f=/}
+                ;;
+            -*)
+                args="$args $i"
                 ;;
             *)
                 args="$args -e $i"
@@ -592,6 +598,7 @@ if [ -f $HOME/.bashrc.local ]; then
     # export _FASD_DATA=<DATA_PATH>/.fasd
     # eval "$(fasd --init auto)"
     # alias l='fasd -l'
+    # alias v='f -e nvim'
 
     ## z ##
     # export _Z_DATA=<DATA_PATH>/.z
