@@ -480,7 +480,7 @@ nnoremap <leader>l :setlocal filetype=log<cr>
 " => vim-log-syntax plugin
 """"""""""""""""""""""""""""""
 let g:buftabline_show = 1
-let g:buftabline_numbers = 1
+" let g:buftabline_numbers = 1
 
 " import local config
 if exists("$XDG_CONFIG_HOME") && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
