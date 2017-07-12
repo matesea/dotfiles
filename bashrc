@@ -148,7 +148,7 @@ function gen_ids() {
     done
 }
 
-
+# build file list of source code
 function gen_files() {
     local folder=$1
     if [ -z $folder ] ; then
@@ -194,7 +194,7 @@ function gen_files() {
         -o -name '*.cpp' \
         -o -name "*.asm" \
         \) -a -type f -print 2>/dev/null |sort > $folder/files/$output
-    
+
     # do not split file index for different folders
     # if files number less than 10000
     if [ $(wc -l < $folder/files/$output) -gt 100000 ]; then
@@ -217,6 +217,7 @@ function gen_files() {
     rm -f $folder/files/${output}.old
 }
 
+# build file list of devicetree configurations
 function gen_dt() {
     local folder=$1
     if [ -z $folder ] ; then
@@ -256,6 +257,7 @@ function gen_dt() {
         |sort > $folder/files/dt.files
 }
 
+# build file list of selinux configuration
 function gen_te() {
     local folder=$1
     if [ -z $folder ] ; then
@@ -295,6 +297,7 @@ function gen_te() {
         |sort > $folder/files/te.files
 }
 
+# build file list of makefiles
 function gen_mk() {
     local folder=$1
 
@@ -305,7 +308,7 @@ function gen_mk() {
     if [ ! -d $folder/files ] ; then
         mkdir $folder/files
     fi
-    
+
     echo gen $folder/files/mk.files...
     find -L $folder \( \
         -path $folder/out \
@@ -328,6 +331,13 @@ function gen_mk() {
         \) -a -type f -print 2>/dev/null \
         |${_gsed} -e 's#^\.\/##' \
         |sort > $folder/files/mk.files
+}
+
+function gen_doc() {
+    mkdir -p files
+    find Documentation -type f \
+        |${_gsed} -e 's#^\.\/##' \
+        |sort -u > files/doc.files
 }
 
 # list files whose content match pattern
@@ -365,6 +375,7 @@ function idf() {
 
 # list files and the grep results whose content match pattern
 function idg() {
+: << 'version1'
     local pattern=$1
     local options="-ils"
     local folder="$PWD"
@@ -402,26 +413,38 @@ function idg() {
         echo -ne "${FUNCNAME}: no index exists" \
             "gen_ids first please\n"
     fi
+version1
+
+# version 2: use idf directly to make the results colorful
+idf $@ |xargs grep --color $1
 
 }
 
 # grep files
-function gf() {
+# usage: __gf <leading strings of index files> [-s=<searcher>] <pattern>
+function __gf() {
     local folder="$PWD"
     local _searcher="ag"
+    local _index_begin="$1"
 
-    if ! ls $folder/files/all*.files 1>/dev/null 2>&1; then
+    if [ -z ${_index_begin} ]; then
+        echo "need to specify index file(s)"
+        return 1;
+    fi
+    shift
+
+    if ! ls $folder/files/${_index_begin}*.files 1>/dev/null 2>&1; then
         echo -ne "${FUNCNAME}: no index exists," \
-            "gen_files first\n"
+            "gen index first\n"
         return 1;
     fi
 
     case "$1" in
-        ag)
+        -s=ag)
             # ag is already the default searcher
             shift
             ;;
-        grep)
+        -s=grep)
             _searcher="grep --color -i"
             shift;
             ;;
@@ -432,45 +455,35 @@ function gf() {
         _searcher="grep --color -i"
     fi
 
-    cat $folder/files/all*.files |tr '\n' '\0' \
+    cat $folder/files/${_index_lead}*.files |tr '\n' '\0' \
         |xargs -0 ${_searcher} "${@:1}"
+}
+
+function gf() {
+    __gf all $@
 }
 
 # grep make files
 function gmk() {
-    local folder="$PWD"
-    local _searcher="ag"
+    __gf mk $@
+}
 
-    if [ ! -e $folder/files/mk.files ] ; then
-        echo -ne "${FUNCNAME}: no index exists," \
-            "gen_mk first\n"
-        return 1;
-    fi
-
-    case "$1" in
-        ag)
-            # ag is already the default searcher
-            shift
-            ;;
-        grep)
-            _searcher="grep --color -i"
-            shift;
-            ;;
-    esac
-
-    # rollback to grep if ag not available
-    if [ "$_searcher" = "ag" ] && [! which ag 1>/dev/null 2>&1 ]; then
-        _searcher="grep --color -i"
-    fi
-
-    cat $folder/files/mk*.files |tr '\n' '\0' \
-        |xargs -0 ${_searcher} "${@:1}"
+function gdoc() {
+    __gf doc $@
 }
 
 # find files
-function ff() {
+function __ff() {
     local folder="."
     local args=""
+    local _index_begin=$1
+
+    shift
+
+    if [ -z $_index_begin ]; then
+        echo "need to specify index file(s)"
+        return 1;
+    fi
 
     for i in ${@:1}
     do
@@ -487,6 +500,7 @@ function ff() {
         esac
     done
 
+: << idutils_files
     # TODO: generate cscope & ids in parallel
     if ls $folder/files/*.ids 1>/dev/null 2>&1; then
         for pattern in ${@:1}
@@ -496,42 +510,31 @@ function ff() {
                 fnid -f $id "*$pattern*"
             done
         done 2>/dev/null |sort -u |grep --color $args
-    elif  ls $folder/files/all*.files 1>/dev/null 2>&1; then
-        sort -u $folder/files/all*.files \
-            2>/dev/null |grep --color $args
+idutils_files
+
+    if  ls $folder/files/${_index_begin}*.files 1>/dev/null 2>&1; then
+        sort -u $folder/files/${_index_begin}*.files \
+            | grep --color $args 2>/dev/null
     else
         echo "${FUNCNAME}: no index found in $folder/files..."
     fi
+}
+
+function ff() {
+    __ff all $@
+}
+
+function fdoc() {
+    __ff doc $@
 }
 
 # find makefiles
 function fmk() {
-    local folder="."
-    local args=""
-
-    for i in ${@:1}
-    do
-        case "$i" in
-            -p=*)
-                folder=${i/-f=/}
-                ;;
-            -*)
-                args="$args $i"
-                ;;
-            *)
-                args="$args -e $i"
-                ;;
-        esac
-    done
-
-    # TODO: generate cscope & ids in parallel
-    if ls $folder/files/mk*.files 1>/dev/null 2>&1; then
-        sort -u $folder/files/mk*.files \
-            2>/dev/null |grep --color $args
-    else
-        echo "${FUNCNAME}: no index found in $folder/files..."
-    fi
+    __ff mk $@
 }
+alias fkc='fmk kconfig'
+alias famk='fmk Android\.mk$'
+alias fmak='fmk Makefile$'
 
 function foreach_in() {
     local local_path=$1
@@ -539,8 +542,8 @@ function foreach_in() {
     for i in ${@:2}
     do
         #echo "i=$i"
-        #if [ -e "$i/$local_path" -o -d "$i/$local_path" ] ; then 
-            echo "$i/$local_path"
+        #if [ -e "$i/$local_path" -o -d "$i/$local_path" ] ; then
+            echo "$i/$local_path" |sed -e 's#\/\/*#\/#g'
         #fi
     done
 }
@@ -558,7 +561,7 @@ function gen_cs() {
     cscope -bkq -i files/$file.files -f files/$file.out 2>/dev/null
 }
 
-function gen_css() {
+function gen_all_cs() {
     local folder=$1
     if [ -z $folder ] ; then
         folder=.
@@ -589,6 +592,7 @@ if [ -f $HOME/.bashrc.local ]; then
     source $HOME/.bashrc.local
 
     ##### example for .bashrc.local #####
+    ## cofig HISTFILE
     ## extend PATH ##
     ## nvim ##
     # export XDG_CONFIG_HOME=<DATA_PATH>/.config
@@ -597,8 +601,6 @@ if [ -f $HOME/.bashrc.local ]; then
     ## fasd ##
     # export _FASD_DATA=<DATA_PATH>/.fasd
     # eval "$(fasd --init auto)"
-    # alias l='fasd -l'
-    # alias v='f -e nvim'
 
     ## z ##
     # export _Z_DATA=<DATA_PATH>/.z
@@ -614,5 +616,15 @@ else
     alias vi='vim'
     export VISUAL=vim
 fi
-alias va='vi files/all.files'
 export EDITOR="$VISUAL"
+alias va="$EDITOR files/all.files"
+
+__fasd=$(which fasd 2>/dev/null)
+__z=$(which z.sh 2>/dev/null)
+if [ ! -z $__fasd ] && [ -x $__fasd ] ; then
+    eval "$(fasd --init auto)"
+    alias v="f -e $EDITOR"
+    alias l='fasd -l'
+elif [ ! -z $__z ] && [ -x $__z ] ; then
+    . $__z
+fi

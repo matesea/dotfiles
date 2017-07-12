@@ -21,6 +21,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'amiorin/ctrlp-z'
 " buffer tabs
 Plug 'ap/vim-buftabline'
+" highlights trailing whitespace in red
+Plug 'bronson/vim-trailing-whitespace'
 " key mapping to connect cscope db
 Plug 'chazy/cscope_maps'
 " better diff options for vim
@@ -39,7 +41,7 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'itchyny/lightline.vim'
 " jump to any location specified by two characters
 Plug 'justinmk/vim-sneak'
-" class outline viewer for vim 
+" class outline viewer for vim
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " a lightweight implementation of emacs's kill-ring for vim
 Plug 'maxbrunsfeld/vim-yankstack'
@@ -161,7 +163,7 @@ set smartcase
 set hlsearch "Highlight search things
 
 set incsearch "Make search act like search in modern browsers
-set nolazyredraw "Don't redraw while executing macros 
+set nolazyredraw "Don't redraw while executing macros
 
 set magic "Set magic on, for regular expressions
 
@@ -292,7 +294,7 @@ function! <SID>BufcloseCloseIt()
     endif
 endfunction
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
     set switchbuf=usetab
     set showtabline=1
@@ -336,7 +338,7 @@ noremap sr :CtrlPRoot<cr>
 nnoremap sb :CtrlPBuffer<cr>
 
 """"""""""""""""""""""""""""""
-" CtrlP-Z 
+" CtrlP-Z
 """"""""""""""""""""""""""""""
 let g:ctrlp_z_nerdtree = 1
 " let g:ctrlp_extensions = ['Z', 'F']
@@ -414,7 +416,7 @@ nmap <c-p> <Plug>yankstack_substitute_older_paste
 nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
 """"""""""""""""""""""""""""""
-" => airline plugin 
+" => airline plugin
 """"""""""""""""""""""""""""""
 " let g:airline_extensions = ['tabline']
 " let g:airline#extensions#tabline#enabled = 1
@@ -422,13 +424,13 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
 if has('nvim')
     """"""""""""""""""""""""""""""
-    " => deoplete plugin 
+    " => deoplete plugin
     """"""""""""""""""""""""""""""
     let g:acp_enableAtStartup = 0
     let g:deoplete#enable_at_startup = 1
 else
     """"""""""""""""""""""""""""""
-    " => neocomplete plugin 
+    " => neocomplete plugin
     """"""""""""""""""""""""""""""
     let g:acp_enableAtStartup = 0
     let g:neocomplete#enable_at_startup = 1
