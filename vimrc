@@ -467,8 +467,12 @@ nmap <leader>M <Plug>MarkToggle
 " => vim-sneak plugin
 """"""""""""""""""""""""""""""
 let g:sneak#label = 1
-map f <Plug>Sneak_s
-map F <Plug>Sneak_S
+" calling yankstack#setup() here stops it from overriding the vim-sneak mapping
+call yankstack#setup()
+nmap s <Plug>Sneak_s
+nmap S <Plug>Sneak_S
+xmap s <Plug>Sneak_s
+xmap S <Plug>Sneak_S
 
 """"""""""""""""""""""""""""""
 " => vim-log-syntax plugin

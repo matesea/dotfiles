@@ -532,9 +532,18 @@ function fdoc() {
 function fmk() {
     __ff mk $@
 }
+
 alias fkconfig='fmk kconfig'
 alias fandroid='fmk Android\.mk$'
 alias fmakefile='fmk Makefile$'
+
+alias gkconfig="fmk kconfig \
+    |tr '\n' '\0' \
+    |xargs -0"
+
+alias gdt="cat files/dt.files \
+    |tr '\n'' '\0' \
+    |xargs -0"
 
 function foreach_in() {
     local local_path=$1
@@ -623,12 +632,12 @@ __fasd=$(which fasd 2>/dev/null)
 __z=$(which z.sh 2>/dev/null)
 if [ ! -z $__fasd ] && [ -x $__fasd ] ; then
 
-    # fasd init
-    if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-      fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
-    fi
-    source "$fasd_cache"
-    unset fasd_cache
+    # fasd init faster with defined $fasd_cache
+    # if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+    #   fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
+    # fi
+    # source "$fasd_cache"
+    # unset fasd_cache
 
     alias v="f -e $EDITOR"
     alias l='fasd -l'
