@@ -261,9 +261,9 @@ set updatetime=250 "for vim-gitgutter
 
 " toggle highlight search
 nmap <silent> <leader>h :setlocal hls!<cr>
-nmap <silent> <leader>b :setlocal wrap!<cr>
+" nmap <silent> <leader>w :setlocal wrap!<cr>
 " nmap <silent> <leader>l :setlocal list!<cr>
-nmap <silent> <leader>rn :setlocal relativenumber!<cr>
+" nmap <silent> <leader>rn :setlocal relativenumber!<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs and buffers
@@ -272,7 +272,7 @@ nmap <silent> <leader>rn :setlocal relativenumber!<cr>
 nnoremap bd :Bclose<cr>
 
 " Close all the buffers
-nnoremap <leader>ba :1,300 bd!<cr>
+" nnoremap <leader>ba :1,300 bd!<cr>
 
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
@@ -329,21 +329,21 @@ nnoremap <leader>R :edit!<cr>
 """"""""""""""""""""""""""""""
 " => CtrlP plugin
 """"""""""""""""""""""""""""""
-let g:ctrlp_map = 'sp'
+let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'c'
 let g:ctrlp_default_input = 1
 let g:ctrlp_lazy_update = 1
-noremap sr :CtrlPRoot<cr>
-nnoremap sb :CtrlPBuffer<cr>
+" noremap sr :CtrlPRoot<cr>
+nnoremap <leader>b :CtrlPBuffer<cr>
 
 """"""""""""""""""""""""""""""
 " CtrlP-Z
 """"""""""""""""""""""""""""""
 let g:ctrlp_z_nerdtree = 1
 " let g:ctrlp_extensions = ['Z', 'F']
-nnoremap sz :CtrlPZ<cr>
-nnoremap sf :CtrlPF<cr>
+nnoremap <leader>z :CtrlPZ<cr>
+nnoremap <leader>f :CtrlPF<cr>
 
 """"""""""""""""""""""""""""""
 " tagbar plugin
@@ -380,7 +380,7 @@ else
 endif
 
 " => taglist plugin
-nmap <silent> <leader>tl :TlistToggle<cr>
+" nmap <silent> <leader>tl :TlistToggle<cr>
 
 """"""""""""""""""""""""""""""
 " => nerdtree
@@ -388,8 +388,8 @@ nmap <silent> <leader>tl :TlistToggle<cr>
 """"""""""""""""""""""""""""""
 let g:NERDTreeChDirMode=0
 let g:NERDTreeWinPos=0
-nmap nt :NERDTree %:p:h<cr>
-nmap nc :NERDTreeClose<cr>
+nmap <leader>nt :NERDTree %:p:h<cr>
+nmap <leader>nc :NERDTreeClose<cr>
 
 """"""""""""""""""""""""""""""
 " => YankRing plugin
@@ -411,9 +411,9 @@ nmap nc :NERDTreeClose<cr>
 " => yankstack plugin
 """"""""""""""""""""""""""""""
 nnoremap <leader>y :Yanks<cr>
-let g:yankstack_map_keys = 0
-nmap <c-p> <Plug>yankstack_substitute_older_paste
-nmap <c-n> <Plug>yankstack_substitute_newer_paste
+" let g:yankstack_map_keys = 0
+" nmap <c-p> <Plug>yankstack_substitute_older_paste
+" nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
 """"""""""""""""""""""""""""""
 " => airline plugin
