@@ -18,7 +18,7 @@ endif
 " shows a git diff in the gutter and stages/undoes hunks
 Plug 'airblade/vim-gitgutter'
 " change the current working directory and to open files using fasd and NERDTree
-Plug 'amiorin/ctrlp-z'
+" Plug 'amiorin/ctrlp-z'
 " buffer tabs
 Plug 'ap/vim-buftabline'
 " highlights trailing whitespace in red
@@ -28,7 +28,7 @@ Plug 'chazy/cscope_maps'
 " better diff options for vim
 Plug 'chrisbra/vim-diff-enhanced'
 " full path fuzzy file, buffer, mru, tag, ... finder for vim
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 " syntax file to highlight various log files
 Plug 'dzeban/vim-log-syntax'
 " vim motion on speed
@@ -41,6 +41,10 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'itchyny/lightline.vim'
 " jump to any location specified by two characters
 Plug 'justinmk/vim-sneak'
+" a command-line fuzzy finder written in Go
+Plug 'junegunn/fzf'
+" things you can do with fzf and vim
+Plug 'junegunn/fzf.vim'
 " class outline viewer for vim
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " a lightweight implementation of emacs's kill-ring for vim
@@ -48,7 +52,7 @@ Plug 'maxbrunsfeld/vim-yankstack'
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
 " help you win at grep
-Plug 'mhinz/vim-grepper'
+" Plug 'mhinz/vim-grepper'
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
 " tree explorer plugin
@@ -240,6 +244,8 @@ for i in range(0, 99)
     execute 'map <silent> '.i.'gb :b'.i.'<cr>'
 endfor
 inoremap jk <esc>
+xnoremap jk <Esc>
+cnoremap jk <C-c>
 map <esc> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -329,21 +335,21 @@ nnoremap <leader>R :edit!<cr>
 """"""""""""""""""""""""""""""
 " => CtrlP plugin
 """"""""""""""""""""""""""""""
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'c'
-let g:ctrlp_default_input = 1
-let g:ctrlp_lazy_update = 1
+" let g:ctrlp_map = '<c-p>'
+" let g:ctrlp_cmd = 'CtrlP'
+" let g:ctrlp_working_path_mode = 'c'
+" let g:ctrlp_default_input = 1
+" let g:ctrlp_lazy_update = 1
 " noremap sr :CtrlPRoot<cr>
-nnoremap <leader>b :CtrlPBuffer<cr>
+" nnoremap <leader>b :CtrlPBuffer<cr>
 
 """"""""""""""""""""""""""""""
 " CtrlP-Z
 """"""""""""""""""""""""""""""
-let g:ctrlp_z_nerdtree = 1
+" let g:ctrlp_z_nerdtree = 1
 " let g:ctrlp_extensions = ['Z', 'F']
-nnoremap <leader>z :CtrlPZ<cr>
-nnoremap <leader>f :CtrlPF<cr>
+" nnoremap <leader>z :CtrlPZ<cr>
+" nnoremap <leader>f :CtrlPF<cr>
 
 """"""""""""""""""""""""""""""
 " tagbar plugin
@@ -360,24 +366,24 @@ nnoremap caa :cscope add files/all.out<cr>
 """"""""""""""""""""""""""""""
 " => the silver searcher plugin
 """"""""""""""""""""""""""""""
-if executable('ag')
-    " use ag over grep
-    set grepprg=ag\ --nogroup\ --nocolor
-    " use ag in CtrlP for listing file
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    " ag is fast enough that CtrlP doesn't need to cache
-    let g:ctrlp_use_caching = 0
-    set grepformat=%f:%1:%c%m
-else
-    set grepprg=grep\ -nH
-    let g:ctrlp_user_command = 'find %s -type f'
-    let g:ctrlp_use_caching = 1
-    if exists("$XDG_DATA_HOME")
-        let g:ctrlp_cache_dir = $XDG_DATA_HOME.'/.vim/ctrlp/'
-    else
-        let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
-    endif
-endif
+" if executable('ag')
+"     " use ag over grep
+"     set grepprg=ag\ --nogroup\ --nocolor
+"     " use ag in CtrlP for listing file
+"     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+"     " ag is fast enough that CtrlP doesn't need to cache
+"     let g:ctrlp_use_caching = 0
+"     set grepformat=%f:%1:%c%m
+" else
+"     set grepprg=grep\ -nH
+"     let g:ctrlp_user_command = 'find %s -type f'
+"     let g:ctrlp_use_caching = 1
+"     if exists("$XDG_DATA_HOME")
+"         let g:ctrlp_cache_dir = $XDG_DATA_HOME.'/.vim/ctrlp/'
+"     else
+"         let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
+"     endif
+" endif
 
 " => taglist plugin
 " nmap <silent> <leader>tl :TlistToggle<cr>
@@ -457,7 +463,7 @@ let g:gitgutter_eager = 0
 """"""""""""""""""""""""""""""
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
-nnoremap <leader>g :Grepper -tool ag -buffers<cr>
+" nnoremap <leader>g :Grepper -tool ag -buffers<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
@@ -485,6 +491,15 @@ nnoremap <leader>l :setlocal filetype=log<cr>
 """"""""""""""""""""""""""""""
 let g:buftabline_show = 1
 " let g:buftabline_numbers = 1
+
+""""""""""""""""""""""""""""""
+" => fzf
+""""""""""""""""""""""""""""""
+" let g:fzf_command_prefix = 'Fzf'
+nnoremap <leader>f :FZF<cr>
+nnoremap <leader>c :FZF %:h<cr>
+nnoremap <leader>b :Buffers<cr>
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
 " import local config
 if exists("$XDG_CONFIG_HOME") && filereadable($XDG_CONFIG_HOME."/.vimrc.local")

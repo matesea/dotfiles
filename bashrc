@@ -567,8 +567,20 @@ alias gkconfig="fmk kconfig \
     |xargs -0"
 
 alias gdt="cat files/dt.files \
-    |tr '\n'' '\0' \
+    |tr '\n' '\0' \
     |xargs -0"
+
+function fdt() {
+    if ! ls files/dt.files 1>/dev/null 2>&1; then
+        echo "${FUNCNAME}: gen_dt first"
+        return;
+    fi
+    if [ -z $1 ] ; then
+        cat files/dt.files
+    else
+        grep --color -i $1 files/dt.files
+    fi
+}
 
 function foreach_in() {
     local local_path=$1
