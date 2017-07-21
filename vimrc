@@ -3,11 +3,16 @@ set nocompatible
 " enable file type detection
 filetype off
 
+let s:nvim = has('nvim')
+let s:cygwin = has("unix") && has("win32unix")
+let s:xdg_config = exists("$XDG_CONFIG_HOME")
+let s:xdg_data = exists("$XDG_DATA_HOME")
+
 " === vim-plug ===
-if exists("$XDG_CONFIG_HOME") && isdirectory($XDG_CONFIG_HOME.'/nvim/plugged')
+if s:xdg_config && isdirectory($XDG_CONFIG_HOME.'/nvim/plugged')
     " import plugin from ${XDG_CONFIG_HOME}/nvim/plugged if available
     call plug#begin($XDG_CONFIG_HOME.'/nvim/plugged')
-elseif exists("$XDG_CONFIG_HOME") && isdirectory($XDG_CONFIG_HOME.'/vim/plugged')
+elseif s:xdg_config && isdirectory($XDG_CONFIG_HOME.'/vim/plugged')
     " import plugin from ${XDG_CONFIG_HOME}/vim/plugged if available
     call plug#begin($XDG_CONFIG_HOME.'/vim/plugged')
 else
@@ -17,8 +22,6 @@ endif
 
 " shows a git diff in the gutter and stages/undoes hunks
 Plug 'airblade/vim-gitgutter'
-" change the current working directory and to open files using fasd and NERDTree
-" Plug 'amiorin/ctrlp-z'
 " buffer tabs
 Plug 'ap/vim-buftabline'
 " highlights trailing whitespace in red
@@ -27,8 +30,19 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'chazy/cscope_maps'
 " better diff options for vim
 Plug 'chrisbra/vim-diff-enhanced'
-" full path fuzzy file, buffer, mru, tag, ... finder for vim
-" Plug 'ctrlpvim/ctrlp.vim'
+
+" fzf has some problems on cygwin
+if !s:cygwin
+    " change the current working directory and to open files using fasd and NERDTree
+    " Plug 'amiorin/ctrlp-z'
+    " full path fuzzy file, buffer, mru, tag, ... finder for vim
+    " Plug 'ctrlpvim/ctrlp.vim'
+    " a command-line fuzzy finder written in Go
+    Plug 'junegunn/fzf',    { 'do': './install --all' }
+    " things you can do with fzf and vim
+    Plug 'junegunn/fzf.vim'
+endif
+
 " syntax file to highlight various log files
 Plug 'dzeban/vim-log-syntax'
 " vim motion on speed
@@ -41,10 +55,6 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'itchyny/lightline.vim'
 " jump to any location specified by two characters
 Plug 'justinmk/vim-sneak'
-" a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf'
-" things you can do with fzf and vim
-Plug 'junegunn/fzf.vim'
 " class outline viewer for vim
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " a lightweight implementation of emacs's kill-ring for vim
@@ -69,7 +79,7 @@ Plug 'tomasr/molokai'
 Plug 'vivien/vim-linux-coding-style'
 
 " completion system
-if has('nvim')
+if s:nvim
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
     Plug 'Shougo/neocomplete.vim'
@@ -119,23 +129,23 @@ let mapleader = ","
 let g:mapleader = ","
 
 "set _viminfo path
-if has("win32")
-    set viminfo+=n$VIM/_viminfo
-elseif has("unix")
+" if has("win32")
+"     set viminfo+=n$VIM/_viminfo
+if has("unix")
     " Tell vim to remember certain things when we exit
     " '10   :marks will be remembered for up to 10 previously edited files
     " "100  : will save up to 100 lines for each register
     " :20   : up to 20 lines of comand-line history will be remembered
     " %     :save and restores the buffer list
     " n...  : where to save the viminfo files
-    if has('nvim')
-        if exists("$XDG_DATA_HOME")
+    if s:nvim
+        if s:xdg_data
             set viminfo='10,\"100,:20,%,n$XDG_DATA_HOME/.nviminfo
         else
             set viminfo='10,\"100,:20,%,n$HOME/.nviminfo
         endif
     else
-        if exists("$XDG_DATA_HOME")
+        if s:xdg_data
             set viminfo='10,\"100,:20,%,n$XDG_DATA_HOME/.viminfo
         else
             set viminfo='10,\"100,:20,%,n$HOME/.viminfo
@@ -202,7 +212,7 @@ set ffs=unix,dos,mac "Default file types
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git anyway...
 set backup
-if exists("$XDG_DATA_HOME")
+if s:xdg_data
     set backupdir=$XDG_DATA_HOME/.vim/backup/
     silent execute '!mkdir -p $XDG_DATA_HOME/.vim/backup/'
 else
@@ -215,9 +225,9 @@ set noswapfile
 
 "Persistent undo
 try
-    if has("win32")
-        set undodir=C:\Windows\Temp
-    elseif exists("$XDG_DATA_HOME")
+    " if has("win32")
+    "     set undodir=C:\Windows\Temp
+    if s:xdg_data
         set undodir=$XDG_DATA_HOME/.vim/undo
     else
         set undodir=$HOME/.local/vim/undo
@@ -366,24 +376,24 @@ nnoremap caa :cscope add files/all.out<cr>
 """"""""""""""""""""""""""""""
 " => the silver searcher plugin
 """"""""""""""""""""""""""""""
-" if executable('ag')
-"     " use ag over grep
-"     set grepprg=ag\ --nogroup\ --nocolor
-"     " use ag in CtrlP for listing file
-"     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-"     " ag is fast enough that CtrlP doesn't need to cache
-"     let g:ctrlp_use_caching = 0
-"     set grepformat=%f:%1:%c%m
-" else
-"     set grepprg=grep\ -nH
-"     let g:ctrlp_user_command = 'find %s -type f'
-"     let g:ctrlp_use_caching = 1
-"     if exists("$XDG_DATA_HOME")
-"         let g:ctrlp_cache_dir = $XDG_DATA_HOME.'/.vim/ctrlp/'
-"     else
-"         let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
-"     endif
-" endif
+if executable('ag')
+    " use ag over grep
+    set grepprg=ag\ --nogroup\ --nocolor
+    " use ag in CtrlP for listing file
+    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " ag is fast enough that CtrlP doesn't need to cache
+    " let g:ctrlp_use_caching = 0
+    set grepformat=%f:%1:%c%m
+else
+    set grepprg=grep\ -nH
+    " let g:ctrlp_user_command = 'find %s -type f'
+    " let g:ctrlp_use_caching = 1
+    " if exists("$XDG_DATA_HOME")
+    "     let g:ctrlp_cache_dir = $XDG_DATA_HOME.'/.vim/ctrlp/'
+    " else
+    "     let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
+    " endif
+endif
 
 " => taglist plugin
 " nmap <silent> <leader>tl :TlistToggle<cr>
@@ -428,7 +438,7 @@ nnoremap <leader>y :Yanks<cr>
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tagbar#enabled = 0
 
-if has('nvim')
+if s:nvim
     """"""""""""""""""""""""""""""
     " => deoplete plugin
     """"""""""""""""""""""""""""""
@@ -495,14 +505,17 @@ let g:buftabline_show = 1
 """"""""""""""""""""""""""""""
 " => fzf
 """"""""""""""""""""""""""""""
-" let g:fzf_command_prefix = 'Fzf'
-nnoremap <leader>f :FZF<cr>
-nnoremap <leader>c :FZF %:h<cr>
-nnoremap <leader>b :Buffers<cr>
-nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+if !s:cygwin
+    nnoremap <leader>f :FZF<cr>
+    nnoremap <leader>c :FZF %:h<cr>
+    nnoremap <leader>b :Buffers<cr>
+    nnoremap <leader>h :History<cr>
+    nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+    imap <c-x><c-l> <plug>(fzf-complete-line)
+endif
 
 " import local config
-if exists("$XDG_CONFIG_HOME") && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
+if s:xdg_config && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
     source $XDG_CONFIG_HOME/.vimrc.local
 endif
 
