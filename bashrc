@@ -328,6 +328,8 @@ function gen_mk() {
         -o -name "*.lds" \
         -o -name "CMakeLists*" \
         -o -name "SConstruct" \
+        -o -name "SConscript" \
+        -o -name "*.bat" \
         \) -a -type f -print 2>/dev/null \
         |${_gsed} -e 's#^\.\/##' \
         |sort > $folder/files/mk.files
@@ -415,8 +417,31 @@ function idg() {
     fi
 version1
 
-# version 2: use idf directly to make the results colorful
-idf $@ |xargs grep --color $1
+    # version 2: use idf directly to make the results colorful
+    local _searcher="ag"
+    local output=$(idf $@)
+
+    case "$1" in
+        -s=ag)
+            # ag is already the default searcher
+            shift
+            ;;
+        -s=grep)
+            _searcher="grep --color -i"
+            shift;
+            ;;
+    esac
+
+    # rollback to grep if ag not available
+    if [ "$_searcher" = "ag" ] && [! which ag 1>/dev/null 2>&1 ]; then
+        _searcher="grep --color -i"
+    fi
+
+    if [ -z "${output}" ]; then
+        echo "id '$1' not found"
+    else
+        ${_searcher} -H $1 ${output}
+    fi
 
 }
 
