@@ -670,14 +670,28 @@ __z=$(which z.sh 2>/dev/null)
 if [ ! -z $__fasd ] && [ -x $__fasd ] ; then
 
     # fasd init faster with defined $fasd_cache
-    # if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-    #   fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
-    # fi
-    # source "$fasd_cache"
-    # unset fasd_cache
+    if [ ! -z $fasd_cache ] ; then
+        if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+          fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
+        fi
+        source "$fasd_cache"
+        unset fasd_cache
+    else
+        eval "$(fasd --init auto)"
+    fi
 
     alias v="f -e $EDITOR"
     alias l='fasd -l'
 elif [ ! -z $__z ] && [ -x $__z ] ; then
     . $__z
+fi
+
+# import fzf bash completion & key-bindings
+if [ ! -z $fzf_path ] ; then
+    if [ -f $fzf_path/.fzf.bash ] ; then
+        source $fzf_path/.fzf.bash
+    fi
+    unset fzf_path
+else
+    [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 fi
