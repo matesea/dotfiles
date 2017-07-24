@@ -4,7 +4,7 @@ set nocompatible
 filetype off
 
 let s:nvim = has('nvim')
-let s:cygwin = has("unix") && has("win32unix")
+" let s:cygwin = has("unix") && has("win32unix")
 let s:xdg_config = exists("$XDG_CONFIG_HOME")
 let s:xdg_data = exists("$XDG_DATA_HOME")
 
@@ -31,17 +31,14 @@ Plug 'chazy/cscope_maps'
 " better diff options for vim
 Plug 'chrisbra/vim-diff-enhanced'
 
-" fzf has some problems on cygwin
-if !s:cygwin
-    " change the current working directory and to open files using fasd and NERDTree
-    " Plug 'amiorin/ctrlp-z'
-    " full path fuzzy file, buffer, mru, tag, ... finder for vim
-    " Plug 'ctrlpvim/ctrlp.vim'
-    " a command-line fuzzy finder written in Go
-    Plug 'junegunn/fzf',    { 'do': './install --all' }
-    " things you can do with fzf and vim
-    Plug 'junegunn/fzf.vim'
-endif
+" change the current working directory and to open files using fasd and NERDTree
+" Plug 'amiorin/ctrlp-z'
+" full path fuzzy file, buffer, mru, tag, ... finder for vim
+" Plug 'ctrlpvim/ctrlp.vim'
+" a command-line fuzzy finder written in Go
+Plug 'junegunn/fzf',    { 'do': './install --all' }
+" things you can do with fzf and vim
+Plug 'junegunn/fzf.vim'
 
 " syntax file to highlight various log files
 Plug 'dzeban/vim-log-syntax'
@@ -505,14 +502,12 @@ let g:buftabline_show = 1
 """"""""""""""""""""""""""""""
 " => fzf
 """"""""""""""""""""""""""""""
-if !s:cygwin
-    nnoremap <leader>f :FZF<cr>
-    nnoremap <leader>c :FZF %:h<cr>
-    nnoremap <leader>b :Buffers<cr>
-    nnoremap <leader>h :History<cr>
-    nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
-    imap <c-x><c-l> <plug>(fzf-complete-line)
-endif
+nnoremap <leader>f :FZF<cr>
+nnoremap <leader>c :FZF %:h<cr>
+nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>h :History<cr>
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " import local config
 if s:xdg_config && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
