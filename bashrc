@@ -480,7 +480,7 @@ function __gf() {
         _searcher="grep --color -i"
     fi
 
-    cat $folder/files/${_index_lead}*.files |tr '\n' '\0' \
+    cat $folder/files/${_index_begin}*.files |tr '\n' '\0' \
         |xargs -0 ${_searcher} "${@:1}"
 }
 
