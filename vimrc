@@ -59,7 +59,7 @@ Plug 'maxbrunsfeld/vim-yankstack'
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
 " help you win at grep
-" Plug 'mhinz/vim-grepper'
+Plug 'mhinz/vim-grepper'
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
 " tree explorer plugin
@@ -470,7 +470,9 @@ let g:gitgutter_eager = 0
 """"""""""""""""""""""""""""""
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
-" nnoremap <leader>g :Grepper -tool ag -buffers<cr>
+nnoremap <leader>gg :Grepper<cr>
+nnoremap <leader>gb :Grepper -buffers<cr>
+nnoremap <leader>gc :Grepper -dir file<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
