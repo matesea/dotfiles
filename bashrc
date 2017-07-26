@@ -485,16 +485,16 @@ function __gf() {
 }
 
 function gf() {
-    __gf all $@
+    __gf all "$@"
 }
 
 # grep make files
 function gmk() {
-    __gf mk $@
+    __gf mk "$@"
 }
 
 function gdoc() {
-    __gf doc $@
+    __gf doc "$@"
 }
 
 # find files

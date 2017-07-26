@@ -137,15 +137,15 @@ if has("unix")
     " n...  : where to save the viminfo files
     if s:nvim
         if s:xdg_data
-            set viminfo='10,\"100,:20,%,n$XDG_DATA_HOME/.nviminfo
+            set viminfo='50,\"100,:20,%,n$XDG_DATA_HOME/.nviminfo
         else
-            set viminfo='10,\"100,:20,%,n$HOME/.nviminfo
+            set viminfo='50,\"100,:20,%,n$HOME/.nviminfo
         endif
     else
         if s:xdg_data
-            set viminfo='10,\"100,:20,%,n$XDG_DATA_HOME/.viminfo
+            set viminfo='50,\"100,:20,%,n$XDG_DATA_HOME/.viminfo
         else
-            set viminfo='10,\"100,:20,%,n$HOME/.viminfo
+            set viminfo='50,\"100,:20,%,n$HOME/.viminfo
         endif
     endif
 endif
@@ -514,8 +514,6 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " import local config
 if s:xdg_config && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
     source $XDG_CONFIG_HOME/.vimrc.local
-endif
-
-if filereadable($HOME."/.vimrc.local")
+elseif filereadable($HOME."/.vimrc.local")
     source $HOME/.vimrc.local
 endif
