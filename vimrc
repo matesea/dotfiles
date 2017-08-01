@@ -468,9 +468,9 @@ hi link MBEVisibleActiveNormal  Constant
 """"""""""""""""""""""""""""""
 let g:gitgutter_eager = 0
 """"""""""""""""""""""""""""""
-" => vim-gitgutter plugin
+" => vim-grepper plugin
 """"""""""""""""""""""""""""""
-nnoremap <leader>gg :Grepper<cr>
+nnoremap <leader>gf :Grepper<cr>
 nnoremap <leader>gb :Grepper -buffers<cr>
 nnoremap <leader>gc :Grepper -dir file<cr>
 """"""""""""""""""""""""""""""
