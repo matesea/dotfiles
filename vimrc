@@ -251,9 +251,9 @@ for i in range(0, 99)
     execute 'map <silent> '.i.'gb :b'.i.'<cr>'
 endfor
 inoremap jk <esc>
-xnoremap jk <Esc>
+xnoremap jk <esc>
 cnoremap jk <C-c>
-map <esc> <nop>
+inoremap <esc> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
