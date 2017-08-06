@@ -192,7 +192,10 @@ function gen_files() {
         -name '*.[cCsShH]' \
         -o -name '*.java' \
         -o -name '*.cpp' \
-        -o -name "*.asm" \
+        -o -name '*.asm' \
+        -o -name '*.hal' \
+        -o -name '*.hidl' \
+        -o -name '*.aidl' \
         \) -a -type f -print 2>/dev/null |sort > $folder/files/$output
 
     # do not split file index for different folders
