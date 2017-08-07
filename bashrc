@@ -694,39 +694,28 @@ if [ ! -z $fzf_path ] ; then
         source $fzf_path/.fzf.bash
     fi
     unset fzf_path
-else
-    [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+elif [ -f ~/.fzf.bash ] ; then
+    source ~/.fzf.bash
 fi
 
-### utility import for fzf ###
-# fe [FUZZY PATTERN] - Open the selected file with the default editor
-#   - Bypass fuzzy finder if there's only one match (--select-1)
-#   - Exit if there's no match (--exit-0)
-fe() {
-  local files
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
-}
-# fd - cd to selected directory
-fd() {
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
-}
-
-# TODO: integrate fasd, z, fzf
-# fasd & fzf change directory - open best matched file using `fasd` if given argument, filter output of `fasd` using `fzf` else
-v() {
-    [ $# -gt 0 ] && fasd -f -e ${EDITOR} "$*" && return
-    local file
-    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && ${EDITOR} "${file}" || return 1
-}
-
-unalias z
-# fasd & fzf change directory - jump using `fasd` if given argument, filter output of `fasd` using `fzf` else
-z() {
-    [ $# -gt 0 ] && fasd_cd -d "$*" && return
-    local dir
-    dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-}
+__fzf=$(which fzf 2>/dev/null)
+if [ ! -z $__fzf ] && [ ! -z $__fasd ] ; then
+    if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fasd_fzf.sh ] ; then
+        source ${dotfiles}/bash/fasd_fzf.sh
+    elif [ -f ~/dotfiles/bash/fasd_fzf.sh ]; then
+        source ~/dotfiles/bash/fasd_fzf.sh
+    fi
+elif [ ! -z $__fzf ] && [ ! -z $__z ] ; then
+    if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
+        source ${dotfiles}/bash/z_fzf.sh
+    elif [ -f ~/dotfiles/bash/z_fzf.sh ]; then
+        source ~/dotfiles/bash/z_fzf.sh
+    fi
+fi
+if [ ! -z $__fzf ] ; then
+    if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf.sh ] ; then
+        source ${dotfiles}/bash/fzf.sh
+    elif [ -f ~/dotfiles/bash/fzf.sh ]; then
+        source ~/dotfiles/bash/fzf.sh
+    fi
+fi
