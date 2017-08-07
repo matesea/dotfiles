@@ -667,7 +667,6 @@ else
     export VISUAL=vim
 fi
 export EDITOR="$VISUAL"
-alias va="$EDITOR files/all.files"
 
 __fasd=$(which fasd 2>/dev/null)
 __z=$(which z.sh 2>/dev/null)
@@ -684,7 +683,6 @@ if [ ! -z $__fasd ] && [ -x $__fasd ] ; then
         eval "$(fasd --init auto)"
     fi
 
-    alias v="f -e $EDITOR"
     alias l='fasd -l'
 elif [ ! -z $__z ] && [ -x $__z ] ; then
     . $__z
@@ -699,3 +697,36 @@ if [ ! -z $fzf_path ] ; then
 else
     [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 fi
+
+### utility import for fzf ###
+# fe [FUZZY PATTERN] - Open the selected file with the default editor
+#   - Bypass fuzzy finder if there's only one match (--select-1)
+#   - Exit if there's no match (--exit-0)
+fe() {
+  local files
+  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+# fd - cd to selected directory
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+
+# TODO: integrate fasd, z, fzf
+# fasd & fzf change directory - open best matched file using `fasd` if given argument, filter output of `fasd` using `fzf` else
+v() {
+    [ $# -gt 0 ] && fasd -f -e ${EDITOR} "$*" && return
+    local file
+    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && ${EDITOR} "${file}" || return 1
+}
+
+unalias z
+# fasd & fzf change directory - jump using `fasd` if given argument, filter output of `fasd` using `fzf` else
+z() {
+    [ $# -gt 0 ] && fasd_cd -d "$*" && return
+    local dir
+    dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
