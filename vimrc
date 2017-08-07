@@ -30,6 +30,8 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'chazy/cscope_maps'
 " better diff options for vim
 Plug 'chrisbra/vim-diff-enhanced'
+" toggle quickfix window
+Plug 'drmingdrmer/vim-toggle-quickfix'
 
 " change the current working directory and to open files using fasd and NERDTree
 " Plug 'amiorin/ctrlp-z'
@@ -64,6 +66,8 @@ Plug 'mhinz/vim-grepper'
 Plug 'mihais/vim-mark'
 " tree explorer plugin
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTree' }
+" integrate with fzy or picker into vim
+" Plug 'srstevenson/vim-picker'
 " molokai theme
 Plug 'tomasr/molokai'
 " lean & mean status/tabline for vim
@@ -340,6 +344,17 @@ nnoremap <leader>e  :e<space>
 nnoremap <leader>R :edit!<cr>
 
 """"""""""""""""""""""""""""""
+" => directory traverse
+""""""""""""""""""""""""""""""
+nnoremap <leader>pwd :pwd<cr>
+nnoremap <leader>cd :cd<space>
+nnoremap <leader>u :cd ..<cr>:pwd<cr>
+nnoremap <leader>u2 :cd ../..<cr>:pwd<cr>
+nnoremap <leader>u3 :cd ../../..<cr>:pwd<cr>
+nnoremap <leader>u4 :cd ../../../..<cr>:pwd<cr>
+nnoremap <leader>u5 :cd ../../../../..<cr>:pwd<cr>
+
+""""""""""""""""""""""""""""""
 " => CtrlP plugin
 """"""""""""""""""""""""""""""
 " let g:ctrlp_map = '<c-p>'
@@ -509,7 +524,12 @@ nnoremap <leader>c :FZF %:h<cr>
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>h :History<cr>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
-imap <c-x><c-l> <plug>(fzf-complete-line)
+" imap <c-x><c-l> <plug>(fzf-complete-line)
+
+""""""""""""""""""""""""""""""
+" => vim-toggle-quickfix
+""""""""""""""""""""""""""""""
+nmap <leader>qt <Plug>window:quickfix:toggle
 
 " import local config
 if s:xdg_config && filereadable($XDG_CONFIG_HOME."/.vimrc.local")

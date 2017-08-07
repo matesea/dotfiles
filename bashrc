@@ -333,6 +333,7 @@ function gen_mk() {
         -o -name "SConstruct" \
         -o -name "SConscript" \
         -o -name "*.bat" \
+        -o -name '*.bp' \
         \) -a -type f -print 2>/dev/null \
         |${_gsed} -e 's#^\.\/##' \
         |sort > $folder/files/mk.files
