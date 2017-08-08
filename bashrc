@@ -688,34 +688,36 @@ elif [ ! -z $__z ] && [ -x $__z ] ; then
     . $__z
 fi
 
-# import fzf bash completion & key-bindings
-if [ ! -z $fzf_path ] ; then
-    if [ -f $fzf_path/.fzf.bash ] ; then
-        source $fzf_path/.fzf.bash
+if [ ! ${OSTYPE} = 'cygwin' ] ; then
+    # import fzf bash completion & key-bindings
+    __fzf=$(which fzf 2>/dev/null)
+    if [ ! -z $fzf_path ] ; then
+        if [ -f $fzf_path/.fzf.bash ] ; then
+            source $fzf_path/.fzf.bash
+        fi
+        unset fzf_path
+    elif [ -f ~/.fzf.bash ] ; then
+        source ~/.fzf.bash
     fi
-    unset fzf_path
-elif [ -f ~/.fzf.bash ] ; then
-    source ~/.fzf.bash
-fi
 
-__fzf=$(which fzf 2>/dev/null)
-if [ ! -z $__fzf ] && [ ! -z $__fasd ] ; then
-    if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fasd_fzf.sh ] ; then
-        source ${dotfiles}/bash/fasd_fzf.sh
-    elif [ -f ~/dotfiles/bash/fasd_fzf.sh ]; then
-        source ~/dotfiles/bash/fasd_fzf.sh
+    if [ ! -z $__fzf ] && [ ! -z $__fasd ] ; then
+        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fasd_fzf.sh ] ; then
+            source ${dotfiles}/bash/fasd_fzf.sh
+        elif [ -f ~/dotfiles/bash/fasd_fzf.sh ]; then
+            source ~/dotfiles/bash/fasd_fzf.sh
+        fi
+    elif [ ! -z $__fzf ] && [ ! -z $__z ] ; then
+        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
+            source ${dotfiles}/bash/z_fzf.sh
+        elif [ -f ~/dotfiles/bash/z_fzf.sh ]; then
+            source ~/dotfiles/bash/z_fzf.sh
+        fi
     fi
-elif [ ! -z $__fzf ] && [ ! -z $__z ] ; then
-    if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
-        source ${dotfiles}/bash/z_fzf.sh
-    elif [ -f ~/dotfiles/bash/z_fzf.sh ]; then
-        source ~/dotfiles/bash/z_fzf.sh
-    fi
-fi
-if [ ! -z $__fzf ] ; then
-    if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf.sh ] ; then
-        source ${dotfiles}/bash/fzf.sh
-    elif [ -f ~/dotfiles/bash/fzf.sh ]; then
-        source ~/dotfiles/bash/fzf.sh
+    if [ ! -z $__fzf ] ; then
+        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf.sh ] ; then
+            source ${dotfiles}/bash/fzf.sh
+        elif [ -f ~/dotfiles/bash/fzf.sh ]; then
+            source ~/dotfiles/bash/fzf.sh
+        fi
     fi
 fi
