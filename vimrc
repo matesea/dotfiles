@@ -491,7 +491,8 @@ nnoremap <leader>gc :Grepper -dir file<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
-nmap <leader>M <Plug>MarkToggle
+nmap <leader>mt <Plug>MarkToggle
+nmap <leader>mc <Plug>MarkAllClear
 
 """"""""""""""""""""""""""""""
 " => vim-sneak plugin

@@ -690,7 +690,6 @@ fi
 
 if [ ! ${OSTYPE} = 'cygwin' ] ; then
     # import fzf bash completion & key-bindings
-    __fzf=$(which fzf 2>/dev/null)
     if [ ! -z $fzf_path ] ; then
         if [ -f $fzf_path/.fzf.bash ] ; then
             source $fzf_path/.fzf.bash
@@ -700,6 +699,7 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
         source ~/.fzf.bash
     fi
 
+    __fzf=$(which fzf 2>/dev/null)
     if [ ! -z $__fzf ] && [ ! -z $__fasd ] ; then
         if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fasd_fzf.sh ] ; then
             source ${dotfiles}/bash/fasd_fzf.sh
