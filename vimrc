@@ -64,6 +64,8 @@ Plug 'mhinz/vim-hugefile'
 Plug 'mhinz/vim-grepper'
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
+" delete buffers and close files in vim without closing windows or messing up layout
+Plug 'moll/vim-bbye'
 " tree explorer plugin
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTree' }
 " integrate with fzy or picker into vim
@@ -278,39 +280,39 @@ set updatetime=250 "for vim-gitgutter
 
 " toggle highlight search
 nmap <silent> <leader>h :setlocal hls!<cr>
-" nmap <silent> <leader>w :setlocal wrap!<cr>
+nmap <silent> <leader>w :setlocal wrap!<cr>
 " nmap <silent> <leader>l :setlocal list!<cr>
 " nmap <silent> <leader>rn :setlocal relativenumber!<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Close the current buffer
-nnoremap bd :Bclose<cr>
-
-" Close all the buffers
-" nnoremap <leader>ba :1,300 bd!<cr>
-
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
-    let l:currentBufNum = bufnr("%")
-    let l:alternateBufNum = bufnr("#")
-
-    if buflisted(l:alternateBufNum)
-        buffer #
-    else
-        bnext
-    endif
-
-    if bufnr("%") == l:currentBufNum
-        new
-    endif
-
-    if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
-    endif
-endfunction
-
+" " Close the current buffer
+" nnoremap bd :Bclose<cr>
+"
+" " Close all the buffers
+" " nnoremap <leader>ba :1,300 bd!<cr>
+"
+" command! Bclose call <SID>BufcloseCloseIt()
+" function! <SID>BufcloseCloseIt()
+"     let l:currentBufNum = bufnr("%")
+"     let l:alternateBufNum = bufnr("#")
+"
+"     if buflisted(l:alternateBufNum)
+"         buffer #
+"     else
+"         bnext
+"     endif
+"
+"     if bufnr("%") == l:currentBufNum
+"         new
+"     endif
+"
+"     if buflisted(l:currentBufNum)
+"         execute("bdelete! ".l:currentBufNum)
+"     endif
+" endfunction
+"
 " Specify the behavior when switching between buffers
 try
     set switchbuf=usetab
@@ -337,7 +339,7 @@ set foldlevel=100
 " fast file traverse
 noremap j gj
 noremap k gk
-nnoremap <leader>w :%v/\<<c-r><c-w>\>/d<cr>
+" nnoremap <leader>w :%v/\<<c-r><c-w>\>/d<cr>
 nnoremap <leader>v :%v//d<left><left>
 nnoremap <leader>e  :e<space>
 " to reload current file
@@ -512,13 +514,13 @@ xmap S <Plug>Sneak_S
 nnoremap <leader>l :setlocal filetype=log<cr>
 
 """"""""""""""""""""""""""""""
-" => vim-log-syntax plugin
+" => vim-buftabline
 """"""""""""""""""""""""""""""
 let g:buftabline_show = 1
 " let g:buftabline_numbers = 1
 
 """"""""""""""""""""""""""""""
-" => fzf
+" => fzf plugin
 """"""""""""""""""""""""""""""
 nnoremap <leader>f :FZF<cr>
 nnoremap <leader>c :FZF %:h<cr>
@@ -528,9 +530,14 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " imap <c-x><c-l> <plug>(fzf-complete-line)
 
 """"""""""""""""""""""""""""""
-" => vim-toggle-quickfix
+" => vim-toggle-quickfix plugin
 """"""""""""""""""""""""""""""
 nmap <leader>qt <Plug>window:quickfix:toggle
+
+""""""""""""""""""""""""""""""
+" => vim-bbye plugin
+""""""""""""""""""""""""""""""
+nnoremap bd :Bdelete<cr>
 
 " import local config
 if s:xdg_config && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
