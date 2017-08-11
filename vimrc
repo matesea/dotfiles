@@ -489,6 +489,7 @@ let g:gitgutter_eager = 0
 """"""""""""""""""""""""""""""
 nnoremap <leader>gf :Grepper<cr>
 nnoremap <leader>gb :Grepper -buffers<cr>
+nnoremap <leader>gw :Grepper -buffers -cword -noprompt<cr>
 nnoremap <leader>gc :Grepper -dir file<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
