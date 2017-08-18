@@ -339,7 +339,7 @@ set foldlevel=100
 " fast file traverse
 noremap j gj
 noremap k gk
-" nnoremap <leader>w :%v/\<<c-r><c-w>\>/d<cr>
+nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
 nnoremap <leader>v :%v//d<left><left>
 nnoremap <leader>e  :e<space>
 " to reload current file
@@ -523,10 +523,11 @@ let g:buftabline_show = 1
 """"""""""""""""""""""""""""""
 " => fzf plugin
 """"""""""""""""""""""""""""""
-nnoremap <leader>f :FZF<cr>
-nnoremap <leader>c :FZF %:h<cr>
-nnoremap <leader>b :Buffers<cr>
-nnoremap <leader>h :History<cr>
+nnoremap <leader>fe :FZF<cr>
+nnoremap <leader>fc :FZF %:h<cr>
+nnoremap <leader>fg :GFiles<cr>
+nnoremap <leader>fb :Buffers<cr>
+nnoremap <leader>fh :History<cr>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " imap <c-x><c-l> <plug>(fzf-complete-line)
 
