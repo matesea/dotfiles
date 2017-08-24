@@ -43,6 +43,9 @@ else
 fi
 
 function _version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+function __git_tag_or_branch {
+    git symbolic-ref -q --short HEAD || git describe --tags --exact-match
+}
 
 export HISTCONTROL=ignorespace:erasedups
 if [ $(_version $BASH_VERSION) -ge $(_version "4.3") ]; then
@@ -600,6 +603,8 @@ function foreach_in() {
 
 function gen_cs() {
     local file=$1
+    local out
+
     if [ -z $file ] ; then
         echo argument needed
         return
@@ -607,11 +612,22 @@ function gen_cs() {
         echo "./files/$file.files not exist"
         return
     fi
-    echo "gen files/$file.out..."
-    cscope -bkq -i files/$file.files -f files/$file.out 2>/dev/null
+
+    if [ -z $2 ] ; then
+        out=$file
+    else
+        out=${file}-${2}
+    fi
+    echo "gen files/${out}.out..."
+    cscope -bkq -i files/$file.files -f files/${out}.out 2>/dev/null
 }
 
-function gen_all_cs() {
+# gen cscope for all files under current directory with version string appended
+function gen_csav() {
+    gen_cs all $(__git_tag_or_branch)
+}
+
+function gen_cs_for_each_subdir() {
     local folder=$1
     if [ -z $folder ] ; then
         folder=.
