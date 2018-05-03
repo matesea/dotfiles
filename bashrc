@@ -14,6 +14,8 @@ alias SL='ls'
 alias tmux='tmux -2'
 alias recal='history |grep'
 alias grep='grep --color -i'
+alias ag='ag --path-to-ignore ~/dotfiles/ignore'
+alias rg='rg --ignore-file ~/dotfiles/ignore'
 # alias v='f -e vim'
 unset command_not_found_handle
 

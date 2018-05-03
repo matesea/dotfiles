@@ -79,7 +79,7 @@ Plug 'tomasr/molokai'
 " source code browser
 " Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
 " follow linux kernel coding style
-Plug 'vivien/vim-linux-coding-style'
+Plug 'vivien/vim-linux-coding-style', { 'for': 'c' }
 
 " completion system
 if s:nvim
@@ -256,10 +256,10 @@ nnoremap gb :bn<cr>
 for i in range(0, 99)
     execute 'map <silent> '.i.'gb :b'.i.'<cr>'
 endfor
-inoremap jk <esc>
-xnoremap jk <esc>
-cnoremap jk <C-c>
-inoremap <esc> <nop>
+" inoremap jk <esc>
+" xnoremap jk <esc>
+" cnoremap jk <C-c>
+" inoremap <esc> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -528,6 +528,8 @@ nnoremap <leader>fc :FZF %:h<cr>
 nnoremap <leader>fg :GFiles<cr>
 nnoremap <leader>fb :Buffers<cr>
 nnoremap <leader>fh :History<cr>
+nnoremap <leader>fl :Lines<cr>
+nnoremap <leader>bl :BLines<cr>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " imap <c-x><c-l> <plug>(fzf-complete-line)
 
