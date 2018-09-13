@@ -49,7 +49,7 @@ function __git_tag_or_branch {
     git symbolic-ref -q --short HEAD || git describe --tags --exact-match
 }
 
-export HISTCONTROL=ignorespace:erasedups
+export HISTCONTROL=ignoreboth:erasedups
 if [ $(_version $BASH_VERSION) -ge $(_version "4.3") ]; then
     export HISTSIZE=-1
     export HISTFILESIZE=-1
