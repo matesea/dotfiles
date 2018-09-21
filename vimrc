@@ -32,7 +32,8 @@ Plug 'chazy/cscope_maps'
 Plug 'chrisbra/vim-diff-enhanced'
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix'
-
+" insert or delete brackets, parens, quotes in pair
+Plug 'jiangmiao/auto-pairs'
 " change the current working directory and to open files using fasd and NERDTree
 " Plug 'amiorin/ctrlp-z'
 " full path fuzzy file, buffer, mru, tag, ... finder for vim
