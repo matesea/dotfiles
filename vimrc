@@ -238,7 +238,7 @@ try
     endif
 
     set undofile
-    set undolevels=20
+    set undolevels=1000
     set undoreload=1000
 catch
 endtry
@@ -505,9 +505,9 @@ let g:sneak#label = 1
 " calling yankstack#setup() here stops it from overriding the vim-sneak mapping
 call yankstack#setup()
 nmap s <Plug>Sneak_s
-nmap S <Plug>Sneak_S
+nmap t <Plug>Sneak_S
 xmap s <Plug>Sneak_s
-xmap S <Plug>Sneak_S
+xmap t <Plug>Sneak_S
 
 """"""""""""""""""""""""""""""
 " => vim-log-syntax plugin
