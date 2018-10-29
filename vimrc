@@ -73,6 +73,9 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTree' }
 " Plug 'srstevenson/vim-picker'
 " molokai theme
 Plug 'tomasr/molokai'
+
+" solarized colorscheme
+Plug 'altercation/vim-colors-solarized'
 " lean & mean status/tabline for vim
 " Plug 'vim-airline/vim-airline'
 " edit large file quickly
@@ -198,8 +201,10 @@ if has("gui_running")
     set guioptions-=e
 else
     set t_Co=256
-    set background=dark
-    colorscheme molokai
+    " set background=dark
+    " colorscheme molokai
+    set background=light
+    colorscheme solarized
 endif
 set nu
 
