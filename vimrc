@@ -73,7 +73,8 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTree' }
 " Plug 'srstevenson/vim-picker'
 " molokai theme
 Plug 'tomasr/molokai'
-
+" defaults everyone can agree on
+Plug 'tpope/vim-sensible'
 " solarized colorscheme
 Plug 'altercation/vim-colors-solarized'
 " lean & mean status/tabline for vim
@@ -96,8 +97,8 @@ call plug#end()
 
 filetype plugin indent on
 set cindent     " c code indentation
+set smartindent " smart indent
 set smartcase   " smart case detection while searching
-set wildmenu    " command-line completion operates in a enhanced mode
 " set wildmode=longest:full,full
 set wildmode=list:longest,full
 set showmode
@@ -126,9 +127,6 @@ set ofu=syntaxcomplete#Complete
 
 " apply different indent format based on the detected file type
 filetype indent on
-
-" Set to auto read when a file is changed from the outside
-set autoread
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -165,29 +163,14 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the curors - when moving vertical..
 set so=7
-
-set wildmenu "Turn on WiLd menu
-
-set ruler "Always show current position
-
 set cmdheight=1 "The commandbar height
-
 set hid "Change buffer - without saving
-
 " Set backspace config
-set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
-
 set ignorecase "Ignore case when searching
-set smartcase
-
 set hlsearch "Highlight search things
-
-set incsearch "Make search act like search in modern browsers
 set nolazyredraw "Don't redraw while executing macros
-
 set magic "Set magic on, for regular expressions
-
 set showmatch "Show matching bracets when text indicator is over them
 set mat=2 "How many tenths of a second to blink
 
@@ -201,10 +184,8 @@ if has("gui_running")
     set guioptions-=e
 else
     set t_Co=256
-    " set background=dark
-    " colorscheme molokai
-    set background=light
-    colorscheme solarized
+    set background=dark
+    colorscheme molokai
 endif
 set nu
 
@@ -273,14 +254,11 @@ endfor
 set expandtab
 set shiftwidth=4
 set tabstop=4
-set smarttab
 set scrolloff=999
 
 set linebreak       " line break
 set textwidth=500
 
-set ai "Auto indent
-set si "Smart indet
 set wrap "Wrap lines
 set updatetime=250 "for vim-gitgutter
 
@@ -330,7 +308,6 @@ endtry
 " => Statusline
 """"""""""""""""""""""""""""""
 " Always hide the statusline
-set laststatus=2
 
 " traverse quickfix
 nnoremap gc :cnext<cr>
