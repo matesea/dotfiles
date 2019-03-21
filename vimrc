@@ -222,10 +222,6 @@ try
     else
         set undodir=$HOME/.local/vim/undo
     endif
-
-    set undofile
-    set undolevels=1000
-    set undoreload=1000
 catch
 endtry
 
@@ -235,8 +231,8 @@ endtry
 syntax enable "Enable syntax hl
 
 set undofile
-set undolevels=20
-set undoreload=1000
+" set undolevels=20
+" set undoreload=10000
 
 nnoremap gB :bp<cr>
 nnoremap gb :bn<cr>
@@ -508,11 +504,16 @@ let g:buftabline_show = 1
 """"""""""""""""""""""""""""""
 nnoremap <leader>fe :FZF<cr>
 nnoremap <leader>fc :FZF %:h<cr>
+" git files
 nnoremap <leader>fg :GFiles<cr>
+" open buffers
 nnoremap <leader>fb :Buffers<cr>
 nnoremap <leader>fh :History<cr>
+" lines in loaded buffer
 nnoremap <leader>fl :Lines<cr>
+" lines in the current buffer
 nnoremap <leader>bl :BLines<cr>
+" ag search results
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " imap <c-x><c-l> <plug>(fzf-complete-line)
 
