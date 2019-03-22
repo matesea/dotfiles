@@ -738,4 +738,8 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
             source ~/dotfiles/bash/fzf.sh
         fi
     fi
+    __fd=$(which fd 2>/dev/null)
+    if [ ! -z $__fd ] ; then
+        export FZF_DEFAULT_COMMAND='fd --type f'
+    fi
 fi

@@ -365,6 +365,7 @@ nnoremap cs :cscope<space>
 nnoremap cf :cscope find<space>
 nnoremap ca :cscope add<space>
 nnoremap caa :cscope add files/all.out<cr>
+" set cscopequickfix=s-,c-,d-,i-,t-,e-
 
 """"""""""""""""""""""""""""""
 " => the silver searcher plugin
@@ -514,7 +515,7 @@ nnoremap <leader>fl :Lines<cr>
 " lines in the current buffer
 nnoremap <leader>bl :BLines<cr>
 " ag search results
-nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 " imap <c-x><c-l> <plug>(fzf-complete-line)
 
 """"""""""""""""""""""""""""""
