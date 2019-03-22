@@ -49,3 +49,6 @@
 [submodule "fasd"]
 	path = fasd
 	url = https://github.com/clvv/fasd
+[submodule "bash/fzf-extras"]
+	path = bash/fzf-extras
+	url = https://github.com/atweiden/fzf-extras

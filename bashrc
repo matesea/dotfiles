@@ -718,13 +718,13 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
     fi
 
     __fzf=$(which fzf 2>/dev/null)
-    if [ ! -z $__fzf ] && [ ! -z $__fasd ] ; then
-        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fasd_fzf.sh ] ; then
-            source ${dotfiles}/bash/fasd_fzf.sh
-        elif [ -f ~/dotfiles/bash/fasd_fzf.sh ]; then
-            source ~/dotfiles/bash/fasd_fzf.sh
-        fi
-    elif [ ! -z $__fzf ] && [ ! -z $__z ] ; then
+    # if [ ! -z $__fzf ] && [ ! -z $__fasd ] ; then
+    #     if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fasd_fzf.sh ] ; then
+    #         source ${dotfiles}/bash/fasd_fzf.sh
+    #     elif [ -f ~/dotfiles/bash/fasd_fzf.sh ]; then
+    #         source ~/dotfiles/bash/fasd_fzf.sh
+    #     fi
+    if [ ! -z $__fzf ] && [ ! -z $__z ] ; then
         if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
             source ${dotfiles}/bash/z_fzf.sh
         elif [ -f ~/dotfiles/bash/z_fzf.sh ]; then
@@ -733,13 +733,23 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
     fi
     if [ ! -z $__fzf ] ; then
         if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf.sh ] ; then
-            source ${dotfiles}/bash/fzf.sh
-        elif [ -f ~/dotfiles/bash/fzf.sh ]; then
-            source ~/dotfiles/bash/fzf.sh
+            source ${dotfiles}/bash/fzf-extras/fzf-extras.sh
+        elif [ -f ~/dotfiles/bash/fzf-extras/fzf-extras.sh ]; then
+            source ~/dotfiles/bash/fzf-extras/fzf-extras.sh
         fi
     fi
+
     __fd=$(which fd 2>/dev/null)
     if [ ! -z $__fd ] ; then
         export FZF_DEFAULT_COMMAND='fd --type f'
     fi
+
+    unset __fd
+    unset __fzf
+
+    unalias zz 2>/dev/null
+    alias zz=_zz
 fi
+
+unset __z
+unset __fasd
