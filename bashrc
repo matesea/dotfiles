@@ -732,10 +732,16 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
         fi
     fi
     if [ ! -z $__fzf ] ; then
-        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf.sh ] ; then
+        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf-extras/fzf-extras.sh ] ; then
             source ${dotfiles}/bash/fzf-extras/fzf-extras.sh
         elif [ -f ~/dotfiles/bash/fzf-extras/fzf-extras.sh ]; then
             source ~/dotfiles/bash/fzf-extras/fzf-extras.sh
+        fi
+
+        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf.sh ] ; then
+            source ${dotfiles}/bash/fzf.sh
+        elif [ -f ~/dotfiles/bash/fzf.sh ]; then
+            source ~/dotfiles/bash/fzf.sh
         fi
     fi
 
@@ -747,6 +753,7 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
     unset __fd
     unset __fzf
 
+    # unalias fasd zz and use _zz in fzf-extras instead
     unalias zz 2>/dev/null
     alias zz=_zz
 fi
