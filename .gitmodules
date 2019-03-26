@@ -1,30 +1,3 @@
-[submodule "vim/plugged/nerdtree"]
-	path = vim/plugged/nerdtree
-	url = https://github.com/scrooloose/nerdtree
-[submodule "vim/plugged/tagbar"]
-	path = vim/plugged/tagbar
-	url = https://github.com/majutsushi/tagbar
-[submodule "vim/plugged/vim-yankstack"]
-	path = vim/plugged/vim-yankstack
-	url = https://github.com/maxbrunsfeld/vim-yankstack
-[submodule "vim/plugged/vim-diff-enhanced"]
-	path = vim/plugged/vim-diff-enhanced
-	url = https://github.com/chrisbra/vim-diff-enhanced
-[submodule "vim/plugged/vim-gitgutter"]
-	path = vim/plugged/vim-gitgutter
-	url = https://github.com/airblade/vim-gitgutter
-[submodule "vim/plugged/cscope_maps"]
-	path = vim/plugged/cscope_maps
-	url = https://github.com/chazy/cscope_maps
-[submodule "vim/plugged/molokai"]
-	path = vim/plugged/molokai
-	url = https://github.com/tomasr/molokai
-[submodule "vim/plugged/deoplete.nvim"]
-	path = vim/plugged/deoplete.nvim
-	url = https://github.com/Shougo/deoplete.nvim
-[submodule "vim/plugged/vim-linux-coding-style"]
-	path = vim/plugged/vim-linux-coding-style
-	url = https://github.com/vivien/vim-linux-coding-style
 [submodule "tmux/plugins/tpm"]
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
@@ -34,18 +7,6 @@
 [submodule "z"]
 	path = z
 	url = https://github.com/rupa/z
-[submodule "vim/plugged/vim-mark"]
-	path = vim/plugged/vim-mark
-	url = https://github.com/mihais/vim-mark
-[submodule "vim/plugged/vim-lastplace"]
-	path = vim/plugged/vim-lastplace
-	url = https://github.com/farmergreg/vim-lastplace
-[submodule "vim/plugged/vim-sneak"]
-	path = vim/plugged/vim-sneak
-	url = https://github.com/justinmk/vim-sneak
-[submodule "vim/plugged/lightline.vim"]
-	path = vim/plugged/lightline.vim
-	url = https://github.com/itchyny/lightline.vim
 [submodule "fasd"]
 	path = fasd
 	url = https://github.com/clvv/fasd
