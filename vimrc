@@ -469,10 +469,10 @@ let g:gitgutter_eager = 0
 """"""""""""""""""""""""""""""
 " => vim-grepper plugin
 """"""""""""""""""""""""""""""
-nnoremap <leader>gf :Grepper<cr>
-nnoremap <leader>gb :Grepper -buffers<cr>
-nnoremap <leader>gw :Grepper -buffers -cword -noprompt<cr>
-nnoremap <leader>gc :Grepper -dir file<cr>
+nnoremap <leader>gf :Grepper -tool rg<cr>
+nnoremap <leader>gb :Grepper -tool rg -buffers<cr>
+nnoremap <leader>gw :Grepper -tool rg -buffers -cword -noprompt<cr>
+nnoremap <leader>gc :Grepper -tool rg -dir file<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
