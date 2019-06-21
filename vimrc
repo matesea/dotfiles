@@ -86,8 +86,10 @@ Plug 'altercation/vim-colors-solarized'
 " follow linux kernel coding style
 Plug 'vivien/vim-linux-coding-style', { 'for': 'c' }
 
+" vim tmux seamless navigator
 Plug 'christoomey/vim-tmux-navigator'
-
+" git wrapper
+Plug 'tpope/vim-fugitive'
 " completion system
 if s:nvim
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
