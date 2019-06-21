@@ -90,6 +90,9 @@ Plug 'vivien/vim-linux-coding-style', { 'for': 'c' }
 Plug 'christoomey/vim-tmux-navigator'
 " git wrapper
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+" undo
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " completion system
 if s:nvim
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -218,23 +221,25 @@ set nowb
 set noswapfile
 
 "Persistent undo
-try
-    " if has("win32")
-    "     set undodir=C:\Windows\Temp
-    if s:xdg_data
-        set undodir=$XDG_DATA_HOME/.vim/undo
-    else
-        set undodir=$HOME/.local/vim/undo
-    endif
-catch
-endtry
+if has("persistent_undo")
+    set undofile
+    try
+        " if has("win32")
+        "     set undodir=C:\Windows\Temp
+        if s:xdg_data
+            set undodir=$XDG_DATA_HOME/.vim/undo
+        else
+            set undodir=$HOME/.local/vim/undo
+        endif
+    catch
+    endtry
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax enable "Enable syntax hl
 
-set undofile
 " set undolevels=20
 " set undoreload=10000
 
@@ -531,6 +536,12 @@ nmap <leader>qt <Plug>window:quickfix:toggle
 " => vim-bbye plugin
 """"""""""""""""""""""""""""""
 nnoremap bd :Bdelete<cr>
+
+""""""""""""""""""""""""""""""
+" => undotree
+""""""""""""""""""""""""""""""
+let g:undotree_WindowLayout = 2
+nnoremap U :UndotreeToggle<cr>
 
 " import local config
 if s:xdg_config && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
