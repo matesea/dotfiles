@@ -90,6 +90,7 @@ Plug 'vivien/vim-linux-coding-style', { 'for': 'c' }
 Plug 'christoomey/vim-tmux-navigator'
 " git wrapper
 Plug 'tpope/vim-fugitive'
+" git commit browser
 Plug 'junegunn/gv.vim'
 " undo
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -99,7 +100,7 @@ if s:nvim
 else
     Plug 'Shougo/neocomplete.vim'
 endif
-
+Plug 'octol/vim-cpp-enhanced-highlight'
 call plug#end()
 
 filetype plugin indent on
