@@ -94,6 +94,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 " undo
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+" show search index
+Plug 'google/vim-searchindex'
 " completion system
 if s:nvim
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -474,11 +476,20 @@ hi link MBEVisibleActiveNormal  Constant
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
 let g:gitgutter_eager = 0
+" nnoremap <leader>gg :G
+" nnoremap <leader>g  :Git<space>
+nnoremap <leader>gs :Gstatus<CR>
+" nnoremap <leader>gd :Gdiff
+nnoremap <leader>gb :Gblame<CR>
+" nnoremap <leader>gw :Gbrowse<CR>
+" nnoremap <leader>gc :Gcommit %
+nnoremap <leader>gl :Glog<CR>
+" nnoremap <leader>gp :Gpush
 """"""""""""""""""""""""""""""
 " => vim-grepper plugin
 """"""""""""""""""""""""""""""
-nnoremap <leader>gf :Grepper -tool rg<cr>
-nnoremap <leader>gb :Grepper -tool rg -buffers<cr>
+" nnoremap <leader>gf :Grepper -tool rg<cr>
+nnoremap <leader>gf :Grepper -tool rg -buffers<cr>
 nnoremap <leader>gw :Grepper -tool rg -buffers -cword -noprompt<cr>
 nnoremap <leader>gc :Grepper -tool rg -dir file<cr>
 """"""""""""""""""""""""""""""
