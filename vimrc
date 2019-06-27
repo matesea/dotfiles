@@ -535,7 +535,7 @@ nnoremap <leader>fb :Buffers<cr>
 nnoremap <leader>fl :Lines<cr>
 " lines in the current buffer
 nnoremap <leader>bl :BLines<cr>
-" ag search results
+" rg search
 nnoremap <silent> <Leader>rw :Rg <C-R><C-W><CR>
 nnoremap <silent> <Leader>rg :Rg<space>
 " imap <c-x><c-l> <plug>(fzf-complete-line)
