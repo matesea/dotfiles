@@ -260,13 +260,6 @@ function gen_mk() {
         |sort > $folder/files/mk.files
 }
 
-# function gen_doc() {
-#     mkdir -p files
-#     find Documentation -type f \
-#         |${_gsed} -e 's#^\.\/##' \
-#         |sort -u > files/doc.files
-# }
-
 # list files whose content match pattern
 function idf() {
     local pattern=$1
@@ -472,7 +465,7 @@ if [ ! -z $__fasd ] && [ -x $__fasd ] ; then
     # fasd init faster with defined $fasd_cache
     if [ ! -z $fasd_cache ] ; then
         if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-          fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
+          fasd --init posix-alias bash-hook >| "$fasd_cache"
         fi
         source "$fasd_cache"
         unset fasd_cache
