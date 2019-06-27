@@ -62,7 +62,7 @@ Plug 'maxbrunsfeld/vim-yankstack'
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
 " help you win at grep
-Plug 'mhinz/vim-grepper'
+" Plug 'mhinz/vim-grepper'
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
 " delete buffers and close files in vim without closing windows or messing up layout
@@ -489,9 +489,9 @@ nnoremap <leader>gl :Glog<CR>
 " => vim-grepper plugin
 """"""""""""""""""""""""""""""
 " nnoremap <leader>gf :Grepper -tool rg<cr>
-nnoremap <leader>gf :Grepper -tool rg -buffers<cr>
-nnoremap <leader>gw :Grepper -tool rg -buffers -cword -noprompt<cr>
-nnoremap <leader>gc :Grepper -tool rg -dir file<cr>
+" nnoremap <leader>gf :Grepper -tool rg -buffers<cr>
+" nnoremap <leader>gw :Grepper -tool rg -buffers -cword -noprompt<cr>
+" nnoremap <leader>gc :Grepper -tool rg -dir file<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
@@ -527,16 +527,17 @@ let g:buftabline_show = 1
 nnoremap <leader>fe :FZF<cr>
 nnoremap <leader>fc :FZF %:h<cr>
 " git files
-nnoremap <leader>fg :GFiles<cr>
+" nnoremap <leader>fg :GFiles<cr>
 " open buffers
 nnoremap <leader>fb :Buffers<cr>
-nnoremap <leader>fh :History<cr>
+" nnoremap <leader>fh :History<cr>
 " lines in loaded buffer
 nnoremap <leader>fl :Lines<cr>
 " lines in the current buffer
 nnoremap <leader>bl :BLines<cr>
 " ag search results
-nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
+nnoremap <silent> <Leader>rw :Rg <C-R><C-W><CR>
+nnoremap <silent> <Leader>rg :Rg<space>
 " imap <c-x><c-l> <plug>(fzf-complete-line)
 
 """"""""""""""""""""""""""""""

@@ -7,15 +7,11 @@ fi
 alias ll='ls -l'
 alias la='ls -la'
 alias lh='ls -lh'
-alias sl='ls'
-alias LS='ls'
-alias SL='ls'
 
 alias tmux='tmux -2'
 alias recal='history |grep'
 alias grep='grep --color -i'
-alias ag='ag --path-to-ignore ~/dotfiles/ignore'
-alias rg='rg --ignore-file ~/dotfiles/ignore'
+# alias ag='ag --path-to-ignore ~/dotfiles/ignore'
 # alias v='f -e vim'
 unset command_not_found_handle
 
@@ -225,86 +221,6 @@ function gen_files() {
     rm -f $folder/files/${output}.old
 }
 
-# build file list of devicetree configurations
-function gen_dt() {
-    local folder=$1
-    if [ -z $folder ] ; then
-        folder=.
-    fi
-
-    if [ ! -d $folder/files ] ; then
-        mkdir $folder/files
-    fi
-
-    local _filter_folders="
-        -path $folder/out
-        -o -path $folder/build
-        -o -path $folder/cts
-        -o -path $folder/developers
-        -o -path $folder/development
-        -o -path $folder/files
-        -o -path $folder/kernel/out
-        -o -path $folder/ndk
-        -o -path $folder/pdk
-        -o -path $folder/platform_testing
-        -o -path $folder/prebuilt
-        -o -path $folder/prebuilts
-        -o -path $folder/sdk
-        -o -path $folder/test
-        -o -path $folder/toolchain
-        -o -path $folder/tools
-        -o -path '*/\.*'"
-
-    # find devicetree files
-    find -L $folder \
-        \( $_filter_folders \) -prune -o \( \
-        -name '*.dts' \
-        -o -name '*.dtsi' \
-        \) -a -type f -print 2>/dev/null \
-        |${_gsed} -e 's#^\.\/##' \
-        |sort > $folder/files/dt.files
-}
-
-# build file list of selinux configuration
-function gen_te() {
-    local folder=$1
-    if [ -z $folder ] ; then
-        folder=.
-    fi
-
-    if [ ! -d $folder/files ] ; then
-        mkdir $folder/files
-    fi
-
-    local _filter_folders="
-        -path $folder/out
-        -o -path $folder/build
-        -o -path $folder/cts
-        -o -path $folder/developers
-        -o -path $folder/development
-        -o -path $folder/files
-        -o -path $folder/kernel/out
-        -o -path $folder/ndk
-        -o -path $folder/pdk
-        -o -path $folder/platform_testing
-        -o -path $folder/prebuilt
-        -o -path $folder/prebuilts
-        -o -path $folder/sdk
-        -o -path $folder/test
-        -o -path $folder/toolchain
-        -o -path $folder/tools
-        -o -path '*/\.*'"
-
-    # find selinux configuration files
-    find -L $folder \
-        \( $_filter_folders \) -prune -o \( \
-        -name '*.te' \
-        -o -name 'file_contexts' \
-        \) -a -type f -print 2>/dev/null \
-        |${_gsed} -e 's#^\.\/##' \
-        |sort > $folder/files/te.files
-}
-
 # build file list of makefiles
 function gen_mk() {
     local folder=$1
@@ -344,12 +260,12 @@ function gen_mk() {
         |sort > $folder/files/mk.files
 }
 
-function gen_doc() {
-    mkdir -p files
-    find Documentation -type f \
-        |${_gsed} -e 's#^\.\/##' \
-        |sort -u > files/doc.files
-}
+# function gen_doc() {
+#     mkdir -p files
+#     find Documentation -type f \
+#         |${_gsed} -e 's#^\.\/##' \
+#         |sort -u > files/doc.files
+# }
 
 # list files whose content match pattern
 function idf() {
@@ -452,143 +368,6 @@ version1
         ${_searcher} -H $1 ${output}
     fi
 
-}
-
-# grep files
-# usage: __gf <leading strings of index files> [-s=<searcher>] <pattern>
-function __gf() {
-    local folder="$PWD"
-    local _searcher="ag"
-    local _index_begin="$1"
-
-    if [ -z ${_index_begin} ]; then
-        echo "need to specify index file(s)"
-        return 1;
-    fi
-    shift
-
-    if ! ls $folder/files/${_index_begin}*.files 1>/dev/null 2>&1; then
-        echo -ne "${FUNCNAME}: no index exists," \
-            "gen index first\n"
-        return 1;
-    fi
-
-    case "$1" in
-        -s=ag)
-            # ag is already the default searcher
-            shift
-            ;;
-        -s=grep)
-            _searcher="grep --color -i"
-            shift;
-            ;;
-    esac
-
-    # rollback to grep if ag not available
-    if [ "$_searcher" = "ag" ] && [! which ag 1>/dev/null 2>&1 ]; then
-        _searcher="grep --color -i"
-    fi
-
-    cat $folder/files/${_index_begin}*.files |tr '\n' '\0' \
-        |xargs -0 ${_searcher} "${@:1}"
-}
-
-function gf() {
-    __gf all "$@"
-}
-
-# grep make files
-function gmk() {
-    __gf mk "$@"
-}
-
-function gdoc() {
-    __gf doc "$@"
-}
-
-# find files
-function __ff() {
-    local folder="."
-    local args=""
-    local _index_begin=$1
-
-    shift
-
-    if [ -z $_index_begin ]; then
-        echo "need to specify index file(s)"
-        return 1;
-    fi
-
-    for i in ${@:1}
-    do
-        case "$i" in
-            -p=*)
-                folder=${i/-f=/}
-                ;;
-            -*)
-                args="$args $i"
-                ;;
-            *)
-                args="$args -e $i"
-                ;;
-        esac
-    done
-
-: << idutils_files
-    # TODO: generate cscope & ids in parallel
-    if ls $folder/files/*.ids 1>/dev/null 2>&1; then
-        for pattern in ${@:1}
-        do
-            for id in $folder/files/*.ids
-            do
-                fnid -f $id "*$pattern*"
-            done
-        done 2>/dev/null |sort -u |grep --color $args
-idutils_files
-
-    if  ls $folder/files/${_index_begin}*.files 1>/dev/null 2>&1; then
-        sort -u $folder/files/${_index_begin}*.files \
-            | grep --color $args 2>/dev/null
-    else
-        echo "${FUNCNAME}: no index found in $folder/files..."
-    fi
-}
-
-function ff() {
-    __ff all $@
-}
-
-function fdoc() {
-    __ff doc $@
-}
-
-# find makefiles
-function fmk() {
-    __ff mk $@
-}
-
-alias fkconfig='fmk kconfig'
-alias fandroid='fmk Android\.mk$'
-alias fmakefile='fmk Makefile$'
-
-alias gkconfig="fmk kconfig \
-    |tr '\n' '\0' \
-    |xargs -0"
-
-alias gdt="cat files/dt.files \
-    |tr '\n' '\0' \
-    |xargs -0"
-
-function fdt() {
-    if ! ls files/dt.files 1>/dev/null 2>&1; then
-        echo "${FUNCNAME}: gen_dt first"
-        return;
-    fi
-    if [ -z $1 ] ; then
-        cat files/dt.files
-    else
-        grep --color -i $1 files/dt.files
-    fi
 }
 
 function foreach_in() {
@@ -706,6 +485,10 @@ elif [ ! -z $__z ] && [ -x $__z ] ; then
     . $__z
 fi
 
+if [ -z ${dotfiles} ] ; then
+    dotfiles=${HOME}/dotfiles
+fi
+
 if [ ! ${OSTYPE} = 'cygwin' ] ; then
     # import fzf bash completion & key-bindings
     if [ ! -z $fzf_path ] ; then
@@ -727,21 +510,15 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
     if [ ! -z $__fzf ] && [ ! -z $__z ] ; then
         if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
             source ${dotfiles}/bash/z_fzf.sh
-        elif [ -f ~/dotfiles/bash/z_fzf.sh ]; then
-            source ~/dotfiles/bash/z_fzf.sh
         fi
     fi
     if [ ! -z $__fzf ] ; then
         if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf-extras/fzf-extras.sh ] ; then
             source ${dotfiles}/bash/fzf-extras/fzf-extras.sh
-        elif [ -f ~/dotfiles/bash/fzf-extras/fzf-extras.sh ]; then
-            source ~/dotfiles/bash/fzf-extras/fzf-extras.sh
         fi
 
         if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf.sh ] ; then
             source ${dotfiles}/bash/fzf.sh
-        elif [ -f ~/dotfiles/bash/fzf.sh ]; then
-            source ~/dotfiles/bash/fzf.sh
         fi
     fi
 
@@ -756,6 +533,12 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
     # unalias fasd zz and use _zz in fzf-extras instead
     unalias zz 2>/dev/null
     alias zz=_zz
+fi
+
+if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/ignore ] ; then
+    alias rg="rg --ignore-file ${dotfiles}/ignore --smart-case"
+else
+    alias rg="rg --smart-case"
 fi
 
 unset __z
