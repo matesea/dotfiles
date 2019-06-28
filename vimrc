@@ -27,7 +27,9 @@ Plug 'ap/vim-buftabline'
 " highlights trailing whitespace in red
 Plug 'bronson/vim-trailing-whitespace'
 " key mapping to connect cscope db
-Plug 'chazy/cscope_maps'
+" Plug 'chazy/cscope_maps'
+" Plug 'tranngocthachs/gtags-cscope-vim-plugin'
+Plug 'joereynolds/gtags-scope'
 " better diff options for vim
 Plug 'chrisbra/vim-diff-enhanced'
 " toggle quickfix window
@@ -376,8 +378,12 @@ nnoremap tt :TagbarToggle<cr>
 nnoremap cs :cscope<space>
 nnoremap cf :cscope find<space>
 nnoremap ca :cscope add<space>
-nnoremap caa :cscope add files/all.out<cr>
 " set cscopequickfix=s-,c-,d-,i-,t-,e-
+
+""""""""""""""""""""""""""""""
+" => gtags-cscope-vim plugin
+""""""""""""""""""""""""""""""
+let GtagsCscope_Auto_Map = 1
 
 """"""""""""""""""""""""""""""
 " => the silver searcher plugin
