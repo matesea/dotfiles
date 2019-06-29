@@ -26,8 +26,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-buftabline'
 " highlights trailing whitespace in red
 Plug 'bronson/vim-trailing-whitespace'
-" key mapping to connect cscope db
-" Plug 'chazy/cscope_maps'
 " Plug 'tranngocthachs/gtags-cscope-vim-plugin'
 Plug 'joereynolds/gtags-scope'
 " better diff options for vim
@@ -36,19 +34,16 @@ Plug 'chrisbra/vim-diff-enhanced'
 Plug 'drmingdrmer/vim-toggle-quickfix'
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
-" change the current working directory and to open files using fasd and NERDTree
-" Plug 'amiorin/ctrlp-z'
-" full path fuzzy file, buffer, mru, tag, ... finder for vim
-" Plug 'ctrlpvim/ctrlp.vim'
 " a command-line fuzzy finder written in Go
 Plug 'junegunn/fzf',    { 'do': './install --all' }
 " things you can do with fzf and vim
 Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/vim-easy-align'
 
 " syntax file to highlight various log files
 Plug 'dzeban/vim-log-syntax'
 " vim motion on speed
-" Plug 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
 " elegant buffer explorer'
@@ -56,7 +51,7 @@ Plug 'farmergreg/vim-lastplace'
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
 " jump to any location specified by two characters
-Plug 'justinmk/vim-sneak'
+" Plug 'justinmk/vim-sneak'
 " class outline viewer for vim
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " a lightweight implementation of emacs's kill-ring for vim
@@ -79,8 +74,6 @@ Plug 'tomasr/molokai'
 Plug 'tpope/vim-sensible'
 " solarized colorscheme
 Plug 'altercation/vim-colors-solarized'
-" lean & mean status/tabline for vim
-" Plug 'vim-airline/vim-airline'
 " edit large file quickly
 " Plug 'vim-scripts/LargeFile'
 " source code browser
@@ -273,8 +266,8 @@ set wrap "Wrap lines
 set updatetime=250 "for vim-gitgutter
 
 " toggle highlight search
-nmap <silent> <leader>h :setlocal hls!<cr>
-nmap <silent> <leader>w :setlocal wrap!<cr>
+nmap <silent> <leader>hl :setlocal hls!<cr>
+nmap <silent> <leader>wr :setlocal wrap!<cr>
 " nmap <silent> <leader>l :setlocal list!<cr>
 " nmap <silent> <leader>rn :setlocal relativenumber!<cr>
 
@@ -350,40 +343,30 @@ nnoremap <leader>u4 :cd ../../../..<cr>:pwd<cr>
 nnoremap <leader>u5 :cd ../../../../..<cr>:pwd<cr>
 
 """"""""""""""""""""""""""""""
-" => CtrlP plugin
-""""""""""""""""""""""""""""""
-" let g:ctrlp_map = '<c-p>'
-" let g:ctrlp_cmd = 'CtrlP'
-" let g:ctrlp_working_path_mode = 'c'
-" let g:ctrlp_default_input = 1
-" let g:ctrlp_lazy_update = 1
-" noremap sr :CtrlPRoot<cr>
-" nnoremap <leader>b :CtrlPBuffer<cr>
-
-""""""""""""""""""""""""""""""
-" CtrlP-Z
-""""""""""""""""""""""""""""""
-" let g:ctrlp_z_nerdtree = 1
-" let g:ctrlp_extensions = ['Z', 'F']
-" nnoremap <leader>z :CtrlPZ<cr>
-" nnoremap <leader>f :CtrlPF<cr>
-
-""""""""""""""""""""""""""""""
 " tagbar plugin
 """"""""""""""""""""""""""""""
 nnoremap tt :TagbarToggle<cr>
 """"""""""""""""""""""""""""""
 " => cscope plugin
 """"""""""""""""""""""""""""""
-nnoremap cs :cscope<space>
+" use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+set cscopetag
+" check cscope for definition of a symbol before checking ctags: set to 1
+" if you want the reverse search order.
+set csto=0
+" show msg when any other cscope db added
+set cscopeverbose
+
 nnoremap cf :cscope find<space>
-nnoremap ca :cscope add<space>
-" set cscopequickfix=s-,c-,d-,i-,t-,e-
+nnoremap cs :cs find s <C-R>=expand("<cword>")<CR><CR>
+nnoremap cg :cs find g <C-R>=expand("<cword>")<CR><CR>
+nnoremap cc :cs find c <C-R>=expand("<cword>")<CR><CR>
+" nnoremap ca :cscope add<space>
 
 """"""""""""""""""""""""""""""
 " => gtags-cscope-vim plugin
 """"""""""""""""""""""""""""""
-let GtagsCscope_Auto_Map = 1
+nnoremap <leader>gc :GtagsCscope<cr>
 
 """"""""""""""""""""""""""""""
 " => the silver searcher plugin
@@ -438,17 +421,14 @@ nmap <leader>nc :NERDTreeClose<cr>
 """"""""""""""""""""""""""""""
 " => yankstack plugin
 """"""""""""""""""""""""""""""
+" call yankstack#setup()
 nnoremap <leader>y :Yanks<cr>
-" let g:yankstack_map_keys = 0
-" nmap <c-p> <Plug>yankstack_substitute_older_paste
-" nmap <c-n> <Plug>yankstack_substitute_newer_paste
+let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
+let g:yankstack_map_keys = 0
+nmap <c-p> <Plug>yankstack_substitute_older_paste
+nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
 """"""""""""""""""""""""""""""
-" => airline plugin
-""""""""""""""""""""""""""""""
-" let g:airline_extensions = ['tabline']
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tagbar#enabled = 0
 
 if s:nvim
     """"""""""""""""""""""""""""""
@@ -469,15 +449,29 @@ endif
 " => easymotion plugin
 """"""""""""""""""""""""""""""
 " let g:EasyMotion_leader_key = ',,'
+let g:EasyMotion_do_mapping = 0
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap s <Plug>(easymotion-overwin-f)
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap S <Plug>(easymotion-overwin-f2)
+
+" Turn on case-insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 """"""""""""""""""""""""""""""
 " => MinibufExpl plugin
 """"""""""""""""""""""""""""""
 " let g:miniBufExplBuffersNeeded = 0
-let g:miniBufExplHideWhenDiff = 1
-let g:miniBufExplCycleArround = 1
-let g:miniBufExplShowBufNumbers = 1
+" let g:miniBufExplHideWhenDiff = 1
+" let g:miniBufExplCycleArround = 1
+" let g:miniBufExplShowBufNumbers = 1
 " MiniBufExpl Colors
-hi link MBEVisibleActiveNormal  Constant
+" hi link MBEVisibleActiveNormal  Constant
 """"""""""""""""""""""""""""""
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
@@ -507,13 +501,11 @@ nmap <leader>mc <Plug>MarkAllClear
 """"""""""""""""""""""""""""""
 " => vim-sneak plugin
 """"""""""""""""""""""""""""""
-let g:sneak#label = 1
-" calling yankstack#setup() here stops it from overriding the vim-sneak mapping
-call yankstack#setup()
-nmap s <Plug>Sneak_s
-nmap t <Plug>Sneak_S
-xmap s <Plug>Sneak_s
-xmap t <Plug>Sneak_S
+" let g:sneak#label = 1
+" nmap s <Plug>Sneak_s
+" nmap t <Plug>Sneak_S
+" xmap s <Plug>Sneak_s
+" xmap t <Plug>Sneak_S
 
 """"""""""""""""""""""""""""""
 " => vim-log-syntax plugin
@@ -561,6 +553,11 @@ nnoremap bd :Bdelete<cr>
 """"""""""""""""""""""""""""""
 let g:undotree_WindowLayout = 2
 nnoremap U :UndotreeToggle<cr>
+""""""""""""""""""""""""""""""
+" => easy-align
+""""""""""""""""""""""""""""""
+" xmap ga <Plug>(EasyAlign)
+" nmap ga <Plug>(EasyAlign)
 
 " import local config
 if s:xdg_config && filereadable($XDG_CONFIG_HOME."/.vimrc.local")

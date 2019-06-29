@@ -11,7 +11,6 @@ alias lh='ls -lh'
 alias tmux='tmux -2'
 alias recal='history |grep'
 alias grep='grep --color -i'
-# alias ag='ag --path-to-ignore ~/dotfiles/ignore'
 # alias v='f -e vim'
 unset command_not_found_handle
 
@@ -530,6 +529,7 @@ fi
 
 if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/ignore ] ; then
     alias rg="rg --ignore-file ${dotfiles}/ignore --smart-case"
+    alias ag="ag --path-to-ignore ${dotfiles}/ignore"
 else
     alias rg="rg --smart-case"
 fi

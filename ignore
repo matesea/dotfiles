@@ -1,2 +1,5 @@
 *.out
 *.files
+GTAGS
+GRTAGS
+GPATH
