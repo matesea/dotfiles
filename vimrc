@@ -39,15 +39,12 @@ Plug 'junegunn/fzf',    { 'do': './install --all' }
 " things you can do with fzf and vim
 Plug 'junegunn/fzf.vim'
 " Plug 'junegunn/vim-easy-align'
-
 " syntax file to highlight various log files
 Plug 'dzeban/vim-log-syntax'
 " vim motion on speed
 Plug 'easymotion/vim-easymotion'
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
-" elegant buffer explorer'
-" Plug 'fholgado/minibufexpl.vim'
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
 " jump to any location specified by two characters
@@ -237,19 +234,14 @@ endif
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax enable "Enable syntax hl
-
 " set undolevels=20
 " set undoreload=10000
 
 nnoremap gB :bp<cr>
 nnoremap gb :bn<cr>
-for i in range(0, 99)
+for i in range(0, 20)
     execute 'map <silent> '.i.'gb :b'.i.'<cr>'
 endfor
-" inoremap jk <esc>
-" xnoremap jk <esc>
-" cnoremap jk <C-c>
-" inoremap <esc> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -268,38 +260,10 @@ set updatetime=250 "for vim-gitgutter
 " toggle highlight search
 nmap <silent> <leader>hl :setlocal hls!<cr>
 nmap <silent> <leader>wr :setlocal wrap!<cr>
-" nmap <silent> <leader>l :setlocal list!<cr>
-" nmap <silent> <leader>rn :setlocal relativenumber!<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" " Close the current buffer
-" nnoremap bd :Bclose<cr>
-"
-" " Close all the buffers
-" " nnoremap <leader>ba :1,300 bd!<cr>
-"
-" command! Bclose call <SID>BufcloseCloseIt()
-" function! <SID>BufcloseCloseIt()
-"     let l:currentBufNum = bufnr("%")
-"     let l:alternateBufNum = bufnr("#")
-"
-"     if buflisted(l:alternateBufNum)
-"         buffer #
-"     else
-"         bnext
-"     endif
-"
-"     if bufnr("%") == l:currentBufNum
-"         new
-"     endif
-"
-"     if buflisted(l:currentBufNum)
-"         execute("bdelete! ".l:currentBufNum)
-"     endif
-" endfunction
-"
 " Specify the behavior when switching between buffers
 try
     set switchbuf=usetab
@@ -349,29 +313,32 @@ nnoremap tt :TagbarToggle<cr>
 """"""""""""""""""""""""""""""
 " => cscope plugin
 """"""""""""""""""""""""""""""
-" use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-set cscopetag
-" check cscope for definition of a symbol before checking ctags: set to 1
-" if you want the reverse search order.
-set csto=0
-" show msg when any other cscope db added
-set cscopeverbose
-
-nnoremap cf :cscope find<space>
-nnoremap cs :cs find s <C-R>=expand("<cword>")<CR><CR>
-nnoremap cg :cs find g <C-R>=expand("<cword>")<CR><CR>
-nnoremap cc :cs find c <C-R>=expand("<cword>")<CR><CR>
-" nnoremap ca :cscope add<space>
-
+if has("cscope")
+    " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+    set cscopetag
+    " check cscope for definition of a symbol before checking ctags: set to 1
+    " if you want the reverse search order.
+    set csto=0
+    " show msg when any other cscope db added
+    set cscopeverbose
+    nnoremap cf :cscope find<space>
+    nnoremap cs :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nnoremap cg :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nnoremap cc :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nnoremap ca :cscope add<space>
+endif
 """"""""""""""""""""""""""""""
 " => gtags-cscope-vim plugin
 """"""""""""""""""""""""""""""
 nnoremap <leader>gc :GtagsCscope<cr>
 
 """"""""""""""""""""""""""""""
-" => the silver searcher plugin
+" => vimgrep
 """"""""""""""""""""""""""""""
-if executable('ag')
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+elseif executable('ag')
     " use ag over grep
     set grepprg=ag\ --nogroup\ --nocolor
     " use ag in CtrlP for listing file
@@ -389,10 +356,6 @@ else
     "     let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
     " endif
 endif
-
-" => taglist plugin
-" nmap <silent> <leader>tl :TlistToggle<cr>
-
 """"""""""""""""""""""""""""""
 " => nerdtree
 " view directory content
@@ -401,23 +364,6 @@ let g:NERDTreeChDirMode=0
 let g:NERDTreeWinPos=0
 nmap <leader>nt :NERDTree %:p:h<cr>
 nmap <leader>nc :NERDTreeClose<cr>
-
-""""""""""""""""""""""""""""""
-" => YankRing plugin
-""""""""""""""""""""""""""""""
-" if has("unix")
-"     let g:yankring_history_dir = '~/.vim/'
-"     let g:fuf_dataDir = '~/.vim-fuf-data'
-" else
-"     let g:yankring_history_dir = '$VIM'
-"     let g:fuf_dataDir = '$VIM/.vim-fuf-data'
-" endif
-" let g:yankring_replace_n_pkey = '<c-l>'
-" let g:yankring_replace_n_nkey = '<c-.>'
-" let g:yankring_max_history = 200
-" let g:yankring_clipboard_monitor=0
-" nnoremap <leader>y     :YRShow<cr>
-
 """"""""""""""""""""""""""""""
 " => yankstack plugin
 """"""""""""""""""""""""""""""
@@ -455,23 +401,12 @@ let g:EasyMotion_do_mapping = 0
 nmap s <Plug>(easymotion-overwin-f)
 " `s{char}{char}{label}`
 " Need one more keystroke, but on average, it may be more comfortable.
-nmap S <Plug>(easymotion-overwin-f2)
-
+nmap ss <Plug>(easymotion-overwin-f2)
 " Turn on case-insensitive feature
 let g:EasyMotion_smartcase = 1
-
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
-""""""""""""""""""""""""""""""
-" => MinibufExpl plugin
-""""""""""""""""""""""""""""""
-" let g:miniBufExplBuffersNeeded = 0
-" let g:miniBufExplHideWhenDiff = 1
-" let g:miniBufExplCycleArround = 1
-" let g:miniBufExplShowBufNumbers = 1
-" MiniBufExpl Colors
-" hi link MBEVisibleActiveNormal  Constant
 """"""""""""""""""""""""""""""
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
