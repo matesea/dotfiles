@@ -422,7 +422,6 @@ nnoremap <leader>g :Grepper -tool rg<cr>
 nnoremap <leader>G :Grepper -tool git<cr>
 nnoremap <leader>gb :Grepper -tool rg -buffers<cr>
 nnoremap <leader>gw :Grepper -tool rg -buffers -cword -noprompt<cr>
-nnoremap <leader>gc :Grepper -tool rg -dir file<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
