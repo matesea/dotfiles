@@ -56,13 +56,13 @@ Plug 'maxbrunsfeld/vim-yankstack'
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
 " help you win at grep
-" Plug 'mhinz/vim-grepper'
+Plug 'mhinz/vim-grepper', { 'on': 'Grepper' }
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
 " delete buffers and close files in vim without closing windows or messing up layout
 Plug 'moll/vim-bbye'
 " tree explorer plugin
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTree' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " integrate with fzy or picker into vim
 " Plug 'srstevenson/vim-picker'
 " molokai theme
@@ -359,10 +359,7 @@ endif
 " => nerdtree
 " view directory content
 """"""""""""""""""""""""""""""
-let g:NERDTreeChDirMode=0
-let g:NERDTreeWinPos=0
-nmap <leader>nt :NERDTree %:p:h<cr>
-nmap <leader>nc :NERDTreeClose<cr>
+nmap <leader>nt :NERDTreeToggle<cr>
 """"""""""""""""""""""""""""""
 " => yankstack plugin
 """"""""""""""""""""""""""""""
@@ -413,18 +410,19 @@ let g:gitgutter_eager = 0
 " nnoremap <leader>g  :Git<space>
 nnoremap <leader>gs :Gstatus<CR>
 " nnoremap <leader>gd :Gdiff
-nnoremap <leader>gb :Gblame<CR>
+" nnoremap <leader>gb :Gblame<CR>
 " nnoremap <leader>gw :Gbrowse<CR>
 " nnoremap <leader>gc :Gcommit %
-nnoremap <leader>gl :Glog<CR>
+" nnoremap <leader>gl :Glog<CR>
 " nnoremap <leader>gp :Gpush
 """"""""""""""""""""""""""""""
 " => vim-grepper plugin
 """"""""""""""""""""""""""""""
-" nnoremap <leader>gf :Grepper -tool rg<cr>
-" nnoremap <leader>gf :Grepper -tool rg -buffers<cr>
-" nnoremap <leader>gw :Grepper -tool rg -buffers -cword -noprompt<cr>
-" nnoremap <leader>gc :Grepper -tool rg -dir file<cr>
+nnoremap <leader>g :Grepper -tool rg<cr>
+nnoremap <leader>G :Grepper -tool git<cr>
+nnoremap <leader>gb :Grepper -tool rg -buffers<cr>
+nnoremap <leader>gw :Grepper -tool rg -buffers -cword -noprompt<cr>
+nnoremap <leader>gc :Grepper -tool rg -dir file<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
