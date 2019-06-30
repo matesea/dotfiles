@@ -291,14 +291,13 @@ noremap j gj
 noremap k gk
 nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
 nnoremap <leader>v :%v//d<left><left>
-nnoremap <leader>e  :e<space>
+" nnoremap <leader>e  :e<space>
 " to reload current file
 nnoremap <leader>R :edit!<cr>
 
 """"""""""""""""""""""""""""""
 " => directory traverse
 """"""""""""""""""""""""""""""
-nnoremap <leader>pwd :pwd<cr>
 nnoremap <leader>cd :cd<space>
 nnoremap <leader>u :cd ..<cr>:pwd<cr>
 nnoremap <leader>u2 :cd ../..<cr>:pwd<cr>
@@ -373,7 +372,6 @@ let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
 let g:yankstack_map_keys = 0
 nmap <c-p> <Plug>yankstack_substitute_older_paste
 nmap <c-n> <Plug>yankstack_substitute_newer_paste
-
 """"""""""""""""""""""""""""""
 
 if s:nvim
@@ -430,8 +428,8 @@ nnoremap <leader>gl :Glog<CR>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
-nmap <leader>mt <Plug>MarkToggle
-nmap <leader>mc <Plug>MarkAllClear
+nmap mt <Plug>MarkToggle
+nmap mc <Plug>MarkAllClear
 
 """"""""""""""""""""""""""""""
 " => vim-sneak plugin
@@ -457,26 +455,26 @@ let g:buftabline_show = 1
 """"""""""""""""""""""""""""""
 " => fzf plugin
 """"""""""""""""""""""""""""""
-nnoremap <leader>fe :FZF<cr>
-nnoremap <leader>fc :FZF %:h<cr>
+nnoremap fe :FZF<cr>
+nnoremap fc :FZF %:h<cr>
 " git files
 " nnoremap <leader>fg :GFiles<cr>
 " open buffers
-nnoremap <leader>fb :Buffers<cr>
+nnoremap fb :Buffers<cr>
 " nnoremap <leader>fh :History<cr>
 " lines in loaded buffer
-nnoremap <leader>fl :Lines<cr>
+nnoremap fl :Lines<cr>
 " lines in the current buffer
-nnoremap <leader>bl :BLines<cr>
+nnoremap bl :BLines<cr>
 " rg search
-nnoremap <silent> <Leader>rw :Rg <C-R><C-W><CR>
-nnoremap <silent> <Leader>rg :Rg<space>
+nnoremap <silent> rw :Rg <C-R><C-W><CR>
+nnoremap <silent> rg :Rg<space>
 " imap <c-x><c-l> <plug>(fzf-complete-line)
 
 """"""""""""""""""""""""""""""
 " => vim-toggle-quickfix plugin
 """"""""""""""""""""""""""""""
-nmap <leader>qt <Plug>window:quickfix:toggle
+nmap qt <Plug>window:quickfix:toggle
 
 """"""""""""""""""""""""""""""
 " => vim-bbye plugin
