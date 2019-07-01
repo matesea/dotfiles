@@ -325,11 +325,11 @@ if has("cscope")
     nnoremap cg :cs find g <C-R>=expand("<cword>")<CR><CR>
     nnoremap cc :cs find c <C-R>=expand("<cword>")<CR><CR>
     nnoremap ca :cscope add<space>
+    """"""""""""""""""""""""""""""
+    " => gtags-cscope-vim plugin
+    """"""""""""""""""""""""""""""
+    nnoremap cl :GtagsCscope<cr>
 endif
-""""""""""""""""""""""""""""""
-" => gtags-cscope-vim plugin
-""""""""""""""""""""""""""""""
-nnoremap <leader>gc :GtagsCscope<cr>
 
 """"""""""""""""""""""""""""""
 " => vimgrep
@@ -420,8 +420,9 @@ nnoremap <leader>gs :Gstatus<CR>
 """"""""""""""""""""""""""""""
 nnoremap <leader>g :Grepper -tool rg<cr>
 nnoremap <leader>G :Grepper -tool git<cr>
-nnoremap <leader>gb :Grepper -tool rg -buffers<cr>
-nnoremap <leader>gw :Grepper -tool rg -buffers -cword -noprompt<cr>
+nnoremap <leader>gb :Grepper -tool rg -buffer<cr>
+nnoremap <leader>gw :Grepper -tool rg -buffer -cword -noprompt<cr>
+nnoremap <leader>gc :Grepper -tool rg -dir file -cword -noprompt<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""

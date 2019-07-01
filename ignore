@@ -1,4 +1,6 @@
 *.out
+*.out.in
+*.out.po
 *.files
 GTAGS
 GRTAGS
