@@ -47,8 +47,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'farmergreg/vim-lastplace'
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
-" jump to any location specified by two characters
-" Plug 'justinmk/vim-sneak'
 " class outline viewer for vim
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " a lightweight implementation of emacs's kill-ring for vim
@@ -56,7 +54,7 @@ Plug 'maxbrunsfeld/vim-yankstack'
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
 " help you win at grep
-Plug 'mhinz/vim-grepper', { 'on': 'Grepper' }
+" Plug 'mhinz/vim-grepper', { 'on': 'Grepper' }
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
 " delete buffers and close files in vim without closing windows or messing up layout
@@ -338,22 +336,10 @@ if executable('rg')
     set grepprg=rg\ --vimgrep\ --no-heading
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 elseif executable('ag')
-    " use ag over grep
     set grepprg=ag\ --nogroup\ --nocolor
-    " use ag in CtrlP for listing file
-    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    " ag is fast enough that CtrlP doesn't need to cache
-    " let g:ctrlp_use_caching = 0
     set grepformat=%f:%1:%c%m
 else
     set grepprg=grep\ -nH
-    " let g:ctrlp_user_command = 'find %s -type f'
-    " let g:ctrlp_use_caching = 1
-    " if exists("$XDG_DATA_HOME")
-    "     let g:ctrlp_cache_dir = $XDG_DATA_HOME.'/.vim/ctrlp/'
-    " else
-    "     let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp/'
-    " endif
 endif
 """"""""""""""""""""""""""""""
 " => nerdtree
@@ -418,25 +404,16 @@ nnoremap <leader>gs :Gstatus<CR>
 """"""""""""""""""""""""""""""
 " => vim-grepper plugin
 """"""""""""""""""""""""""""""
-nnoremap <leader>g :Grepper -tool rg<cr>
-nnoremap <leader>G :Grepper -tool git<cr>
-nnoremap <leader>gb :Grepper -tool rg -buffer<cr>
-nnoremap <leader>gw :Grepper -tool rg -buffer -cword -noprompt<cr>
-nnoremap <leader>gc :Grepper -tool rg -dir file -cword -noprompt<cr>
+" nnoremap <leader>g :Grepper -tool rg<cr>
+" nnoremap <leader>G :Grepper -tool git<cr>
+" nnoremap <leader>gb :Grepper -tool rg -buffer<cr>
+" nnoremap <leader>gw :Grepper -tool rg -buffer -cword -noprompt<cr>
+" nnoremap <leader>gc :Grepper -tool rg -dir file -cword -noprompt<cr>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
 nmap mt <Plug>MarkToggle
 nmap mc <Plug>MarkAllClear
-
-""""""""""""""""""""""""""""""
-" => vim-sneak plugin
-""""""""""""""""""""""""""""""
-" let g:sneak#label = 1
-" nmap s <Plug>Sneak_s
-" nmap t <Plug>Sneak_S
-" xmap s <Plug>Sneak_s
-" xmap t <Plug>Sneak_S
 
 """"""""""""""""""""""""""""""
 " => vim-log-syntax plugin
@@ -465,6 +442,9 @@ nnoremap fl :Lines<cr>
 " lines in the current buffer
 nnoremap bl :BLines<cr>
 " rg search
+" TODO: to populate rg results into quickfix,
+" by default fzf.vim use alt-a/alt-d to select and deselect all
+" but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
 nnoremap <silent> rw :Rg <C-R><C-W><CR>
 nnoremap <silent> rg :Rg<space>
 " imap <c-x><c-l> <plug>(fzf-complete-line)
