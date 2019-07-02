@@ -93,6 +93,7 @@ else
     Plug 'Shougo/neocomplete.vim'
 endif
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'mileszs/ack.vim'
 call plug#end()
 
 filetype plugin indent on
@@ -333,9 +334,13 @@ endif
 " => vimgrep
 """"""""""""""""""""""""""""""
 if executable('rg')
+    " for ack.vim
+    let g:ackprg = "rg --vimgrep --no-heading"
     set grepprg=rg\ --vimgrep\ --no-heading
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 elseif executable('ag')
+    " for ack.vim
+    let g:ackprg = "ag --vimgrep"
     set grepprg=ag\ --nogroup\ --nocolor
     set grepformat=%f:%1:%c%m
 else
@@ -440,7 +445,7 @@ nnoremap fb :Buffers<cr>
 " lines in loaded buffer
 nnoremap fl :Lines<cr>
 " lines in the current buffer
-nnoremap bl :BLines<cr>
+" nnoremap bl :BLines<cr>
 " rg search
 " TODO: to populate rg results into quickfix,
 " by default fzf.vim use alt-a/alt-d to select and deselect all
@@ -453,6 +458,8 @@ command! -bang -nargs=* Rgc  call fzf#vim#grep
 nnoremap rw :Rg <c-r><c-w><cr>
 nnoremap rg :Rg<space>
 nnoremap rc :Rgc <c-r><c-w><cr>
+nnoremap rf :AckWindow!<space>
+nnoremap ra :AckAdd  %:p<left><left><left><left>
 
 """"""""""""""""""""""""""""""
 " => vim-toggle-quickfix plugin
