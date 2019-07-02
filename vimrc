@@ -290,7 +290,8 @@ noremap j gj
 noremap k gk
 nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
 nnoremap <leader>v :%v//d<left><left>
-" nnoremap <leader>e  :e<space>
+" new buffer without name
+nnoremap <leader>e  :enew<cr>
 " to reload current file
 nnoremap <leader>R :edit!<cr>
 
@@ -335,7 +336,7 @@ endif
 """"""""""""""""""""""""""""""
 if executable('rg')
     " for ack.vim
-    let g:ackprg = "rg --vimgrep --no-heading"
+    let g:ackprg = "rg -S --vimgrep --no-heading"
     set grepprg=rg\ --vimgrep\ --no-heading
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 elseif executable('ag')
@@ -442,29 +443,37 @@ nnoremap fc :FZF %:h<cr>
 " open buffers
 nnoremap fb :Buffers<cr>
 " nnoremap <leader>fh :History<cr>
-" lines in loaded buffer
-nnoremap fl :Lines<cr>
+" lines in loaded buffers
+nnoremap fa :Lines<cr>
 " lines in the current buffer
-" nnoremap bl :BLines<cr>
+nnoremap fl :BLines<cr>
 " rg search
 " TODO: to populate rg results into quickfix,
 " by default fzf.vim use alt-a/alt-d to select and deselect all
 " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
 
 " Rg the folder of current editing file
-command! -bang -nargs=* Rgc  call fzf#vim#grep
+command! -bang -nargs=* Rc  call fzf#vim#grep
     \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, {'dir': expand('%:h:p')}, <bang>0)
 
 nnoremap rw :Rg <c-r><c-w><cr>
 nnoremap rg :Rg<space>
-nnoremap rc :Rgc <c-r><c-w><cr>
-nnoremap rf :AckWindow!<space>
-nnoremap ra :AckAdd  %:p<left><left><left><left>
+nnoremap rc :Rc <c-r><c-w><cr>
+
+nnoremap af :LAckAdd!  %:p<left><left><left><left>
+nnoremap ad :LAckAdd!  %:h<left><left><left><left>
+nnoremap aw :LAckAdd! <c-r><c-w> %:p<cr>
+nnoremap ac :LAckAdd! <c-r><c-w> %:h<cr>
 
 """"""""""""""""""""""""""""""
 " => vim-toggle-quickfix plugin
 """"""""""""""""""""""""""""""
 nmap qt <Plug>window:quickfix:toggle
+nmap lt <Plug>window:location:toggle
+" clear quickfix
+nmap qc :cexpr []<cr>
+" clear location list
+nmap lc :lexpr []<cr>
 
 """"""""""""""""""""""""""""""
 " => vim-bbye plugin
