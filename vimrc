@@ -445,9 +445,14 @@ nnoremap bl :BLines<cr>
 " TODO: to populate rg results into quickfix,
 " by default fzf.vim use alt-a/alt-d to select and deselect all
 " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
-nnoremap <silent> rw :Rg <C-R><C-W><CR>
-nnoremap <silent> rg :Rg<space>
-" imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" Rg the folder of current editing file
+command! -bang -nargs=* Rgc  call fzf#vim#grep
+    \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, {'dir': expand('%:h:p')}, <bang>0)
+
+nnoremap rw :Rg <c-r><c-w><cr>
+nnoremap rg :Rg<space>
+nnoremap rc :Rgc <c-r><c-w><cr>
 
 """"""""""""""""""""""""""""""
 " => vim-toggle-quickfix plugin
