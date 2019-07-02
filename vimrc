@@ -460,6 +460,10 @@ nnoremap rw :Rg <c-r><c-w><cr>
 nnoremap rg :Rg<space>
 nnoremap rc :Rc <c-r><c-w><cr>
 
+""""""""""""""""""""""""""""""
+" => ack.vim
+""""""""""""""""""""""""""""""
+let g:ackhighlight = 1
 nnoremap af :LAckAdd!  %:p<left><left><left><left>
 nnoremap ad :LAckAdd!  %:h<left><left><left><left>
 nnoremap aw :LAckAdd! <c-r><c-w> %:p<cr>
