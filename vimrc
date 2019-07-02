@@ -392,8 +392,8 @@ nmap ss <Plug>(easymotion-overwin-f2)
 " Turn on case-insensitive feature
 let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
+map gj <Plug>(easymotion-j)
+map gk <Plug>(easymotion-k)
 """"""""""""""""""""""""""""""
 " => vim-gitgutter plugin
 """"""""""""""""""""""""""""""
