@@ -294,6 +294,10 @@ nnoremap <leader>v :%v//d<left><left>
 nnoremap <leader>e  :enew<cr>
 " to reload current file
 nnoremap <leader>R :edit!<cr>
+" jk | Escaping!
+inoremap jk <Esc>
+xnoremap jk <Esc>
+cnoremap jk <C-c>
 
 """"""""""""""""""""""""""""""
 " => directory traverse
