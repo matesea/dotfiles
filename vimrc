@@ -337,11 +337,20 @@ endif
 " => vimgrep
 """"""""""""""""""""""""""""""
 if executable('rg')
+    " Rc: grep the folder of current editing file
+    command! -bang -nargs=* Rc  call fzf#vim#grep
+        \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
+        \1, {'dir': expand('%:h:p')}, <bang>0)
+
     " for ack.vim
     let g:ackprg = "rg -S --vimgrep --no-heading"
     set grepprg=rg\ --vimgrep\ --no-heading
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 elseif executable('ag')
+    " Rc: grep the folder of current editing file
+    command! -bang -nargs=* Rc  call fzf#vim#grep
+        \('ag --column --noheading --color --smart-case '.shellescape(<q-args>),
+        \1, {'dir': expand('%:h:p')}, <bang>0)
     " for ack.vim
     let g:ackprg = "ag --vimgrep"
     set grepprg=ag\ --nogroup\ --nocolor
@@ -453,10 +462,6 @@ nnoremap fl :BLines<cr>
 " TODO: to populate rg results into quickfix,
 " by default fzf.vim use alt-a/alt-d to select and deselect all
 " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
-
-" Rg the folder of current editing file
-command! -bang -nargs=* Rc  call fzf#vim#grep
-    \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, {'dir': expand('%:h:p')}, <bang>0)
 
 nnoremap rw :Rg <c-r><c-w><cr>
 nnoremap rg :Rg<space>
