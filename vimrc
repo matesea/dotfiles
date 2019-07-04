@@ -289,15 +289,13 @@ set foldlevel=100
 noremap j gj
 noremap k gk
 nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
-nnoremap <leader>v :%v//d<left><left>
+nnoremap <leader>v  :%v//d<left><left>
 " new buffer without name
 nnoremap <leader>e  :enew<cr>
 " to reload current file
-nnoremap <leader>R :edit!<cr>
-" jk | Escaping!
-inoremap jk <Esc>
-xnoremap jk <Esc>
-cnoremap jk <C-c>
+nnoremap <leader>R  :edit!<cr>
+nnoremap <leader>q  :q<cr>
+nnoremap <leader>Q  :qa!<cr>
 
 """"""""""""""""""""""""""""""
 " => directory traverse
