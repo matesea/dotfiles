@@ -307,6 +307,13 @@ nnoremap <leader>u3 :cd ../../..<cr>:pwd<cr>
 nnoremap <leader>u4 :cd ../../../..<cr>:pwd<cr>
 nnoremap <leader>u5 :cd ../../../../..<cr>:pwd<cr>
 
+" execute command and put the results into new buffer
+" #: alternative file name, % for current file name
+" check https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
+" ex: find pattern in current file :R rg <pattern> #
+command! -nargs=* -complete=shellcmd R new | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
+nnoremap rs :R<space>
+
 """"""""""""""""""""""""""""""
 " tagbar plugin
 """"""""""""""""""""""""""""""
