@@ -26,7 +26,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-buftabline'
 " highlights trailing whitespace in red
 Plug 'bronson/vim-trailing-whitespace'
-" Plug 'tranngocthachs/gtags-cscope-vim-plugin'
 Plug 'joereynolds/gtags-scope'
 " better diff options for vim
 Plug 'chrisbra/vim-diff-enhanced'
@@ -53,8 +52,6 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'maxbrunsfeld/vim-yankstack'
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
-" help you win at grep
-" Plug 'mhinz/vim-grepper', { 'on': 'Grepper' }
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
 " delete buffers and close files in vim without closing windows or messing up layout
@@ -69,13 +66,8 @@ Plug 'tomasr/molokai'
 Plug 'tpope/vim-sensible'
 " solarized colorscheme
 Plug 'altercation/vim-colors-solarized'
-" edit large file quickly
-" Plug 'vim-scripts/LargeFile'
-" source code browser
-" Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
 " follow linux kernel coding style
 Plug 'vivien/vim-linux-coding-style', { 'for': 'c' }
-
 " vim tmux seamless navigator
 Plug 'christoomey/vim-tmux-navigator'
 " git wrapper
@@ -278,6 +270,9 @@ endtry
 " traverse quickfix
 nnoremap gc :cnext<cr>
 nnoremap gC :cprev<cr>
+" traverse location list
+nnoremap gl :lnext<cr>
+nnoremap gL :lprev<cr>
 
 nnoremap ts :tselect<cr>
 nnoremap gt :tnext<cr>
@@ -288,8 +283,8 @@ set foldlevel=100
 " fast file traverse
 noremap j gj
 noremap k gk
-nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
-nnoremap <leader>v  :%v//d<left><left>
+" nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
+" nnoremap <leader>v  :%v//d<left><left>
 " new buffer without name
 nnoremap <leader>e  :enew<cr>
 " to reload current file
@@ -300,12 +295,12 @@ nnoremap <leader>Q  :qa!<cr>
 """"""""""""""""""""""""""""""
 " => directory traverse
 """"""""""""""""""""""""""""""
-nnoremap <leader>cd :cd<space>
-nnoremap <leader>u :cd ..<cr>:pwd<cr>
-nnoremap <leader>u2 :cd ../..<cr>:pwd<cr>
-nnoremap <leader>u3 :cd ../../..<cr>:pwd<cr>
-nnoremap <leader>u4 :cd ../../../..<cr>:pwd<cr>
-nnoremap <leader>u5 :cd ../../../../..<cr>:pwd<cr>
+" nnoremap <leader>cd :cd<space>
+" nnoremap <leader>u  :cd ..<cr>:pwd<cr>
+" nnoremap <leader>u2 :cd ../..<cr>:pwd<cr>
+" nnoremap <leader>u3 :cd ../../..<cr>:pwd<cr>
+" nnoremap <leader>u4 :cd ../../../..<cr>:pwd<cr>
+" nnoremap <leader>u5 :cd ../../../../..<cr>:pwd<cr>
 
 " execute command and put the results into new buffer
 " # alternative file name which is the last edit file, % for current file name
@@ -428,14 +423,6 @@ nnoremap <leader>gs :Gstatus<CR>
 " nnoremap <leader>gl :Glog<CR>
 " nnoremap <leader>gp :Gpush
 """"""""""""""""""""""""""""""
-" => vim-grepper plugin
-""""""""""""""""""""""""""""""
-" nnoremap <leader>g :Grepper -tool rg<cr>
-" nnoremap <leader>G :Grepper -tool git<cr>
-" nnoremap <leader>gb :Grepper -tool rg -buffer<cr>
-" nnoremap <leader>gw :Grepper -tool rg -buffer -cword -noprompt<cr>
-" nnoremap <leader>gc :Grepper -tool rg -dir file -cword -noprompt<cr>
-""""""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
 nmap mt <Plug>MarkToggle
@@ -499,6 +486,7 @@ nmap lc :lexpr []<cr>
 " => vim-bbye plugin
 """"""""""""""""""""""""""""""
 nnoremap bd :Bdelete!<cr>
+nnoremap bw :Bwipeout!<cr>
 
 """"""""""""""""""""""""""""""
 " => undotree
