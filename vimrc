@@ -81,7 +81,7 @@ Plug 'google/vim-searchindex'
 " completion system
 if s:nvim
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
+elseif has("lua")
     Plug 'Shougo/neocomplete.vim'
 endif
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -347,13 +347,13 @@ if executable('rg')
         \1, {'dir': expand('%:h:p')}, <bang>0)
 
     " for ack.vim
-    let g:ackprg = "rg -S --vimgrep --no-heading"
+    let g:ackprg = "rg -S --vimgrep --no-heading --no-column"
     set grepprg=rg\ --vimgrep\ --no-heading
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 elseif executable('ag')
     " Rc: grep the folder of current editing file
     command! -bang -nargs=* Rc  call fzf#vim#grep
-        \('ag --column --noheading --color --smart-case '.shellescape(<q-args>),
+        \('ag --noheading --color --smart-case '.shellescape(<q-args>),
         \1, {'dir': expand('%:h:p')}, <bang>0)
     " for ack.vim
     let g:ackprg = "ag --vimgrep"
@@ -384,7 +384,7 @@ if s:nvim
     """"""""""""""""""""""""""""""
     let g:acp_enableAtStartup = 0
     let g:deoplete#enable_at_startup = 1
-else
+elseif has("lua")
     """"""""""""""""""""""""""""""
     " => neocomplete plugin
     """"""""""""""""""""""""""""""
@@ -432,7 +432,7 @@ nmap mc <Plug>MarkAllClear
 " => vim-log-syntax plugin
 """"""""""""""""""""""""""""""
 " change filetype to log
-nnoremap <leader>l :setlocal filetype=log<cr>
+nnoremap tl :setlocal filetype=log<cr>
 
 """"""""""""""""""""""""""""""
 " => vim-buftabline
@@ -459,18 +459,21 @@ nnoremap fl :BLines<cr>
 " by default fzf.vim use alt-a/alt-d to select and deselect all
 " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
 
-nnoremap rw :Rg <c-r><c-w><cr>
-nnoremap rg :Rg<space>
-nnoremap rc :Rc <c-r><c-w><cr>
+nnoremap rg     :Rg<space>
+nnoremap rgw    :Rg <c-r><c-w><cr>
+nnoremap rc     :Rc<space>
+nnoremap rcw    :Rc <c-r><c-w><cr>
 
 """"""""""""""""""""""""""""""
 " => ack.vim
 """"""""""""""""""""""""""""""
 let g:ackhighlight = 1
-nnoremap af :LAckAdd!  %:p<left><left><left><left>
-nnoremap ad :LAckAdd!  %:h<left><left><left><left>
-nnoremap aw :LAckAdd! <c-r><c-w> %:p<cr>
-nnoremap ac :LAckAdd! <c-r><c-w> %:h<cr>
+nnoremap aa     :LAckAdd!<space>
+nnoremap aw     :LAckAdd! <c-r><c-w><cr>
+nnoremap af     :LAckAdd!  %:p<left><left><left><left>
+nnoremap afw    :LAckAdd! <c-r><c-w> %:p<cr>
+nnoremap ad     :LAckAdd!  %:h<left><left><left><left>
+nnoremap adw    :LAckAdd! <c-r><c-w> %:h<cr>
 
 """"""""""""""""""""""""""""""
 " => vim-toggle-quickfix plugin
