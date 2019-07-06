@@ -308,8 +308,10 @@ nnoremap <leader>u4 :cd ../../../..<cr>:pwd<cr>
 nnoremap <leader>u5 :cd ../../../../..<cr>:pwd<cr>
 
 " execute command and put the results into new buffer
-" #: alternative file name, % for current file name
+" # alternative file name which is the last edit file, % for current file name
+" they are readonly registers
 " check https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
+" or https://www.brianstorti.com/vim-registers/
 " ex: find pattern in current file :R rg <pattern> #
 command! -nargs=* -complete=shellcmd R new | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
 nnoremap rs :R<space>
@@ -496,7 +498,7 @@ nmap lc :lexpr []<cr>
 """"""""""""""""""""""""""""""
 " => vim-bbye plugin
 """"""""""""""""""""""""""""""
-nnoremap bd :Bdelete<cr>
+nnoremap bd :Bdelete!<cr>
 
 """"""""""""""""""""""""""""""
 " => undotree
