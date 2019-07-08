@@ -309,12 +309,11 @@ nnoremap <leader>Q  :qa!<cr>
 " or https://www.brianstorti.com/vim-registers/
 " ex: find pattern in current file :R rg <pattern> #
 command! -nargs=* -complete=shellcmd R new | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
-nnoremap rs :R<space>
 
 """"""""""""""""""""""""""""""
 " tagbar plugin
 """"""""""""""""""""""""""""""
-nnoremap tt :TagbarToggle<cr>
+nnoremap <leader>tt :TagbarToggle<cr>
 """"""""""""""""""""""""""""""
 " => cscope plugin
 """"""""""""""""""""""""""""""
@@ -326,15 +325,15 @@ if has("cscope")
     set csto=0
     " show msg when any other cscope db added
     set cscopeverbose
-    nnoremap cf :cscope find<space>
-    nnoremap cs :cs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap cg :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap cc :cs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap ca :cscope add<space>
+    nnoremap <leader>cf :cscope find<space>
+    nnoremap <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>ca :cscope add<space>
     """"""""""""""""""""""""""""""
     " => gtags-cscope-vim plugin
     """"""""""""""""""""""""""""""
-    nnoremap cl :GtagsCscope<cr>
+    nnoremap <leader>cl :GtagsCscope<cr>
 endif
 
 """"""""""""""""""""""""""""""
@@ -425,14 +424,14 @@ nnoremap <leader>gs :Gstatus<CR>
 """"""""""""""""""""""""""""""
 " => vim-mark plugin
 """"""""""""""""""""""""""""""
-nmap mt <Plug>MarkToggle
-nmap mc <Plug>MarkAllClear
+nmap <leader>M <Plug>MarkToggle
+nmap <leader>N <Plug>MarkAllClear
 
 """"""""""""""""""""""""""""""
 " => vim-log-syntax plugin
 """"""""""""""""""""""""""""""
 " change filetype to log
-nnoremap tl :setlocal filetype=log<cr>
+nnoremap <leader>l :setlocal filetype=log<cr>
 
 """"""""""""""""""""""""""""""
 " => vim-buftabline
@@ -443,47 +442,47 @@ let g:buftabline_show = 1
 """"""""""""""""""""""""""""""
 " => fzf plugin
 """"""""""""""""""""""""""""""
-nnoremap fe :FZF<cr>
-nnoremap fc :FZF %:h<cr>
+nnoremap <leader>fe :FZF<cr>
+nnoremap <leader>fc :FZF %:h<cr>
 " git files
 " nnoremap <leader>fg :GFiles<cr>
 " open buffers
-nnoremap fb :Buffers<cr>
+nnoremap <leader>fb :Buffers<cr>
 " nnoremap <leader>fh :History<cr>
 " lines in loaded buffers
-nnoremap fa :Lines<cr>
+nnoremap <leader>fa :Lines<cr>
 " lines in the current buffer
-nnoremap fl :BLines<cr>
+nnoremap <leader>fl :BLines<cr>
 " rg search
 " TODO: to populate rg results into quickfix,
 " by default fzf.vim use alt-a/alt-d to select and deselect all
 " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
 
-nnoremap rg     :Rg<space>
-nnoremap rgw    :Rg <c-r><c-w><cr>
-nnoremap rc     :Rc<space>
-nnoremap rcw    :Rc <c-r><c-w><cr>
+nnoremap <leader>rg     :Rg<space>
+nnoremap <leader>rgw    :Rg <c-r><c-w><cr>
+nnoremap <leader>rc     :Rc<space>
+nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
 
 """"""""""""""""""""""""""""""
 " => ack.vim
 """"""""""""""""""""""""""""""
 let g:ackhighlight = 1
-nnoremap aa     :LAckAdd!<space>
-nnoremap aw     :LAckAdd! <c-r><c-w><cr>
-nnoremap af     :LAckAdd!  %:p<left><left><left><left>
-nnoremap afw    :LAckAdd! <c-r><c-w> %:p<cr>
-nnoremap ad     :LAckAdd!  %:h<left><left><left><left>
-nnoremap adw    :LAckAdd! <c-r><c-w> %:h<cr>
+nnoremap <leader>aa     :LAckAdd!<space>
+nnoremap <leader>aw     :LAckAdd! <c-r><c-w><cr>
+nnoremap <leader>af     :LAckAdd!  %:p<left><left><left><left>
+nnoremap <leader>afw    :LAckAdd! <c-r><c-w> %:p<cr>
+nnoremap <leader>ad     :LAckAdd!  %:h<left><left><left><left>
+nnoremap <leader>adw    :LAckAdd! <c-r><c-w> %:h<cr>
 
 """"""""""""""""""""""""""""""
 " => vim-toggle-quickfix plugin
 """"""""""""""""""""""""""""""
-nmap qt <Plug>window:quickfix:toggle
-nmap lt <Plug>window:location:toggle
+nmap <leader>qt <Plug>window:quickfix:toggle
+nmap <leader>lt <Plug>window:location:toggle
 " clear quickfix
-nmap qc :cexpr []<cr>
+nmap <leader>qc :cexpr []<cr>
 " clear location list
-nmap lc :lexpr []<cr>
+nmap <leader>lc :lexpr []<cr>
 
 """"""""""""""""""""""""""""""
 " => vim-bbye plugin
