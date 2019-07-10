@@ -308,7 +308,9 @@ nnoremap <leader>Q  :qa!<cr>
 " check https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
 " or https://www.brianstorti.com/vim-registers/
 " ex: find pattern in current file :R rg <pattern> #
-command! -nargs=* -complete=shellcmd R new | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
+command! -nargs=* -complete=shellcmd R  enew | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
+command! -nargs=* -complete=shellcmd Rv vnew | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
+command! -nargs=* -complete=shellcmd Rh new  | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
 
 """"""""""""""""""""""""""""""
 " tagbar plugin
