@@ -79,7 +79,7 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " show search index
 Plug 'google/vim-searchindex'
 " completion system
-if s:nvim
+if s:nvim && has('nvim-0.3.0')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 elseif has("lua")
     Plug 'Shougo/neocomplete.vim'
