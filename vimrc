@@ -308,9 +308,6 @@ nnoremap <leader>Q  :qa!<cr>
 " check https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
 " or https://www.brianstorti.com/vim-registers/
 " ex: find pattern in current file :R rg <pattern> #
-command! -nargs=* -complete=shellcmd R  enew | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
-command! -nargs=* -complete=shellcmd Rv vnew | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
-command! -nargs=* -complete=shellcmd Rh new  | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
 
 """"""""""""""""""""""""""""""
 " tagbar plugin
@@ -349,7 +346,7 @@ if executable('rg')
 
     " for ack.vim
     let g:ackprg = "rg -S --vimgrep --no-heading --no-column"
-    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepprg=rg\ -S\ --vimgrep\ --no-heading\ --no-column
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 elseif executable('ag')
     " Rc: grep the folder of current editing file
@@ -358,11 +355,29 @@ elseif executable('ag')
         \1, {'dir': expand('%:h:p')}, <bang>0)
     " for ack.vim
     let g:ackprg = "ag --vimgrep"
-    set grepprg=ag\ --nogroup\ --nocolor
+    set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
     set grepformat=%f:%1:%c%m
 else
     set grepprg=grep\ -nH
 endif
+
+function! s:RunShellCommand(cmdline)
+  enew
+  setlocal buftype=nofile bufhidden=hide noswapfile
+  call setline(1, 'cmd:  ' . a:cmdline)
+  " call setline(2, 'Expanded to:  ' . a:cmdline)
+  " call append(line('$'), substitute(getline(0), '.', '=', 'g'))
+  silent execute '$read !'. a:cmdline
+endfunction
+
+command! -complete=shellcmd -nargs=+ R
+            \ call s:RunShellCommand("rg -S --vimgrep --no-heading --no-column ".<q-args>)
+
+" command! -nargs=* -complete=shellcmd R  enew |
+"             \setlocal buftype=nofile bufhidden=hide noswapfile |
+"             \r !<args>
+" command! -nargs=* -complete=shellcmd Rv vnew | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
+" command! -nargs=* -complete=shellcmd Rh new  | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
 """"""""""""""""""""""""""""""
 " => nerdtree
 " view directory content
