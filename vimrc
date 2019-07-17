@@ -361,7 +361,7 @@ elseif executable('ag')
     set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
     set grepformat=%f:%1:%c%m
     command! -complete=shellcmd -nargs=+ R
-                \ call s:RunShellCommand("ag --noheading --nogroup --color --smart-case ".<q-args>)
+                \ call s:RunShellCommand("ag --noheading --nogroup --nocolor --smart-case ".<q-args>)
 else
     set grepprg=grep\ -nH
 endif
