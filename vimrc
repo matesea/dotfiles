@@ -348,15 +348,20 @@ if executable('rg')
     let g:ackprg = "rg -S --vimgrep --no-heading --no-column"
     set grepprg=rg\ -S\ --vimgrep\ --no-heading\ --no-column
     set grepformat=%f:%l:%c:%m,%f:%l:%m
+    command! -complete=shellcmd -nargs=+ R
+                \ call s:RunShellCommand("rg -S --vimgrep --no-heading --no-column ".<q-args>)
+
 elseif executable('ag')
     " Rc: grep the folder of current editing file
     command! -bang -nargs=* Rc  call fzf#vim#grep
-        \('ag --noheading --color --smart-case '.shellescape(<q-args>),
+        \('ag --noheading --nogroup --color --smart-case '.shellescape(<q-args>),
         \1, {'dir': expand('%:h:p')}, <bang>0)
     " for ack.vim
     let g:ackprg = "ag --vimgrep"
     set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
     set grepformat=%f:%1:%c%m
+    command! -complete=shellcmd -nargs=+ R
+                \ call s:RunShellCommand("ag --noheading --nogroup --color --smart-case ".<q-args>)
 else
     set grepprg=grep\ -nH
 endif
@@ -369,9 +374,6 @@ function! s:RunShellCommand(cmdline)
   " call append(line('$'), substitute(getline(0), '.', '=', 'g'))
   silent execute '$read !'. a:cmdline
 endfunction
-
-command! -complete=shellcmd -nargs=+ R
-            \ call s:RunShellCommand("rg -S --vimgrep --no-heading --no-column ".<q-args>)
 
 " command! -nargs=* -complete=shellcmd R  enew |
 "             \setlocal buftype=nofile bufhidden=hide noswapfile |
