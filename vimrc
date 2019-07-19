@@ -87,6 +87,7 @@ endif
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
 Plug 'mtth/scratch.vim',    { 'on': ['Scratch', 'ScratchInsert'] }
+Plug 'justinmk/vim-gtfo'
 call plug#end()
 
 filetype plugin indent on
