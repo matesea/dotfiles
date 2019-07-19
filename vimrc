@@ -75,7 +75,7 @@ Plug 'tpope/vim-fugitive'
 " git commit browser
 Plug 'junegunn/gv.vim'
 " undo
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 " show search index
 Plug 'google/vim-searchindex'
 " completion system
@@ -85,7 +85,8 @@ elseif has("lua")
     Plug 'Shougo/neocomplete.vim'
 endif
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
+Plug 'mtth/scratch.vim',    { 'on': ['Scratch', 'ScratchInsert'] }
 call plug#end()
 
 filetype plugin indent on
