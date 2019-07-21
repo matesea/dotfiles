@@ -86,7 +86,7 @@ elseif has("lua")
 endif
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
-Plug 'mtth/scratch.vim',    { 'on': ['Scratch', 'ScratchInsert', 'ScratchSelection', 'ScratchPreview'] }
+Plug 'mtth/scratch.vim'
 Plug 'justinmk/vim-gtfo'
 call plug#end()
 
