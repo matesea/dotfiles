@@ -251,8 +251,8 @@ set wrap "Wrap lines
 set updatetime=250 "for vim-gitgutter
 
 " toggle highlight search
-nmap <silent> <leader>hl :setlocal hls!<cr>
-nmap <silent> <leader>wr :setlocal wrap!<cr>
+" nmap <silent> <leader>hl :setlocal hls!<cr>
+" nmap <silent> <leader>wr :setlocal wrap!<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs and buffers
@@ -288,7 +288,7 @@ noremap k gk
 " nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
 " nnoremap <leader>v  :%v//d<left><left>
 " new buffer without name
-nnoremap <leader>e  :enew<cr>
+" nnoremap <leader>e  :enew<cr>
 " to reload current file
 nnoremap <leader>R  :edit!<cr>
 nnoremap <leader>q  :q<cr>
@@ -435,7 +435,7 @@ map gk <Plug>(easymotion-k)
 let g:gitgutter_eager = 0
 " nnoremap <leader>gg :G
 " nnoremap <leader>g  :Git<space>
-nnoremap <leader>gs :Gstatus<CR>
+" nnoremap <leader>gs :Gstatus<CR>
 " nnoremap <leader>gd :Gdiff
 " nnoremap <leader>gb :Gblame<CR>
 " nnoremap <leader>gw :Gbrowse<CR>
@@ -498,12 +498,12 @@ nnoremap <leader>adw    :LAckAdd! <c-r><c-w> %:h<cr>
 """"""""""""""""""""""""""""""
 " => vim-toggle-quickfix plugin
 """"""""""""""""""""""""""""""
-nmap <leader>qt <Plug>window:quickfix:toggle
-nmap <leader>lt <Plug>window:location:toggle
+nmap qt <Plug>window:quickfix:toggle
+nmap lt <Plug>window:location:toggle
 " clear quickfix
-nmap <leader>qc :cexpr []<cr>
+nmap qc :cexpr []<cr>
 " clear location list
-nmap <leader>lc :lexpr []<cr>
+nmap lc :lexpr []<cr>
 
 """"""""""""""""""""""""""""""
 " => vim-bbye plugin
