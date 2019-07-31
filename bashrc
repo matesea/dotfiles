@@ -457,10 +457,19 @@ else
 fi
 export EDITOR="$VISUAL"
 
+__lua=$(which lua 2>/dev/null)
+__zl=$(which z.lua 2>/dev/null)
 __fasd=$(which fasd 2>/dev/null)
 __z=$(which z.sh 2>/dev/null)
-if [ ! -z $__fasd ] && [ -x $__fasd ] ; then
 
+# z.lua > fasd > z.sh
+if [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
+    eval "$(lua ${__zl} --init bash enhanced once)"
+    alias zz='z -c'
+    alias zi='z -i'
+    alias zf='z -I'
+    alias zb='z -b'
+elif [ ! -z $__fasd ] && [ -x $__fasd ] ; then
     # fasd init faster with defined $fasd_cache
     if [ ! -z $fasd_cache ] ; then
         if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
@@ -519,12 +528,11 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
         export FZF_DEFAULT_COMMAND='fd --type f'
     fi
 
-    unset __fd
-    unset __fzf
+    unset __fd __fzf
 
     # unalias fasd zz and use _zz in fzf-extras instead
-    unalias zz 2>/dev/null
-    alias zz=_zz
+    # unalias zz 2>/dev/null
+    # alias zz=_zz
 fi
 
 if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/ignore ] ; then
@@ -534,5 +542,4 @@ else
     alias rg="rg --smart-case"
 fi
 
-unset __z
-unset __fasd
+unset __z __fasd __zl __lua
