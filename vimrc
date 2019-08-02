@@ -49,7 +49,8 @@ Plug 'itchyny/lightline.vim'
 " class outline viewer for vim
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " a lightweight implementation of emacs's kill-ring for vim
-Plug 'maxbrunsfeld/vim-yankstack'
+" TODO: try nvim-miniyank or vim-yoink
+" Plug 'maxbrunsfeld/vim-yankstack'
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
 " mark: highlight several words in different colors simultaneously
@@ -291,8 +292,6 @@ noremap k gk
 " nnoremap <leader>e  :enew<cr>
 " to reload current file
 nnoremap <leader>R  :edit!<cr>
-nnoremap <leader>q  :q<cr>
-nnoremap <leader>Q  :qa!<cr>
 
 """"""""""""""""""""""""""""""
 " => directory traverse
@@ -391,11 +390,11 @@ nmap <leader>nt :NERDTreeToggle<cr>
 " => yankstack plugin
 """"""""""""""""""""""""""""""
 " call yankstack#setup()
-nnoremap <leader>y :Yanks<cr>
-let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
-let g:yankstack_map_keys = 0
-nmap <c-p> <Plug>yankstack_substitute_older_paste
-nmap <c-n> <Plug>yankstack_substitute_newer_paste
+" nnoremap <leader>y :Yanks<cr>
+" let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
+" let g:yankstack_map_keys = 0
+" nmap <c-p> <Plug>yankstack_substitute_older_paste
+" nmap <c-n> <Plug>yankstack_substitute_newer_paste
 """"""""""""""""""""""""""""""
 
 if s:nvim
