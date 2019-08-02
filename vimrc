@@ -286,12 +286,14 @@ set foldlevel=100
 " fast file traverse
 noremap j gj
 noremap k gk
-" nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
-" nnoremap <leader>v  :%v//d<left><left>
 " new buffer without name
 " nnoremap <leader>e  :enew<cr>
 " to reload current file
 nnoremap <leader>R  :edit!<cr>
+nnoremap <leader>vd :%v//d<left><left>
+nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
+nnoremap <leader>ss :%s/<c-r><c-w>//g<left><left>
+nnoremap <leader>sw :%s/\<<c-r><c-w>\>//g<left><left>
 
 """"""""""""""""""""""""""""""
 " => directory traverse
