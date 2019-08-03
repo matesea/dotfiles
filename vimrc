@@ -47,7 +47,8 @@ Plug 'farmergreg/vim-lastplace'
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
 " class outline viewer for vim
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+" Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'liuchengxu/vista.vim'
 " a lightweight implementation of emacs's kill-ring for vim
 " TODO: try nvim-miniyank or vim-yoink
 " Plug 'maxbrunsfeld/vim-yankstack'
@@ -315,7 +316,28 @@ nnoremap <leader>sw :%s/\<<c-r><c-w>\>//g<left><left>
 """"""""""""""""""""""""""""""
 " tagbar plugin
 """"""""""""""""""""""""""""""
-nnoremap <leader>tt :TagbarToggle<cr>
+" nnoremap <leader>tt :TagbarToggle<cr>
+""""""""""""""""""""""""""""""
+" tagbar plugin
+""""""""""""""""""""""""""""""
+nnoremap <leader>v  :Vista!!<cr>
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline+=%{NearestMethodOrFunction()}
+
+" show the nearest function in your statusline automatically,
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
+      \ },
+      \ 'component_function': {
+      \   'method': 'NearestMethodOrFunction'
+      \ },
+      \ }
 """"""""""""""""""""""""""""""
 " => cscope plugin
 """"""""""""""""""""""""""""""
@@ -475,6 +497,8 @@ nnoremap <leader>fb :Buffers<cr>
 nnoremap <leader>fa :Lines<cr>
 " lines in the current buffer
 nnoremap <leader>fl :BLines<cr>
+" tags of the current buffer
+nnoremap <leader>ft :BTags<cr>
 " rg search
 " TODO: to populate rg results into quickfix,
 " by default fzf.vim use alt-a/alt-d to select and deselect all
