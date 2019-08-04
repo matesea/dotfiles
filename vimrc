@@ -2,94 +2,54 @@
 set nocompatible
 " enable file type detection
 filetype off
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+let g:mapleader = ","
 
 let s:nvim = has('nvim')
 " let s:cygwin = has("unix") && has("win32unix")
 let s:xdg_config = exists("$XDG_CONFIG_HOME")
 let s:xdg_data = exists("$XDG_DATA_HOME")
-
-" === vim-plug ===
-if s:xdg_config && isdirectory($XDG_CONFIG_HOME.'/nvim/plugged')
-    " import plugin from ${XDG_CONFIG_HOME}/nvim/plugged if available
-    call plug#begin($XDG_CONFIG_HOME.'/nvim/plugged')
-elseif s:xdg_config && isdirectory($XDG_CONFIG_HOME.'/vim/plugged')
-    " import plugin from ${XDG_CONFIG_HOME}/vim/plugged if available
-    call plug#begin($XDG_CONFIG_HOME.'/vim/plugged')
+if s:xdg_config && isdirectory($XDG_CONFIG_HOME . '/vim')
+    let $VIMHOME=$XDG_CONFIG_HOME . '/vim'
 else
-    " rollback to search $HOME/.vim/plugged
-    call plug#begin($HOME.'/.vim/plugged')
+    let $VIMHOME=$HOME . '/.vim'
 endif
 
-" shows a git diff in the gutter and stages/undoes hunks
-Plug 'airblade/vim-gitgutter'
-" buffer tabs
-Plug 'ap/vim-buftabline'
-" highlights trailing whitespace in red
-Plug 'bronson/vim-trailing-whitespace'
-Plug 'joereynolds/gtags-scope'
-" better diff options for vim
-Plug 'chrisbra/vim-diff-enhanced'
-" toggle quickfix window
-Plug 'drmingdrmer/vim-toggle-quickfix'
-" insert or delete brackets, parens, quotes in pair
-Plug 'jiangmiao/auto-pairs'
-" a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf',    { 'do': './install --all' }
-" things you can do with fzf and vim
-Plug 'junegunn/fzf.vim'
-" Plug 'junegunn/vim-easy-align'
-" syntax file to highlight various log files
-Plug 'dzeban/vim-log-syntax'
-" vim motion on speed
-Plug 'easymotion/vim-easymotion'
-" reopen files at the last edit position
-Plug 'farmergreg/vim-lastplace'
-" A light and configurable statusline/tabline plugin for vim
-Plug 'itchyny/lightline.vim'
-" class outline viewer for vim
-" Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-Plug 'liuchengxu/vista.vim'
-" a lightweight implementation of emacs's kill-ring for vim
-" TODO: try nvim-miniyank or vim-yoink
-" Plug 'maxbrunsfeld/vim-yankstack'
-" speed up loading of large files
-Plug 'mhinz/vim-hugefile'
-" mark: highlight several words in different colors simultaneously
-Plug 'mihais/vim-mark'
-" delete buffers and close files in vim without closing windows or messing up layout
-Plug 'moll/vim-bbye'
-" tree explorer plugin
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-" integrate with fzy or picker into vim
-" Plug 'srstevenson/vim-picker'
-" molokai theme
-Plug 'tomasr/molokai'
-" defaults everyone can agree on
-Plug 'tpope/vim-sensible'
-" solarized colorscheme
-Plug 'altercation/vim-colors-solarized'
-" follow linux kernel coding style
-Plug 'vivien/vim-linux-coding-style', { 'for': 'c' }
-" vim tmux seamless navigator
-Plug 'christoomey/vim-tmux-navigator'
-" git wrapper
-Plug 'tpope/vim-fugitive'
-" git commit browser
-Plug 'junegunn/gv.vim'
-" undo
-Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
-" show search index
-Plug 'google/vim-searchindex'
-" completion system
-if s:nvim && has('nvim-0.3.0')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-elseif has("lua")
-    Plug 'Shougo/neocomplete.vim'
+if s:xdg_data
+    let $VIMDATA=$XDG_DATA_HOME . '/.vim'
+else
+    let $VIMDATA=$HOME . '/.local/vim'
 endif
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
-Plug 'mtth/scratch.vim'
-Plug 'justinmk/vim-gtfo'
+
+" Plugin Manager Installation {{{
+let g:plugins=$VIMHOME.'/plugged'
+let s:plugin_manager=$VIMHOME . '/autoload/plug.vim'
+let s:plugin_url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+if empty(glob(s:plugin_manager))
+  echom 'vim-plug not found. Installing...'
+  if executable('curl')
+    silent exec '!curl -fLo ' . s:plugin_manager . ' --create-dirs ' .
+        \ s:plugin_url
+  elseif executable('wget')
+    call mkdir(fnamemodify(s:plugin_manager, ':h'), 'p')
+    silent exec '!wget --force-directories --no-check-certificate -O ' .
+        \ expand(s:plugin_manager) . ' ' . s:plugin_url
+  else
+    echom 'Could not download plugin manager. No plugins were installed.'
+    finish
+  endif
+  augroup vimplug
+    autocmd!
+    autocmd VimEnter * PlugInstall
+  augroup END
+endif
+" }}}
+
+call plug#begin(g:plugins)
+source $VIMHOME/plugins.vim
 call plug#end()
 
 filetype plugin indent on
@@ -125,33 +85,23 @@ set ofu=syntaxcomplete#Complete
 " apply different indent format based on the detected file type
 filetype indent on
 
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
-let g:mapleader = ","
-
 "set _viminfo path
 " if has("win32")
 "     set viminfo+=n$VIM/_viminfo
 if has("unix")
-    " Tell vim to remember certain things when we exit
-    " '10   :marks will be remembered for up to 10 previously edited files
-    " "100  : will save up to 100 lines for each register
-    " :20   : up to 20 lines of comand-line history will be remembered
-    " %     :save and restores the buffer list
-    " n...  : where to save the viminfo files
-    if s:nvim
-        if s:xdg_data
-            set viminfo='50,\"100,:20,%,n$XDG_DATA_HOME/.nviminfo
-        else
-            set viminfo='50,\"100,:20,%,n$HOME/.nviminfo
-        endif
+    let &viminfo="'100,<50,s10,h,n"
+    if s:xdg_data
+        let s:viminfodir=$XDG_DATA_HOME
     else
-        if s:xdg_data
-            set viminfo='50,\"100,:20,%,n$XDG_DATA_HOME/.viminfo
-        else
-            set viminfo='50,\"100,:20,%,n$HOME/.viminfo
-        endif
+        let s:viminfodir=$HOME
+    endif
+    if !isdirectory(s:viminfodir)
+        call mkdir(s:viminfodir, 'p')
+    endif
+    if s:nvim
+        let &viminfo.=s:viminfodir . '/.viminfo.shada'
+    else
+        let &viminfo.=s:viminfodir . '/.viminfo'
     endif
 endif
 
@@ -199,30 +149,20 @@ set ffs=unix,dos,mac "Default file types
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git anyway...
 set backup
-if s:xdg_data
-    set backupdir=$XDG_DATA_HOME/.vim/backup/
-    silent execute '!mkdir -p $XDG_DATA_HOME/.vim/backup/'
-else
-    set backupdir=$HOME/.local/vim/backup/
-    silent execute '!mkdir -p $HOME/.local/vim/backup/'
+let &backupdir=$VIMDATA . '/backup/'
+if !isdirectory(&backupdir)
+    call mkdir(&backupdir, 'p')
 endif
-
 set nowb
 set noswapfile
 
 "Persistent undo
 if has("persistent_undo")
     set undofile
-    try
-        " if has("win32")
-        "     set undodir=C:\Windows\Temp
-        if s:xdg_data
-            set undodir=$XDG_DATA_HOME/.vim/undo
-        else
-            set undodir=$HOME/.local/vim/undo
-        endif
-    catch
-    endtry
+    let &undodir = $VIMDATA . '/undo'
+    if !isdirectory(&undodir)
+        call mkdir(&undodir, 'p')
+    endif
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -296,69 +236,12 @@ nnoremap <leader>vw :%v/\<<c-r><c-w>\>/d<cr>
 nnoremap <leader>ss :%s/<c-r><c-w>//g<left><left>
 nnoremap <leader>sw :%s/\<<c-r><c-w>\>//g<left><left>
 
-""""""""""""""""""""""""""""""
-" => directory traverse
-""""""""""""""""""""""""""""""
-" nnoremap <leader>cd :cd<space>
-" nnoremap <leader>u  :cd ..<cr>:pwd<cr>
-" nnoremap <leader>u2 :cd ../..<cr>:pwd<cr>
-" nnoremap <leader>u3 :cd ../../..<cr>:pwd<cr>
-" nnoremap <leader>u4 :cd ../../../..<cr>:pwd<cr>
-" nnoremap <leader>u5 :cd ../../../../..<cr>:pwd<cr>
-
 " execute command and put the results into new buffer
 " # alternative file name which is the last edit file, % for current file name
 " they are readonly registers
 " check https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
 " or https://www.brianstorti.com/vim-registers/
 " ex: find pattern in current file :R rg <pattern> #
-
-""""""""""""""""""""""""""""""
-" tagbar plugin
-""""""""""""""""""""""""""""""
-" nnoremap <leader>tt :TagbarToggle<cr>
-""""""""""""""""""""""""""""""
-" tagbar plugin
-""""""""""""""""""""""""""""""
-nnoremap <leader>v  :Vista!!<cr>
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
-
-set statusline+=%{NearestMethodOrFunction()}
-
-" show the nearest function in your statusline automatically,
-autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
-let g:lightline = {
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
-      \ },
-      \ 'component_function': {
-      \   'method': 'NearestMethodOrFunction'
-      \ },
-      \ }
-""""""""""""""""""""""""""""""
-" => cscope plugin
-""""""""""""""""""""""""""""""
-if has("cscope")
-    " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-    set cscopetag
-    " check cscope for definition of a symbol before checking ctags: set to 1
-    " if you want the reverse search order.
-    set csto=0
-    " show msg when any other cscope db added
-    set cscopeverbose
-    nnoremap <leader>cf :cscope find<space>
-    nnoremap <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <leader>ca :cscope add<space>
-    """"""""""""""""""""""""""""""
-    " => gtags-cscope-vim plugin
-    """"""""""""""""""""""""""""""
-    nnoremap <leader>cl :GtagsCscope<cr>
-endif
 
 """"""""""""""""""""""""""""""
 " => vimgrep
@@ -369,8 +252,6 @@ if executable('rg')
         \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
         \1, {'dir': expand('%:h:p')}, <bang>0)
 
-    " for ack.vim
-    let g:ackprg = "rg -S --vimgrep --no-heading --no-column"
     set grepprg=rg\ -S\ --vimgrep\ --no-heading\ --no-column
     set grepformat=%f:%l:%c:%m,%f:%l:%m
     command! -complete=shellcmd -nargs=+ R
@@ -381,8 +262,6 @@ elseif executable('ag')
     command! -bang -nargs=* Rc  call fzf#vim#grep
         \('ag --noheading --nogroup --color --smart-case '.shellescape(<q-args>),
         \1, {'dir': expand('%:h:p')}, <bang>0)
-    " for ack.vim
-    let g:ackprg = "ag --vimgrep"
     set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
     set grepformat=%f:%1:%c%m
     command! -complete=shellcmd -nargs=+ R
@@ -406,150 +285,9 @@ endfunction
 " command! -nargs=* -complete=shellcmd Rv vnew | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
 " command! -nargs=* -complete=shellcmd Rh new  | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
 """"""""""""""""""""""""""""""
-" => nerdtree
-" view directory content
-""""""""""""""""""""""""""""""
-nmap <leader>nt :NERDTreeToggle<cr>
-""""""""""""""""""""""""""""""
-" => yankstack plugin
-""""""""""""""""""""""""""""""
-" call yankstack#setup()
-" nnoremap <leader>y :Yanks<cr>
-" let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
-" let g:yankstack_map_keys = 0
-" nmap <c-p> <Plug>yankstack_substitute_older_paste
-" nmap <c-n> <Plug>yankstack_substitute_newer_paste
-""""""""""""""""""""""""""""""
-
-if s:nvim
-    """"""""""""""""""""""""""""""
-    " => deoplete plugin
-    """"""""""""""""""""""""""""""
-    let g:acp_enableAtStartup = 0
-    let g:deoplete#enable_at_startup = 1
-elseif has("lua")
-    """"""""""""""""""""""""""""""
-    " => neocomplete plugin
-    """"""""""""""""""""""""""""""
-    let g:acp_enableAtStartup = 0
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#syntax#min_keyword_length = 3
-endif
-""""""""""""""""""""""""""""""
-" => easymotion plugin
-""""""""""""""""""""""""""""""
-" let g:EasyMotion_leader_key = ',,'
-let g:EasyMotion_do_mapping = 0
-" Jump to anywhere you want with minimal keystrokes, with just one key binding.
-" `s{char}{label}`
-nmap s <Plug>(easymotion-overwin-f)
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
-nmap ss <Plug>(easymotion-overwin-f2)
-" Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
-" JK motions: Line motions
-map gj <Plug>(easymotion-j)
-map gk <Plug>(easymotion-k)
-""""""""""""""""""""""""""""""
-" => vim-gitgutter plugin
-""""""""""""""""""""""""""""""
-let g:gitgutter_eager = 0
-" nnoremap <leader>gg :G
-" nnoremap <leader>g  :Git<space>
-" nnoremap <leader>gs :Gstatus<CR>
-" nnoremap <leader>gd :Gdiff
-" nnoremap <leader>gb :Gblame<CR>
-" nnoremap <leader>gw :Gbrowse<CR>
-" nnoremap <leader>gc :Gcommit %
-" nnoremap <leader>gl :Glog<CR>
-" nnoremap <leader>gp :Gpush
-""""""""""""""""""""""""""""""
-" => vim-mark plugin
-""""""""""""""""""""""""""""""
-nmap <leader>M <Plug>MarkToggle
-nmap <leader>N <Plug>MarkAllClear
-
-""""""""""""""""""""""""""""""
-" => vim-log-syntax plugin
-""""""""""""""""""""""""""""""
-" change filetype to log
-nnoremap <leader>l :setlocal filetype=log<cr>
-
-""""""""""""""""""""""""""""""
-" => vim-buftabline
-""""""""""""""""""""""""""""""
-let g:buftabline_show = 1
-" let g:buftabline_numbers = 1
-
-""""""""""""""""""""""""""""""
-" => fzf plugin
-""""""""""""""""""""""""""""""
-nnoremap <leader>fe :FZF<cr>
-nnoremap <leader>fc :FZF %:h<cr>
-" git files
-" nnoremap <leader>fg :GFiles<cr>
-" open buffers
-nnoremap <leader>fb :Buffers<cr>
-" nnoremap <leader>fh :History<cr>
-" lines in loaded buffers
-nnoremap <leader>fa :Lines<cr>
-" lines in the current buffer
-nnoremap <leader>fl :BLines<cr>
-" tags of the current buffer
-nnoremap <leader>ft :BTags<cr>
-" rg search
-" TODO: to populate rg results into quickfix,
-" by default fzf.vim use alt-a/alt-d to select and deselect all
-" but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
-
-nnoremap <leader>rg     :Rg<space>
-nnoremap <leader>rgw    :Rg <c-r><c-w><cr>
-nnoremap <leader>rc     :Rc<space>
-nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
-
-""""""""""""""""""""""""""""""
-" => ack.vim
-""""""""""""""""""""""""""""""
-let g:ackhighlight = 1
-nnoremap <leader>aa     :LAckAdd!<space>
-nnoremap <leader>aw     :LAckAdd! <c-r><c-w><cr>
-nnoremap <leader>af     :LAckAdd!  %:p<left><left><left><left>
-nnoremap <leader>afw    :LAckAdd! <c-r><c-w> %:p<cr>
-nnoremap <leader>ad     :LAckAdd!  %:h<left><left><left><left>
-nnoremap <leader>adw    :LAckAdd! <c-r><c-w> %:h<cr>
-
-""""""""""""""""""""""""""""""
-" => vim-toggle-quickfix plugin
-""""""""""""""""""""""""""""""
-nmap qt <Plug>window:quickfix:toggle
-nmap lt <Plug>window:location:toggle
-" clear quickfix
-nmap qc :cexpr []<cr>
-" clear location list
-nmap lc :lexpr []<cr>
-
-""""""""""""""""""""""""""""""
-" => vim-bbye plugin
-""""""""""""""""""""""""""""""
-nnoremap bd :Bdelete!<cr>
-nnoremap bw :Bwipeout!<cr>
-
-""""""""""""""""""""""""""""""
-" => undotree
-""""""""""""""""""""""""""""""
-let g:undotree_WindowLayout = 2
-nnoremap U :UndotreeToggle<cr>
-""""""""""""""""""""""""""""""
-" => easy-align
-""""""""""""""""""""""""""""""
-" xmap ga <Plug>(EasyAlign)
-" nmap ga <Plug>(EasyAlign)
-
 " import local config
-if s:xdg_config && filereadable($XDG_CONFIG_HOME."/.vimrc.local")
-    source $XDG_CONFIG_HOME/.vimrc.local
-elseif filereadable($HOME."/.vimrc.local")
-    source $HOME/.vimrc.local
+if s:xdg_config && filereadable($XDG_CONFIG_HOME .'/.local/vimrc')
+    source $XDG_CONFIG_HOME/.local/vimrc
+elseif filereadable($HOME."/.local/vimrc")
+    source $HOME/.local/vimrc
 endif
