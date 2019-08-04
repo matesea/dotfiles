@@ -55,14 +55,13 @@ call plug#end()
 filetype plugin indent on
 set cindent     " c code indentation
 set smartindent " smart indent
-set smartcase   " smart case detection while searching
 " set wildmode=longest:full,full
-set wildmode=list:longest,full
+" set wildmode=list:longest,full
+set wildmode=longest,full
 set showmode
 set showcmd
 
 set cursorline
-syntax sync minlines=256
 set diffopt+=filler
 " less window redraw to speedup
 " improve redraw speed
@@ -70,8 +69,10 @@ set ttyfast
 "set ttyscroll=3
 set lazyredraw
 " Sets how many lines of history VIM has to remember
-syntax on
 set history=2000
+
+syntax on
+syntax sync minlines=256
 
 " Enable filetype plugin
 " load plugins according to different file type
@@ -114,17 +115,14 @@ set cmdheight=1 "The commandbar height
 set hid "Change buffer - without saving
 " Set backspace config
 set whichwrap+=<,>,h,l
-set ignorecase "Ignore case when searching
-set hlsearch "Highlight search things
+set incsearch ignorecase smartcase hlsearch
 set nolazyredraw "Don't redraw while executing macros
 set magic "Set magic on, for regular expressions
 set showmatch "Show matching bracets when text indicator is over them
 set mat=2 "How many tenths of a second to blink
 
 " No sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
+set noerrorbells novisualbell t_vb=
 set tm=500
 
 if has("gui_running")
@@ -153,8 +151,7 @@ let &backupdir=$VIMDATA . '/backup/'
 if !isdirectory(&backupdir)
     call mkdir(&backupdir, 'p')
 endif
-set nowb
-set noswapfile
+set nowb noswapfile
 
 "Persistent undo
 if has("persistent_undo")
@@ -165,10 +162,7 @@ if has("persistent_undo")
     endif
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax enable "Enable syntax hl
+syntax enable
 " set undolevels=20
 " set undoreload=10000
 
@@ -196,6 +190,11 @@ set updatetime=250 "for vim-gitgutter
 " nmap <silent> <leader>hl :setlocal hls!<cr>
 " nmap <silent> <leader>wr :setlocal wrap!<cr>
 
+" make regex a little easier
+set magic
+
+" Set default dictionary to english
+set spelllang=en_us
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -205,11 +204,6 @@ try
     set showtabline=1
 catch
 endtry
-
-""""""""""""""""""""""""""""""
-" => Statusline
-""""""""""""""""""""""""""""""
-" Always hide the statusline
 
 " traverse quickfix
 nnoremap gc :cnext<cr>
@@ -247,25 +241,11 @@ nnoremap <leader>sw :%s/\<<c-r><c-w>\>//g<left><left>
 " => vimgrep
 """"""""""""""""""""""""""""""
 if executable('rg')
-    " Rc: grep the folder of current editing file
-    command! -bang -nargs=* Rc  call fzf#vim#grep
-        \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
-        \1, {'dir': expand('%:h:p')}, <bang>0)
-
     set grepprg=rg\ -S\ --vimgrep\ --no-heading\ --no-column
     set grepformat=%f:%l:%c:%m,%f:%l:%m
-    command! -complete=shellcmd -nargs=+ R
-                \ call s:RunShellCommand("rg -S --vimgrep --no-heading --no-column ".<q-args>)
-
 elseif executable('ag')
-    " Rc: grep the folder of current editing file
-    command! -bang -nargs=* Rc  call fzf#vim#grep
-        \('ag --noheading --nogroup --color --smart-case '.shellescape(<q-args>),
-        \1, {'dir': expand('%:h:p')}, <bang>0)
     set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
     set grepformat=%f:%1:%c%m
-    command! -complete=shellcmd -nargs=+ R
-                \ call s:RunShellCommand("ag --noheading --nogroup --nocolor --smart-case ".<q-args>)
 else
     set grepprg=grep\ -nH
 endif

@@ -60,6 +60,9 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
   nmap lc :lexpr []<cr>
 " }}}
 
+" Pairs of handy bracket mappings
+Plug 'tpope/vim-unimpaired'
+
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
 
@@ -91,12 +94,25 @@ Plug 'junegunn/fzf.vim'
   nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
 " }}}
 
+" Vim plugin for the Perl module / CLI script 'ack'
 Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
 " {{{
   if executable('rg')
       let g:ackprg = "rg -S --vimgrep --no-heading --no-column"
+      " Rc: grep the folder of current editing file
+      command! -bang -nargs=* Rc  call fzf#vim#grep
+          \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
+          \1, {'dir': expand('%:h:p')}, <bang>0)
+      command! -complete=shellcmd -nargs=+ R
+          \ call s:RunShellCommand("rg -S --vimgrep --no-heading --no-column ".<q-args>)
   elseif executable('ag')
       let g:ackprg = "ag --vimgrep"
+      " Rc: grep the folder of current editing file
+      command! -bang -nargs=* Rc  call fzf#vim#grep
+          \('ag --noheading --nogroup --color --smart-case '.shellescape(<q-args>),
+          \1, {'dir': expand('%:h:p')}, <bang>0)
+      command! -complete=shellcmd -nargs=+ R
+          \ call s:RunShellCommand("ag --noheading --nogroup --nocolor --smart-case ".<q-args>)
   endif
   let g:ackhighlight = 1
   nnoremap <leader>aa     :LAckAdd!<space>
@@ -117,6 +133,7 @@ Plug 'moll/vim-bbye'
 " syntax file to highlight various log files
 Plug 'dzeban/vim-log-syntax'
 
+" vim motions on speed
 Plug 'easymotion/vim-easymotion'
 " {{{
   " let g:EasyMotion_leader_key = ',,'
@@ -134,6 +151,7 @@ Plug 'easymotion/vim-easymotion'
   map gk <Plug>(easymotion-k)
 " }}}
 
+" Extended f, F, t and T key mappings for Vim
 Plug 'rhysd/clever-f.vim'
 " {{{
   let g:clever_f_across_no_line = 1
@@ -153,6 +171,7 @@ Plug 'farmergreg/vim-lastplace'
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
 
+" Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 " {{{
   " let g:vista_fzf_preview = ['right:50%']
@@ -200,7 +219,7 @@ Plug 'vivien/vim-linux-coding-style', { 'for': 'c' }
 " vim tmux seamless navigator
 Plug 'christoomey/vim-tmux-navigator'
 
-" undo
+" undo history visualizer
 Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 " {{{
   let g:undotree_WindowLayout = 2
@@ -210,6 +229,7 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 " show search index
 Plug 'google/vim-searchindex'
 
+" asynchronous completion framework
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 elsei
@@ -222,10 +242,16 @@ let g:deoplete#enable_at_startup = 0
 " load deoplete when entering insert mode, reduce ~200ms in startup
 autocmd InsertEnter * call deoplete#enable()
 
+" c/cpp enhanced highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
+
+" unobtrusive scratch window
 Plug 'mtth/scratch.vim'
+
+" go to terminal or file manager
 Plug 'justinmk/vim-gtfo'
 
+" lightweight implementation of emacs's kill-ring for vim
 Plug 'maxbrunsfeld/vim-yankstack'
 " {{{
   " TODO: try nvim-miniyank & vim-yoink
