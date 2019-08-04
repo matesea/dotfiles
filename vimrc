@@ -52,6 +52,11 @@ call plug#begin(g:plugins)
 source $VIMHOME/plugins.vim
 call plug#end()
 
+" show vimrc
+map <f9>    :sp $MYVIMRC<cr>
+" show plugins.vim
+map <f10>   :execute 'sp $VIMHOME/plugins.vim'<cr>
+
 filetype plugin indent on
 set cindent     " c code indentation
 set smartindent " smart indent
