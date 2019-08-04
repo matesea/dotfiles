@@ -211,7 +211,7 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 Plug 'google/vim-searchindex'
 
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'on': [], 'do': ':UpdateRemotePlugins' }
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 elsei
     Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/nvim-yarp'
@@ -220,10 +220,7 @@ endif
 let g:acp_enableAtStartup = 0
 let g:deoplete#enable_at_startup = 0
 " load deoplete when entering insert mode, reduce ~200ms in startup
-augroup load_deoplete
-  autocmd!
-  autocmd InsertEnter * call plug#load('deoplete.nvim') | autocmd! load_deoplete
-augroup END
+autocmd InsertEnter * call deoplete#enable()
 
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'mtth/scratch.vim'
