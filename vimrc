@@ -11,8 +11,12 @@ let s:nvim = has('nvim')
 " let s:cygwin = has("unix") && has("win32unix")
 let s:xdg_config = exists("$XDG_CONFIG_HOME")
 let s:xdg_data = exists("$XDG_DATA_HOME")
-if s:xdg_config && isdirectory($XDG_CONFIG_HOME . '/vim')
+if s:xdg_config && isdirectory($XDG_CONFIG_HOME . '/nvim')
+    let $VIMHOME=$XDG_CONFIG_HOME . '/nvim'
+elseif s:xdg_config && isdirectory($XDG_CONFIG_HOME . '/vim')
     let $VIMHOME=$XDG_CONFIG_HOME . '/vim'
+elseif isdirectory($HOME . '/dotfiles/vim')
+    let $VIMHOME=$HOME . '/dotfiles/vim'
 else
     let $VIMHOME=$HOME . '/.vim'
 endif

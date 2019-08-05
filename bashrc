@@ -427,8 +427,8 @@ else
 fi
 
 # import local setting
-if [ -f $HOME/.bashrc.local ]; then
-    source $HOME/.bashrc.local
+if [ -f $HOME/.local/bashrc ]; then
+    source $HOME/.local/bashrc
 
     ##### example for .bashrc.local #####
     ## cofig HISTFILE
