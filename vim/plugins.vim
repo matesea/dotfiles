@@ -61,7 +61,7 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " }}}
 
 " Pairs of handy bracket mappings
-" Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-unimpaired'
 
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
@@ -235,7 +235,7 @@ Plug 'google/vim-searchindex'
 " asynchronous completion framework
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-elsei
+else
     Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
