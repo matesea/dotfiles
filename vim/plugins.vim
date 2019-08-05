@@ -233,17 +233,52 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 Plug 'google/vim-searchindex'
 
 " asynchronous completion framework
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:acp_enableAtStartup = 0
-let g:deoplete#enable_at_startup = 0
-" load deoplete when entering insert mode, reduce ~200ms in startup
-autocmd InsertEnter * call deoplete#enable()
+" if has('nvim')
+"     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"     Plug 'Shougo/deoplete.nvim'
+"     Plug 'roxma/nvim-yarp'
+"     Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" let g:acp_enableAtStartup = 0
+" let g:deoplete#enable_at_startup = 0
+" " load deoplete when entering insert mode, reduce ~200ms in startup
+" autocmd InsertEnter * call deoplete#enable()
+
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
+" {{{
+" don't give |ins-completion-menu| messages.c
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
+
+" https://zhuanlan.zhihu.com/p/76033635
+" CocInstall: coc-ultisnips, coc-yank, coc-tabnine, coc-ccls
+"     "coc.source.around.enable": false,
+"     "coc.source.buffer.enable": false,
+
+" start coc 500ms after start vim
+let g:coc_start_at_startup=0
+function! CocTimerStart(timer)
+    exec "CocStart"
+endfunction
+call timer_start(500,'CocTimerStart',{'repeat':1})
+
+" forbit coc for file > 0.5MB
+let g:trigger_size = 0.5 * 1048576
+augroup hugefile
+  autocmd!
+  autocmd BufReadPre *
+        \ let size = getfsize(expand('<afile>')) |
+        \ if (size > g:trigger_size) || (size == -2) |
+        \   echohl WarningMsg | echomsg 'WARNING: altering options for this huge file!' | echohl None |
+        \   exec 'CocDisable' |
+        \ else |
+        \   exec 'CocEnable' |
+        \ endif |
+        \ unlet size
+augroup END
+" }}}
 
 " c/cpp enhanced highlight
 Plug 'octol/vim-cpp-enhanced-highlight'

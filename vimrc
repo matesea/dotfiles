@@ -86,8 +86,8 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the curors - when moving vertical..
 set so=7
-set cmdheight=1 "The commandbar height
-set hid "Change buffer - without saving
+set cmdheight=2 "The commandbar height
+set hidden "Change buffer - without saving
 " Set backspace config
 set whichwrap+=<,>,h,l
 set incsearch ignorecase smartcase hlsearch
@@ -112,12 +112,12 @@ set ffs=unix,dos,mac "Default file types
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git anyway...
-set backup
+set nobackup nowritebackup
 let &backupdir=$VIMDATA . '/backup/'
 if !isdirectory(&backupdir)
     call mkdir(&backupdir, 'p')
 endif
-set nowb noswapfile
+set noswapfile
 
 "Persistent undo
 if has("persistent_undo")
