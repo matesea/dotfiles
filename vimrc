@@ -1,7 +1,5 @@
 " not compatible with vi
 set nocompatible
-" enable file type detection
-filetype off
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let mapleader = ","
@@ -27,41 +25,11 @@ else
     let $VIMDATA=$HOME . '/.local/vim'
 endif
 
-" Plugin Manager Installation {{{
-let g:plugins=$VIMHOME.'/plugged'
-let s:plugin_manager=$VIMHOME . '/autoload/plug.vim'
-let s:plugin_url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
-if empty(glob(s:plugin_manager))
-  echom 'vim-plug not found. Installing...'
-  if executable('curl')
-    silent exec '!curl -fLo ' . s:plugin_manager . ' --create-dirs ' .
-        \ s:plugin_url
-  elseif executable('wget')
-    call mkdir(fnamemodify(s:plugin_manager, ':h'), 'p')
-    silent exec '!wget --force-directories --no-check-certificate -O ' .
-        \ expand(s:plugin_manager) . ' ' . s:plugin_url
-  else
-    echom 'Could not download plugin manager. No plugins were installed.'
-    finish
-  endif
-  augroup vimplug
-    autocmd!
-    autocmd VimEnter * PlugInstall
-  augroup END
-endif
-" }}}
-
-call plug#begin(g:plugins)
-source $VIMHOME/plugins.vim
-call plug#end()
-
 " show vimrc
 map <f9>    :sp $MYVIMRC<cr>
 " show plugins.vim
 map <f10>   :execute 'sp $VIMHOME/plugins.vim'<cr>
 
-filetype plugin indent on
 set cindent     " c code indentation
 set smartindent " smart indent
 " set wildmode=longest:full,full
@@ -69,6 +37,7 @@ set smartindent " smart indent
 set wildmode=longest,full
 set showmode
 set showcmd
+set number
 
 set cursorline
 set diffopt+=filler
@@ -80,20 +49,17 @@ set lazyredraw
 " Sets how many lines of history VIM has to remember
 set history=2000
 
-syntax on
-syntax sync minlines=256
-
 " Enable filetype plugin
 " load plugins according to different file type
-filetype plugin on
+filetype plugin indent on
+
+syntax enable
+syntax sync minlines=250
 
 " omni completion, smart autocompletion for programs
 " when invoked, the text before the cursor is inspected to guess what might follow
 " A popup menu offers word completion choices that may include struct and class members, system functions
 set ofu=syntaxcomplete#Complete
-
-" apply different indent format based on the detected file type
-filetype indent on
 
 "set _viminfo path
 " if has("win32")
@@ -133,15 +99,6 @@ set mat=2 "How many tenths of a second to blink
 " No sound on errors
 set noerrorbells novisualbell t_vb=
 set tm=500
-
-if has("gui_running")
-    set guioptions-=e
-else
-    set t_Co=256
-    set background=dark
-    colorscheme molokai
-endif
-set nu
 
 set encoding=utf8
 try
@@ -198,9 +155,6 @@ set updatetime=250 "for vim-gitgutter
 " toggle highlight search
 " nmap <silent> <leader>hl :setlocal hls!<cr>
 " nmap <silent> <leader>wr :setlocal wrap!<cr>
-
-" make regex a little easier
-set magic
 
 " Set default dictionary to english
 set spelllang=en_us
@@ -267,6 +221,43 @@ function! s:RunShellCommand(cmdline)
   " call append(line('$'), substitute(getline(0), '.', '=', 'g'))
   silent execute '$read !'. a:cmdline
 endfunction
+
+" Plugin Manager Installation {{{
+let g:plugins=$VIMHOME.'/plugged'
+let s:plugin_manager=$VIMHOME . '/autoload/plug.vim'
+let s:plugin_url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+if empty(glob(s:plugin_manager))
+  echom 'vim-plug not found. Installing...'
+  if executable('curl')
+    silent exec '!curl -fLo ' . s:plugin_manager . ' --create-dirs ' .
+        \ s:plugin_url
+  elseif executable('wget')
+    call mkdir(fnamemodify(s:plugin_manager, ':h'), 'p')
+    silent exec '!wget --force-directories --no-check-certificate -O ' .
+        \ expand(s:plugin_manager) . ' ' . s:plugin_url
+  else
+    echom 'Could not download plugin manager. No plugins were installed.'
+    finish
+  endif
+  augroup vimplug
+    autocmd!
+    autocmd VimEnter * PlugInstall
+  augroup END
+endif
+" }}}
+
+call plug#begin(g:plugins)
+source $VIMHOME/plugins.vim
+call plug#end()
+
+if has("gui_running")
+    set guioptions-=e
+else
+    set t_Co=256
+    set background=dark
+    colorscheme molokai
+endif
 
 " command! -nargs=* -complete=shellcmd R  enew |
 "             \setlocal buftype=nofile bufhidden=hide noswapfile |

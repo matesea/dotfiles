@@ -61,7 +61,7 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " }}}
 
 " Pairs of handy bracket mappings
-Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-unimpaired'
 
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
@@ -130,9 +130,6 @@ Plug 'moll/vim-bbye'
   nnoremap bw :Bwipeout!<cr>
 " }}}
 
-" syntax file to highlight various log files
-Plug 'dzeban/vim-log-syntax'
-
 " vim motions on speed
 Plug 'easymotion/vim-easymotion'
 " {{{
@@ -197,6 +194,9 @@ Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
+" {{{
+let g:hugefile_trigger_size=15
+" }}}
 
 " tree explorer plugin
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -206,6 +206,9 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " molokai theme
 Plug 'tomasr/molokai'
+
+" syntax file to highlight various log files
+Plug 'dzeban/vim-log-syntax'
 
 " solarized colorscheme
 " Plug 'altercation/vim-colors-solarized'
