@@ -61,37 +61,59 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " }}}
 
 " Pairs of handy bracket mappings
-Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-unimpaired'
 
 " insert or delete brackets, parens, quotes in pair
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 
-" a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf',    { 'do': './install --all' }
-" things you can do with fzf and vim
-Plug 'junegunn/fzf.vim'
+" " a command-line fuzzy finder written in Go
+" Plug 'junegunn/fzf',    { 'do': './install --all' }
+" " things you can do with fzf and vim
+" Plug 'junegunn/fzf.vim'
+" " {{{
+"   nnoremap <leader>fe :FZF<cr>
+"   nnoremap <leader>fc :FZF %:h<cr>
+"   " git files
+"   " nnoremap <leader>fg :GFiles<cr>
+"   " open buffers
+"   nnoremap <leader>fb :Buffers<cr>
+"   " nnoremap <leader>fh :History<cr>
+"   " lines in loaded buffers
+"   nnoremap <leader>fa :Lines<cr>
+"   " lines in the current buffer
+"   nnoremap <leader>fl :BLines<cr>
+"   " tags of the current buffer
+"   nnoremap <leader>ft :BTags<cr>
+"   " rg search
+"   " TODO: to populate rg results into quickfix,
+"   " by default fzf.vim use alt-a/alt-d to select and deselect all
+"   " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
+"   nnoremap <leader>rg     :Rg<space>
+"   nnoremap <leader>rgw    :Rg <c-r><c-w><cr>
+"   nnoremap <leader>rc     :Rc<space>
+"   nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
+" " }}}
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 " {{{
-  nnoremap <leader>fe :FZF<cr>
-  nnoremap <leader>fc :FZF %:h<cr>
-  " git files
-  " nnoremap <leader>fg :GFiles<cr>
-  " open buffers
-  nnoremap <leader>fb :Buffers<cr>
-  " nnoremap <leader>fh :History<cr>
-  " lines in loaded buffers
-  nnoremap <leader>fa :Lines<cr>
-  " lines in the current buffer
-  nnoremap <leader>fl :BLines<cr>
-  " tags of the current buffer
-  nnoremap <leader>ft :BTags<cr>
-  " rg search
-  " TODO: to populate rg results into quickfix,
-  " by default fzf.vim use alt-a/alt-d to select and deselect all
-  " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
-  nnoremap <leader>rg     :Rg<space>
-  nnoremap <leader>rgw    :Rg <c-r><c-w><cr>
-  nnoremap <leader>rc     :Rc<space>
-  nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
+  let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
+  if !isdirectory(g:Lf_CacheDirectory)
+      call mkdir(g:Lf_CacheDirectory, 'p')
+  endif
+  if executable('fd')
+      let g:Lf_ExternalCommand = 'fd --color=never -t f . %s'
+  endif
+  let g:Lf_ShortcutF='<leader>fe'
+  let g:Lf_ShortcutB='<leader>fb'
+  let g:Lf_NoChdir=1
+
+  nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h:p"))<CR><CR>
+  nnoremap <leader>fl       :LeaderfLine<cr>
+  nnoremap <leader>ff       :LeaderfFunction<cr>
+
+  nnoremap <leader>rg       :Leaderf rg -S -e<space>
+  nnoremap <leader>rgw      :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
+  nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h:p"))<CR><space>
+  nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h:p"))<CR><CR>
 " }}}
 
 " Vim plugin for the Perl module / CLI script 'ack'
@@ -100,17 +122,17 @@ Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
   if executable('rg')
       let g:ackprg = "rg -S --vimgrep --no-heading --no-column"
       " Rc: grep the folder of current editing file
-      command! -bang -nargs=* Rc  call fzf#vim#grep
-          \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
-          \1, {'dir': expand('%:h:p')}, <bang>0)
+      " command! -bang -nargs=* Rc  call fzf#vim#grep
+      "     \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
+      "     \1, {'dir': expand('%:h:p')}, <bang>0)
       command! -complete=shellcmd -nargs=+ R
           \ call s:RunShellCommand("rg -S --vimgrep --no-heading --no-column ".<q-args>)
   elseif executable('ag')
       let g:ackprg = "ag --vimgrep"
       " Rc: grep the folder of current editing file
-      command! -bang -nargs=* Rc  call fzf#vim#grep
-          \('ag --noheading --nogroup --color --smart-case '.shellescape(<q-args>),
-          \1, {'dir': expand('%:h:p')}, <bang>0)
+      " command! -bang -nargs=* Rc  call fzf#vim#grep
+      "     \('ag --noheading --nogroup --color --smart-case '.shellescape(<q-args>),
+      "     \1, {'dir': expand('%:h:p')}, <bang>0)
       command! -complete=shellcmd -nargs=+ R
           \ call s:RunShellCommand("ag --noheading --nogroup --nocolor --smart-case ".<q-args>)
   endif

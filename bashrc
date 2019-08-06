@@ -466,7 +466,6 @@ __z=$(which z.sh 2>/dev/null)
 if [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
     eval "$(lua ${__zl} --init bash enhanced once)"
     alias zz='z -I'
-    alias zr='z -b'
 elif [ ! -z $__fasd ] && [ -x $__fasd ] ; then
     # fasd init faster with defined $fasd_cache
     if [ ! -z $fasd_cache ] ; then
@@ -507,16 +506,16 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
     #         source ~/dotfiles/bash/fasd_fzf.sh
     #     fi
     if [ ! -z $__fzf ] && [ ! -z $__z ] ; then
-        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
+        if [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
             source ${dotfiles}/bash/z_fzf.sh
         fi
     fi
     if [ ! -z $__fzf ] ; then
-        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf-extras/fzf-extras.sh ] ; then
+        if [ -f ${dotfiles}/bash/fzf-extras/fzf-extras.sh ] ; then
             source ${dotfiles}/bash/fzf-extras/fzf-extras.sh
         fi
 
-        if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fzf.sh ] ; then
+        if [ -f ${dotfiles}/bash/fzf.sh ] ; then
             source ${dotfiles}/bash/fzf.sh
         fi
     fi
@@ -533,7 +532,7 @@ if [ ! ${OSTYPE} = 'cygwin' ] ; then
     # alias zz=_zz
 fi
 
-if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/ignore ] ; then
+if [ -f ${dotfiles}/ignore ] ; then
     alias rg="rg --ignore-file ${dotfiles}/ignore --smart-case"
     alias ag="ag --path-to-ignore ${dotfiles}/ignore"
 else
