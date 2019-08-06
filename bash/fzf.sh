@@ -124,12 +124,12 @@ fe() {
   local IFS=$'\n'
   local files=()
   files=(
-    "$(fzf-tmux \
+    $(fzf-tmux \
           --query="$1" \
           --multi \
           --select-1 \
           --exit-0
-    )"
+    )
   ) || return
   "${EDITOR:-vim}" "${files[@]}"
 }

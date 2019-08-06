@@ -65,12 +65,15 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
+" {{{
+  let g:AutoPairsShortcutToggle = '<leader>p'
+" }}}
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf',    { 'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf',    { 'on': [], 'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
-Plug 'atweiden/fzf-extras'
-Plug 'skywind3000/z.lua'
+Plug 'atweiden/fzf-extras', {'on': []}
+Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
 " Plug 'junegunn/fzf.vim'
 " " {{{
@@ -111,7 +114,11 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
   nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h:p"))<CR><CR>
   nnoremap <leader>fl       :LeaderfLine<cr>
+  nnoremap <leader>ft       :LeaderfBufTag<cr>
   nnoremap <leader>ff       :LeaderfFunction<cr>
+
+  nnoremap <leader>fta      :LeaderfBufTagAll<cr>
+  nnoremap <leader>ffaa     :LeaderfFunctionAll<cr>
 
   nnoremap <leader>rg       :Leaderf rg -S -e<space>
   nnoremap <leader>rgw      :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
@@ -233,7 +240,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tomasr/molokai'
 
 " syntax file to highlight various log files
-Plug 'dzeban/vim-log-syntax'
+Plug 'dzeban/vim-log-syntax', { 'for': ['log', 'txt'] }
 
 " solarized colorscheme
 " Plug 'altercation/vim-colors-solarized'
@@ -306,7 +313,7 @@ augroup END
 " }}}
 
 " c/cpp enhanced highlight
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
 
 " unobtrusive scratch window
 Plug 'mtth/scratch.vim'
