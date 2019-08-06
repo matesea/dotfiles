@@ -24,9 +24,9 @@ Plug 'ap/vim-buftabline'
 Plug 'bronson/vim-trailing-whitespace'
 
 " gtags-cscope
-Plug 'joereynolds/gtags-scope'
-" {{{
-  if has("cscope")
+if has("cscope")
+    Plug 'joereynolds/gtags-scope'
+    " {{{
       " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
       set cscopetag
       " check cscope for definition of a symbol before checking ctags: set to 1
@@ -39,12 +39,8 @@ Plug 'joereynolds/gtags-scope'
       nnoremap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
       nnoremap <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
       nnoremap <leader>ca :cscope add<space>
-      """"""""""""""""""""""""""""""
-      " => gtags-cscope-vim plugin
-      """"""""""""""""""""""""""""""
-      nnoremap <leader>cl :GtagsCscope<cr>
-  endif
-" }}}
+    " }}}
+endif
 
 " better diff options for vim
 Plug 'chrisbra/vim-diff-enhanced'
@@ -204,7 +200,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 " {{{
   " let g:vista_fzf_preview = ['right:50%']
-  nnoremap <leader>v  :Vista!!<cr>
+  " nnoremap <leader>v  :Vista!!<cr>
   " function! NearestMethodOrFunction() abort
   "   return get(b:, 'vista_nearest_method_or_function', '')
   " endfunction
