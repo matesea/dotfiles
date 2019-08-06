@@ -487,50 +487,48 @@ if [ -z ${dotfiles} ] ; then
     dotfiles=${HOME}/dotfiles
 fi
 
-if [ ! ${OSTYPE} = 'cygwin' ] ; then
-    # import fzf bash completion & key-bindings
-    if [ ! -z $fzf_path ] ; then
-        if [ -f $fzf_path/.fzf.bash ] ; then
-            source $fzf_path/.fzf.bash
-        fi
-        unset fzf_path
-    elif [ -f ~/.fzf.bash ] ; then
-        source ~/.fzf.bash
+# import fzf bash completion & key-bindings
+if [ ! -z $fzf_path ] ; then
+    if [ -f $fzf_path/.fzf.bash ] ; then
+        source $fzf_path/.fzf.bash
     fi
+    unset fzf_path
+elif [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]; then
+    source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+elif [ -f ~/.fzf.bash ] ; then
+    source ~/.fzf.bash
+fi
 
-    __fzf=$(which fzf 2>/dev/null)
-    # if [ ! -z $__fzf ] && [ ! -z $__fasd ] ; then
-    #     if [ ! -z ${dotfiles} ] && [ -f ${dotfiles}/bash/fasd_fzf.sh ] ; then
-    #         source ${dotfiles}/bash/fasd_fzf.sh
-    #     elif [ -f ~/dotfiles/bash/fasd_fzf.sh ]; then
-    #         source ~/dotfiles/bash/fasd_fzf.sh
-    #     fi
-    if [ ! -z $__fzf ] && [ ! -z $__z ] ; then
-        if [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
-            source ${dotfiles}/bash/z_fzf.sh
-        fi
-    fi
-    if [ ! -z $__fzf ] ; then
-        if [ -f ${dotfiles}/bash/fzf-extras/fzf-extras.sh ] ; then
-            source ${dotfiles}/bash/fzf-extras/fzf-extras.sh
-        fi
+__fzf=$(which fzf 2>/dev/null)
 
-        if [ -f ${dotfiles}/bash/fzf.sh ] ; then
-            source ${dotfiles}/bash/fzf.sh
-        fi
-    fi
+# for z+fzf
+# if [ ! -z $__fzf ] && [ ! -z $__z ] ; then
+#     if [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
+#         source ${dotfiles}/bash/z_fzf.sh
+#     fi
+# fi
 
+# for fzf
+if [ ! -z $__fzf ] ; then
     __fd=$(which fd 2>/dev/null)
     if [ ! -z $__fd ] ; then
         export FZF_DEFAULT_COMMAND='fd --type f'
     fi
 
-    unset __fd __fzf
+    # if [ -f ${dotfiles}/bash/fzf-extras/fzf-extras.sh ] ; then
+    #     source ${dotfiles}/bash/fzf-extras/fzf-extras.sh
+    # fi
 
-    # unalias fasd zz and use _zz in fzf-extras instead
-    # unalias zz 2>/dev/null
-    # alias zz=_zz
+    if [ -f ${dotfiles}/bash/fzf.sh ] ; then
+        source ${dotfiles}/bash/fzf.sh
+    fi
 fi
+
+unset __fd __fzf _z __fasd __zl __lua
+
+# unalias fasd zz and use _zz in fzf-extras instead
+# unalias zz 2>/dev/null
+# alias zz=_zz
 
 if [ -f ${dotfiles}/ignore ] ; then
     alias rg="rg --ignore-file ${dotfiles}/ignore --smart-case"
@@ -538,5 +536,3 @@ if [ -f ${dotfiles}/ignore ] ; then
 else
     alias rg="rg --smart-case"
 fi
-
-unset __z __fasd __zl __lua

@@ -64,10 +64,13 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " Plug 'tpope/vim-unimpaired'
 
 " insert or delete brackets, parens, quotes in pair
-" Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 
 " " a command-line fuzzy finder written in Go
-" Plug 'junegunn/fzf',    { 'do': './install --all' }
+Plug 'junegunn/fzf',    { 'do': './install --completion --key-bindings --xdg --no-update-rc' }
+" manage imported github repositories
+Plug 'atweiden/fzf-extras'
+Plug 'skywind3000/z.lua'
 " " things you can do with fzf and vim
 " Plug 'junegunn/fzf.vim'
 " " {{{
