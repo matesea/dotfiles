@@ -7,8 +7,9 @@ let g:mapleader = ","
 
 let s:nvim = has('nvim')
 " let s:cygwin = has("unix") && has("win32unix")
-let s:xdg_config = exists("$XDG_CONFIG_HOME")
-let s:xdg_data = exists("$XDG_DATA_HOME")
+let s:xdg_config = exists("$XDG_CONFIG_HOME")   " default $HOME/.config
+let s:xdg_data = exists("$XDG_DATA_HOME")       " default: $HOME/.local/share
+" $XDG_CACHE_HOME default: $HOME/.cache
 if s:xdg_config && isdirectory($XDG_CONFIG_HOME . '/nvim')
     let $VIMHOME=$XDG_CONFIG_HOME . '/nvim'
 elseif s:xdg_config && isdirectory($XDG_CONFIG_HOME . '/vim')
@@ -20,7 +21,7 @@ else
 endif
 
 if s:xdg_data
-    let $VIMDATA=$XDG_DATA_HOME . '/.vim'
+    let $VIMDATA=$XDG_DATA_HOME . '/vim'
 else
     let $VIMDATA=$HOME . '/.local/vim'
 endif
@@ -266,8 +267,8 @@ endif
 " command! -nargs=* -complete=shellcmd Rh new  | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
 """"""""""""""""""""""""""""""
 " import local config
-if s:xdg_config && filereadable($XDG_CONFIG_HOME .'/.local/vimrc')
-    source $XDG_CONFIG_HOME/.local/vimrc
+if s:xdg_config && filereadable($XDG_DATA_HOME .'/vimrc')
+    source $XDG_DATA_HOME/vimrc
 elseif filereadable($HOME."/.local/vimrc")
     source $HOME/.local/vimrc
 endif
