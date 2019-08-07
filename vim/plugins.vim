@@ -43,7 +43,13 @@ if has("cscope")
 endif
 
 " better diff options for vim
-Plug 'chrisbra/vim-diff-enhanced'
+" Plug 'chrisbra/vim-diff-enhanced'
+" {{{
+  " started In Diff-Mode set diffexpr (plugin not loaded yet)
+"   if &diff
+"       let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+"   endif
+" }}}
 
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix'
@@ -309,7 +315,7 @@ augroup END
 " }}}
 
 " c/cpp enhanced highlight
-Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 " unobtrusive scratch window
 Plug 'mtth/scratch.vim'

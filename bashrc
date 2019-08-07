@@ -464,7 +464,7 @@ __z=$(which z.sh 2>/dev/null)
 
 # z.lua > fasd > z.sh
 if [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
-    eval "$(lua ${__zl} --init bash enhanced once)"
+    eval "$(lua ${__zl} --init bash enhanced once fzf)"
     alias zz='z -I'
 elif [ ! -z $__fasd ] && [ -x $__fasd ] ; then
     # fasd init faster with defined $fasd_cache
