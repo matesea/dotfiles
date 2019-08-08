@@ -133,10 +133,10 @@ syntax enable
 " set undolevels=20
 " set undoreload=10000
 
-nnoremap gB :bp<cr>
-nnoremap gb :bn<cr>
+nnoremap <silent> gB :bprev<cr>
+nnoremap <silent> gb :bnext<cr>
 for i in range(0, 20)
-    execute 'map <silent> '.i.'gb :b'.i.'<cr>'
+    execute 'nnoremap <silent> '.i.'gb :b'.i.'<cr>'
 endfor
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -170,15 +170,11 @@ catch
 endtry
 
 " traverse quickfix
-nnoremap gc :cnext<cr>
-nnoremap gC :cprev<cr>
+nnoremap <silent> gC :cprev<cr>
+nnoremap <silent> gc :cnext<cr>
 " traverse location list
-nnoremap gl :lnext<cr>
-nnoremap gL :lprev<cr>
-
-nnoremap ts :tselect<cr>
-nnoremap gt :tnext<cr>
-nnoremap gT :tprev<cr>
+nnoremap <silent> gL :lprev<cr>
+nnoremap <silent> gl :lnext<cr>
 
 set foldmethod=syntax
 set foldlevel=100

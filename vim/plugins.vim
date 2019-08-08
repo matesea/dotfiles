@@ -63,7 +63,7 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " }}}
 
 " Pairs of handy bracket mappings
-" Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-unimpaired'
 
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
