@@ -101,32 +101,36 @@ Plug 'skywind3000/z.lua', {'on': []}
 "   nnoremap <leader>rc     :Rc<space>
 "   nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
 " " }}}
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-" {{{
-  let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
-  if !isdirectory(g:Lf_CacheDirectory)
-      call mkdir(g:Lf_CacheDirectory, 'p')
-  endif
-  if executable('fd')
-      let g:Lf_ExternalCommand = 'fd --color=never -t f . %s'
-  endif
-  let g:Lf_ShortcutF='<leader>fe'
-  let g:Lf_ShortcutB='<leader>fb'
-  let g:Lf_NoChdir=1
 
-  nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h:p"))<CR><CR>
-  nnoremap <leader>fl       :LeaderfLine<cr>
-  nnoremap <leader>ft       :LeaderfBufTag<cr>
-  nnoremap <leader>ff       :LeaderfFunction<cr>
+if has("python2") || has("python3")
+    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+    " {{{
+      let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
+      if !isdirectory(g:Lf_CacheDirectory)
+          call mkdir(g:Lf_CacheDirectory, 'p')
+      endif
+      if executable('fd')
+          let g:Lf_ExternalCommand = 'fd --color=never -t f . %s'
+      endif
+      let g:Lf_ShortcutF='<leader>fe'
+      let g:Lf_ShortcutB='<leader>fb'
+      let g:Lf_NoChdir=1
+      let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
-  nnoremap <leader>fta      :LeaderfBufTagAll<cr>
-  nnoremap <leader>ffaa     :LeaderfFunctionAll<cr>
+      nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h:p"))<CR><CR>
+      nnoremap <leader>fl       :LeaderfLine<cr>
+      nnoremap <leader>ft       :LeaderfBufTag<cr>
+      nnoremap <leader>ff       :LeaderfFunction<cr>
 
-  nnoremap <leader>rg       :Leaderf rg -S -e<space>
-  nnoremap <leader>rgw      :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
-  nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h:p"))<CR><space>
-  nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h:p"))<CR><CR>
-" }}}
+      nnoremap <leader>fta      :LeaderfBufTagAll<cr>
+      nnoremap <leader>ffaa     :LeaderfFunctionAll<cr>
+
+      nnoremap <leader>rg       :Leaderf rg -S -e<space>
+      nnoremap <leader>rgw      :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
+      nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h:p"))<CR><space>
+      nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h:p"))<CR><CR>
+    " }}}
+endif
 
 " Vim plugin for the Perl module / CLI script 'ack'
 Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
@@ -229,7 +233,7 @@ Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
 " {{{
-let g:hugefile_trigger_size=15
+  let g:hugefile_trigger_size=15
 " }}}
 
 " tree explorer plugin
@@ -282,36 +286,36 @@ Plug 'google/vim-searchindex'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
 " {{{
 " don't give |ins-completion-menu| messages.c
-set shortmess+=c
-" always show signcolumns
-set signcolumn=yes
+  set shortmess+=c
+  " always show signcolumns
+  set signcolumn=yes
 
-" https://zhuanlan.zhihu.com/p/76033635
-" CocInstall: coc-ultisnips, coc-yank, coc-tabnine, coc-ccls
-"     "coc.source.around.enable": false,
-"     "coc.source.buffer.enable": false,
+  " https://zhuanlan.zhihu.com/p/76033635
+  " CocInstall: coc-ultisnips, coc-yank, coc-tabnine, coc-ccls
+  "     "coc.source.around.enable": false,
+  "     "coc.source.buffer.enable": false,
 
-" start coc 500ms after start vim
-let g:coc_start_at_startup=0
-function! CocTimerStart(timer)
-    exec "CocStart"
-endfunction
-call timer_start(500,'CocTimerStart',{'repeat':1})
+  " start coc 500ms after start vim
+  let g:coc_start_at_startup=0
+  function! CocTimerStart(timer)
+      exec "CocStart"
+  endfunction
+  call timer_start(500,'CocTimerStart',{'repeat':1})
 
-" forbit coc for file > 0.5MB
-let g:trigger_size = 0.5 * 1048576
-augroup hugefile
-  autocmd!
-  autocmd BufReadPre *
-        \ let size = getfsize(expand('<afile>')) |
-        \ if (size > g:trigger_size) || (size == -2) |
-        \   echohl WarningMsg | echomsg 'WARNING: altering options for this huge file!' | echohl None |
-        \   exec 'CocDisable' |
-        \ else |
-        \   exec 'CocEnable' |
-        \ endif |
-        \ unlet size
-augroup END
+  " forbit coc for file > 0.5MB
+  let g:trigger_size = 0.5 * 1048576
+  augroup hugefile
+    autocmd!
+    autocmd BufReadPre *
+          \ let size = getfsize(expand('<afile>')) |
+          \ if (size > g:trigger_size) || (size == -2) |
+          \   echohl WarningMsg | echomsg 'WARNING: altering options for this huge file!' | echohl None |
+          \   exec 'CocDisable' |
+          \ else |
+          \   exec 'CocEnable' |
+          \ endif |
+          \ unlet size
+  augroup END
 " }}}
 
 " c/cpp enhanced highlight
