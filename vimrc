@@ -41,7 +41,11 @@ set showcmd
 set number
 
 set cursorline
-set diffopt+=filler
+if has('nvim-0.3.2') || has("patch-8.1.0360")
+    set diffopt=filler,internal,algorithm:histogram,indent-heuristic
+else
+    set diffopt+=filler
+endif
 " less window redraw to speedup
 " improve redraw speed
 set ttyfast
@@ -256,12 +260,6 @@ else
     colorscheme molokai
 endif
 
-" command! -nargs=* -complete=shellcmd R  enew |
-"             \setlocal buftype=nofile bufhidden=hide noswapfile |
-"             \r !<args>
-" command! -nargs=* -complete=shellcmd Rv vnew | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
-" command! -nargs=* -complete=shellcmd Rh new  | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
-""""""""""""""""""""""""""""""
 " import local config
 if s:xdg_config && filereadable($XDG_DATA_HOME .'/vimrc')
     source $XDG_DATA_HOME/vimrc

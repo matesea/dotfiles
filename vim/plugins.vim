@@ -102,7 +102,7 @@ Plug 'skywind3000/z.lua', {'on': []}
 "   nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
 " " }}}
 
-if has("python2") || has("python3")
+if has("python") || has("python3")
     Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
     " {{{
       let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
@@ -130,6 +130,18 @@ if has("python2") || has("python3")
       nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h:p"))<CR><space>
       nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h:p"))<CR><CR>
     " }}}
+
+    " " Track the engine.
+    " Plug 'SirVer/ultisnips'
+    " " {{{
+    "   " Snippets are separated from the engine. Add this if you want them:
+    "   Plug 'honza/vim-snippets'
+
+    "   " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+    "   let g:UltiSnipsExpandTrigger="<tab>"
+    "   let g:UltiSnipsJumpForwardTrigger="<c-b>"
+    "   let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+    " " }}}
 endif
 
 " Vim plugin for the Perl module / CLI script 'ack'
