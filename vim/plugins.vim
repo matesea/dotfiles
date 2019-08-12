@@ -102,7 +102,7 @@ Plug 'skywind3000/z.lua', {'on': []}
 "   nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
 " " }}}
 
-if has("python") || has("python3")
+if has("python3") || has("python")
     Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
     " {{{
       let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
