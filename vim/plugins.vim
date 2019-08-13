@@ -102,6 +102,12 @@ Plug 'skywind3000/z.lua', {'on': []}
 "   nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
 " " }}}
 
+if has('nvim')
+    " disable python interpreter check in neovim startup
+    let g:python3_host_skip_check = 1
+    let g:python_host_skip_check = 1
+endif
+
 if has("python3") || has("python")
     Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
     " {{{
@@ -115,7 +121,7 @@ if has("python3") || has("python")
       let g:Lf_ShortcutF='<leader>fe'
       let g:Lf_ShortcutB='<leader>fb'
       let g:Lf_NoChdir=1
-      let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
+      " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
       nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h:p"))<CR><CR>
       nnoremap <leader>fl       :LeaderfLine<cr>
