@@ -137,17 +137,17 @@ if has("python3") || has("python")
       nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h:p"))<CR><CR>
     " }}}
 
-    " " Track the engine.
-    " Plug 'SirVer/ultisnips'
-    " " {{{
-    "   " Snippets are separated from the engine. Add this if you want them:
-    "   Plug 'honza/vim-snippets'
+    " Track the engine.
+    Plug 'SirVer/ultisnips'
+    " {{{
+      " Snippets are separated from the engine. Add this if you want them:
+      Plug 'honza/vim-snippets'
 
-    "   " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-    "   let g:UltiSnipsExpandTrigger="<tab>"
-    "   let g:UltiSnipsJumpForwardTrigger="<c-b>"
-    "   let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-    " " }}}
+      " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+      let g:UltiSnipsExpandTrigger="<tab>"
+      let g:UltiSnipsJumpForwardTrigger="<c-b>"
+      let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+    " }}}
 endif
 
 " Vim plugin for the Perl module / CLI script 'ack'

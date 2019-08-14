@@ -134,6 +134,17 @@ fe() {
   "${EDITOR:-vim}" "${files[@]}"
 }
 
+frg() {
+    local files
+
+    [ ! -z "$1" ] || return
+    files="$(rg -l "$1" 2>/dev/null)" || return
+    files=(
+    $(printf '%s' "$files" | fzf --multi --select-1)
+        ) || return
+    "${EDITOR:-vim}" "${files[@]}"
+}
+
 # fco - checkout git branch/tag
 fco() {
   local tags
