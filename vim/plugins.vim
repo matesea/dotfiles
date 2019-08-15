@@ -123,7 +123,7 @@ if has("python3") || has("python")
       let g:Lf_NoChdir=1
       " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
-      nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h:p"))<CR><CR>
+      nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
       nnoremap <leader>fl       :LeaderfLine<cr>
       nnoremap <leader>ft       :LeaderfBufTag<cr>
       nnoremap <leader>ff       :LeaderfFunction<cr>
@@ -133,8 +133,8 @@ if has("python3") || has("python")
 
       nnoremap <leader>rg       :Leaderf rg -S -e<space>
       nnoremap <leader>rgw      :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
-      nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h:p"))<CR><space>
-      nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h:p"))<CR><CR>
+      nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h"))<CR><space>
+      nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
     " }}}
 
     " Track the engine.
