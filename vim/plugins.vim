@@ -138,15 +138,20 @@ if has("python3") || has("python")
     " }}}
 
     " Track the engine.
-    Plug 'SirVer/ultisnips'
+    Plug 'SirVer/ultisnips', { 'on': [] }
     " {{{
       " Snippets are separated from the engine. Add this if you want them:
-      Plug 'honza/vim-snippets'
+      Plug 'honza/vim-snippets', { 'on': [] }
 
       " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
       let g:UltiSnipsExpandTrigger="<tab>"
       let g:UltiSnipsJumpForwardTrigger="<c-b>"
       let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+      augroup load_ultisnips
+          autocmd!
+          autocmd InsertEnter * call plug#load('ultisnips', 'vim-snippets')
+            \| autocmd! load_ultisnips
+      augroup END
     " }}}
 endif
 
@@ -256,9 +261,6 @@ Plug 'mhinz/vim-hugefile'
 
 " tree explorer plugin
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-" {{{
-  nmap <leader>nt :NERDTreeToggle<cr>
-" }}}
 
 " molokai theme
 Plug 'tomasr/molokai'
@@ -273,7 +275,7 @@ Plug 'dzeban/vim-log-syntax', { 'for': ['log', 'txt'] }
 Plug 'tpope/vim-sensible'
 
 " follow linux kernel coding style
-Plug 'vivien/vim-linux-coding-style', { 'for': 'c' }
+Plug 'vivien/vim-linux-coding-style', { 'for': ['c', 'h', 'S'] }
 
 " vim tmux seamless navigator
 Plug 'christoomey/vim-tmux-navigator'
@@ -301,7 +303,7 @@ Plug 'google/vim-searchindex'
 " " load deoplete when entering insert mode, reduce ~200ms in startup
 " autocmd InsertEnter * call deoplete#enable()
 
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
+Plug 'neoclide/coc.nvim', {'on': [], 'branch': 'release', 'do': { -> coc#util#install() }}
 " {{{
 " don't give |ins-completion-menu| messages.c
   set shortmess+=c
@@ -314,11 +316,15 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   "     "coc.source.buffer.enable": false,
 
   " start coc 500ms after start vim
-  let g:coc_start_at_startup=0
-  function! CocTimerStart(timer)
-      exec "CocStart"
-  endfunction
-  call timer_start(500,'CocTimerStart',{'repeat':1})
+  " let g:coc_start_at_startup=0
+  " function! CocTimerStart(timer)
+  "     exec "CocStart"
+  " endfunction
+  augroup load_coc
+      autocmd!
+      autocmd InsertEnter * call plug#load('coc.nvim')
+        \| autocmd! load_coc
+  augroup END
 
   " forbit coc for file > 0.5MB
   let g:trigger_size = 0.5 * 1048576
@@ -340,7 +346,17 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
 Plug 'octol/vim-cpp-enhanced-highlight'
 
 " unobtrusive scratch window
-Plug 'mtth/scratch.vim'
+Plug 'mtth/scratch.vim', { 'on': ['<plug>(scratch-insert-reuse)',
+    \'<plug>(scratch-insert-clear)',
+    \'<plug>(scratch-selection-reuse)',
+    \'<plug>(scratch-selection-clear)']}
+" {{{
+  let g:scratch_no_mappings = 1
+  nmap gs <plug>(scratch-insert-reuse)
+  nmap gS <plug>(scratch-insert-clear)
+  xmap gs <plug>(scratch-selection-reuse)
+  xmap gS <plug>(scratch-selection-clear)
+" }}}
 
 " go to terminal or file manager
 Plug 'justinmk/vim-gtfo'
