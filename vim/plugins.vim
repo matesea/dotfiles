@@ -303,7 +303,7 @@ Plug 'google/vim-searchindex'
 " " load deoplete when entering insert mode, reduce ~200ms in startup
 " autocmd InsertEnter * call deoplete#enable()
 
-Plug 'neoclide/coc.nvim', {'on': [], 'branch': 'release', 'do': { -> coc#util#install() }}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
 " {{{
 " don't give |ins-completion-menu| messages.c
   set shortmess+=c
@@ -316,15 +316,18 @@ Plug 'neoclide/coc.nvim', {'on': [], 'branch': 'release', 'do': { -> coc#util#in
   "     "coc.source.buffer.enable": false,
 
   " start coc 500ms after start vim
-  " let g:coc_start_at_startup=0
-  " function! CocTimerStart(timer)
-  "     exec "CocStart"
-  " endfunction
-  augroup load_coc
-      autocmd!
-      autocmd InsertEnter * call plug#load('coc.nvim')
-        \| autocmd! load_coc
-  augroup END
+  let g:coc_start_at_startup = 0
+  function! CocTimerStart(timer)
+      exec "CocStart"
+  endfunction
+  call timer_start(500, 'CocTimerStart', { 'repeat': 1 })
+
+  " load coc in insert mode
+  " augroup load_coc
+  "     autocmd!
+  "     autocmd InsertEnter * call plug#load('coc.nvim')
+  "       \| autocmd! load_coc
+  " augroup END
 
   " forbit coc for file > 0.5MB
   let g:trigger_size = 0.5 * 1048576
