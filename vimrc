@@ -56,6 +56,7 @@ set history=2000
 
 " Enable filetype plugin
 " load plugins according to different file type
+filetype on
 filetype plugin indent on
 
 syntax enable
@@ -133,15 +134,11 @@ if has("persistent_undo")
     endif
 endif
 
-syntax enable
 " set undolevels=20
 " set undoreload=10000
 
 nnoremap <silent> gB :bprev<cr>
 nnoremap <silent> gb :bnext<cr>
-for i in range(0, 20)
-    execute 'nnoremap <silent> '.i.'gb :b'.i.'<cr>'
-endfor
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related

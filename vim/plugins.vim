@@ -119,7 +119,7 @@ if has("python3") || has("python")
           let g:Lf_ExternalCommand = 'fd --color=never -t f . %s'
       endif
       let g:Lf_ShortcutF='<leader>fe'
-      let g:Lf_ShortcutB='<leader>fb'
+      let g:Lf_ShortcutB=';'
       let g:Lf_NoChdir=1
       " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
@@ -129,7 +129,7 @@ if has("python3") || has("python")
       nnoremap <leader>ff       :LeaderfFunction<cr>
 
       nnoremap <leader>fta      :LeaderfBufTagAll<cr>
-      nnoremap <leader>ffaa     :LeaderfFunctionAll<cr>
+      nnoremap <leader>ffa      :LeaderfFunctionAll<cr>
 
       nnoremap <leader>rg       :Leaderf rg -S -e<space>
       nnoremap <leader>rgw      :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
@@ -320,7 +320,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   function! CocTimerStart(timer)
       exec "CocStart"
   endfunction
-  call timer_start(500, 'CocTimerStart', { 'repeat': 1 })
+  autocmd InsertEnter * call timer_start(250, 'CocTimerStart', { 'repeat': 1 })
 
   " load coc in insert mode
   " augroup load_coc
