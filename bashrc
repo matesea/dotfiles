@@ -512,7 +512,14 @@ __fzf=$(which fzf 2>/dev/null)
 if [ ! -z $__fzf ] ; then
     __fd=$(which fd 2>/dev/null)
     if [ ! -z $__fd ] ; then
-        export FZF_DEFAULT_COMMAND='fd --type f'
+        export FZF_DEFAULT_COMMAND='
+         (git ls-tree -r --name-only HEAD ||
+             fd --type f) 2>/dev/null'
+    else
+        export FZF_DEFAULT_COMMAND='
+         (git ls-tree -r --name-only HEAD ||
+             find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
+             sed s/^..//) 2> /dev/null'
     fi
 
     # if [ -f ${dotfiles}/bash/fzf-extras/fzf-extras.sh ] ; then
@@ -523,6 +530,9 @@ if [ ! -z $__fzf ] ; then
         source ${dotfiles}/bash/fzf.sh
     fi
 fi
+
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 unset __fd __fzf _z __fasd __zl __lua
 
