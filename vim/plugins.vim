@@ -68,7 +68,8 @@ Plug 'tpope/vim-unimpaired'
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
 " {{{
-  let g:AutoPairsShortcutToggle = '<leader>p'
+" "use default setting alt+p
+" let g:AutoPairsShortcutToggle = '<leader>p'
 " }}}
 
 " " a command-line fuzzy finder written in Go
@@ -127,16 +128,17 @@ if has("python3") || has("python")
 
       nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
       nnoremap <leader>fl       :LeaderfLine<cr>
+      nnoremap <leader>fw       :LeaderfLineCword<cr>
       nnoremap <leader>ft       :LeaderfBufTag<cr>
       nnoremap <leader>ff       :LeaderfFunction<cr>
 
-      nnoremap <leader>fta      :LeaderfBufTagAll<cr>
-      nnoremap <leader>ffa      :LeaderfFunctionAll<cr>
+      " nnoremap <leader>fta      :LeaderfBufTagAll<cr>
+      " nnoremap <leader>ffa      :LeaderfFunctionAll<cr>
 
       nnoremap <leader>rg       :Leaderf rg -S -e<space>
-      nnoremap <leader>rgw      :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
+      nnoremap <leader>rw       :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
       nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h"))<CR><space>
-      nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
+      nnoremap <leader>rW       :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
     " }}}
 
     " Track the engine.

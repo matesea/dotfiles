@@ -124,7 +124,7 @@ fe() {
   local IFS=$'\n'
   local files=()
   files=(
-    $(fzf-tmux \
+    $(fzf \
           --query="$1" \
           --multi \
           --select-1 \

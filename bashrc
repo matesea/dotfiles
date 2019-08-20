@@ -512,9 +512,10 @@ __fzf=$(which fzf 2>/dev/null)
 if [ ! -z $__fzf ] ; then
     __fd=$(which fd 2>/dev/null)
     if [ ! -z $__fd ] ; then
-        export FZF_DEFAULT_COMMAND='
-         (git ls-tree -r --name-only HEAD ||
-             fd --type f) 2>/dev/null'
+        # export FZF_DEFAULT_COMMAND='
+        #  (git ls-tree -r --name-only HEAD ||
+        #      fd --type f) 2>/dev/null'
+        export FZF_DEFAULT_COMMAND='fd --type f 2>/dev/null'
     else
         export FZF_DEFAULT_COMMAND='
          (git ls-tree -r --name-only HEAD ||
