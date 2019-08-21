@@ -511,14 +511,18 @@ __fzf=$(which fzf 2>/dev/null)
 # for fzf
 if [ ! -z $__fzf ] ; then
     __fd=$(which fd 2>/dev/null)
-    if [ ! -z $__fd ] ; then
+    __rg=$(which rg 2>/dev/null)
+    # rg is even faster than fd
+    if [ ! -z $__rg ] ; then
+        export FZF_DEFAULT_COMMAND='(global -Po || rg --no-messages --files) 2>/dev/null'
+    elif [ ! -z $__fd ] ; then
         # export FZF_DEFAULT_COMMAND='
         #  (git ls-tree -r --name-only HEAD ||
         #      fd --type f) 2>/dev/null'
-        export FZF_DEFAULT_COMMAND='fd --type f 2>/dev/null'
+        export FZF_DEFAULT_COMMAND='(global -Po || fd --type f) 2>/dev/null'
     else
         export FZF_DEFAULT_COMMAND='
-         (git ls-tree -r --name-only HEAD ||
+         (global -Po || git ls-tree -r --name-only HEAD ||
              find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
              sed s/^..//) 2> /dev/null'
     fi
@@ -535,7 +539,7 @@ fi
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-unset __fd __fzf _z __fasd __zl __lua
+unset __fd __fzf _z __fasd __zl __lua __rg
 
 # unalias fasd zz and use _zz in fzf-extras instead
 # unalias zz 2>/dev/null

@@ -116,11 +116,14 @@ if has("python3") || has("python")
       if !isdirectory(g:Lf_CacheDirectory)
           call mkdir(g:Lf_CacheDirectory, 'p')
       endif
-      "" set Lf_ExternalCommand will cause us no chance to use git ls-file
-      "" so unset it to let LeaderF choose
-      " if executable('fd')
-      "     let g:Lf_ExternalCommand = 'fd --color=never -t f . %s'
-      " endif
+      " by default leaderf will use commands like git ls-tree so some files will be missed
+      " rg is even faster than fd
+      if executable('rg')
+          " let g:Lf_DefaultExternalTool = 'rg'
+          let g:Lf_ExternalCommand = 'rg --no-messages --files %s'
+      " elseif executable('fd')
+      "     let g:Lf_ExternalCommand = 'fd --color=never -t f %s'
+      endif
       let g:Lf_ShortcutF='<leader>fe'
       let g:Lf_ShortcutB=';'
       let g:Lf_NoChdir=1
