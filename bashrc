@@ -419,6 +419,22 @@ function gen_cs_for_each_subdir() {
     done
 }
 
+function linkGtags() {
+    local gtag_path
+    # VIMDATA set in vimrc
+    if [ ! -z $XDG_DATA_HOME ]; then
+        gtag_path=$(find $XDG_DATA_HOME/vim -type d -name gtags)
+    else
+        gtag_path=$(find "$HOME/.local/vim" -type d -name gtags)
+    fi
+    [ ! -z $gtag_path ] || return
+    for i in $gtag_path/${PWD//\//%}/* ; do
+        if [ -e $i ]; then
+            ln -s $i $(basename $i)
+        fi
+    done
+}
+
 export PATH="/opt/local/bin/:$HOME/bin:$PATH"
 if [[ ${EUID} == 0 ]] ; then
 	PS1='\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '

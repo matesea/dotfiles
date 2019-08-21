@@ -138,10 +138,19 @@ if has("python3") || has("python")
       " nnoremap <leader>fta      :LeaderfBufTagAll<cr>
       " nnoremap <leader>ffa      :LeaderfFunctionAll<cr>
 
+      " option: --match-path to fuzzy the path
       nnoremap <leader>rg       :Leaderf rg -S -e<space>
       nnoremap <leader>rw       :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
       nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h"))<CR><space>
       nnoremap <leader>rW       :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
+
+      " gtags
+      nnoremap <leader>gu       :Leaderf gtags --update<cr>
+      nnoremap <leader>gr       :Leaderf gtags --recall<cr>
+      " cursor on definition => reference
+      " on word has defined => definition
+      " otherwise jump to symbol if any
+      nnoremap <leader>gc       :Leaderf gtags --by-context --auto-jump<cr>
     " }}}
 
     " Track the engine.
