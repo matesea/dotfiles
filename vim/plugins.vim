@@ -116,6 +116,8 @@ if has("python3") || has("python")
       if !isdirectory(g:Lf_CacheDirectory)
           call mkdir(g:Lf_CacheDirectory, 'p')
       endif
+      " need git >= 2.11
+      " let g:Lf_RecurseSubmodules = 1
       " by default leaderf will use commands like git ls-tree so some files will be missed
       " rg is even faster than fd
       if executable('rg')
