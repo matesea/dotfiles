@@ -126,9 +126,10 @@ if has("python3") || has("python")
       " elseif executable('fd')
       "     let g:Lf_ExternalCommand = 'fd --color=never -t f %s'
       endif
-      let g:Lf_ShortcutF='<leader>fe'
-      let g:Lf_ShortcutB=';'
-      let g:Lf_NoChdir=1
+      let g:Lf_ShortcutF = '<leader>fe'
+      let g:Lf_ShortcutB = ';'
+      let g:Lf_NoChdir = 1
+      let g:Lf_ReverseOrder = 1
       " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
       nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
@@ -166,9 +167,9 @@ if has("python3") || has("python")
       Plug 'honza/vim-snippets', { 'on': [] }
 
       " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-      let g:UltiSnipsExpandTrigger="<tab>"
-      let g:UltiSnipsJumpForwardTrigger="<c-b>"
-      let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+      let g:UltiSnipsExpandTrigger = "<tab>"
+      let g:UltiSnipsJumpForwardTrigger = "<c-b>"
+      let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
       augroup load_ultisnips
           autocmd!
           autocmd InsertEnter * call plug#load('ultisnips', 'vim-snippets')
@@ -278,7 +279,7 @@ Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
 " {{{
-  let g:hugefile_trigger_size=15
+  let g:hugefile_trigger_size = 15
 " }}}
 
 " tree explorer plugin

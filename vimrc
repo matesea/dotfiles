@@ -11,19 +11,19 @@ let s:xdg_config = exists("$XDG_CONFIG_HOME")   " default $HOME/.config
 let s:xdg_data = exists("$XDG_DATA_HOME")       " default: $HOME/.local/share
 " $XDG_CACHE_HOME default: $HOME/.cache
 if s:xdg_config && isdirectory($XDG_CONFIG_HOME . '/nvim')
-    let $VIMHOME=$XDG_CONFIG_HOME . '/nvim'
+    let $VIMHOME = $XDG_CONFIG_HOME . '/nvim'
 elseif s:xdg_config && isdirectory($XDG_CONFIG_HOME . '/vim')
-    let $VIMHOME=$XDG_CONFIG_HOME . '/vim'
+    let $VIMHOME = $XDG_CONFIG_HOME . '/vim'
 elseif isdirectory($HOME . '/dotfiles/vim')
-    let $VIMHOME=$HOME . '/dotfiles/vim'
+    let $VIMHOME = $HOME . '/dotfiles/vim'
 else
-    let $VIMHOME=$HOME . '/.vim'
+    let $VIMHOME = $HOME . '/.vim'
 endif
 
 if s:xdg_data
-    let $VIMDATA=$XDG_DATA_HOME . '/vim'
+    let $VIMDATA = $XDG_DATA_HOME . '/vim'
 else
-    let $VIMDATA=$HOME . '/.local/vim'
+    let $VIMDATA = $HOME . '/.local/vim'
 endif
 
 " show vimrc
@@ -71,19 +71,19 @@ set ofu=syntaxcomplete#Complete
 " if has("win32")
 "     set viminfo+=n$VIM/_viminfo
 if has("unix")
-    let &viminfo="'100,<50,s10,h,n"
+    let &viminfo = "'100,<50,s10,h,n"
     if s:xdg_data
-        let s:viminfodir=$XDG_DATA_HOME
+        let s:viminfodir = $XDG_DATA_HOME
     else
-        let s:viminfodir=$HOME
+        let s:viminfodir = $HOME
     endif
     if !isdirectory(s:viminfodir)
         call mkdir(s:viminfodir, 'p')
     endif
     if s:nvim
-        let &viminfo.=s:viminfodir . '/.viminfo.shada'
+        let &viminfo .= s:viminfodir . '/.viminfo.shada'
     else
-        let &viminfo.=s:viminfodir . '/.viminfo'
+        let &viminfo .= s:viminfodir . '/.viminfo'
     endif
 endif
 
@@ -119,7 +119,7 @@ set ffs=unix,dos,mac "Default file types
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git anyway...
 set nobackup nowritebackup
-let &backupdir=$VIMDATA . '/backup/'
+let &backupdir = $VIMDATA . '/backup/'
 if !isdirectory(&backupdir)
     call mkdir(&backupdir, 'p')
 endif
@@ -221,9 +221,9 @@ function! s:RunShellCommand(cmdline)
 endfunction
 
 " Plugin Manager Installation {{{
-let g:plugins=$VIMHOME.'/plugged'
-let s:plugin_manager=$VIMHOME . '/autoload/plug.vim'
-let s:plugin_url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+let g:plugins = $VIMHOME.'/plugged'
+let s:plugin_manager = $VIMHOME . '/autoload/plug.vim'
+let s:plugin_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 if empty(glob(s:plugin_manager))
   echom 'vim-plug not found. Installing...'
