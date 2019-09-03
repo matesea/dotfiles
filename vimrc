@@ -137,8 +137,8 @@ endif
 " set undolevels=20
 " set undoreload=10000
 
-nnoremap <silent> gB :bprev<cr>
-nnoremap <silent> gb :bnext<cr>
+" nnoremap <silent> gB :bprev<cr>
+" nnoremap <silent> gb :bnext<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -171,11 +171,11 @@ catch
 endtry
 
 " traverse quickfix
-nnoremap <silent> gC :cprev<cr>
-nnoremap <silent> gc :cnext<cr>
+" nnoremap <silent> gC :cprev<cr>
+" nnoremap <silent> gc :cnext<cr>
 " traverse location list
-nnoremap <silent> gL :lprev<cr>
-nnoremap <silent> gl :lnext<cr>
+" nnoremap <silent> gL :lprev<cr>
+" nnoremap <silent> gl :lnext<cr>
 
 set foldmethod=syntax
 set foldlevel=100
