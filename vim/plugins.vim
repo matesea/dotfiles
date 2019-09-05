@@ -153,7 +153,9 @@ if has("python3") || has("python")
       " cursor on definition => reference
       " on word has defined => definition
       " otherwise jump to symbol if any
-      nnoremap <leader>gs       :Leaderf gtags --by-context --auto-jump<cr>
+      nnoremap <leader>gb       :Leaderf gtags --by-context --auto-jump<cr>
+      " -d: definition, -r: being called, -s: symbol, -g: grep
+      nnoremap <leader>gs       :Leaderf gtags --auto-jump -
       " go definition
       nnoremap <leader>gg       :Leaderf gtags -d <c-r><c-w> --auto-jump<cr>
       " go being called
