@@ -251,6 +251,8 @@ call plug#end()
 
 if has("gui_running")
     set guioptions-=e
+    set background=dark
+    colorscheme molokai
 else
     set t_Co=256
     set background=dark
