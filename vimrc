@@ -137,8 +137,14 @@ endif
 " set undolevels=20
 " set undoreload=10000
 
-" nnoremap <silent> gB :bprev<cr>
-" nnoremap <silent> gb :bnext<cr>
+nnoremap ]b :bnext<cr>
+nnoremap [b :bprev<cr>
+nnoremap ]q :cnext<cr>
+nnoremap [q :cprev<cr>
+nnoremap ]l :lnext<cr>
+nnoremap [l :lprev<cr>
+nnoremap ]t :tabn<cr>
+nnoremap [t :tabp<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -225,6 +231,13 @@ let g:plugins = $VIMHOME.'/plugged'
 let s:plugin_manager = $VIMHOME . '/autoload/plug.vim'
 let s:plugin_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
+" import local config
+if s:xdg_config && filereadable($XDG_DATA_HOME .'/vimrc')
+    source $XDG_DATA_HOME/vimrc
+elseif filereadable($HOME."/.local/vimrc")
+    source $HOME/.local/vimrc
+endif
+
 if empty(glob(s:plugin_manager))
   echom 'vim-plug not found. Installing...'
   if executable('curl')
@@ -251,17 +264,8 @@ call plug#end()
 
 if has("gui_running")
     set guioptions-=e
-    set background=dark
-    colorscheme molokai
 else
     set t_Co=256
-    set background=dark
-    colorscheme molokai
 endif
-
-" import local config
-if s:xdg_config && filereadable($XDG_DATA_HOME .'/vimrc')
-    source $XDG_DATA_HOME/vimrc
-elseif filereadable($HOME."/.local/vimrc")
-    source $HOME/.local/vimrc
-endif
+set background=dark
+colorscheme molokai

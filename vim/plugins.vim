@@ -63,7 +63,7 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " }}}
 
 " Pairs of handy bracket mappings
-Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-unimpaired'
 
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
@@ -107,6 +107,9 @@ if has('nvim')
     " disable python interpreter check in neovim startup
     let g:python3_host_skip_check = 1
     let g:python_host_skip_check = 1
+    " TODO: set in ~/.local/vimrc
+    " let g:python3_host_prog = '/opt/local/bin/python3'
+    " let g:python_host_prog = '/opt/local/bin/python'
 endif
 
 if has("python3") || has("python")
@@ -127,7 +130,7 @@ if has("python3") || has("python")
       "     let g:Lf_ExternalCommand = 'fd --color=never -t f %s'
       endif
       let g:Lf_ShortcutF = '<leader>fe'
-      let g:Lf_ShortcutB = ';'
+      let g:Lf_ShortcutB = '<leader>fb'
       let g:Lf_NoChdir = 1
       let g:Lf_ReverseOrder = 1
       " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
@@ -217,22 +220,25 @@ Plug 'moll/vim-bbye'
 " }}}
 
 " vim motions on speed
-Plug 'easymotion/vim-easymotion'
-" {{{
-  " let g:EasyMotion_leader_key = ',,'
-  let g:EasyMotion_do_mapping = 0
-  " Jump to anywhere you want with minimal keystrokes, with just one key binding.
-  " `s{char}{label}`
-  nmap s <Plug>(easymotion-overwin-f)
-  " `s{char}{char}{label}`
-  " Need one more keystroke, but on average, it may be more comfortable.
-  nmap ss <Plug>(easymotion-overwin-f2)
-  " Turn on case-insensitive feature
-  let g:EasyMotion_smartcase = 1
-  " JK motions: Line motions
-  map gj <Plug>(easymotion-j)
-  map gk <Plug>(easymotion-k)
-" }}}
+" Plug 'easymotion/vim-easymotion'
+" " {{{
+"   " let g:EasyMotion_leader_key = ',,'
+"   let g:EasyMotion_do_mapping = 0
+"   " Jump to anywhere you want with minimal keystrokes, with just one key binding.
+"   " `s{char}{label}`
+"   nmap s <Plug>(easymotion-overwin-f)
+"   " `s{char}{char}{label}`
+"   " Need one more keystroke, but on average, it may be more comfortable.
+"   nmap ss <Plug>(easymotion-overwin-f2)
+"   " Turn on case-insensitive feature
+"   let g:EasyMotion_smartcase = 1
+"   " JK motions: Line motions
+"   map gj <Plug>(easymotion-j)
+"   map gk <Plug>(easymotion-k)
+" " }}}
+
+" the missing motion for vim
+Plug 'justinmk/vim-sneak'
 
 " Extended f, F, t and T key mappings for Vim
 Plug 'rhysd/clever-f.vim'
