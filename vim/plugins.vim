@@ -6,6 +6,8 @@
 Plug 'airblade/vim-gitgutter'
 " {{{
   let g:gitgutter_eager = 0
+  nnoremap <silent> ]c :GitGutterNextHunk<cr>
+  nnoremap <silent> [c :GitGutterPrevHunk<cr>
 " }}}
 
 " git wrapper
@@ -259,6 +261,11 @@ Plug 'farmergreg/vim-lastplace'
 
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
+" {{{
+"  let g:lightline = {
+"        \ 'colorscheme': 'molokai',
+"        \ }
+" }}}
 
 " Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }

@@ -137,14 +137,14 @@ endif
 " set undolevels=20
 " set undoreload=10000
 
-nnoremap ]b :bnext<cr>
-nnoremap [b :bprev<cr>
-nnoremap ]q :cnext<cr>
-nnoremap [q :cprev<cr>
-nnoremap ]l :lnext<cr>
-nnoremap [l :lprev<cr>
-nnoremap ]t :tabn<cr>
-nnoremap [t :tabp<cr>
+nnoremap <silent> ]b :bnext<cr>
+nnoremap <silent> [b :bprev<cr>
+nnoremap <silent> ]q :cnext<cr>
+nnoremap <silent> [q :cprev<cr>
+nnoremap <silent> ]l :lnext<cr>
+nnoremap <silent> [l :lprev<cr>
+nnoremap <silent> ]t :tabn<cr>
+nnoremap <silent> [t :tabp<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
