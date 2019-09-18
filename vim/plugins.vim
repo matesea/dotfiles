@@ -68,7 +68,7 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " Plug 'tpope/vim-unimpaired'
 
 " insert or delete brackets, parens, quotes in pair
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 " {{{
 " "use default setting alt+p
 " let g:AutoPairsShortcutToggle = '<leader>p'
@@ -135,7 +135,7 @@ if has("python3") || has("python")
       let g:Lf_ShortcutB = '<leader>fb'
       let g:Lf_NoChdir = 1
       let g:Lf_ReverseOrder = 1
-      " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
+      let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
       nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
       nnoremap <leader>fl       :LeaderfLine<cr>
@@ -168,20 +168,16 @@ if has("python3") || has("python")
     " }}}
 
     " Track the engine.
-    Plug 'SirVer/ultisnips', { 'on': [] }
-    " {{{
-      " Snippets are separated from the engine. Add this if you want them:
-      Plug 'honza/vim-snippets', { 'on': [] }
+    " Plug 'SirVer/ultisnips', { 'on': [] }
+    " " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+    " let g:UltiSnipsExpandTrigger = "<tab>"
+    " let g:UltiSnipsJumpForwardTrigger = "<c-b>"
+    " let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
 
-      " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-      let g:UltiSnipsExpandTrigger = "<tab>"
-      let g:UltiSnipsJumpForwardTrigger = "<c-b>"
-      let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
-      augroup load_ultisnips
-          autocmd!
-          autocmd InsertEnter * call plug#load('ultisnips', 'vim-snippets')
-            \| autocmd! load_ultisnips
-      augroup END
+    " {{{
+    " Snippets are separated from the engine. Add this if you want them:
+      Plug 'honza/vim-snippets', { 'on': [] }
+      autocmd InsertEnter * call plug#load('vim-snippets')
     " }}}
 endif
 
@@ -358,7 +354,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   function! CocTimerStart(timer)
       exec "CocStart"
   endfunction
-  autocmd InsertEnter * call timer_start(250, 'CocTimerStart', { 'repeat': 1 })
+  autocmd InsertEnter * call timer_start(50, 'CocTimerStart', { 'repeat': 1 })
 
   " load coc in insert mode
   " augroup load_coc
@@ -366,6 +362,24 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   "     autocmd InsertEnter * call plug#load('coc.nvim')
   "       \| autocmd! load_coc
   " augroup END
+
+  " for coc-snippets, use tab to trigger
+  " inoremap <silent><expr> <TAB>
+  "   \ pumvisible() ? coc#_select_confirm() :
+  "   \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+  "   \ <SID>check_back_space() ? "\<TAB>" :
+  "   \ coc#refresh()
+
+  " function! s:check_back_space() abort
+  "   let col = col('.') - 1
+  "   return !col || getline('.')[col - 1]  =~# '\s'
+  " endfunction
+  " let g:coc_snippet_next = '<tab>'
+
+  " Use <C-l> for trigger snippet expand.
+  imap <C-l> <Plug>(coc-snippets-expand)
+  " Use <C-j> for both expand and jump (make expand higher priority.)
+  imap <C-j> <Plug>(coc-snippets-expand-jump)
 
   " forbit coc for file > 0.5MB
   let g:trigger_size = 0.5 * 1048576

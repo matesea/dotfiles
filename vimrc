@@ -56,7 +56,6 @@ set history=2000
 
 " Enable filetype plugin
 " load plugins according to different file type
-filetype on
 filetype plugin indent on
 
 syntax enable
@@ -186,8 +185,8 @@ endtry
 set foldmethod=syntax
 set foldlevel=100
 " fast file traverse
-noremap j gj
-noremap k gk
+noremap <silent> j gj
+noremap <silent> k gk
 " new buffer without name
 " nnoremap <leader>e  :enew<cr>
 " to reload current file
