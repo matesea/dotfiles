@@ -24,7 +24,9 @@ export HISTTIMEFORMAT="%F %T "
 # tab completion
 set show-all-if-ambiguous on
 bind 'TAB:complete'
-bind '"\e[Z":menu-complete' #
+# shift-tab to 
+bind '"\e[Z":menu-complete'
+bind 'set completion-ignore-case on'
 
 # auto enter directory with cd
 shopt -s autocd
@@ -549,6 +551,9 @@ if [ ! -z $__fzf ] ; then
     if [ -f ${dotfiles}/bash/fzf.sh ] ; then
         source ${dotfiles}/bash/fzf.sh
     fi
+    alias za='zd -a'
+    alias zr='zd -r'
+    alias zf='zd -f'
 fi
 
 # To apply the command to CTRL-T as well

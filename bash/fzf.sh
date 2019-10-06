@@ -9,7 +9,7 @@ fl() {
 _fd() {
   local dir
   dir="$(
-    fd "${1:-.}" -t d 2> /dev/null \
+    fd "${1:-.}" -t d -d 3 2> /dev/null \
       | fzf +m
   )" || return
   cd "$dir" || return
