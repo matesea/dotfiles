@@ -5,7 +5,7 @@
 " shows a git diff in the gutter and stages/undoes hunks
 Plug 'airblade/vim-gitgutter'
 " {{{
-  let g:gitgutter_eager = 0
+  set updatetime=300
   nnoremap <silent> ]c :GitGutterNextHunk<cr>
   nnoremap <silent> [c :GitGutterPrevHunk<cr>
 " }}}
@@ -428,3 +428,6 @@ Plug 'maxbrunsfeld/vim-yankstack'
 
 " comment stuff out
 Plug 'tpope/vim-commentary'
+
+" Start a * or # search from a visual block
+Plug 'nelstrom/vim-visual-star-search'
