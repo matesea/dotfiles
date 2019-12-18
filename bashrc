@@ -436,6 +436,30 @@ function linkGtags() {
     done
 }
 
+function genGtags() {
+    local LfCache
+    # VIMDATA set in vimrc
+    if [ ! -z $XDG_DATA_HOME ]; then
+        LfCache=$(find $XDG_DATA_HOME/vim -type d -name .LfCache)
+    else
+        LfCache=$(find "$HOME/.local/vim" -type d -name .LfCache)
+    fi
+    [ ! -z $LfCache ] || return
+    echo "1"
+    if [ -e "$LfCache/gtags/${PWD//\//%}/" ] && [ -e "$LfCache/gtags/${PWD//\//%}/GTAGS" ] ; then
+        gtags -i "$LfCache/gtags/${PWD//\//%}/"
+    else
+        mkdir -p "$LfCache/gtags/${PWD//\//%}/"
+        gtags "$LfCache/gtags/${PWD//\//%}/"
+    fi
+    echo "2"
+    for i in $LfCache/gtags/${PWD//\//%}/G* ; do
+        if [ -e $i ]; then
+            ln -s $i $(basename $i)
+        fi
+    done
+}
+
 export PATH="/opt/local/bin/:$HOME/bin:$PATH"
 if [[ ${EUID} == 0 ]] ; then
 	PS1='\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '

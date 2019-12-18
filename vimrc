@@ -225,6 +225,11 @@ function! s:RunShellCommand(cmdline)
   silent execute '$read !'. a:cmdline
 endfunction
 
+function! RemoveEmptyLines()
+    silent! execute ':%g/^[\ \t]*$/d'
+endfunction
+command! -range=% RemoveEmptyLines call RemoveEmptyLines()
+
 " Plugin Manager Installation {{{
 let g:plugins = $VIMHOME.'/plugged'
 let s:plugin_manager = $VIMHOME . '/autoload/plug.vim'
