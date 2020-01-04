@@ -453,7 +453,7 @@ function genGtags() {
     fi
     for i in $LfCache/gtags/${PWD//\//%}/G* ; do
         if [ -e $i ]; then
-            ln -s $i $(basename $i)
+            ln -sf $i $(basename $i)
         fi
     done
 }
