@@ -1,5 +1,5 @@
 " not compatible with vi
-set nocompatible
+" set nocompatible
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let mapleader = ","
@@ -32,7 +32,7 @@ map <f9>    :sp $MYVIMRC<cr>
 map <f10>   :execute 'sp $VIMHOME/plugins.vim'<cr>
 
 set cindent     " c code indentation
-set smartindent " smart indent
+set autoindent
 " set wildmode=longest:full,full
 " set wildmode=list:longest,full
 set wildmode=longest,full
@@ -216,7 +216,7 @@ else
     set grepprg=grep\ -nH
 endif
 
-function! s:RunShellCommand(cmdline)
+function! s:RunShellCommand(cmdline) abort
   enew
   setlocal buftype=nofile bufhidden=hide noswapfile
   call setline(1, 'cmd:  ' . a:cmdline)
@@ -225,7 +225,7 @@ function! s:RunShellCommand(cmdline)
   silent execute '$read !'. a:cmdline
 endfunction
 
-function! RemoveEmptyLines()
+function! RemoveEmptyLines() abort
     silent! execute ':%g/^[\ \t]*$/d'
 endfunction
 command! -range=% RemoveEmptyLines call RemoveEmptyLines()

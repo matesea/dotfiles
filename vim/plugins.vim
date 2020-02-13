@@ -59,9 +59,9 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
   nmap qt <Plug>window:quickfix:toggle
   nmap lt <Plug>window:location:toggle
   " clear quickfix
-  nmap qc :cexpr []<cr>
+  nnoremap qc :cexpr []<cr>
   " clear location list
-  nmap lc :lexpr []<cr>
+  nnoremap lc :lexpr []<cr>
 " }}}
 
 " Pairs of handy bracket mappings
