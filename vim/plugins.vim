@@ -432,4 +432,4 @@ Plug 'tpope/vim-commentary'
 " Start a * or # search from a visual block
 Plug 'nelstrom/vim-visual-star-search'
 " t32 cmm script syntax
-Plug 'm42e/trace32-practice.vim'
+" Plug 'm42e/trace32-practice.vim'
