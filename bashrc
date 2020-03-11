@@ -503,9 +503,12 @@ __z=$(which z.sh 2>/dev/null)
 
 # z.lua > fasd > z.sh
 if [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
+    # z.lua configuration and alias
     eval "$(lua ${__zl} --init bash enhanced once fzf echo)"
+    # export _ZL_HYPHEN=1 # treat dash as regular character
     alias zz='z -I'
     alias zb='z -b'
+    alias zbf='z -b -I'
 elif [ ! -z $__fasd ] && [ -x $__fasd ] ; then
     # fasd init faster with defined $fasd_cache
     if [ ! -z $fasd_cache ] ; then
