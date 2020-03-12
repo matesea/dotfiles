@@ -151,21 +151,25 @@ if has("python3") || has("python")
       nnoremap <leader>rg       :Leaderf rg -S -e<space>
       nnoremap <leader>rw       :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
       nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h"))<CR><space>
-      nnoremap <leader>rW       :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
+      nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
 
       " gtags
       " nnoremap <leader>gu       :Leaderf gtags --update<cr>
-      nnoremap <leader>gr       :Leaderf gtags --recall<cr>
+      " nnoremap <leader>gr       :Leaderf gtags --recall<cr>
       " cursor on definition => reference
       " on word has defined => definition
       " otherwise jump to symbol if any
-      nnoremap <leader>gb       :Leaderf gtags --by-context --auto-jump<cr>
+      " nnoremap <leader>gb       :Leaderf gtags --by-context --auto-jump<cr>
       " -d: definition, -r: being called, -s: symbol, -g: grep
-      nnoremap <leader>gs       :Leaderf gtags --auto-jump -
+      " nnoremap <leader>gs       :Leaderf gtags --auto-jump -
       " go definition
-      nnoremap <leader>gg       :Leaderf gtags -d <c-r><c-w> --auto-jump<cr>
+      " nnoremap <leader>gg       :Leaderf gtags -d <c-r><c-w> --auto-jump<cr>
+      nmap <leader>gd           <Plug>LeaderfGtagsDefinition
       " go being called
-      nnoremap <leader>gc       :Leaderf gtags -r <c-r><c-w> --auto-jump<cr>
+      " nnoremap <leader>gc       :Leaderf gtags -r <c-r><c-w> --auto-jump<cr>
+      nmap <leader>gr           <Plug>LeaderfGtagsReference
+      nmap <leader>gs           <Plug>LeaderfGtagsSymbol
+      nmap <leader>gg           <Plug>LeaderfGtagsGrep
     " }}}
 
     " Track the engine.
