@@ -135,6 +135,7 @@ if has("python3") || has("python")
       let g:Lf_ShortcutB = '<leader>fb'
       let g:Lf_NoChdir = 1
       let g:Lf_ReverseOrder = 1
+      let g:Lf_GtagsStoreInProject = 1
       let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
       nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
@@ -153,7 +154,7 @@ if has("python3") || has("python")
       nnoremap <leader>rW       :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
 
       " gtags
-      nnoremap <leader>gu       :Leaderf gtags --update<cr>
+      " nnoremap <leader>gu       :Leaderf gtags --update<cr>
       nnoremap <leader>gr       :Leaderf gtags --recall<cr>
       " cursor on definition => reference
       " on word has defined => definition
