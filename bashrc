@@ -557,15 +557,15 @@ if [ ! -z $__fzf ] ; then
     __rg=$(which rg 2>/dev/null)
     # rg is even faster than fd
     if [ ! -z $__rg ] ; then
-        export FZF_DEFAULT_COMMAND='(global -Po || rg --no-messages --files) 2>/dev/null'
+        export FZF_DEFAULT_COMMAND='(global -Pol || rg --no-messages --files) 2>/dev/null'
     elif [ ! -z $__fd ] ; then
         # export FZF_DEFAULT_COMMAND='
         #  (git ls-tree -r --name-only HEAD ||
         #      fd --type f) 2>/dev/null'
-        export FZF_DEFAULT_COMMAND='(global -Po || fd --type f) 2>/dev/null'
+        export FZF_DEFAULT_COMMAND='(global -Pol || fd --type f) 2>/dev/null'
     else
         export FZF_DEFAULT_COMMAND='
-         (global -Po || git ls-tree -r --name-only HEAD ||
+         (global -Pol || git ls-tree -r --name-only HEAD ||
              find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
              sed s/^..//) 2> /dev/null'
     fi

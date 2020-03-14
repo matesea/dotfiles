@@ -126,8 +126,8 @@ if has("python3") || has("python")
       " by default leaderf will use commands like git ls-tree so some files will be missed
       " rg is even faster than fd
       if executable('rg')
-          " let g:Lf_DefaultExternalTool = 'rg'
-          let g:Lf_ExternalCommand = 'rg --no-messages --files %s'
+          let g:Lf_DefaultExternalTool = 'rg'
+          " let g:Lf_ExternalCommand = 'rg --no-messages --files %s'
       " elseif executable('fd')
       "     let g:Lf_ExternalCommand = 'fd --color=never -t f %s'
       endif
@@ -148,7 +148,7 @@ if has("python3") || has("python")
       " nnoremap <leader>ffa      :LeaderfFunctionAll<cr>
 
       " option: --match-path to fuzzy the path
-      nnoremap <leader>rg       :Leaderf rg -S -e<space>
+      nnoremap <leader>rg       <Plug>LeaderfRgPrompt
       nnoremap <leader>rw       :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
       nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h"))<CR><space>
       nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
