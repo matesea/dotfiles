@@ -148,7 +148,7 @@ if has("python3") || has("python")
       " nnoremap <leader>ffa      :LeaderfFunctionAll<cr>
 
       " option: --match-path to fuzzy the path
-      nnoremap <leader>rg       <Plug>LeaderfRgPrompt
+      nmap     <leader>rg       <Plug>LeaderfRgPrompt
       nnoremap <leader>rw       :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
       nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h"))<CR><space>
       nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
