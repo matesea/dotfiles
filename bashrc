@@ -569,6 +569,7 @@ if [ ! -z $__fzf ] ; then
              find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
              sed s/^..//) 2> /dev/null'
     fi
+    export FZF_DEFAULT_OPTS='--height 40% --border'
 
     # if [ -f ${dotfiles}/bash/fzf-extras/fzf-extras.sh ] ; then
     #     source ${dotfiles}/bash/fzf-extras/fzf-extras.sh

@@ -117,10 +117,10 @@ endif
 if has("python3") || has("python")
     Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
     " {{{
-      let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
-      if !isdirectory(g:Lf_CacheDirectory)
-          call mkdir(g:Lf_CacheDirectory, 'p')
-      endif
+      " let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
+      " if !isdirectory(g:Lf_CacheDirectory)
+      "     call mkdir(g:Lf_CacheDirectory, 'p')
+      " endif
       " need git >= 2.11
       " let g:Lf_RecurseSubmodules = 1
       " by default leaderf will use commands like git ls-tree so some files will be missed
@@ -136,7 +136,7 @@ if has("python3") || has("python")
       let g:Lf_NoChdir = 1
       let g:Lf_ReverseOrder = 1
       let g:Lf_GtagsStoreInProject = 1
-      let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
+      " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
       nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
       nnoremap <leader>fl       :LeaderfLine<cr>
