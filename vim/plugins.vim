@@ -75,12 +75,12 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " }}}
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf',    { 'on': [], 'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf',    { 'on': 'FZF', 'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
-" Plug 'junegunn/fzf.vim'
+ Plug 'junegunn/fzf.vim', { 'on': 'FZF' }
 " " {{{
 "   nnoremap <leader>fe :FZF<cr>
 "   nnoremap <leader>fc :FZF %:h<cr>
