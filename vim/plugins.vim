@@ -82,8 +82,8 @@ Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
  Plug 'junegunn/fzf.vim', { 'on': 'FZF' }
 " " {{{
-"   nnoremap <leader>fe :FZF<cr>
-"   nnoremap <leader>fc :FZF %:h<cr>
+   nnoremap <leader>fr :FZF<cr>
+   nnoremap <leader>fv :FZF %:h<cr>
 "   " git files
 "   " nnoremap <leader>fg :GFiles<cr>
 "   " open buffers
