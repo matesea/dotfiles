@@ -504,7 +504,7 @@ __z=$(which z.sh 2>/dev/null)
 # z.lua > fasd > z.sh
 if [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
     # z.lua configuration and alias
-    eval "$(lua ${__zl} --init bash enhanced once fzf echo)"
+    eval "$(lua ${__zl} --init bash enhanced once fzf)"
     # export _ZL_HYPHEN=1 # treat dash as regular character
     alias zz='z -I'
     alias zb='z -b'

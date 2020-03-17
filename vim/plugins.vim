@@ -75,19 +75,19 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " }}}
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf',    { 'on': 'FZF', 'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf',    { 'on': ['FZF', 'Buffers'], 'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
- Plug 'junegunn/fzf.vim', { 'on': 'FZF' }
+ Plug 'junegunn/fzf.vim', { 'on': ['FZF', 'Buffers'] }
 " " {{{
    nnoremap <leader>fr :FZF<cr>
    nnoremap <leader>fv :FZF %:h<cr>
 "   " git files
 "   " nnoremap <leader>fg :GFiles<cr>
 "   " open buffers
-"   nnoremap <leader>fb :Buffers<cr>
+   nnoremap <leader>fg :Buffers<cr>
 "   " nnoremap <leader>fh :History<cr>
 "   " lines in loaded buffers
 "   nnoremap <leader>fa :Lines<cr>
