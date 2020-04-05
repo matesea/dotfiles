@@ -56,9 +56,8 @@ set history=2000
 
 " Enable filetype plugin
 " load plugins according to different file type
-filetype plugin indent on
-
-syntax enable
+filetype off
+filetype plugin indent off
 syntax sync minlines=250
 
 " omni completion, smart autocompletion for programs
@@ -271,5 +270,7 @@ if has("gui_running")
 else
     set t_Co=256
 endif
+filetype plugin indent on
+syntax on
 set background=dark
 colorscheme molokai
