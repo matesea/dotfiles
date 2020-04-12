@@ -317,7 +317,7 @@ Plug 'tpope/vim-sensible'
 Plug 'vivien/vim-linux-coding-style', { 'for': ['c', 'h', 'S'] }
 
 " vim tmux seamless navigator
-Plug 'christoomey/vim-tmux-navigator'
+" Plug 'christoomey/vim-tmux-navigator'
 
 " undo history visualizer
 Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
