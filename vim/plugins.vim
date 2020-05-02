@@ -135,6 +135,7 @@ if has("python3") || has("python")
       " elseif executable('fd')
       "     let g:Lf_ExternalCommand = 'fd --color=never -t f %s'
       endif
+      let g:Lf_ShowDevIcons = 0
       let g:Lf_ShortcutF = '<leader>fe'
       let g:Lf_ShortcutB = '<leader>fb'
       let g:Lf_NoChdir = 1
