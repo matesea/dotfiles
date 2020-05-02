@@ -136,6 +136,10 @@ if has("python3") || has("python")
       let g:Lf_NoChdir = 1
       let g:Lf_ReverseOrder = 1
       let g:Lf_GtagsStoreInProject = 1
+      if has('nvim-0.4.2')
+          let g:Lf_WindowPosition = 'popup'
+          let g:Lf_PreviewInPopup = 1
+      endif
       " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
       nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
