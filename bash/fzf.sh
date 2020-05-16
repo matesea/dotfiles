@@ -5,6 +5,15 @@ fl() {
   [[ -n "$files" ]] && git log "${files[@]}"
 }
 
+zcase() {
+    local dir
+    local prefix=~/case
+    dir="$(
+    ls -dt --color=no $prefix/* 2>/dev/null \
+    | fzf)" || return
+    cd "$dir" || return
+}
+
 # _fd - cd to selected directory
 _fd() {
   local dir
