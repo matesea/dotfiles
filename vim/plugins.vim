@@ -75,23 +75,23 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " }}}
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf',    { 'on': ['FZF', 'Buffers'], 'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf',    { 'on': ['FZF', 'Buffers', 'History'], 'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
- Plug 'junegunn/fzf.vim', { 'on': ['FZF', 'Buffers'] }
+ Plug 'junegunn/fzf.vim', { 'on': ['FZF', 'Buffers', 'History'] }
 " " {{{
 
    if has('nvim-0.4.2')
        let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.6 } }
    endif
-   nnoremap <leader>fr :FZF<cr>
-   nnoremap <leader>fv :FZF %:h<cr>
+   nnoremap <leader>fE :FZF<cr>
+   nnoremap <leader>fc :FZF %:h<cr>
 "   " git files
 "   " nnoremap <leader>fg :GFiles<cr>
 "   " open buffers
-   nnoremap <leader>fg :Buffers<cr>
+"    nnoremap <leader>fg :Buffers<cr>
 "   " nnoremap <leader>fh :History<cr>
 "   " lines in loaded buffers
 "   nnoremap <leader>fa :Lines<cr>
@@ -147,7 +147,8 @@ if has("python3") || has("python")
       endif
       " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
-      nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
+      " XX: LeaderfFile doesn't work when selecting multiple files
+      " nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
       nnoremap <leader>fl       :LeaderfLine<cr>
       nnoremap <leader>fw       :LeaderfLineCword<cr>
       nnoremap <leader>ft       :LeaderfBufTag<cr>
@@ -173,12 +174,12 @@ if has("python3") || has("python")
       " nnoremap <leader>gs       :Leaderf gtags --auto-jump -
       " go definition
       " nnoremap <leader>gg       :Leaderf gtags -d <c-r><c-w> --auto-jump<cr>
-      nmap <leader>gd           <Plug>LeaderfGtagsDefinition
+      " nmap <leader>gd           <Plug>LeaderfGtagsDefinition
       " go being called
       " nnoremap <leader>gc       :Leaderf gtags -r <c-r><c-w> --auto-jump<cr>
-      nmap <leader>gr           <Plug>LeaderfGtagsReference
-      nmap <leader>gs           <Plug>LeaderfGtagsSymbol
-      nmap <leader>gg           <Plug>LeaderfGtagsGrep
+      " nmap <leader>gr           <Plug>LeaderfGtagsReference
+      " nmap <leader>gs           <Plug>LeaderfGtagsSymbol
+      " nmap <leader>gg           <Plug>LeaderfGtagsGrep
     " }}}
 
     " Track the engine.
@@ -394,6 +395,15 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   imap <C-l> <Plug>(coc-snippets-expand)
   " Use <C-j> for both expand and jump (make expand higher priority.)
   imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+  " inoremap <silent><expr> <TAB>
+  "     \ pumvisible() ? "\<C-n>" :
+  "     \ <SID>check_back_space() ? "\<TAB>" :
+  "     \ coc#refresh()
+  " function! s:check_back_space() abort
+  "     let col = col('.') - 1
+  "     return !col || getline('.')[col - 1]  =~# '\s'
+  " endfunction
 
   " forbit coc for file > 0.5MB
   let g:trigger_size = 0.5 * 1048576
