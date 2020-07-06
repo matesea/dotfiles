@@ -352,7 +352,7 @@ Plug 'google/vim-searchindex'
 " " load deoplete when entering insert mode, reduce ~200ms in startup
 " autocmd InsertEnter * call deoplete#enable()
 
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " {{{
 " don't give |ins-completion-menu| messages.c
   set shortmess+=c
