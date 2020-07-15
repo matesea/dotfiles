@@ -352,7 +352,7 @@ Plug 'google/vim-searchindex'
 " " load deoplete when entering insert mode, reduce ~200ms in startup
 " autocmd InsertEnter * call deoplete#enable()
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'on': []}
 " {{{
 " don't give |ins-completion-menu| messages.c
   set shortmess+=c
@@ -364,19 +364,17 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
   "     "coc.source.around.enable": false,
   "     "coc.source.buffer.enable": false,
 
-  " start coc 500ms after start vim
-  let g:coc_start_at_startup = 0
-  function! CocTimerStart(timer)
-      exec "CocStart"
-  endfunction
-  autocmd InsertEnter * call timer_start(50, 'CocTimerStart', { 'repeat': 1 })
+  " let g:coc_start_at_startup = 1
+  " load coc only for files <= 1MB
+  let g:trigger_size = 1024*1024
 
-  " load coc in insert mode
-  " augroup load_coc
-  "     autocmd!
-  "     autocmd InsertEnter * call plug#load('coc.nvim')
-  "       \| autocmd! load_coc
-  " augroup END
+  function! s:load_coc(timer) abort
+      let l:size = getfsize(expand('%'))
+      if l:size != -1 && l:size <= g:trigger_size
+        call plug#load('coc.nvim')
+      endif
+  endfunction
+  autocmd InsertEnter * call timer_start(50, function('s:load_coc'))
 
   " for coc-snippets, use tab to trigger
   " inoremap <silent><expr> <TAB>
@@ -385,40 +383,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
   "   \ <SID>check_back_space() ? "\<TAB>" :
   "   \ coc#refresh()
 
-  " function! s:check_back_space() abort
-  "   let col = col('.') - 1
-  "   return !col || getline('.')[col - 1]  =~# '\s'
-  " endfunction
-  " let g:coc_snippet_next = '<tab>'
-
   " Use <C-l> for trigger snippet expand.
   imap <C-l> <Plug>(coc-snippets-expand)
   " Use <C-j> for both expand and jump (make expand higher priority.)
   imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-  " inoremap <silent><expr> <TAB>
-  "     \ pumvisible() ? "\<C-n>" :
-  "     \ <SID>check_back_space() ? "\<TAB>" :
-  "     \ coc#refresh()
-  " function! s:check_back_space() abort
-  "     let col = col('.') - 1
-  "     return !col || getline('.')[col - 1]  =~# '\s'
-  " endfunction
-
-  " forbit coc for file > 0.5MB
-  let g:trigger_size = 0.5 * 1048576
-  augroup hugefile
-    autocmd!
-    autocmd BufReadPre *
-          \ let size = getfsize(expand('<afile>')) |
-          \ if (size > g:trigger_size) || (size == -2) |
-          \   echohl WarningMsg | echomsg 'WARNING: altering options for this huge file!' | echohl None |
-          \   exec 'CocDisable' |
-          \ else |
-          \   exec 'CocEnable' |
-          \ endif |
-          \ unlet size
-  augroup END
 " }}}
 
 " c/cpp enhanced highlight
