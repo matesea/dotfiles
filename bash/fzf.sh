@@ -9,7 +9,7 @@ zcase() {
     local dir
     local prefix=~/case
     dir="$(
-    ls -dt --color=no $prefix/* 2>/dev/null \
+    fd -d 2 -t d --glob '*' --color never $prefix 2>/dev/null \
     | fzf)" || return
     cd "$dir" || return
 }
