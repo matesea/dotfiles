@@ -7,11 +7,11 @@ fl() {
 
 zcase() {
     local dir
-    local prefix=~/case
+    local prefix=~/case/
     dir="$(
-    fd -d 2 -t d --glob '*' --color never $prefix 2>/dev/null \
+        find $prefix -maxdepth 2 -mindepth 1 -type d -printf '%T@ %P\n' |sort -r |cut -d' ' -f2 2>/dev/null \
     | fzf)" || return
-    cd "$dir" || return
+    cd "$prefix$dir" || return
 }
 
 # _fd - cd to selected directory

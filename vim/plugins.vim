@@ -75,28 +75,28 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " }}}
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf',    { 'on': ['FZF', 'Buffers', 'History'], 'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf',    { 'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
- Plug 'junegunn/fzf.vim', { 'on': ['FZF', 'Buffers', 'History'] }
+Plug 'junegunn/fzf.vim'
 " " {{{
 
    if has('nvim-0.4.2')
        let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.6 } }
    endif
-   nnoremap <leader>fE :FZF<cr>
+   nnoremap <leader>fe :FZF<cr>
    nnoremap <leader>fc :FZF %:h<cr>
 "   " git files
 "   " nnoremap <leader>fg :GFiles<cr>
 "   " open buffers
-"    nnoremap <leader>fg :Buffers<cr>
+    nnoremap <leader>fg :Buffers<cr>
 "   " nnoremap <leader>fh :History<cr>
 "   " lines in loaded buffers
 "   nnoremap <leader>fa :Lines<cr>
 "   " lines in the current buffer
-"   nnoremap <leader>fl :BLines<cr>
+   nnoremap <leader>fl :BLines<cr>
 "   " tags of the current buffer
 "   nnoremap <leader>ft :BTags<cr>
 "   " rg search
@@ -118,8 +118,8 @@ if has('nvim')
     " let g:python_host_prog = '/opt/local/bin/python'
 endif
 
-if has("python3") || has("python")
-    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+if 0 && ( has("python3") || has("python") )
+    Plug 'Yggdroot/LeaderF', { 'on': [], 'do': './install.sh' }
     " {{{
       " let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
       " if !isdirectory(g:Lf_CacheDirectory)
