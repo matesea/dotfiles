@@ -69,6 +69,7 @@ set ofu=syntaxcomplete#Complete
 " if has("win32")
 "     set viminfo+=n$VIM/_viminfo
 if has("unix")
+    set viminfo^=!
     let &viminfo = "'100,<50,s10,h,n"
     if s:xdg_data
         let s:viminfodir = $XDG_DATA_HOME

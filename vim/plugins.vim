@@ -97,6 +97,7 @@ Plug 'junegunn/fzf.vim'
 "   nnoremap <leader>fa :Lines<cr>
 "   " lines in the current buffer
    nnoremap <leader>fl :BLines<cr>
+   nnoremap <leader>fw :BLines <c-r><c-w><cr>
 "   " tags of the current buffer
 "   nnoremap <leader>ft :BTags<cr>
 "   " rg search
@@ -118,50 +119,50 @@ if has('nvim')
     " let g:python_host_prog = '/opt/local/bin/python'
 endif
 
-if 0 && ( has("python3") || has("python") )
-    Plug 'Yggdroot/LeaderF', { 'on': [], 'do': './install.sh' }
-    " {{{
-      " let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
-      " if !isdirectory(g:Lf_CacheDirectory)
-      "     call mkdir(g:Lf_CacheDirectory, 'p')
-      " endif
-      " need git >= 2.11
-      " let g:Lf_RecurseSubmodules = 1
-      " by default leaderf will use commands like git ls-tree so some files will be missed
-      " rg is even faster than fd
-      if executable('rg')
-          let g:Lf_DefaultExternalTool = 'rg'
-          " let g:Lf_ExternalCommand = 'rg --no-messages --files %s'
-      " elseif executable('fd')
-      "     let g:Lf_ExternalCommand = 'fd --color=never -t f %s'
-      endif
-      let g:Lf_ShowDevIcons = 0
-      let g:Lf_ShortcutF = '<leader>fe'
-      let g:Lf_ShortcutB = '<leader>fb'
-      let g:Lf_NoChdir = 1
-      let g:Lf_ReverseOrder = 1
-      let g:Lf_GtagsStoreInProject = 1
-      if has('nvim-0.4.2')
-          let g:Lf_WindowPosition = 'popup'
-          let g:Lf_PreviewInPopup = 1
-      endif
-      " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
+if has("python3") || has("python")
+    " Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+    " " {{{
+    "   " let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
+    "   " if !isdirectory(g:Lf_CacheDirectory)
+    "   "     call mkdir(g:Lf_CacheDirectory, 'p')
+    "   " endif
+    "   " need git >= 2.11
+    "   " let g:Lf_RecurseSubmodules = 1
+    "   " by default leaderf will use commands like git ls-tree so some files will be missed
+    "   " rg is even faster than fd
+    "   if executable('rg')
+    "       let g:Lf_DefaultExternalTool = 'rg'
+    "       " let g:Lf_ExternalCommand = 'rg --no-messages --files %s'
+    "   " elseif executable('fd')
+    "   "     let g:Lf_ExternalCommand = 'fd --color=never -t f %s'
+    "   endif
+    "   let g:Lf_ShowDevIcons = 0
+    "   let g:Lf_ShortcutF = '<leader>fe'
+    "   let g:Lf_ShortcutB = '<leader>fb'
+    "   let g:Lf_NoChdir = 1
+    "   let g:Lf_ReverseOrder = 1
+    "   let g:Lf_GtagsStoreInProject = 1
+    "   if has('nvim-0.4.2')
+    "       let g:Lf_WindowPosition = 'popup'
+    "       let g:Lf_PreviewInPopup = 1
+    "   endif
+    "   " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
 
-      " XX: LeaderfFile doesn't work when selecting multiple files
-      " nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
-      nnoremap <leader>fl       :LeaderfLine<cr>
-      nnoremap <leader>fw       :LeaderfLineCword<cr>
-      nnoremap <leader>ft       :LeaderfBufTag<cr>
-      nnoremap <leader>ff       :LeaderfFunction<cr>
+    "   " XX: LeaderfFile doesn't work when selecting multiple files
+    "   " nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
+    "   nnoremap <leader>fl       :LeaderfLine<cr>
+    "   nnoremap <leader>fw       :LeaderfLineCword<cr>
+    "   nnoremap <leader>ft       :LeaderfBufTag<cr>
+    "   nnoremap <leader>ff       :LeaderfFunction<cr>
 
-      " nnoremap <leader>fta      :LeaderfBufTagAll<cr>
-      " nnoremap <leader>ffa      :LeaderfFunctionAll<cr>
+    "   " nnoremap <leader>fta      :LeaderfBufTagAll<cr>
+    "   " nnoremap <leader>ffa      :LeaderfFunctionAll<cr>
 
-      " option: --match-path to fuzzy the path
-      nmap     <leader>rg       <Plug>LeaderfRgPrompt
-      nnoremap <leader>rw       :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
-      nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h"))<CR><space>
-      nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
+    "   " option: --match-path to fuzzy the path
+    "   nmap     <leader>rg       <Plug>LeaderfRgPrompt
+    "   nnoremap <leader>rw       :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
+    "   nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h"))<CR><space>
+    "   nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
 
       " gtags
       " nnoremap <leader>gu       :Leaderf gtags --update<cr>
@@ -263,6 +264,10 @@ Plug 'rhysd/clever-f.vim'
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark'
 " {{{
+  let g:mwDefaultHighlightingPalette = 'maximum'
+  let g:mwHistAdd = '/@'
+  let g:mw_no_mappings = 1
+  let g:mwAutoLoadMarks = 1
   nmap <leader>M <Plug>MarkToggle
   nmap <leader>N <Plug>MarkAllClear
 " }}}
@@ -429,3 +434,5 @@ Plug 'nelstrom/vim-visual-star-search'
 
 " profile startuptime
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
+
+" Plug 'ochaloup/vim-syntax-match'
