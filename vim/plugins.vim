@@ -92,9 +92,9 @@ Plug 'junegunn/fzf.vim'
 "   " nnoremap <leader>fg :GFiles<cr>
 "   " open buffers
     nnoremap <leader>fg :Buffers<cr>
-"   " nnoremap <leader>fh :History<cr>
+   " nnoremap <leader>fh :History<cr>
 "   " lines in loaded buffers
-"   nnoremap <leader>fa :Lines<cr>
+   nnoremap <leader>fa :Lines<cr>
 "   " lines in the current buffer
    nnoremap <leader>fl :BLines<cr>
    nnoremap <leader>fw :BLines <c-r><c-w><cr>
@@ -104,8 +104,8 @@ Plug 'junegunn/fzf.vim'
 "   " TODO: to populate rg results into quickfix,
 "   " by default fzf.vim use alt-a/alt-d to select and deselect all
 "   " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
-"   nnoremap <leader>rg     :Rg<space>
-"   nnoremap <leader>rgw    :Rg <c-r><c-w><cr>
+   nnoremap <leader>rg :Rg<space>
+   nnoremap <leader>rw :Rg <c-r><c-w><cr>
 "   nnoremap <leader>rc     :Rc<space>
 "   nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
 " " }}}
@@ -267,7 +267,7 @@ Plug 'mihais/vim-mark'
   let g:mwDefaultHighlightingPalette = 'maximum'
   let g:mwHistAdd = '/@'
   let g:mw_no_mappings = 1
-  let g:mwAutoLoadMarks = 1
+  let g:mwAutoLoadMarks = 0
   nmap <leader>M <Plug>MarkToggle
   nmap <leader>N <Plug>MarkAllClear
 " }}}
@@ -434,5 +434,3 @@ Plug 'nelstrom/vim-visual-star-search'
 
 " profile startuptime
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
-
-" Plug 'ochaloup/vim-syntax-match'
