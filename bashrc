@@ -558,11 +558,13 @@ if [ ! -z $__fzf ] ; then
     # rg is even faster than fd
     if [ ! -z $__rg ] ; then
         export FZF_DEFAULT_COMMAND='(global -Pol || rg --no-messages --files) 2>/dev/null'
+        # export FZF_DEFAULT_COMMAND='if [ ! -z $(which global) && -e ./GPATH ]; then global -Pol; else rg --no-messages --files; fi'
     elif [ ! -z $__fd ] ; then
         # export FZF_DEFAULT_COMMAND='
         #  (git ls-tree -r --name-only HEAD ||
         #      fd --type f) 2>/dev/null'
         export FZF_DEFAULT_COMMAND='(global -Pol || fd --type f) 2>/dev/null'
+        # export FZF_DEFAULT_COMMAND='if [ ! -z $(which global) && -e ./GPATH ]; then global -Pol; else fd --type f ; fi'
     else
         export FZF_DEFAULT_COMMAND='
          (global -Pol || git ls-tree -r --name-only HEAD ||

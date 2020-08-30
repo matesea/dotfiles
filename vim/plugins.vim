@@ -99,7 +99,7 @@ Plug 'junegunn/fzf.vim'
    nnoremap <leader>fl :BLines<cr>
    nnoremap <leader>fw :BLines <c-r><c-w><cr>
 "   " tags of the current buffer
-"   nnoremap <leader>ft :BTags<cr>
+   nnoremap <leader>ft :BTags<cr>
 "   " rg search
 "   " TODO: to populate rg results into quickfix,
 "   " by default fzf.vim use alt-a/alt-d to select and deselect all
