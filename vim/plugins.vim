@@ -374,6 +374,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'on': []}
   let g:trigger_size = 1024*1024
 
   function! s:load_coc(timer) abort
+      if &filetype =~ 'text\|log'
+          return
+      endif
       let l:size = getfsize(expand('%'))
       if l:size != -1 && l:size <= g:trigger_size
         call plug#load('coc.nvim')
