@@ -40,7 +40,8 @@ set showmode
 set showcmd
 set number
 
-set cursorline
+" remove cursorline because it harms scolling speed
+" set cursorline
 if has('nvim-0.3.2') || has("patch-8.1.0360")
     set diffopt=filler,internal,algorithm:histogram,indent-heuristic
 else
