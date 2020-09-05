@@ -502,8 +502,7 @@ elif [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
     eval "$(lua ${__zl} --init bash enhanced once fzf)"
     # export _ZL_HYPHEN=1 # treat dash as regular character
     alias zz='z -I'
-    alias zb='z -b'
-    alias zB='z -b -I'
+    alias zb='z -b -I'
 fi
 
 if [ -z ${dotfiles} ] ; then
