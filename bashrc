@@ -475,14 +475,6 @@ if [ -f $HOME/.local/bashrc ]; then
     ## nvim ##
     # export XDG_CONFIG_HOME=<DATA_PATH>/.config
     # export XDG_DATA_HOME=<DATA_PATH>/.local/share
-
-    ## fasd ##
-    # export _FASD_DATA=<DATA_PATH>/.fasd
-    # eval "$(fasd --init auto)"
-
-    ## z ##
-    # export _Z_DATA=<DATA_PATH>/.z
-    # . ~/bin/z.sh
 fi
 
 _nvim=$(which nvim 2>/dev/null)
@@ -496,34 +488,22 @@ else
 fi
 export EDITOR="$VISUAL"
 
+__zoxide=$(which zoxide 2>/dev/null)
 __lua=$(which lua 2>/dev/null)
 __zl=$(which z.lua 2>/dev/null)
-__fasd=$(which fasd 2>/dev/null)
-__z=$(which z.sh 2>/dev/null)
 
-# z.lua > fasd > z.sh
-if [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
+# z.lua or zoxide
+if [ ! -z $__zoxide ] && [ ! -z "$USE_ZOXIDE" ]; then
+    eval "$(zoxide init bash)"
+    # zi to cd with fzf, as zz
+    # zq to query but don't cd, as zl
+elif [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
     # z.lua configuration and alias
     eval "$(lua ${__zl} --init bash enhanced once fzf)"
     # export _ZL_HYPHEN=1 # treat dash as regular character
     alias zz='z -I'
     alias zb='z -b'
-    alias zbf='z -b -I'
-elif [ ! -z $__fasd ] && [ -x $__fasd ] ; then
-    # fasd init faster with defined $fasd_cache
-    if [ ! -z $fasd_cache ] ; then
-        if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-          fasd --init posix-alias bash-hook >| "$fasd_cache"
-        fi
-        source "$fasd_cache"
-        unset fasd_cache
-    else
-        eval "$(fasd --init auto)"
-    fi
-
-    alias l='fasd -l'
-elif [ ! -z $__z ] && [ -x $__z ] ; then
-    . $__z
+    alias zB='z -b -I'
 fi
 
 if [ -z ${dotfiles} ] ; then
@@ -543,13 +523,6 @@ elif [ -f ~/.fzf.bash ] ; then
 fi
 
 __fzf=$(which fzf 2>/dev/null)
-
-# for z+fzf
-# if [ ! -z $__fzf ] && [ ! -z $__z ] ; then
-#     if [ -f ${dotfiles}/bash/z_fzf.sh ] ; then
-#         source ${dotfiles}/bash/z_fzf.sh
-#     fi
-# fi
 
 # for fzf
 if [ ! -z $__fzf ] ; then
@@ -580,7 +553,7 @@ if [ ! -z $__fzf ] ; then
     if [ -f ${dotfiles}/bash/fzf.sh ] ; then
         source ${dotfiles}/bash/fzf.sh
     fi
-    alias za='zd -a'
+    # alias za='zd -a'
     alias zr='zd -r'
     alias zf='zd -f'
 fi
@@ -588,11 +561,7 @@ fi
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-unset __fd __fzf _z __fasd __zl __lua __rg
-
-# unalias fasd zz and use _zz in fzf-extras instead
-# unalias zz 2>/dev/null
-# alias zz=_zz
+unset __fd __fzf __zl __lua __rg __zoxide
 
 if [ -f ${dotfiles}/ignore ] ; then
     alias rg="rg --ignore-file ${dotfiles}/ignore --smart-case"
