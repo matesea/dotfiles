@@ -27,15 +27,17 @@ Plug 'bronson/vim-trailing-whitespace'
 
 " gtags-cscope
 if has("cscope")
-    Plug 'joereynolds/gtags-scope'
+    " Plug 'joereynolds/gtags-scope'
+    " " {{{
+    "   " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+    "   set cscopetag
+    "   " check cscope for definition of a symbol before checking ctags: set to 1
+    "   " if you want the reverse search order.
+    "   set csto=0
+    "   " show msg when any other cscope db added
+    "   set cscopeverbose
+    Plug 'jsfaint/gen_tags.vim'
     " {{{
-      " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-      set cscopetag
-      " check cscope for definition of a symbol before checking ctags: set to 1
-      " if you want the reverse search order.
-      set csto=0
-      " show msg when any other cscope db added
-      set cscopeverbose
       nnoremap <leader>cf :cscope find<space>
       nnoremap <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
       nnoremap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
@@ -43,15 +45,6 @@ if has("cscope")
       nnoremap <leader>ca :cscope add<space>
     " }}}
 endif
-
-" better diff options for vim
-" Plug 'chrisbra/vim-diff-enhanced'
-" {{{
-  " started In Diff-Mode set diffexpr (plugin not loaded yet)
-"   if &diff
-"       let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
-"   endif
-" }}}
 
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix'
@@ -68,7 +61,7 @@ Plug 'drmingdrmer/vim-toggle-quickfix'
 " Plug 'tpope/vim-unimpaired'
 
 " insert or delete brackets, parens, quotes in pair
-" Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 " {{{
 " "use default setting alt+p
 " let g:AutoPairsShortcutToggle = '<leader>p'
@@ -235,7 +228,7 @@ Plug 'moll/vim-bbye'
 
 " vim motions on speed
 " Plug 'easymotion/vim-easymotion'
-" " {{{
+" {{{
 "   " let g:EasyMotion_leader_key = ',,'
 "   let g:EasyMotion_do_mapping = 0
 "   " Jump to anywhere you want with minimal keystrokes, with just one key binding.
@@ -249,7 +242,7 @@ Plug 'moll/vim-bbye'
 "   " JK motions: Line motions
 "   map gj <Plug>(easymotion-j)
 "   map gk <Plug>(easymotion-k)
-" " }}}
+" }}}
 
 " the missing motion for vim
 Plug 'justinmk/vim-sneak'
@@ -357,45 +350,91 @@ Plug 'google/vim-searchindex'
 " " load deoplete when entering insert mode, reduce ~200ms in startup
 " autocmd InsertEnter * call deoplete#enable()
 
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'on': []}
+" Plug 'lifepillar/vim-mucomplete'
 " {{{
-" don't give |ins-completion-menu| messages.c
-  set shortmess+=c
-  " always show signcolumns
-  set signcolumn=yes
-
-  " https://zhuanlan.zhihu.com/p/76033635
-  " CocInstall: coc-ultisnips, coc-yank, coc-tabnine, coc-ccls
-  "     "coc.source.around.enable": false,
-  "     "coc.source.buffer.enable": false,
-
-  " let g:coc_start_at_startup = 1
-  " load coc only for files <= 1MB
-  let g:trigger_size = 1024*1024
-
-  function! s:load_coc(timer) abort
-      if &filetype =~ 'text\|log'
-          return
-      endif
-      let l:size = getfsize(expand('%'))
-      if l:size != -1 && l:size <= g:trigger_size
-        call plug#load('coc.nvim')
-      endif
-  endfunction
-  autocmd InsertEnter * call timer_start(50, function('s:load_coc'))
-
-  " for coc-snippets, use tab to trigger
-  " inoremap <silent><expr> <TAB>
-  "   \ pumvisible() ? coc#_select_confirm() :
-  "   \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-  "   \ <SID>check_back_space() ? "\<TAB>" :
-  "   \ coc#refresh()
-
-  " Use <C-l> for trigger snippet expand.
-  imap <C-l> <Plug>(coc-snippets-expand)
-  " Use <C-j> for both expand and jump (make expand higher priority.)
-  imap <C-j> <Plug>(coc-snippets-expand-jump)
+"     set completeopt+=menuone,noinsert
+"     set shortmess+=c
+"     let g:mucomplete#enable_auto_at_startup = 1
 " }}}
+
+" Plug 'maralla/completor.vim'
+" " {{{
+"     let g:completor_complete_options = 'menuone,noselect,preview'
+" " }}}
+
+Plug 'ncm2/ncm2'
+" {{{
+    Plug 'roxma/nvim-yarp'
+
+    " enable ncm2 for all buffers
+    autocmd BufEnter * call ncm2#enable_for_buffer()
+
+    " IMPORTANT: :help Ncm2PopupOpen for more information
+    set completeopt=noinsert,menuone,noselect
+
+    " NOTE: you need to install completion sources to get completions. Check
+    " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+    Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-path'
+    Plug 'fgrsnau/ncm2-otherbuf'
+    Plug 'ncm2/ncm2-gtags'
+
+    " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+    " found' messages
+    set shortmess+=c
+
+    " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+    inoremap <c-c> <ESC>
+
+    " Use <TAB> to select the popup menu:
+    inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+    " When the <Enter> key is pressed while the popup menu is visible, it only
+    " hides the menu. Use this mapping to close the menu and also start a new
+    " line.
+    " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+" }}}
+
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'on': []}
+" " {{{
+" " don't give |ins-completion-menu| messages.c
+"   set shortmess+=c
+"   " always show signcolumns
+"   set signcolumn=yes
+
+"   " https://zhuanlan.zhihu.com/p/76033635
+"   " CocInstall: coc-ultisnips, coc-yank, coc-tabnine, coc-ccls
+"   "     "coc.source.around.enable": false,
+"   "     "coc.source.buffer.enable": false,
+
+"   " let g:coc_start_at_startup = 1
+"   " load coc only for files <= 1MB
+"   let g:trigger_size = 1024*1024
+
+"   function! s:load_coc(timer) abort
+"       if &filetype =~ 'text\|log'
+"           return
+"       endif
+"       let l:size = getfsize(expand('%'))
+"       if l:size != -1 && l:size <= g:trigger_size
+"         call plug#load('coc.nvim')
+"       endif
+"   endfunction
+"   autocmd InsertEnter * call timer_start(50, function('s:load_coc'))
+
+"   " for coc-snippets, use tab to trigger
+"   " inoremap <silent><expr> <TAB>
+"   "   \ pumvisible() ? coc#_select_confirm() :
+"   "   \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"   "   \ <SID>check_back_space() ? "\<TAB>" :
+"   "   \ coc#refresh()
+
+"   " Use <C-l> for trigger snippet expand.
+"   imap <C-l> <Plug>(coc-snippets-expand)
+"   " Use <C-j> for both expand and jump (make expand higher priority.)
+"   imap <C-j> <Plug>(coc-snippets-expand-jump)
+" " }}}
 
 " c/cpp enhanced highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
