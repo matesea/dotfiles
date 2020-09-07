@@ -157,7 +157,7 @@ set scrolloff=999
 set linebreak       " line break
 set textwidth=500
 
-set wrap "Wrap lines
+set nowrap " Wrap lines
 set updatetime=250 "for vim-gitgutter
 
 " toggle highlight search

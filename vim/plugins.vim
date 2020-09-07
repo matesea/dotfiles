@@ -476,3 +476,16 @@ Plug 'nelstrom/vim-visual-star-search'
 
 " profile startuptime
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
+
+" accelerate j/k movement
+Plug 'rhysd/accelerated-jk'
+" {{{
+    nmap j <Plug>(accelerated_jk_gj)
+    nmap k <Plug>(accelerated_jk_gk)
+" }}}
+
+" Highlight cursor word
+Plug 'itchyny/vim-cursorword'
+
+" disable hlsearch automatically when we done searching
+Plug 'romainl/vim-cool'
