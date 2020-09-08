@@ -68,7 +68,7 @@ Plug 'jiangmiao/auto-pairs'
 " }}}
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf',    { 'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf', {'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
@@ -112,7 +112,7 @@ if has('nvim')
     " let g:python_host_prog = '/opt/local/bin/python'
 endif
 
-if has("python3") || has("python")
+if has("python3")
     " Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
     " " {{{
     "   " let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
@@ -177,11 +177,12 @@ if has("python3") || has("python")
     " }}}
 
     " Track the engine.
-    " Plug 'SirVer/ultisnips', { 'on': [] }
-    " " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-    " let g:UltiSnipsExpandTrigger = "<tab>"
-    " let g:UltiSnipsJumpForwardTrigger = "<c-b>"
-    " let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
+    Plug 'SirVer/ultisnips'
+    " Trigger configuration
+    let g:UltiSnipsExpandTrigger = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<c-b>"
+    let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
+    autocmd InsertEnter * call plug#load('ultisnips')
 
     " {{{
     " Snippets are separated from the engine. Add this if you want them:
@@ -261,8 +262,10 @@ Plug 'mihais/vim-mark'
   let g:mwHistAdd = '/@'
   let g:mw_no_mappings = 1
   let g:mwAutoLoadMarks = 0
-  nmap <leader>M <Plug>MarkToggle
-  nmap <leader>N <Plug>MarkAllClear
+  nmap <Plug>IgnoreMarkSearchNext <Plug>MarkSearchNext
+  nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
+  nmap * <Plug>MarkSearchOrCurNext
+  nmap # <Plug>MarkSearchOrCurPrev
 " }}}
 
 " reopen files at the last edit position
@@ -333,9 +336,6 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
   let g:undotree_WindowLayout = 2
   nnoremap U :UndotreeToggle<cr>
 " }}}
-
-" show search index
-Plug 'google/vim-searchindex'
 
 " asynchronous completion framework
 " if has('nvim')
@@ -468,9 +468,6 @@ Plug 'maxbrunsfeld/vim-yankstack'
 " comment stuff out
 Plug 'tpope/vim-commentary'
 
-" Start a * or # search from a visual block
-Plug 'nelstrom/vim-visual-star-search'
-
 " t32 cmm script syntax
 " Plug 'm42e/trace32-practice.vim'
 
@@ -486,6 +483,26 @@ Plug 'rhysd/accelerated-jk'
 
 " Highlight cursor word
 Plug 'itchyny/vim-cursorword'
+" {{{
+    augroup user_plugin_cursorword
+        autocmd!
+        autocmd FileType defx,denite,fern,qf let b:cursorword = 0
+        autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif
+        autocmd InsertEnter * let b:cursorword = 0
+        autocmd InsertLeave * let b:cursorword = 1
+    augroup END
+" }}}
 
 " disable hlsearch automatically when we done searching
 Plug 'romainl/vim-cool'
+
+Plug 'haya14busa/vim-asterisk'
+" {{{
+  map *   <Plug>(asterisk-*)
+  map #   <Plug>(asterisk-#)
+  map g*  <Plug>(asterisk-g*)
+  map g#  <Plug>(asterisk-g#)
+  map z*  <Plug>(asterisk-z*)
+  map gz* <Plug>(asterisk-gz*)
+  map z#  <Plug>(asterisk-z#)
+" }}}

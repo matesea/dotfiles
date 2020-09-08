@@ -186,8 +186,8 @@ endtry
 set foldmethod=syntax
 set foldlevel=100
 " fast file traverse
-noremap <silent> j gj
-noremap <silent> k gk
+" noremap <silent> j gj
+" noremap <silent> k gk
 " new buffer without name
 " nnoremap <leader>e  :enew<cr>
 " to reload current file
