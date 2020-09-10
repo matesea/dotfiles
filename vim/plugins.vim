@@ -26,7 +26,7 @@ Plug 'ap/vim-buftabline'
 Plug 'bronson/vim-trailing-whitespace'
 
 " gtags-cscope
-if has("cscope")
+if has("cscope") && executable('global')
     " Plug 'joereynolds/gtags-scope'
     " " {{{
     "   " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
@@ -178,17 +178,52 @@ if has("python3")
 
     " Track the engine.
     Plug 'SirVer/ultisnips'
-    " Trigger configuration
-    let g:UltiSnipsExpandTrigger = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger = "<c-b>"
-    let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
-    autocmd InsertEnter * call plug#load('ultisnips')
-
     " {{{
-    " Snippets are separated from the engine. Add this if you want them:
-      Plug 'honza/vim-snippets', { 'on': [] }
-      autocmd InsertEnter * call plug#load('vim-snippets')
+        " Trigger configuration
+        let g:UltiSnipsExpandTrigger = "<tab>"
+        let g:UltiSnipsJumpForwardTrigger = "<c-b>"
+        let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
+        autocmd InsertEnter * call plug#load('ultisnips')
+
+        " Snippets are separated from the engine. Add this if you want them:
+        Plug 'honza/vim-snippets', { 'on': [] }
+        autocmd InsertEnter * call plug#load('vim-snippets')
     " }}}
+
+    Plug 'ncm2/ncm2'
+    " {{{
+        Plug 'roxma/nvim-yarp'
+
+        " enable ncm2 for all buffers
+        autocmd BufEnter * call ncm2#enable_for_buffer()
+
+        " IMPORTANT: :help Ncm2PopupOpen for more information
+        set completeopt=noinsert,menuone,noselect
+
+        " NOTE: you need to install completion sources to get completions. Check
+        " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+        Plug 'ncm2/ncm2-bufword'
+        Plug 'ncm2/ncm2-path'
+        Plug 'fgrsnau/ncm2-otherbuf'
+        Plug 'ncm2/ncm2-gtags'
+
+        " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+        " found' messages
+        set shortmess+=c
+
+        " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+        inoremap <c-c> <ESC>
+
+        " Use <TAB> to select the popup menu:
+        inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
+        inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+        " When the <Enter> key is pressed while the popup menu is visible, it only
+        " hides the menu. Use this mapping to close the menu and also start a new
+        " line.
+        " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+    " }}}
+
 endif
 
 " Vim plugin for the Perl module / CLI script 'ack'
@@ -227,24 +262,6 @@ Plug 'moll/vim-bbye'
   nnoremap bw :Bwipeout!<cr>
 " }}}
 
-" vim motions on speed
-" Plug 'easymotion/vim-easymotion'
-" {{{
-"   " let g:EasyMotion_leader_key = ',,'
-"   let g:EasyMotion_do_mapping = 0
-"   " Jump to anywhere you want with minimal keystrokes, with just one key binding.
-"   " `s{char}{label}`
-"   nmap s <Plug>(easymotion-overwin-f)
-"   " `s{char}{char}{label}`
-"   " Need one more keystroke, but on average, it may be more comfortable.
-"   nmap ss <Plug>(easymotion-overwin-f2)
-"   " Turn on case-insensitive feature
-"   let g:EasyMotion_smartcase = 1
-"   " JK motions: Line motions
-"   map gj <Plug>(easymotion-j)
-"   map gk <Plug>(easymotion-k)
-" }}}
-
 " the missing motion for vim
 Plug 'justinmk/vim-sneak'
 
@@ -273,11 +290,6 @@ Plug 'farmergreg/vim-lastplace'
 
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
-" {{{
-"  let g:lightline = {
-"        \ 'colorscheme': 'molokai',
-"        \ }
-" }}}
 
 " Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
@@ -361,40 +373,6 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 " " {{{
 "     let g:completor_complete_options = 'menuone,noselect,preview'
 " " }}}
-
-Plug 'ncm2/ncm2'
-" {{{
-    Plug 'roxma/nvim-yarp'
-
-    " enable ncm2 for all buffers
-    autocmd BufEnter * call ncm2#enable_for_buffer()
-
-    " IMPORTANT: :help Ncm2PopupOpen for more information
-    set completeopt=noinsert,menuone,noselect
-
-    " NOTE: you need to install completion sources to get completions. Check
-    " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
-    Plug 'ncm2/ncm2-bufword'
-    Plug 'ncm2/ncm2-path'
-    Plug 'fgrsnau/ncm2-otherbuf'
-    Plug 'ncm2/ncm2-gtags'
-
-    " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-    " found' messages
-    set shortmess+=c
-
-    " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
-    inoremap <c-c> <ESC>
-
-    " Use <TAB> to select the popup menu:
-    inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-    " When the <Enter> key is pressed while the popup menu is visible, it only
-    " hides the menu. Use this mapping to close the menu and also start a new
-    " line.
-    " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-" }}}
 
 " Plug 'neoclide/coc.nvim', {'branch': 'release', 'on': []}
 " " {{{
