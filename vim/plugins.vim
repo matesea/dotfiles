@@ -77,7 +77,7 @@ Plug 'junegunn/fzf.vim'
 " " {{{
 
    if has('nvim-0.4.2')
-       let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.6 } }
+       let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.6 } }
    endif
    nnoremap <leader>fe :FZF<cr>
    nnoremap <leader>fc :FZF %:h<cr>
@@ -177,7 +177,7 @@ if has("python3")
     " }}}
 
     " Track the engine.
-    Plug 'SirVer/ultisnips'
+    Plug 'SirVer/ultisnips', {'on': []}
     " {{{
         " Trigger configuration
         let g:UltiSnipsExpandTrigger = "<tab>"
@@ -293,8 +293,8 @@ Plug 'itchyny/lightline.vim'
 
 " Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
-" {{{
-  " let g:vista_fzf_preview = ['right:50%']
+" " {{{
+"   let g:vista_fzf_preview = ['right:50%']
   " nnoremap <leader>v  :Vista!!<cr>
   " function! NearestMethodOrFunction() abort
   "   return get(b:, 'vista_nearest_method_or_function', '')
@@ -363,55 +363,18 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 " autocmd InsertEnter * call deoplete#enable()
 
 " Plug 'lifepillar/vim-mucomplete'
-" {{{
+" " {{{
+"     let g:mucomplete#no_mappings = 1
 "     set completeopt+=menuone,noinsert
 "     set shortmess+=c
 "     let g:mucomplete#enable_auto_at_startup = 1
-" }}}
+" 	imap <c-j> <plug>(MUcompleteFwd)
+" 	imap <c-k> <plug>(MUcompleteBwd)
+" " }}}
 
 " Plug 'maralla/completor.vim'
 " " {{{
 "     let g:completor_complete_options = 'menuone,noselect,preview'
-" " }}}
-
-" Plug 'neoclide/coc.nvim', {'branch': 'release', 'on': []}
-" " {{{
-" " don't give |ins-completion-menu| messages.c
-"   set shortmess+=c
-"   " always show signcolumns
-"   set signcolumn=yes
-
-"   " https://zhuanlan.zhihu.com/p/76033635
-"   " CocInstall: coc-ultisnips, coc-yank, coc-tabnine, coc-ccls
-"   "     "coc.source.around.enable": false,
-"   "     "coc.source.buffer.enable": false,
-
-"   " let g:coc_start_at_startup = 1
-"   " load coc only for files <= 1MB
-"   let g:trigger_size = 1024*1024
-
-"   function! s:load_coc(timer) abort
-"       if &filetype =~ 'text\|log'
-"           return
-"       endif
-"       let l:size = getfsize(expand('%'))
-"       if l:size != -1 && l:size <= g:trigger_size
-"         call plug#load('coc.nvim')
-"       endif
-"   endfunction
-"   autocmd InsertEnter * call timer_start(50, function('s:load_coc'))
-
-"   " for coc-snippets, use tab to trigger
-"   " inoremap <silent><expr> <TAB>
-"   "   \ pumvisible() ? coc#_select_confirm() :
-"   "   \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-"   "   \ <SID>check_back_space() ? "\<TAB>" :
-"   "   \ coc#refresh()
-
-"   " Use <C-l> for trigger snippet expand.
-"   imap <C-l> <Plug>(coc-snippets-expand)
-"   " Use <C-j> for both expand and jump (make expand higher priority.)
-"   imap <C-j> <Plug>(coc-snippets-expand-jump)
 " " }}}
 
 " c/cpp enhanced highlight
