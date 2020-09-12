@@ -447,3 +447,10 @@ Plug 'haya14busa/vim-asterisk'
   map gz* <Plug>(asterisk-gz*)
   map z#  <Plug>(asterisk-z#)
 " }}}
+"
+Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs'] }
+" {{{
+    let g:foldsearch_disable_mappings = 1
+    " zE to remove all folding
+    " zd to remove single folding
+" }}}

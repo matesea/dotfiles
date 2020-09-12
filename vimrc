@@ -157,7 +157,7 @@ set scrolloff=999
 set linebreak       " line break
 set textwidth=500
 
-set nowrap " Wrap lines
+set nowrap " no wrap lines
 set updatetime=250 "for vim-gitgutter
 
 " toggle highlight search
@@ -192,10 +192,8 @@ set foldlevel=100
 " nnoremap <leader>e  :enew<cr>
 " to reload current file
 nnoremap <leader>R  :edit!<cr>
-nnoremap <leader>vd :%v//d<left><left>
-nnoremap <leader>vw :%v/<c-r><c-w>/d<cr>
-nnoremap <leader>ss :%s/<c-r><c-w>//g<left><left>
-nnoremap <leader>sw :%s/\<<c-r><c-w>\>//g<left><left>
+nnoremap <leader>vd :%v##d<left><left>
+nnoremap <leader>vw :%v#<c-r><c-w>#d<cr>
 
 " execute command and put the results into new buffer
 " # alternative file name which is the last edit file, % for current file name
