@@ -9,10 +9,10 @@ Plug 'airblade/vim-gitgutter'
     nnoremap <silent> [c :GitGutterPrevHunk<cr>
 
 " git wrapper
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive', {'on': ['Gread', 'Gwrite', 'Git', 'Ggrep']}
 
 " git commit browser
-Plug 'junegunn/gv.vim'
+Plug 'junegunn/gv.vim', {'on': ['GV']}
 
 " buffer tabs
 Plug 'ap/vim-buftabline'
@@ -22,7 +22,6 @@ Plug 'ap/vim-buftabline'
 Plug 'bronson/vim-trailing-whitespace'
 
 " gtags-cscope
-if has("cscope") && executable('global')
     " Plug 'joereynolds/gtags-scope'
     "   " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
     "   set cscopetag
@@ -31,13 +30,18 @@ if has("cscope") && executable('global')
     "   set csto=0
     "   " show msg when any other cscope db added
     "   set cscopeverbose
-    Plug 'jsfaint/gen_tags.vim'
-      nnoremap <leader>cf :cscope find<space>
-      nnoremap <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
-      nnoremap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
-      nnoremap <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
-      nnoremap <leader>ca :cscope add<space>
-endif
+Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
+    if ! has("cscope") || ! executable('gtags')
+        let g:loaded_gentags#gtags = 1
+    endif
+    if ! executable('ctags')
+        let g:loaded_gentags#ctags = 1
+    endif
+    nnoremap <leader>cf :cscope find<space>
+    nnoremap <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>ca :cscope add<space>
 
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix'
@@ -162,11 +166,11 @@ if has("python3")
         let g:UltiSnipsExpandTrigger = "<tab>"
         let g:UltiSnipsJumpForwardTrigger = "<c-b>"
         let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
-        autocmd InsertEnter * call plug#load('ultisnips')
 
         " Snippets are separated from the engine. Add this if you want them:
         Plug 'honza/vim-snippets', { 'on': [] }
-        autocmd InsertEnter * call plug#load('vim-snippets')
+        autocmd InsertEnter * call plug#load('ultisnips')
+                    \| call plug#load('vim-snippets')
 
     Plug 'ncm2/ncm2'
         Plug 'roxma/nvim-yarp'
