@@ -4,11 +4,9 @@
 
 " shows a git diff in the gutter and stages/undoes hunks
 Plug 'airblade/vim-gitgutter'
-" {{{
-  set updatetime=300
-  nnoremap <silent> ]c :GitGutterNextHunk<cr>
-  nnoremap <silent> [c :GitGutterPrevHunk<cr>
-" }}}
+    set updatetime=300
+    nnoremap <silent> ]c :GitGutterNextHunk<cr>
+    nnoremap <silent> [c :GitGutterPrevHunk<cr>
 
 " git wrapper
 Plug 'tpope/vim-fugitive'
@@ -18,9 +16,7 @@ Plug 'junegunn/gv.vim'
 
 " buffer tabs
 Plug 'ap/vim-buftabline'
-" {{{
-  let g:buftabline_show = 1
-" }}}
+    let g:buftabline_show = 1
 
 " highlights trailing whitespace in red
 Plug 'bronson/vim-trailing-whitespace'
@@ -28,7 +24,6 @@ Plug 'bronson/vim-trailing-whitespace'
 " gtags-cscope
 if has("cscope") && executable('global')
     " Plug 'joereynolds/gtags-scope'
-    " " {{{
     "   " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
     "   set cscopetag
     "   " check cscope for definition of a symbol before checking ctags: set to 1
@@ -37,71 +32,58 @@ if has("cscope") && executable('global')
     "   " show msg when any other cscope db added
     "   set cscopeverbose
     Plug 'jsfaint/gen_tags.vim'
-    " {{{
       nnoremap <leader>cf :cscope find<space>
       nnoremap <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
       nnoremap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
       nnoremap <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
       nnoremap <leader>ca :cscope add<space>
-    " }}}
 endif
 
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix'
-" {{{
-  nmap qt <Plug>window:quickfix:toggle
-  nmap lt <Plug>window:location:toggle
-  " clear quickfix
-  nnoremap qc :cexpr []<cr>
-  " clear location list
-  nnoremap lc :lexpr []<cr>
-" }}}
+    nmap qt <Plug>window:quickfix:toggle
+    nmap lt <Plug>window:location:toggle
+    " clear quickfix
+    nnoremap qc :cexpr []<cr>
+    " clear location list
+    nnoremap lc :lexpr []<cr>
 
 " Pairs of handy bracket mappings
 " Plug 'tpope/vim-unimpaired'
 
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
-" {{{
 " "use default setting alt+p
 " let g:AutoPairsShortcutToggle = '<leader>p'
-" }}}
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf', {'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf', {'on': 'FZF', 'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
-Plug 'junegunn/fzf.vim'
-" " {{{
-
-   if has('nvim-0.4.2')
-       let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.6 } }
-   endif
-   nnoremap <leader>fe :FZF<cr>
-   nnoremap <leader>fc :FZF %:h<cr>
-"   " git files
-"   " nnoremap <leader>fg :GFiles<cr>
-"   " open buffers
+Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Buffers', 'Lines', 'Blines', 'BTags', 'Rg']}
+    let g:fzf_layout = { 'down': '~25%' }
+    nnoremap <leader>fe :FZF<cr>
+    nnoremap <leader>fc :FZF %:h<cr>
+    " git files
+    " nnoremap <leader>fg :GFiles<cr>
+    " open buffers
     nnoremap <leader>fg :Buffers<cr>
-   " nnoremap <leader>fh :History<cr>
-"   " lines in loaded buffers
-   nnoremap <leader>fa :Lines<cr>
-"   " lines in the current buffer
-   nnoremap <leader>fl :BLines<cr>
-   nnoremap <leader>fw :BLines <c-r><c-w><cr>
-"   " tags of the current buffer
-   nnoremap <leader>ft :BTags<cr>
-"   " rg search
-"   " TODO: to populate rg results into quickfix,
-"   " by default fzf.vim use alt-a/alt-d to select and deselect all
-"   " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
-   nnoremap <leader>rg :Rg<space>
-   nnoremap <leader>rw :Rg <c-r><c-w><cr>
-"   nnoremap <leader>rc     :Rc<space>
-"   nnoremap <leader>rcw    :Rc <c-r><c-w><cr>
-" " }}}
+    " nnoremap <leader>fh :History<cr>
+    " lines in loaded buffers
+    nnoremap <leader>fa :Lines<cr>
+    " lines in the current buffer
+    nnoremap <leader>fl :BLines<cr>
+    nnoremap <leader>fw :BLines <c-r><c-w><cr>
+    " tags of the current buffer
+    nnoremap <leader>ft :BTags<cr>
+    " rg search
+    " TODO: to populate rg results into quickfix,
+    " by default fzf.vim use alt-a/alt-d to select and deselect all
+    " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
+    nnoremap <leader>rg :Rg<space>
+    nnoremap <leader>rw :Rg <c-r><c-w><cr>
 
 if has('nvim')
     " disable python interpreter check in neovim startup
@@ -114,7 +96,6 @@ endif
 
 if has("python3")
     " Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-    " " {{{
     "   " let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
     "   " if !isdirectory(g:Lf_CacheDirectory)
     "   "     call mkdir(g:Lf_CacheDirectory, 'p')
@@ -174,11 +155,9 @@ if has("python3")
       " nmap <leader>gr           <Plug>LeaderfGtagsReference
       " nmap <leader>gs           <Plug>LeaderfGtagsSymbol
       " nmap <leader>gg           <Plug>LeaderfGtagsGrep
-    " }}}
 
     " Track the engine.
     Plug 'SirVer/ultisnips', {'on': []}
-    " {{{
         " Trigger configuration
         let g:UltiSnipsExpandTrigger = "<tab>"
         let g:UltiSnipsJumpForwardTrigger = "<c-b>"
@@ -188,10 +167,8 @@ if has("python3")
         " Snippets are separated from the engine. Add this if you want them:
         Plug 'honza/vim-snippets', { 'on': [] }
         autocmd InsertEnter * call plug#load('vim-snippets')
-    " }}}
 
     Plug 'ncm2/ncm2'
-    " {{{
         Plug 'roxma/nvim-yarp'
 
         " enable ncm2 for all buffers
@@ -222,13 +199,11 @@ if has("python3")
         " hides the menu. Use this mapping to close the menu and also start a new
         " line.
         " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-    " }}}
 
 endif
 
 " Vim plugin for the Perl module / CLI script 'ack'
 Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
-" {{{
   if executable('rg')
       let g:ackprg = "rg -S --vimgrep --no-heading --no-column"
       " Rc: grep the folder of current editing file
@@ -253,37 +228,47 @@ Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
   nnoremap <leader>afw    :LAckAdd! <c-r><c-w> %:p<cr>
   nnoremap <leader>ad     :LAckAdd!  %:h<left><left><left><left>
   nnoremap <leader>adw    :LAckAdd! <c-r><c-w> %:h<cr>
-" }}}
 
 " delete buffers and close files in vim without closing windows or messing up layout
 Plug 'moll/vim-bbye'
-" {{{
   nnoremap bd :Bdelete!<cr>
   nnoremap bw :Bwipeout!<cr>
-" }}}
 
 " the missing motion for vim
-Plug 'justinmk/vim-sneak'
+Plug 'justinmk/vim-sneak', {'on': ['<Plug>Sneak_s', '<Plug>Sneak_S']}
+    " 2-character Sneak (default)
+    nmap ss <Plug>Sneak_s
+    nmap sS <Plug>Sneak_S
+    " visual-mode
+    xmap ss <Plug>Sneak_s
+    xmap sS <Plug>Sneak_S
+    " operator-pending-mode
+    omap ss <Plug>Sneak_s
+    omap sS <Plug>Sneak_S
+    " repeat motion
+    map ; <Plug>Sneak_;
+    map , <Plug>Sneak_,
 
 " Extended f, F, t and T key mappings for Vim
-Plug 'rhysd/clever-f.vim'
-" {{{
-  let g:clever_f_across_no_line = 1
-  let g:clever_f_smart_case = 1
-" }}}
+" Plug 'rhysd/clever-f.vim'
+"   let g:clever_f_across_no_line = 1
+"   let g:clever_f_smart_case = 1
 
 " mark: highlight several words in different colors simultaneously
-Plug 'mihais/vim-mark'
-" {{{
-  let g:mwDefaultHighlightingPalette = 'maximum'
-  let g:mwHistAdd = '/@'
-  let g:mw_no_mappings = 1
-  let g:mwAutoLoadMarks = 0
-  nmap <Plug>IgnoreMarkSearchNext <Plug>MarkSearchNext
-  nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
-  nmap * <Plug>MarkSearchOrCurNext
-  nmap # <Plug>MarkSearchOrCurPrev
-" }}}
+Plug 'mihais/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
+    let g:mwDefaultHighlightingPalette = 'maximum'
+    let g:mwHistAdd = '/@'
+    let g:mw_no_mappings = 1
+    let g:mwAutoLoadMarks = 0
+    nmap <Plug>IgnoreMarkSearchNext <Plug>MarkSearchNext
+    nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
+    nmap * <Plug>MarkSearchOrCurNext
+    nmap # <Plug>MarkSearchOrCurPrev
+	nmap <unique> <Leader>m <Plug>MarkSet
+	xmap <unique> <Leader>m <Plug>MarkSet
+	nmap <unique> <Leader>r <Plug>MarkRegex
+	xmap <unique> <Leader>r <Plug>MarkRegex
+	nmap <unique> <Leader>n <Plug>MarkClear
 
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
@@ -293,7 +278,6 @@ Plug 'itchyny/lightline.vim'
 
 " Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
-" " {{{
 "   let g:vista_fzf_preview = ['right:50%']
   " nnoremap <leader>v  :Vista!!<cr>
   " function! NearestMethodOrFunction() abort
@@ -313,13 +297,10 @@ Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
   "       \   'method': 'NearestMethodOrFunction'
   "       \ },
   "       \ }
-" }}}
 
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
-" {{{
   let g:hugefile_trigger_size = 15
-" }}}
 
 " tree explorer plugin
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -344,10 +325,8 @@ Plug 'vivien/vim-linux-coding-style', { 'for': ['c', 'h', 'S'] }
 
 " undo history visualizer
 Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
-" {{{
   let g:undotree_WindowLayout = 2
   nnoremap U :UndotreeToggle<cr>
-" }}}
 
 " asynchronous completion framework
 " if has('nvim')
@@ -363,19 +342,15 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 " autocmd InsertEnter * call deoplete#enable()
 
 " Plug 'lifepillar/vim-mucomplete'
-" " {{{
 "     let g:mucomplete#no_mappings = 1
 "     set completeopt+=menuone,noinsert
 "     set shortmess+=c
 "     let g:mucomplete#enable_auto_at_startup = 1
 " 	imap <c-j> <plug>(MUcompleteFwd)
 " 	imap <c-k> <plug>(MUcompleteBwd)
-" " }}}
 
 " Plug 'maralla/completor.vim'
-" " {{{
 "     let g:completor_complete_options = 'menuone,noselect,preview'
-" " }}}
 
 " c/cpp enhanced highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -385,26 +360,22 @@ Plug 'mtth/scratch.vim', { 'on': ['<plug>(scratch-insert-reuse)',
     \'<plug>(scratch-insert-clear)',
     \'<plug>(scratch-selection-reuse)',
     \'<plug>(scratch-selection-clear)']}
-" {{{
   let g:scratch_no_mappings = 1
   nmap gs <plug>(scratch-insert-reuse)
   nmap gS <plug>(scratch-insert-clear)
   xmap gs <plug>(scratch-selection-reuse)
   xmap gS <plug>(scratch-selection-clear)
-" }}}
 
 " go to terminal or file manager
 Plug 'justinmk/vim-gtfo'
 
 " lightweight implementation of emacs's kill-ring for vim
 Plug 'maxbrunsfeld/vim-yankstack'
-" {{{
   " TODO: try nvim-miniyank & vim-yoink
   let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
   let g:yankstack_map_keys = 0
   nmap <c-p> <Plug>yankstack_substitute_older_paste
   nmap <c-n> <Plug>yankstack_substitute_newer_paste
-" }}}
 
 " comment stuff out
 Plug 'tpope/vim-commentary'
@@ -417,14 +388,11 @@ Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 
 " accelerate j/k movement
 Plug 'rhysd/accelerated-jk'
-" {{{
     nmap j <Plug>(accelerated_jk_gj)
     nmap k <Plug>(accelerated_jk_gk)
-" }}}
 
 " Highlight cursor word
 Plug 'itchyny/vim-cursorword'
-" {{{
     augroup user_plugin_cursorword
         autocmd!
         autocmd FileType defx,denite,fern,qf let b:cursorword = 0
@@ -432,13 +400,11 @@ Plug 'itchyny/vim-cursorword'
         autocmd InsertEnter * let b:cursorword = 0
         autocmd InsertLeave * let b:cursorword = 1
     augroup END
-" }}}
 
 " disable hlsearch automatically when we done searching
 Plug 'romainl/vim-cool'
 
 Plug 'haya14busa/vim-asterisk'
-" {{{
   map *   <Plug>(asterisk-*)
   map #   <Plug>(asterisk-#)
   map g*  <Plug>(asterisk-g*)
@@ -446,11 +412,29 @@ Plug 'haya14busa/vim-asterisk'
   map z*  <Plug>(asterisk-z*)
   map gz* <Plug>(asterisk-gz*)
   map z#  <Plug>(asterisk-z#)
-" }}}
-"
+
 Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs'] }
-" {{{
     let g:foldsearch_disable_mappings = 1
     " zE to remove all folding
     " zd to remove single folding
-" }}}
+
+Plug 'wellle/context.vim', {'for': ['c', 'h', 'S', 'cpp', 'python']}
+
+Plug 'machakann/vim-sandwich'
+
+Plug 'pechorin/any-jump.vim', {'on': ['AnyJump', 'AnyJumpVisual']}
+    let g:any_jump_disable_default_keybindings = 1
+	" Normal mode: Jump to definition under cursor
+	nnoremap <silent> <leader>ii :AnyJump<CR>
+	" Visual mode: jump to selected text in visual mode
+	xnoremap <silent> <leader>ii :AnyJumpVisual<CR>
+	" Normal mode: open previous opened file (after jump)
+	nnoremap <silent> <leader>ib :AnyJumpBack<CR>
+	" Normal mode: open last closed search window again
+	nnoremap <silent> <leader>il :AnyJumpLastResults<CR>
+
+Plug 'haya14busa/vim-edgemotion', {'on': ['<Plug>(edgemotion-j)', '<Plug>(edgemotion-k)']}
+	map gj <Plug>(edgemotion-j)
+	map gk <Plug>(edgemotion-k)
+	xmap gj <Plug>(edgemotion-j)
+	xmap gk <Plug>(edgemotion-k)
