@@ -61,12 +61,12 @@ Plug 'jiangmiao/auto-pairs'
 " let g:AutoPairsShortcutToggle = '<leader>p'
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf', {'on': 'FZF', 'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf', {'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
-Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Buffers', 'Lines', 'Blines', 'BTags', 'Rg']}
+Plug 'junegunn/fzf.vim'
     let g:fzf_layout = { 'down': '~25%' }
     nnoremap <leader>fe :FZF<cr>
     nnoremap <leader>fc :FZF %:h<cr>
@@ -235,8 +235,7 @@ Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
 
 " delete buffers and close files in vim without closing windows or messing up layout
 Plug 'moll/vim-bbye'
-  nnoremap bd :Bdelete!<cr>
-  nnoremap bw :Bwipeout!<cr>
+  nnoremap <silent> bd :Bdelete!<cr>
 
 " the missing motion for vim
 Plug 'justinmk/vim-sneak', {'on': ['<Plug>Sneak_s', '<Plug>Sneak_S']}
