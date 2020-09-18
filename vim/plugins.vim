@@ -9,10 +9,12 @@ Plug 'airblade/vim-gitgutter'
     nnoremap <silent> [c :GitGutterPrevHunk<cr>
 
 " git wrapper
-Plug 'tpope/vim-fugitive', {'on': ['Gread', 'Gwrite', 'Git', 'Ggrep']}
+Plug 'tpope/vim-fugitive', {'on': ['Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame']}
 
 " git commit browser
 Plug 'junegunn/gv.vim', {'on': ['GV']}
+
+Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 
 " buffer tabs
 Plug 'ap/vim-buftabline'
@@ -373,12 +375,12 @@ Plug 'mtth/scratch.vim', { 'on': ['<plug>(scratch-insert-reuse)',
 Plug 'justinmk/vim-gtfo'
 
 " lightweight implementation of emacs's kill-ring for vim
-Plug 'maxbrunsfeld/vim-yankstack'
-  " TODO: try nvim-miniyank & vim-yoink
-  let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
-  let g:yankstack_map_keys = 0
-  nmap <c-p> <Plug>yankstack_substitute_older_paste
-  nmap <c-n> <Plug>yankstack_substitute_newer_paste
+" Plug 'maxbrunsfeld/vim-yankstack'
+"   " TODO: try nvim-miniyank & vim-yoink
+"   let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
+"   let g:yankstack_map_keys = 0
+"   nmap <c-p> <Plug>yankstack_substitute_older_paste
+"   nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
 " comment stuff out
 Plug 'tpope/vim-commentary'

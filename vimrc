@@ -146,6 +146,14 @@ nnoremap <silent> [l :lprev<cr>
 nnoremap <silent> ]t :tabn<cr>
 nnoremap <silent> [t :tabp<cr>
 
+cnoremap <C-h> <Home>
+cnoremap <C-l> <End>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+
+" Switch (window) to the directory of the current opened buffer
+map <Leader>cd :lcd %:p:h<CR>:pwd<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
