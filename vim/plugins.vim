@@ -45,6 +45,29 @@ Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
     nnoremap <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
     nnoremap <leader>ca :cscope add<space>
 
+" Plug 'ludovicchabant/vim-gutentags'
+" Plug 'skywind3000/gutentags_plus'
+"     " enable gtags module
+"     let g:gutentags_modules = ['ctags', 'gtags_cscope']
+
+"     " config project root markers.
+"     " let g:gutentags_project_root = ['.root']
+
+"     " generate datebases in my cache directory, prevent gtags files polluting my project
+"     " let g:gutentags_cache_dir = expand('~/.cache/tags')
+"     " let g:gutentags_cache_dir = expand('~/.cache/tags_dir')
+
+"     " change focus to quickfix window after search (optional).
+"     let g:gutentags_plus_switch = 1
+
+"     let g:gutentags_plus_nomap = 1
+"     nnoremap <leader>cf :GscopeFind<space>
+"     nnoremap <leader>cs :GscopeFind s <C-R>=expand("<cword>")<CR><CR>
+"     nnoremap <leader>cg :GscopeFind g <C-R>=expand("<cword>")<CR><CR>
+"     nnoremap <leader>cc :GscopeFind c <C-R>=expand("<cword>")<CR><CR>
+"     nnoremap <leader>ca :GscopeFind a <C-R>=expand("<cword>")<CR><CR>
+"     nnoremap <leader>cd :GscopeFind d <C-R>=expand("<cword>")<CR><CR>
+
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix'
     nmap qt <Plug>window:quickfix:toggle
@@ -236,20 +259,20 @@ Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
   nnoremap <leader>adw    :LAckAdd! <c-r><c-w> %:h<cr>
 
 " delete buffers and close files in vim without closing windows or messing up layout
-Plug 'moll/vim-bbye'
+Plug 'moll/vim-bbye', {'on': 'Bdelete'}
   nnoremap <silent> bd :Bdelete!<cr>
 
 " the missing motion for vim
 Plug 'justinmk/vim-sneak', {'on': ['<Plug>Sneak_s', '<Plug>Sneak_S']}
     " 2-character Sneak (default)
-    nmap ss <Plug>Sneak_s
-    nmap sS <Plug>Sneak_S
+    nmap <leader>ss <Plug>Sneak_s
+    nmap <leader>sS <Plug>Sneak_S
     " visual-mode
-    xmap ss <Plug>Sneak_s
-    xmap sS <Plug>Sneak_S
+    xmap <leader>ss <Plug>Sneak_s
+    xmap <leader>sS <Plug>Sneak_S
     " operator-pending-mode
-    omap ss <Plug>Sneak_s
-    omap sS <Plug>Sneak_S
+    omap <leader>ss <Plug>Sneak_s
+    omap <leader>sS <Plug>Sneak_S
     " repeat motion
     map ; <Plug>Sneak_;
     map , <Plug>Sneak_,
@@ -392,7 +415,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 
 " accelerate j/k movement
-Plug 'rhysd/accelerated-jk'
+Plug 'rhysd/accelerated-jk', {'on': ['<Plug>(accelerated_jk_g)', '<Plug>(accelerated_jk_gk)']}
     nmap j <Plug>(accelerated_jk_gj)
     nmap k <Plug>(accelerated_jk_gk)
 
@@ -409,7 +432,9 @@ Plug 'itchyny/vim-cursorword'
 " disable hlsearch automatically when we done searching
 Plug 'romainl/vim-cool'
 
-Plug 'haya14busa/vim-asterisk'
+Plug 'haya14busa/vim-asterisk', {'on': ['<Plug>(asterisk-*)', '<Plug>(asterisk-#)',
+            \'<Plug>(asterisk-g*)', '<Plug>(asterisk-g#)', '<Plug>(asterisk-z*)',
+            \'<Plug>(asterisk-gz*)', '<Plug>(asterisk-z#)']}
   map *   <Plug>(asterisk-*)
   map #   <Plug>(asterisk-#)
   map g*  <Plug>(asterisk-g*)
