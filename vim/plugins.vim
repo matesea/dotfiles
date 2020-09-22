@@ -39,6 +39,7 @@ Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
     if ! executable('ctags')
         let g:loaded_gentags#ctags = 1
     endif
+    let g:gen_tags#gtags_default_map = 0
     nnoremap <leader>cf :cscope find<space>
     nnoremap <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
     nnoremap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
@@ -69,7 +70,7 @@ Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
 "     nnoremap <leader>cd :GscopeFind d <C-R>=expand("<cword>")<CR><CR>
 
 " toggle quickfix window
-Plug 'drmingdrmer/vim-toggle-quickfix'
+Plug 'drmingdrmer/vim-toggle-quickfix', {'on': ['<Plug>window:quickfix:toggle', '<Plug>window:location:toggle']}
     nmap qt <Plug>window:quickfix:toggle
     nmap lt <Plug>window:location:toggle
     " clear quickfix
@@ -303,6 +304,20 @@ Plug 'farmergreg/vim-lastplace'
 
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
+    " Plug 'mengelbrecht/lightline-bufferline'
+    " let g:lightline = {
+    "            \ 'tabline': {
+    "            \   'left': [['buffers']],
+    "            \   'right': [['close']]
+    "            \},
+    "            \ 'component_expand': {
+    "            \   'buffers': 'lightline#bufferline#buffers'
+    "            \ },
+    "            \ 'component_type': {
+    "            \   'buffers': 'tabsel'
+    "            \ }
+    "\}
+    " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
 " Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
@@ -328,19 +343,20 @@ Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile'
-  let g:hugefile_trigger_size = 15
+  let g:hugefile_trigger_size = 150
 
 " tree explorer plugin
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " molokai theme
 Plug 'tomasr/molokai'
+Plug 'morhetz/gruvbox'
 
 " syntax file to highlight various log files
 Plug 'dzeban/vim-log-syntax', { 'for': ['log', 'txt'] }
 
 " solarized colorscheme
-" Plug 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized', {'on': []}
 
 " defaults settings for eveyone
 Plug 'tpope/vim-sensible'
@@ -381,7 +397,7 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 "     let g:completor_complete_options = 'menuone,noselect,preview'
 
 " c/cpp enhanced highlight
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'h', 'S', 'cpp'] }
 
 " unobtrusive scratch window
 Plug 'mtth/scratch.vim', { 'on': ['<plug>(scratch-insert-reuse)',
@@ -406,7 +422,21 @@ Plug 'justinmk/vim-gtfo'
 "   nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
 " comment stuff out
-Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-commentary', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
+
+Plug 'tyru/caw.vim', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']} 
+
+Plug 'nathanaelkane/vim-indent-guides', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
+    let g:indent_guides_enable_on_vim_startup = 1
+    let g:indent_guides_default_mapping = 0
+    let g:indent_guides_tab_guides = 0
+    let g:indent_guides_color_change_percent = 3
+    let g:indent_guides_guide_size = 1
+    let g:indent_guides_exclude_filetypes = [
+      \ 'help', 'defx', 'denite', 'denite-filter', 'startify',
+      \ 'vista', 'vista_kind', 'tagbar', 'lsp-hover', 'clap_input',
+      \ 'any-jump', 'gina-status', 'gina-commit', 'gina-log'
+      \ ]
 
 " t32 cmm script syntax
 " Plug 'm42e/trace32-practice.vim'

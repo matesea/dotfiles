@@ -277,6 +277,7 @@ if has("gui_running")
     set guioptions-=e
 else
     set t_Co=256
+    set termguicolors
 endif
 filetype plugin indent on
 syntax on
