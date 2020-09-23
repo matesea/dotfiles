@@ -424,7 +424,7 @@ Plug 'justinmk/vim-gtfo'
 " comment stuff out
 " Plug 'tpope/vim-commentary', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
 
-Plug 'tyru/caw.vim', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']} 
+Plug 'tyru/caw.vim', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
 
 Plug 'nathanaelkane/vim-indent-guides', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
     let g:indent_guides_enable_on_vim_startup = 1

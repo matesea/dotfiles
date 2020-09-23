@@ -83,7 +83,7 @@ set cmdheight=2 "The commandbar height
 set hidden "Change buffer - without saving
 " Set backspace config
 set whichwrap+=<,>,h,l
-set incsearch ignorecase smartcase hlsearch
+set ignorecase smartcase hlsearch
 set magic "Set magic on, for regular expressions
 set showmatch "Show matching bracets when text indicator is over them
 set mat=2 "How many tenths of a second to blink
@@ -152,7 +152,6 @@ set linebreak       " line break
 set textwidth=500
 
 set nowrap " no wrap lines
-set updatetime=250 "for vim-gitgutter
 
 " toggle highlight search
 " nmap <silent> <leader>hl :setlocal hls!<cr>
@@ -265,7 +264,5 @@ else
     set t_Co=256
     set termguicolors
 endif
-filetype plugin indent on
-syntax on
 set background=dark
 colorscheme molokai
