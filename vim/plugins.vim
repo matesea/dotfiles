@@ -266,14 +266,14 @@ Plug 'moll/vim-bbye', {'on': 'Bdelete'}
 " the missing motion for vim
 Plug 'justinmk/vim-sneak', {'on': ['<Plug>Sneak_s', '<Plug>Sneak_S']}
     " 2-character Sneak (default)
-    nmap <leader>ss <Plug>Sneak_s
-    nmap <leader>sS <Plug>Sneak_S
+    nmap <leader>s <Plug>Sneak_s
+    nmap <leader>S <Plug>Sneak_S
     " visual-mode
-    xmap <leader>ss <Plug>Sneak_s
-    xmap <leader>sS <Plug>Sneak_S
+    xmap <leader>s <Plug>Sneak_s
+    xmap <leader>S <Plug>Sneak_S
     " operator-pending-mode
-    omap <leader>ss <Plug>Sneak_s
-    omap <leader>sS <Plug>Sneak_S
+    omap <leader>s <Plug>Sneak_s
+    omap <leader>S <Plug>Sneak_S
     " repeat motion
     map ; <Plug>Sneak_;
     map , <Plug>Sneak_,
@@ -365,7 +365,7 @@ Plug 'tpope/vim-sensible'
 Plug 'vivien/vim-linux-coding-style', { 'for': ['c', 'h', 'S'] }
 
 " vim tmux seamless navigator
-" Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
 " undo history visualizer
 Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
@@ -443,9 +443,10 @@ Plug 'nathanaelkane/vim-indent-guides', {'for': ['c', 'h', 'S', 'cpp', 'python',
 
 " profile startuptime
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
+Plug 'dstein64/vim-startuptime', { 'on': [] }
 
 " accelerate j/k movement
-Plug 'rhysd/accelerated-jk', {'on': ['<Plug>(accelerated_jk_g)', '<Plug>(accelerated_jk_gk)']}
+Plug 'rhysd/accelerated-jk'
     nmap j <Plug>(accelerated_jk_gj)
     nmap k <Plug>(accelerated_jk_gk)
 

@@ -22,14 +22,11 @@ endif
 
 if s:xdg_data
     let $VIMDATA = $XDG_DATA_HOME . '/vim'
+    let $VIMINFO = $XDG_DATA_HOME
 else
     let $VIMDATA = $HOME . '/.local/vim'
+    let $VIMINFO = $HOME
 endif
-
-" show vimrc
-map <f9>    :sp $MYVIMRC<cr>
-" show plugins.vim
-map <f10>   :execute 'sp $VIMHOME/plugins.vim'<cr>
 
 set cindent     " c code indentation
 set autoindent
@@ -69,22 +66,12 @@ set ofu=syntaxcomplete#Complete
 "set _viminfo path
 " if has("win32")
 "     set viminfo+=n$VIM/_viminfo
-if has("unix")
-    set viminfo^=!
-    let &viminfo = "'100,<50,s10,h,n"
-    if s:xdg_data
-        let s:viminfodir = $XDG_DATA_HOME
-    else
-        let s:viminfodir = $HOME
-    endif
-    if !isdirectory(s:viminfodir)
-        call mkdir(s:viminfodir, 'p')
-    endif
-    if s:nvim
-        let &viminfo .= s:viminfodir . '/.viminfo.shada'
-    else
-        let &viminfo .= s:viminfodir . '/.viminfo'
-    endif
+"
+" !,'300,<50,@100,s10,h
+if s:nvim && ! has('win32') && ! has('win64')
+    set shada=!,'300,<50,@100,s10,h,n$VIMINFO/.viminfo.shada
+else
+    set viminfo=!,'300,<50,@100,s10,h,n$VIMINFO/.viminfo
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -97,7 +84,6 @@ set hidden "Change buffer - without saving
 " Set backspace config
 set whichwrap+=<,>,h,l
 set incsearch ignorecase smartcase hlsearch
-set nolazyredraw "Don't redraw while executing macros
 set magic "Set magic on, for regular expressions
 set showmatch "Show matching bracets when text indicator is over them
 set mat=2 "How many tenths of a second to blink
