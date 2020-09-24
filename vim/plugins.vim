@@ -198,29 +198,39 @@ if has("python3")
         autocmd InsertEnter * call plug#load('ultisnips')
                     \| call plug#load('vim-snippets')
 
-    Plug 'ncm2/ncm2'
-        Plug 'roxma/nvim-yarp'
+    Plug 'ncm2/ncm2', {'on': []}
+        Plug 'roxma/nvim-yarp', {'on': []}
+        " NOTE: you need to install completion sources to get completions. Check
+        " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+        Plug 'ncm2/ncm2-bufword', {'on': []}
+        Plug 'ncm2/ncm2-path', {'on': []}
+        Plug 'fgrsnau/ncm2-otherbuf', {'on': []}
+        Plug 'ncm2/ncm2-gtags', {'on': []}
 
-        " enable ncm2 for all buffers
-        autocmd BufEnter * call ncm2#enable_for_buffer()
+        function! s:load_ncm2(timer) abort
+            call plug#load('ncm2')
+            call plug#load('nvim-yarp')
+            call plug#load('ncm2-bufword')
+            call plug#load('ncm2-path')
+            call plug#load('ncm2-otherbuf')
+            call plug#load('ncm2-gtags')
+
+            " enable ncm2 for all buffers
+            call ncm2#enable_for_buffer()
+
+            " When the <Enter> key is pressed while the popup menu is visible, it only
+            " hides the menu. Use this mapping to close the menu and also start a new
+            " line.
+            " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+        endfunction
 
         " IMPORTANT: :help Ncm2PopupOpen for more information
         set completeopt=noinsert,menuone,noselect
-
-        " NOTE: you need to install completion sources to get completions. Check
-        " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
-        Plug 'ncm2/ncm2-bufword'
-        Plug 'ncm2/ncm2-path'
-        Plug 'fgrsnau/ncm2-otherbuf'
-        Plug 'ncm2/ncm2-gtags'
-
         " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
         " found' messages
         set shortmess+=c
-
         " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
         inoremap <c-c> <ESC>
-
         " Use <TAB> to select the popup menu:
         inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
         inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -230,6 +240,7 @@ if has("python3")
         " line.
         " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
+        autocmd InsertEnter * call timer_start(50, function('s:load_ncm2'))
 endif
 
 " Vim plugin for the Perl module / CLI script 'ack'
