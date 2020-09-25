@@ -71,12 +71,8 @@ Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
 
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix', {'on': ['<Plug>window:quickfix:toggle', '<Plug>window:location:toggle']}
-    nmap qt <Plug>window:quickfix:toggle
-    nmap lt <Plug>window:location:toggle
-    " clear quickfix
-    nnoremap qc :cexpr []<cr>
-    " clear location list
-    nnoremap lc :lexpr []<cr>
+    nmap <leader>qt <Plug>window:quickfix:toggle
+    nmap <leader>lt <Plug>window:location:toggle
 
 " Pairs of handy bracket mappings
 " Plug 'tpope/vim-unimpaired'
