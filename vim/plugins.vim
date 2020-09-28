@@ -191,8 +191,6 @@ if has("python3")
 
         " Snippets are separated from the engine. Add this if you want them:
         Plug 'honza/vim-snippets', { 'on': [] }
-        autocmd InsertEnter * call plug#load('ultisnips')
-                    \| call plug#load('vim-snippets')
 
     Plug 'ncm2/ncm2', {'on': []}
         Plug 'roxma/nvim-yarp', {'on': []}
@@ -203,13 +201,16 @@ if has("python3")
         Plug 'fgrsnau/ncm2-otherbuf', {'on': []}
         Plug 'ncm2/ncm2-gtags', {'on': []}
 
-        function! s:load_ncm2(timer) abort
+        function! s:load_insert(timer) abort
             call plug#load('ncm2')
             call plug#load('nvim-yarp')
             call plug#load('ncm2-bufword')
             call plug#load('ncm2-path')
             call plug#load('ncm2-otherbuf')
             call plug#load('ncm2-gtags')
+
+            call plug#load('ultisnips')
+            call plug#load('vim-snippets')
 
             " enable ncm2 for all buffers
             call ncm2#enable_for_buffer()
@@ -236,7 +237,7 @@ if has("python3")
         " line.
         " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
-        autocmd InsertEnter * call timer_start(50, function('s:load_ncm2'))
+        autocmd InsertEnter * call timer_start(50, function('s:load_insert'))
 endif
 
 " Vim plugin for the Perl module / CLI script 'ack'
@@ -349,7 +350,7 @@ Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
   "       \ }
 
 " speed up loading of large files
-Plug 'mhinz/vim-hugefile'
+Plug 'mhinz/vim-hugefile', { 'for': ['log', 'txt'] }
   let g:hugefile_trigger_size = 150
 
 " tree explorer plugin
