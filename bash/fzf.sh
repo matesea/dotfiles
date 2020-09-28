@@ -7,9 +7,8 @@ fl() {
 
 zcase() {
     local dir
-    local prefix=~/case/
     dir="$(
-        find $prefix -maxdepth 2 -mindepth 1 -type d -printf '%T@ %P\n' |sort -r |cut -d' ' -f2 2>/dev/null \
+        find /local/mnt/workspace/case /local2/mnt/workspace/archived_case -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' |sort -r |cut -d' ' -f2 2>/dev/null \
     | fzf)" || return
     cd "$prefix$dir" || return
 }
