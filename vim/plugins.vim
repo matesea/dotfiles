@@ -272,24 +272,26 @@ Plug 'moll/vim-bbye', {'on': 'Bdelete'}
   nnoremap <silent> bd :Bdelete!<cr>
 
 " the missing motion for vim
-Plug 'justinmk/vim-sneak', {'on': ['<Plug>Sneak_s', '<Plug>Sneak_S']}
-    " 2-character Sneak (default)
-    nmap <leader>s <Plug>Sneak_s
-    nmap <leader>S <Plug>Sneak_S
-    " visual-mode
-    xmap <leader>s <Plug>Sneak_s
-    xmap <leader>S <Plug>Sneak_S
-    " operator-pending-mode
-    omap <leader>s <Plug>Sneak_s
-    omap <leader>S <Plug>Sneak_S
-    " repeat motion
-    map ; <Plug>Sneak_;
-    map , <Plug>Sneak_,
+" Plug 'justinmk/vim-sneak', {'on': ['<Plug>Sneak_s', '<Plug>Sneak_S']}
+"     " 2-character Sneak (default)
+"     nmap <leader>s <Plug>Sneak_s
+"     nmap <leader>S <Plug>Sneak_S
+"     " visual-mode
+"     xmap <leader>s <Plug>Sneak_s
+"     xmap <leader>S <Plug>Sneak_S
+"     " operator-pending-mode
+"     omap <leader>s <Plug>Sneak_s
+"     omap <leader>S <Plug>Sneak_S
+"     " repeat motion
+"     map ; <Plug>Sneak_;
+"     map , <Plug>Sneak_,
 
 " Extended f, F, t and T key mappings for Vim
 " Plug 'rhysd/clever-f.vim'
 "   let g:clever_f_across_no_line = 1
 "   let g:clever_f_smart_case = 1
+
+Plug 'deris/vim-shot-f'
 
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
