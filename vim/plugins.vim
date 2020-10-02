@@ -5,6 +5,7 @@
 " shows a git diff in the gutter and stages/undoes hunks
 Plug 'airblade/vim-gitgutter'
     set updatetime=300
+    let g:gitgutter_map_keys = 0
     nnoremap <silent> ]c :GitGutterNextHunk<cr>
     nnoremap <silent> [c :GitGutterPrevHunk<cr>
 
@@ -291,7 +292,26 @@ Plug 'moll/vim-bbye', {'on': 'Bdelete'}
 "   let g:clever_f_across_no_line = 1
 "   let g:clever_f_smart_case = 1
 
-Plug 'deris/vim-shot-f'
+" Highlight characters to move directly with f/t/F/T
+Plug 'deris/vim-shot-f', {'on': [
+            \'<Plug>(shot-f-f)', '<Plug>(shot-f-F)',
+            \'<Plug>(shot-f-t)', '<Plug>(shot-f-T)']}
+    let g:shot_f_no_default_key_mappings = 1
+    nmap f  <Plug>(shot-f-f)
+    nmap F  <Plug>(shot-f-F)
+    nmap t  <Plug>(shot-f-t)
+    nmap T  <Plug>(shot-f-T)
+    xmap f  <Plug>(shot-f-f)
+    xmap F  <Plug>(shot-f-F)
+    xmap t  <Plug>(shot-f-t)
+    xmap T  <Plug>(shot-f-T)
+    omap f  <Plug>(shot-f-f)
+    omap F  <Plug>(shot-f-F)
+    omap t  <Plug>(shot-f-t)
+    omap T  <Plug>(shot-f-T)
+
+" Display and toggle marks
+" Plug 'kshenoy/vim-signature'
 
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
