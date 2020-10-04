@@ -310,38 +310,38 @@ Plug 'deris/vim-shot-f', {'on': [
     omap T  <Plug>(shot-f-T)
 
 " Display and toggle marks
-Plug 'kshenoy/vim-signature', {'on': []}
-	let g:SignatureIncludeMarks = 'abcdefghijkloqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    let g:SignatureForceRemoveGlobal = 0
-    let g:SignatureUnconditionallyRecycleMarks = 1
-    let g:SignatureErrorIfNoAvailableMarks = 0
-    let g:SignaturePurgeConfirmation = 0
-    let g:SignatureMarkTextHLDynamic = 1
-    let g:SignatureMarkerTextHLDynamic = 1
-    let g:SignatureIncludeMarkers = repeat('⚐', 10)
-	let g:SignatureMap = {
-		\ 'Leader':            'm',
-		\ 'ListBufferMarks':   'm/',
-		\ 'ListBufferMarkers': 'm?',
-		\ 'PlaceNextMark':     'm,',
-		\ 'ToggleMarkAtLine':  'mm',
-		\ 'PurgeMarksAtLine':  'm-',
-		\ 'DeleteMark':        'dm',
-		\ 'PurgeMarks':        'm<Space>',
-		\ 'PurgeMarkers':      'm<BS>',
-		\ 'GotoNextLineAlpha': "']",
-		\ 'GotoPrevLineAlpha': "'[",
-		\ 'GotoNextSpotAlpha': '`]',
-		\ 'GotoPrevSpotAlpha': '`[',
-		\ 'GotoNextLineByPos': "]'",
-		\ 'GotoPrevLineByPos': "['",
-		\ 'GotoNextSpotByPos': 'mn',
-		\ 'GotoPrevSpotByPos': 'mp',
-		\ 'GotoNextMarker':    ']-',
-		\ 'GotoPrevMarker':    '[-',
-		\ 'GotoNextMarkerAny': ']=',
-		\ 'GotoPrevMarkerAny': '[=',
-		\ }
+" Plug 'kshenoy/vim-signature', {'on': []}
+" 	let g:SignatureIncludeMarks = 'abcdefghijkloqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+"     let g:SignatureForceRemoveGlobal = 0
+"     let g:SignatureUnconditionallyRecycleMarks = 1
+"     let g:SignatureErrorIfNoAvailableMarks = 0
+"     let g:SignaturePurgeConfirmation = 0
+"     let g:SignatureMarkTextHLDynamic = 1
+"     let g:SignatureMarkerTextHLDynamic = 1
+"     let g:SignatureIncludeMarkers = repeat('⚐', 10)
+" 	let g:SignatureMap = {
+"		\ 'Leader':            'm',
+"		\ 'ListBufferMarks':   'm/',
+"		\ 'ListBufferMarkers': 'm?',
+"		\ 'PlaceNextMark':     'm,',
+"		\ 'ToggleMarkAtLine':  'mm',
+"		\ 'PurgeMarksAtLine':  'm-',
+"		\ 'DeleteMark':        'dm',
+"		\ 'PurgeMarks':        'm<Space>',
+"		\ 'PurgeMarkers':      'm<BS>',
+"		\ 'GotoNextLineAlpha': "']",
+"		\ 'GotoPrevLineAlpha': "'[",
+"		\ 'GotoNextSpotAlpha': '`]',
+"		\ 'GotoPrevSpotAlpha': '`[',
+"		\ 'GotoNextLineByPos': "]'",
+"		\ 'GotoPrevLineByPos': "['",
+"		\ 'GotoNextSpotByPos': 'mn',
+"		\ 'GotoPrevSpotByPos': 'mp',
+"		\ 'GotoNextMarker':    ']-',
+"		\ 'GotoPrevMarker':    '[-',
+"		\ 'GotoNextMarkerAny': ']=',
+"		\ 'GotoPrevMarkerAny': '[=',
+"		\ }
 
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
@@ -365,6 +365,7 @@ Plug 'farmergreg/vim-lastplace'
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
     " Plug 'mengelbrecht/lightline-bufferline'
+    " set showtabline=2
     " let g:lightline = {
     "            \ 'tabline': {
     "            \   'left': [['buffers']],
