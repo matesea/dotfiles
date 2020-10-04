@@ -3,17 +3,21 @@
 " Plug 'kana/vim-textobj-indent'
 
 " shows a git diff in the gutter and stages/undoes hunks
-Plug 'airblade/vim-gitgutter'
-    set updatetime=300
-    let g:gitgutter_map_keys = 0
-    nnoremap <silent> ]c :GitGutterNextHunk<cr>
-    nnoremap <silent> [c :GitGutterPrevHunk<cr>
+" Plug 'airblade/vim-gitgutter', {'on': []}
+"     set updatetime=300
+"     let g:gitgutter_map_keys = 0
+"     nnoremap <silent> ]c :GitGutterNextHunk<cr>
+"     nnoremap <silent> [c :GitGutterPrevHunk<cr>
+
+" XX: vim-signify faster than gitgutter in startup
+Plug 'mhinz/vim-signify'
+     set updatetime=300
 
 " git wrapper
 Plug 'tpope/vim-fugitive', {'on': ['Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame']}
 
 " git commit browser
-Plug 'junegunn/gv.vim', {'on': ['GV']}
+Plug 'junegunn/gv.vim', {'on': 'GV'}
 
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 
@@ -261,31 +265,26 @@ Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
           \ call s:RunShellCommand("ag --noheading --nogroup --nocolor --smart-case ".<q-args>)
   endif
   let g:ackhighlight = 1
-  nnoremap <leader>aa     :LAckAdd!<space>
-  nnoremap <leader>aw     :LAckAdd! <c-r><c-w><cr>
-  nnoremap <leader>af     :LAckAdd!  %:p<left><left><left><left>
-  nnoremap <leader>afw    :LAckAdd! <c-r><c-w> %:p<cr>
-  nnoremap <leader>ad     :LAckAdd!  %:h<left><left><left><left>
-  nnoremap <leader>adw    :LAckAdd! <c-r><c-w> %:h<cr>
 
 " delete buffers and close files in vim without closing windows or messing up layout
 Plug 'moll/vim-bbye', {'on': 'Bdelete'}
   nnoremap <silent> bd :Bdelete!<cr>
 
 " the missing motion for vim
-" Plug 'justinmk/vim-sneak', {'on': ['<Plug>Sneak_s', '<Plug>Sneak_S']}
-"     " 2-character Sneak (default)
-"     nmap <leader>s <Plug>Sneak_s
-"     nmap <leader>S <Plug>Sneak_S
-"     " visual-mode
-"     xmap <leader>s <Plug>Sneak_s
-"     xmap <leader>S <Plug>Sneak_S
-"     " operator-pending-mode
-"     omap <leader>s <Plug>Sneak_s
-"     omap <leader>S <Plug>Sneak_S
-"     " repeat motion
-"     map ; <Plug>Sneak_;
-"     map , <Plug>Sneak_,
+Plug 'justinmk/vim-sneak', {'on': ['<Plug>Sneak_s', '<Plug>Sneak_S']}
+    let g:sneak#label = 1
+    " 2-character Sneak (default)
+    nmap <leader>sf <Plug>Sneak_s
+    nmap <leader>sF <Plug>Sneak_S
+    " visual-mode
+    xmap <leader>sf <Plug>Sneak_s
+    xmap <leader>sF <Plug>Sneak_S
+    " operator-pending-mode
+    omap <leader>sf <Plug>Sneak_s
+    omap <leader>sF <Plug>Sneak_S
+    " repeat motion
+    map ; <Plug>Sneak_;
+    map , <Plug>Sneak_,
 
 " Extended f, F, t and T key mappings for Vim
 " Plug 'rhysd/clever-f.vim'
@@ -311,7 +310,38 @@ Plug 'deris/vim-shot-f', {'on': [
     omap T  <Plug>(shot-f-T)
 
 " Display and toggle marks
-" Plug 'kshenoy/vim-signature'
+Plug 'kshenoy/vim-signature', {'on': []}
+	let g:SignatureIncludeMarks = 'abcdefghijkloqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    let g:SignatureForceRemoveGlobal = 0
+    let g:SignatureUnconditionallyRecycleMarks = 1
+    let g:SignatureErrorIfNoAvailableMarks = 0
+    let g:SignaturePurgeConfirmation = 0
+    let g:SignatureMarkTextHLDynamic = 1
+    let g:SignatureMarkerTextHLDynamic = 1
+    let g:SignatureIncludeMarkers = repeat('⚐', 10)
+	let g:SignatureMap = {
+		\ 'Leader':            'm',
+		\ 'ListBufferMarks':   'm/',
+		\ 'ListBufferMarkers': 'm?',
+		\ 'PlaceNextMark':     'm,',
+		\ 'ToggleMarkAtLine':  'mm',
+		\ 'PurgeMarksAtLine':  'm-',
+		\ 'DeleteMark':        'dm',
+		\ 'PurgeMarks':        'm<Space>',
+		\ 'PurgeMarkers':      'm<BS>',
+		\ 'GotoNextLineAlpha': "']",
+		\ 'GotoPrevLineAlpha': "'[",
+		\ 'GotoNextSpotAlpha': '`]',
+		\ 'GotoPrevSpotAlpha': '`[',
+		\ 'GotoNextLineByPos': "]'",
+		\ 'GotoPrevLineByPos': "['",
+		\ 'GotoNextSpotByPos': 'mn',
+		\ 'GotoPrevSpotByPos': 'mp',
+		\ 'GotoNextMarker':    ']-',
+		\ 'GotoPrevMarker':    '[-',
+		\ 'GotoNextMarkerAny': ']=',
+		\ 'GotoPrevMarkerAny': '[=',
+		\ }
 
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
@@ -352,7 +382,6 @@ Plug 'itchyny/lightline.vim'
 " Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 "   let g:vista_fzf_preview = ['right:50%']
-  " nnoremap <leader>v  :Vista!!<cr>
   " function! NearestMethodOrFunction() abort
   "   return get(b:, 'vista_nearest_method_or_function', '')
   " endfunction
@@ -380,16 +409,14 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " molokai theme
 Plug 'tomasr/molokai'
-Plug 'morhetz/gruvbox'
+
+Plug 'morhetz/gruvbox', {'on':[]}
 
 " syntax file to highlight various log files
 Plug 'dzeban/vim-log-syntax', { 'for': ['log', 'txt'] }
 
 " solarized colorscheme
 Plug 'altercation/vim-colors-solarized', {'on': []}
-
-" defaults settings for eveyone
-Plug 'tpope/vim-sensible'
 
 " follow linux kernel coding style
 Plug 'vivien/vim-linux-coding-style', { 'for': ['c', 'h', 'S'] }
@@ -529,3 +556,7 @@ Plug 'haya14busa/vim-edgemotion', {'on': ['<Plug>(edgemotion-j)', '<Plug>(edgemo
 	map gk <Plug>(edgemotion-k)
 	xmap gj <Plug>(edgemotion-j)
 	xmap gk <Plug>(edgemotion-k)
+
+" defaults settings for eveyone
+Plug 'tpope/vim-sensible'
+    let g:loaded_matchit = 0    " skip loading matchit.vim

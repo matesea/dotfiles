@@ -29,7 +29,6 @@ else
 endif
 
 set cindent     " c code indentation
-set autoindent
 " set wildmode=longest:full,full
 " set wildmode=list:longest,full
 set wildmode=longest,full
@@ -54,7 +53,6 @@ set history=2000
 
 " Enable filetype plugin
 " load plugins according to different file type
-filetype off
 filetype plugin indent off
 syntax sync minlines=250
 
@@ -104,12 +102,11 @@ set ffs=unix,dos,mac "Default file types
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git anyway...
-set nobackup nowritebackup
+set nobackup nowritebackup noswapfile
 let &backupdir = $VIMDATA . '/backup/'
 if !isdirectory(&backupdir)
     call mkdir(&backupdir, 'p')
 endif
-set noswapfile
 
 "Persistent undo
 if has("persistent_undo")
@@ -158,7 +155,7 @@ set nowrap " no wrap lines
 " nmap <silent> <leader>wr :setlocal wrap!<cr>
 
 " Set default dictionary to english
-set spelllang=en_us
+" set spelllang=en_us
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -266,3 +263,6 @@ else
 endif
 set background=dark
 colorscheme molokai
+
+inoremap <esc> <nop>
+inoremap jk <esc>
