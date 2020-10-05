@@ -14,7 +14,7 @@ Plug 'mhinz/vim-signify'
      set updatetime=300
 
 " git wrapper
-Plug 'tpope/vim-fugitive', {'on': ['Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame']}
+Plug 'tpope/vim-fugitive', {'on': ['Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV']}
 
 " git commit browser
 Plug 'junegunn/gv.vim', {'on': 'GV'}
