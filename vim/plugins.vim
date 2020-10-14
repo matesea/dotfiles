@@ -26,7 +26,9 @@ Plug 'ap/vim-buftabline'
     let g:buftabline_show = 1
 
 " highlights trailing whitespace in red
-Plug 'bronson/vim-trailing-whitespace'
+Plug 'bronson/vim-trailing-whitespace', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
+    let g:extra_whitespace_ignored_filetypes = ['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown', 'log', 'text']
+" Plug 'ntpeters/vim-better-whitespace', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
 
 " gtags-cscope
     " Plug 'joereynolds/gtags-scope'
@@ -88,12 +90,17 @@ Plug 'jiangmiao/auto-pairs'
 " let g:AutoPairsShortcutToggle = '<leader>p'
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf', {'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf', {'on':['FZF', 'Files', 'GitFiles',
+            \'Buffers', 'Lines', 'BLines', 'History',
+            \'BTags', 'Rg', '<plug>fzf#vim#with_preview', '<plug>fzf#run', 'Vista'],
+            \'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Files', 'GitFiles',
+            \'Buffers', 'Lines', 'BLines', 'History',
+            \'BTags', 'Rg', '<plug>fzf#vim#with_preview', '<plug>fzf#run', 'Vista']}
     let g:fzf_layout = { 'down': '~25%' }
     nnoremap <leader>fe :FZF<cr>
     nnoremap <leader>fc :FZF %:h<cr>
@@ -382,7 +389,7 @@ Plug 'itchyny/lightline.vim'
 
 " Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
-"   let g:vista_fzf_preview = ['right:50%']
+  let g:vista_fzf_preview = ['right:50%']
   " function! NearestMethodOrFunction() abort
   "   return get(b:, 'vista_nearest_method_or_function', '')
   " endfunction
@@ -411,13 +418,15 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " molokai theme
 Plug 'tomasr/molokai'
 
-Plug 'morhetz/gruvbox', {'on':[]}
+Plug 'sickill/vim-monokai'
+
+Plug 'morhetz/gruvbox'
 
 " syntax file to highlight various log files
 Plug 'dzeban/vim-log-syntax', { 'for': ['log', 'txt'] }
 
 " solarized colorscheme
-Plug 'altercation/vim-colors-solarized', {'on': []}
+Plug 'altercation/vim-colors-solarized'
 
 " follow linux kernel coding style
 Plug 'vivien/vim-linux-coding-style', { 'for': ['c', 'h', 'S'] }
@@ -561,3 +570,6 @@ Plug 'haya14busa/vim-edgemotion', {'on': ['<Plug>(edgemotion-j)', '<Plug>(edgemo
 " defaults settings for eveyone
 Plug 'tpope/vim-sensible'
     let g:loaded_matchit = 0    " skip loading matchit.vim
+
+" filter buffer content in-place without modification
+Plug 'lambdalisue/fin.vim', {'on': 'Fin'}
