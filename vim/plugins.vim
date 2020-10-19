@@ -78,8 +78,8 @@ Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
 
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix', {'on': ['<Plug>window:quickfix:toggle', '<Plug>window:location:toggle']}
-    nmap <leader>qt <Plug>window:quickfix:toggle
-    nmap <leader>lt <Plug>window:location:toggle
+    nmap <leader>tq <Plug>window:quickfix:toggle
+    nmap <leader>tl <Plug>window:location:toggle
 
 " Pairs of handy bracket mappings
 " Plug 'tpope/vim-unimpaired'
@@ -102,26 +102,26 @@ Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Files', 'GitFiles',
             \'Buffers', 'Lines', 'BLines', 'History',
             \'BTags', 'Rg', '<plug>fzf#vim#with_preview', '<plug>fzf#run', 'Vista']}
     let g:fzf_layout = { 'down': '~25%' }
-    nnoremap <leader>fe :FZF<cr>
-    nnoremap <leader>fc :FZF %:h<cr>
+    nnoremap ;e :FZF<cr>
+    nnoremap ;c :FZF %:h<cr>
     " git files
     " nnoremap <leader>fg :GFiles<cr>
     " open buffers
-    nnoremap <leader>fg :Buffers<cr>
-    " nnoremap <leader>fh :History<cr>
+    nnoremap ;g :Buffers<cr>
+    nnoremap ;h :History
     " lines in loaded buffers
-    nnoremap <leader>fa :Lines<cr>
+    nnoremap ;a :Lines<cr>
     " lines in the current buffer
-    nnoremap <leader>fl :BLines<cr>
-    nnoremap <leader>fw :BLines <c-r><c-w><cr>
+    nnoremap ;l :BLines<cr>
+    nnoremap ;w :BLines <c-r><c-w><cr>
     " tags of the current buffer
-    nnoremap <leader>ft :BTags<cr>
+    nnoremap ;t :BTags<cr>
     " rg search
     " TODO: to populate rg results into quickfix,
     " by default fzf.vim use alt-a/alt-d to select and deselect all
     " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
-    nnoremap <leader>rg :Rg<space>
-    nnoremap <leader>rw :Rg <c-r><c-w><cr>
+    nnoremap ;r :Rg<space>
+    " nnoremap <leader>rw :Rg <c-r><c-w><cr>
 
 if has('nvim')
     " disable python interpreter check in neovim startup
@@ -281,14 +281,14 @@ Plug 'moll/vim-bbye', {'on': 'Bdelete'}
 Plug 'justinmk/vim-sneak', {'on': ['<Plug>Sneak_s', '<Plug>Sneak_S']}
     let g:sneak#label = 1
     " 2-character Sneak (default)
-    nmap <leader>sf <Plug>Sneak_s
-    nmap <leader>sF <Plug>Sneak_S
+    nmap s <Plug>Sneak_s
+    nmap S <Plug>Sneak_S
     " visual-mode
-    xmap <leader>sf <Plug>Sneak_s
-    xmap <leader>sF <Plug>Sneak_S
+    xmap s <Plug>Sneak_s
+    xmap S <Plug>Sneak_S
     " operator-pending-mode
-    omap <leader>sf <Plug>Sneak_s
-    omap <leader>sF <Plug>Sneak_S
+    omap s <Plug>Sneak_s
+    omap S <Plug>Sneak_S
     " repeat motion
     map ; <Plug>Sneak_;
     map , <Plug>Sneak_,

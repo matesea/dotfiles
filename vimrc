@@ -150,10 +150,6 @@ set textwidth=500
 
 set nowrap " no wrap lines
 
-" toggle highlight search
-" nmap <silent> <leader>hl :setlocal hls!<cr>
-" nmap <silent> <leader>wr :setlocal wrap!<cr>
-
 " Set default dictionary to english
 " set spelllang=en_us
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -175,12 +171,9 @@ endtry
 
 set foldmethod=syntax
 set foldlevel=100
-" fast file traverse
-" noremap <silent> j gj
-" noremap <silent> k gk
 " new buffer without name
 " nnoremap <leader>e  :enew<cr>
-" to reload current file
+" to reload current file and discard modification
 nnoremap <leader>R  :edit!<cr>
 nnoremap <leader>vd :%v##d<left><left>
 nnoremap <leader>vw :%v#<c-r><c-w>#d<cr>
@@ -266,3 +259,59 @@ colorscheme molokai
 
 inoremap <esc> <nop>
 inoremap jk <esc>
+
+" Fast saving from all modes
+nnoremap <Leader>w :write<CR>
+xnoremap <Leader>w <Esc>:write<CR>
+nnoremap <C-s> :<C-u>write<CR>
+xnoremap <C-s> :<C-u>write<CR>
+cnoremap <C-s> <C-u>write<CR>
+
+" toggle wrap
+nnoremap <silent> <leader>tw :setlocal wrap!<cr>
+" toggle relativenumber
+nnoremap <silent> <leader>tr :setlocal relativenumber!<cr>
+
+" C-r: Easier search and replace visual/select mode
+xnoremap <C-r> :<C-u>call <SID>get_selection('/')<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
+
+" Start an external command with a singlewr bang
+nnoremap ! :!
+
+" " Returns visually selected text
+" function! s:get_selection(cmdtype) "{{{
+" 	let temp = @s
+" 	normal! gv"sy
+" 	let @/ = substitute(escape(@s, '\'.a:cmdtype), '\n', '\\n', 'g')
+" 	let @s = temp
+" endfunction "}}}
+" 
+" " Window-control prefix
+" nnoremap  [Window]   <Nop>
+" nmap      <C-W> [Window]
+" 
+" nnoremap <silent> [Window]v  :<C-u>split<CR>
+" nnoremap <silent> [Window]g  :<C-u>vsplit<CR>
+" nnoremap <silent> [Window]t  :tabnew<CR>
+" nnoremap <silent> [Window]o  :<C-u>only<CR>
+" nnoremap <silent> [Window]b  :b#<CR>
+" nnoremap <silent> [Window]c  :close<CR>
+" nnoremap <silent> [Window]x  :<C-u>call <SID>window_empty_buffer()<CR>
+" nnoremap <silent> [Window]z  :<C-u>call <SID>zoom()<CR>
+" 
+" " Split current buffer, go to previous window and previous buffer
+" nnoremap <silent> [Window]sv :split<CR>:wincmd p<CR>:e#<CR>
+" nnoremap <silent> [Window]sg :vsplit<CR>:wincmd p<CR>:e#<CR>
+" 
+" " Simple zoom toggle
+" function! s:zoom()
+" 	if exists('t:zoomed')
+" 		unlet t:zoomed
+" 		wincmd =
+" 	else
+" 		let t:zoomed = { 'nr': bufnr('%') }
+" 		vertical resize
+" 		resize
+" 		normal! ze
+" 	endif
+" endfunction
