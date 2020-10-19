@@ -278,40 +278,46 @@ xnoremap <C-r> :<C-u>call <SID>get_selection('/')<CR>:%s/\V<C-R>=@/<CR>//gc<Left
 " Start an external command with a singlewr bang
 nnoremap ! :!
 
-" " Returns visually selected text
-" function! s:get_selection(cmdtype) "{{{
-" 	let temp = @s
-" 	normal! gv"sy
-" 	let @/ = substitute(escape(@s, '\'.a:cmdtype), '\n', '\\n', 'g')
-" 	let @s = temp
-" endfunction "}}}
-" 
-" " Window-control prefix
-" nnoremap  [Window]   <Nop>
-" nmap      <C-W> [Window]
-" 
-" nnoremap <silent> [Window]v  :<C-u>split<CR>
-" nnoremap <silent> [Window]g  :<C-u>vsplit<CR>
-" nnoremap <silent> [Window]t  :tabnew<CR>
-" nnoremap <silent> [Window]o  :<C-u>only<CR>
-" nnoremap <silent> [Window]b  :b#<CR>
+" Returns visually selected text
+function! s:get_selection(cmdtype) "{{{
+	let temp = @s
+	normal! gv"sy
+	let @/ = substitute(escape(@s, '\'.a:cmdtype), '\n', '\\n', 'g')
+	let @s = temp
+endfunction "}}}
+
+" Window-control prefix
+nnoremap  [Window]   <Nop>
+nmap      <C-W> [Window]
+
+nnoremap <silent> [Window]v  :<C-u>split<CR>
+nnoremap <silent> [Window]g  :<C-u>vsplit<CR>
+nnoremap <silent> [Window]o  :<C-u>only<CR>
 " nnoremap <silent> [Window]c  :close<CR>
 " nnoremap <silent> [Window]x  :<C-u>call <SID>window_empty_buffer()<CR>
-" nnoremap <silent> [Window]z  :<C-u>call <SID>zoom()<CR>
-" 
-" " Split current buffer, go to previous window and previous buffer
+nnoremap <silent> [Window]z  :<C-u>call <SID>zoom()<CR>
+
+" Split current buffer, go to previous window and previous buffer
 " nnoremap <silent> [Window]sv :split<CR>:wincmd p<CR>:e#<CR>
 " nnoremap <silent> [Window]sg :vsplit<CR>:wincmd p<CR>:e#<CR>
-" 
-" " Simple zoom toggle
-" function! s:zoom()
-" 	if exists('t:zoomed')
-" 		unlet t:zoomed
-" 		wincmd =
-" 	else
-" 		let t:zoomed = { 'nr': bufnr('%') }
-" 		vertical resize
-" 		resize
-" 		normal! ze
+
+" Simple zoom toggle
+function! s:zoom()
+	if exists('t:zoomed')
+		unlet t:zoomed
+		wincmd =
+	else
+		let t:zoomed = { 'nr': bufnr('%') }
+		vertical resize
+		resize
+		normal! ze
+	endif
+endfunction
+
+" function! s:window_empty_buffer()
+" 	let l:current = bufnr('%')
+" 	if ! getbufvar(l:current, '&modified')
+" 		enew
+" 		silent! execute 'bdelete '.l:current
 " 	endif
 " endfunction

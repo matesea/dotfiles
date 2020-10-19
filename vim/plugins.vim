@@ -107,7 +107,7 @@ Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Files', 'GitFiles',
     " git files
     " nnoremap <leader>fg :GFiles<cr>
     " open buffers
-    nnoremap ;g :Buffers<cr>
+    nnoremap ;b :Buffers<cr>
     nnoremap ;h :History
     " lines in loaded buffers
     nnoremap ;a :Lines<cr>
