@@ -286,20 +286,10 @@ function! s:get_selection(cmdtype) "{{{
 	let @s = temp
 endfunction "}}}
 
-" Window-control prefix
-nnoremap  [Window]   <Nop>
-nmap      <C-W> [Window]
-
-nnoremap <silent> [Window]v  :<C-u>split<CR>
-nnoremap <silent> [Window]g  :<C-u>vsplit<CR>
-nnoremap <silent> [Window]o  :<C-u>only<CR>
-" nnoremap <silent> [Window]c  :close<CR>
-" nnoremap <silent> [Window]x  :<C-u>call <SID>window_empty_buffer()<CR>
-nnoremap <silent> [Window]z  :<C-u>call <SID>zoom()<CR>
-
-" Split current buffer, go to previous window and previous buffer
-" nnoremap <silent> [Window]sv :split<CR>:wincmd p<CR>:e#<CR>
-" nnoremap <silent> [Window]sg :vsplit<CR>:wincmd p<CR>:e#<CR>
+" Delete buffer, leave blank window
+nnoremap <silent> <c-w>x  :<C-u>call <SID>window_empty_buffer()<CR>
+" toggle window zoom
+nnoremap <silent> <c-w>z  :<C-u>call <SID>zoom()<CR>
 
 " Simple zoom toggle
 function! s:zoom()
@@ -314,10 +304,10 @@ function! s:zoom()
 	endif
 endfunction
 
-" function! s:window_empty_buffer()
-" 	let l:current = bufnr('%')
-" 	if ! getbufvar(l:current, '&modified')
-" 		enew
-" 		silent! execute 'bdelete '.l:current
-" 	endif
-" endfunction
+function! s:window_empty_buffer()
+	let l:current = bufnr('%')
+	if ! getbufvar(l:current, '&modified')
+		enew
+		silent! execute 'bdelete '.l:current
+	endif
+endfunction

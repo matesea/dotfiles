@@ -47,10 +47,13 @@ Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
         let g:loaded_gentags#ctags = 1
     endif
     let g:gen_tags#gtags_default_map = 0
+    " display result in quickfix
+    " set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
+    set cscoperelative
     nnoremap <leader>cf :cscope find<space>
-    nnoremap <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>cs :cscope find s <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>cg :cscope find g <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>cc :cscope find c <C-R>=expand("<cword>")<CR><CR>
     nnoremap <leader>ca :cscope add<space>
 
 " Plug 'ludovicchabant/vim-gutentags'
