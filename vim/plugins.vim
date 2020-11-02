@@ -100,6 +100,7 @@ Plug 'junegunn/fzf', {'on':['FZF', 'Files', 'GitFiles',
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
+Plug 'ajeetdsouza/zoxide', {'on': []}
 " " things you can do with fzf and vim
 Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Files', 'GitFiles',
             \'Buffers', 'Lines', 'BLines', 'History',
@@ -353,6 +354,7 @@ Plug 'deris/vim-shot-f', {'on': [
 "		\ 'GotoPrevMarkerAny': '[=',
 "		\ }
 
+Plug 'jacquesbh/vim-showmarks'
 " mark: highlight several words in different colors simultaneously
 Plug 'mihais/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
     let g:mwDefaultHighlightingPalette = 'maximum'
