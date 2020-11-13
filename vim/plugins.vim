@@ -124,8 +124,8 @@ Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Files', 'GitFiles',
     " TODO: to populate rg results into quickfix,
     " by default fzf.vim use alt-a/alt-d to select and deselect all
     " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
-    nnoremap ;r :Rg<space>
-    " nnoremap <leader>rw :Rg <c-r><c-w><cr>
+    nnoremap ;rg :Rg<space>
+    nnoremap ;rw :Rg <c-r><c-w><cr>
 
 if has('nvim')
     " disable python interpreter check in neovim startup
