@@ -100,7 +100,6 @@ Plug 'junegunn/fzf', {'on':['FZF', 'Files', 'GitFiles',
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
-Plug 'ajeetdsouza/zoxide', {'on': []}
 " " things you can do with fzf and vim
 Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Files', 'GitFiles',
             \'Buffers', 'Lines', 'BLines', 'History',
@@ -418,7 +417,7 @@ Plug 'mhinz/vim-hugefile', { 'for': ['log', 'txt'] }
   let g:hugefile_trigger_size = 150
 
 " tree explorer plugin
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " molokai theme
 Plug 'tomasr/molokai'
@@ -472,15 +471,15 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'h', 'S', 'cpp'] }
 
 " unobtrusive scratch window
-Plug 'mtth/scratch.vim', { 'on': ['<plug>(scratch-insert-reuse)',
-    \'<plug>(scratch-insert-clear)',
-    \'<plug>(scratch-selection-reuse)',
-    \'<plug>(scratch-selection-clear)']}
-  let g:scratch_no_mappings = 1
-  nmap gs <plug>(scratch-insert-reuse)
-  nmap gS <plug>(scratch-insert-clear)
-  xmap gs <plug>(scratch-selection-reuse)
-  xmap gS <plug>(scratch-selection-clear)
+" Plug 'mtth/scratch.vim', { 'on': ['<plug>(scratch-insert-reuse)',
+"    \'<plug>(scratch-insert-clear)',
+"    \'<plug>(scratch-selection-reuse)',
+"    \'<plug>(scratch-selection-clear)']}
+"   let g:scratch_no_mappings = 1
+"   nmap gs <plug>(scratch-insert-reuse)
+"   nmap gS <plug>(scratch-insert-clear)
+"   xmap gs <plug>(scratch-selection-reuse)
+"   xmap gS <plug>(scratch-selection-clear)
 
 " go to terminal or file manager
 Plug 'justinmk/vim-gtfo'
@@ -522,29 +521,28 @@ Plug 'rhysd/accelerated-jk'
     nmap j <Plug>(accelerated_jk_gj)
     nmap k <Plug>(accelerated_jk_gk)
 
-" Highlight cursor word
-Plug 'itchyny/vim-cursorword'
-    augroup user_plugin_cursorword
-        autocmd!
-        autocmd FileType defx,denite,fern,qf let b:cursorword = 0
-        autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif
-        autocmd InsertEnter * let b:cursorword = 0
-        autocmd InsertLeave * let b:cursorword = 1
-    augroup END
+" " Highlight cursor word
+" Plug 'itchyny/vim-cursorword'
+"     augroup user_plugin_cursorword
+"         autocmd!
+"         autocmd FileType defx,denite,fern,qf let b:cursorword = 0
+"         autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif
+"         autocmd InsertEnter * let b:cursorword = 0
+"         autocmd InsertLeave * let b:cursorword = 1
+"     augroup END
 
 " disable hlsearch automatically when we done searching
 Plug 'romainl/vim-cool'
 
-Plug 'haya14busa/vim-asterisk', {'on': ['<Plug>(asterisk-*)', '<Plug>(asterisk-#)',
-            \'<Plug>(asterisk-g*)', '<Plug>(asterisk-g#)', '<Plug>(asterisk-z*)',
-            \'<Plug>(asterisk-gz*)', '<Plug>(asterisk-z#)']}
-  map *   <Plug>(asterisk-*)
-  map #   <Plug>(asterisk-#)
-  map g*  <Plug>(asterisk-g*)
-  map g#  <Plug>(asterisk-g#)
-  map z*  <Plug>(asterisk-z*)
-  map gz* <Plug>(asterisk-gz*)
-  map z#  <Plug>(asterisk-z#)
+" Plug 'haya14busa/vim-asterisk'
+"   map *   <Plug>(asterisk-*)
+"   map #   <Plug>(asterisk-#)
+"   map g*  <Plug>(asterisk-g*)
+"   map g#  <Plug>(asterisk-g#)
+"   map z*  <Plug>(asterisk-z*)
+"   map gz* <Plug>(asterisk-gz*)
+"   map z#  <Plug>(asterisk-z#)
+"   let g:asterisk#keeppos = 1
 
 Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs'] }
     let g:foldsearch_disable_mappings = 1
@@ -555,16 +553,16 @@ Plug 'wellle/context.vim', {'for': ['c', 'h', 'S', 'cpp', 'python']}
 
 Plug 'machakann/vim-sandwich'
 
-Plug 'pechorin/any-jump.vim', {'on': ['AnyJump', 'AnyJumpVisual']}
-    let g:any_jump_disable_default_keybindings = 1
-	" Normal mode: Jump to definition under cursor
-	nnoremap <silent> <leader>ii :AnyJump<CR>
-	" Visual mode: jump to selected text in visual mode
-	xnoremap <silent> <leader>ii :AnyJumpVisual<CR>
-	" Normal mode: open previous opened file (after jump)
-	nnoremap <silent> <leader>ib :AnyJumpBack<CR>
-	" Normal mode: open last closed search window again
-	nnoremap <silent> <leader>il :AnyJumpLastResults<CR>
+" Plug 'pechorin/any-jump.vim', {'on': ['AnyJump', 'AnyJumpVisual']}
+"     let g:any_jump_disable_default_keybindings = 1
+" 	" Normal mode: Jump to definition under cursor
+" 	nnoremap <silent> <leader>ii :AnyJump<CR>
+" 	" Visual mode: jump to selected text in visual mode
+" 	xnoremap <silent> <leader>ii :AnyJumpVisual<CR>
+" 	" Normal mode: open previous opened file (after jump)
+" 	nnoremap <silent> <leader>ib :AnyJumpBack<CR>
+" 	" Normal mode: open last closed search window again
+" 	nnoremap <silent> <leader>il :AnyJumpLastResults<CR>
 
 Plug 'haya14busa/vim-edgemotion', {'on': ['<Plug>(edgemotion-j)', '<Plug>(edgemotion-k)']}
 	map gj <Plug>(edgemotion-j)
@@ -577,4 +575,4 @@ Plug 'tpope/vim-sensible'
     let g:loaded_matchit = 0    " skip loading matchit.vim
 
 " filter buffer content in-place without modification
-Plug 'lambdalisue/fin.vim', {'on': 'Fin'}
+" Plug 'lambdalisue/fin.vim', {'on': 'Fin'}

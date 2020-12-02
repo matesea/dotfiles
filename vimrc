@@ -257,9 +257,6 @@ endif
 set background=dark
 colorscheme molokai
 
-inoremap <esc> <nop>
-inoremap jk <esc>
-
 " Fast saving from all modes
 nnoremap <Leader>w :write<CR>
 xnoremap <Leader>w <Esc>:write<CR>
