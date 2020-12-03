@@ -255,7 +255,9 @@ else
     set termguicolors
 endif
 set background=dark
-colorscheme molokai
+" XX: monokai is faster than vim-monokai-tasty
+colorscheme monokai
+" colorscheme vim-monokai-tasty
 
 " Fast saving from all modes
 nnoremap <Leader>w :write<CR>
@@ -274,6 +276,10 @@ xnoremap <C-r> :<C-u>call <SID>get_selection('/')<CR>:%s/\V<C-R>=@/<CR>//gc<Left
 
 " Start an external command with a singlewr bang
 nnoremap ! :!
+
+" customize keyword for log filetype for MTDL9/vim-log-highlighting
+" au Syntax *.log syn match logLevelError   '\c\(error\|errors\|err\|failure\|fatal\|failed\|fail\|assert\|\<bug\>\)'
+" au Syntax *.log syn match logLevelWarning '\c\(warn\|warning\|delete\|deleting\|deleted\|retry\|retrying\|busy\)'
 
 " Returns visually selected text
 function! s:get_selection(cmdtype) "{{{

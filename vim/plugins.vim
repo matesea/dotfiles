@@ -421,13 +421,20 @@ Plug 'mhinz/vim-hugefile', { 'for': ['log', 'txt'] }
 
 " molokai theme
 Plug 'tomasr/molokai'
+Plug 'sickill/vim-monokai'
+Plug 'patstockwell/vim-monokai-tasty'
 
 Plug 'sickill/vim-monokai'
 
 Plug 'morhetz/gruvbox'
 
 " syntax file to highlight various log files
-Plug 'dzeban/vim-log-syntax', { 'for': ['log', 'txt'] }
+Plug 'matesea/vim-log-syntax', {'for': ['log', 'txt']}
+
+" Plug 'MTDL9/vim-log-highlighting', {'for': ['log', 'txt']}
+"     au Syntax log syn keyword logLevelError fatal
+    " au rc Syntax log syn keyword logLevelError \(FATAL\|ERROR\|ERRORS\|FAIL\|FAILED\|FAILURE\|assert\)
+    " au rc Syntax log syn keyword logLevelWarning \(warn\|DELETE\|DELETING\|DELETED\|RETRY\|RETRYING\)
 
 " solarized colorscheme
 Plug 'altercation/vim-colors-solarized'
@@ -534,15 +541,15 @@ Plug 'rhysd/accelerated-jk'
 " disable hlsearch automatically when we done searching
 Plug 'romainl/vim-cool'
 
-" Plug 'haya14busa/vim-asterisk'
-"   map *   <Plug>(asterisk-*)
-"   map #   <Plug>(asterisk-#)
-"   map g*  <Plug>(asterisk-g*)
-"   map g#  <Plug>(asterisk-g#)
-"   map z*  <Plug>(asterisk-z*)
-"   map gz* <Plug>(asterisk-gz*)
-"   map z#  <Plug>(asterisk-z#)
-"   let g:asterisk#keeppos = 1
+Plug 'haya14busa/vim-asterisk'
+  map *   <Plug>(asterisk-*)
+  map #   <Plug>(asterisk-#)
+  map g*  <Plug>(asterisk-g*)
+  map g#  <Plug>(asterisk-g#)
+  map z*  <Plug>(asterisk-z*)
+  map gz* <Plug>(asterisk-gz*)
+  map z#  <Plug>(asterisk-z#)
+  let g:asterisk#keeppos = 1
 
 Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs'] }
     let g:foldsearch_disable_mappings = 1
