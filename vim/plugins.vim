@@ -421,10 +421,10 @@ Plug 'mhinz/vim-hugefile', { 'for': ['log', 'txt'] }
 
 " molokai theme
 Plug 'tomasr/molokai'
-Plug 'sickill/vim-monokai'
-Plug 'patstockwell/vim-monokai-tasty'
-
-Plug 'sickill/vim-monokai'
+Plug 'crusoexia/vim-monokai'
+" Plug 'sickill/vim-monokai'
+" Plug 'patstockwell/vim-monokai-tasty'
+" Plug 'erichdongubler/vim-sublime-monokai'
 
 Plug 'morhetz/gruvbox'
 
