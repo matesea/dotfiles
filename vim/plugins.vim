@@ -95,7 +95,7 @@ Plug 'jiangmiao/auto-pairs'
 " " a command-line fuzzy finder written in Go
 Plug 'junegunn/fzf', {'on':['FZF', 'Files', 'GitFiles',
             \'Buffers', 'Lines', 'BLines', 'History',
-            \'BTags', 'Rg', '<plug>fzf#vim#with_preview', '<plug>fzf#run', 'Vista'],
+            \'BTags', 'Rg', '<plug>fzf#vim#with_preview', '<plug>fzf#run'],
             \'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
@@ -103,7 +103,7 @@ Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
 Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Files', 'GitFiles',
             \'Buffers', 'Lines', 'BLines', 'History',
-            \'BTags', 'Rg', '<plug>fzf#vim#with_preview', '<plug>fzf#run', 'Vista']}
+            \'BTags', 'Rg', '<plug>fzf#vim#with_preview', '<plug>fzf#run']}
     let g:fzf_layout = { 'down': '~25%' }
     nnoremap ;e :FZF<cr>
     nnoremap ;c :FZF %:h<cr>
@@ -392,25 +392,25 @@ Plug 'itchyny/lightline.vim'
     " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
 " Viewer & Finder for LSP symbols and tags in Vim
-Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
+Plug 'liuchengxu/vista.vim'
   let g:vista_fzf_preview = ['right:50%']
-  " function! NearestMethodOrFunction() abort
-  "   return get(b:, 'vista_nearest_method_or_function', '')
-  " endfunction
+  function! NearestMethodOrFunction() abort
+    return get(b:, 'vista_nearest_method_or_function', '')
+  endfunction
 
-  " set statusline+=%{NearestMethodOrFunction()}
+  set statusline+=%{NearestMethodOrFunction()}
 
-  " " show the nearest function in your statusline automatically,
-  " autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
-  " let g:lightline = {
-  "       \ 'active': {
-  "       \   'left': [ [ 'mode', 'paste' ],
-  "       \             [ 'readonly', 'filename', 'modified', 'method' ] ]
-  "       \ },
-  "       \ 'component_function': {
-  "       \   'method': 'NearestMethodOrFunction'
-  "       \ },
-  "       \ }
+  " show the nearest function in your statusline automatically,
+  autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+  let g:lightline = {
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ],
+        \             [ 'readonly', 'filename', 'modified', 'method' ] ]
+        \ },
+        \ 'component_function': {
+        \   'method': 'NearestMethodOrFunction'
+        \ },
+        \ }
 
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile', { 'for': ['log', 'txt'] }
@@ -556,7 +556,7 @@ Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs'] }
     " zE to remove all folding
     " zd to remove single folding
 
-Plug 'wellle/context.vim', {'for': ['c', 'h', 'S', 'cpp', 'python']}
+" Plug 'wellle/context.vim', {'for': ['c', 'h', 'S', 'cpp', 'python']}
 
 Plug 'machakann/vim-sandwich'
 

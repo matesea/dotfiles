@@ -255,9 +255,9 @@ else
     set termguicolors
 endif
 set background=dark
-" XX: monokai is faster than vim-monokai-tasty
-colorscheme monokai
+" XX: startup speed: molokai > monokai > vim-monokai-tasty
 " colorscheme vim-monokai-tasty
+colorscheme molokai
 
 " Fast saving from all modes
 nnoremap <Leader>w :write<CR>
@@ -314,3 +314,6 @@ function! s:window_empty_buffer()
 		silent! execute 'bdelete '.l:current
 	endif
 endfunction
+
+" allow mouse scroll
+" set mouse=a
