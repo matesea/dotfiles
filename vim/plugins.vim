@@ -399,6 +399,7 @@ Plug 'liuchengxu/vista.vim'
   endfunction
 
   set statusline+=%{NearestMethodOrFunction()}
+  let g:vista#renderer#enable_icon = 0
 
   " show the nearest function in your statusline automatically,
   autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
