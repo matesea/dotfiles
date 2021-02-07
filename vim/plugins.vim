@@ -93,17 +93,12 @@ Plug 'jiangmiao/auto-pairs'
 " let g:AutoPairsShortcutToggle = '<leader>p'
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf', {'on':['FZF', 'Files', 'GitFiles',
-            \'Buffers', 'Lines', 'BLines', 'History',
-            \'BTags', 'Rg', '<plug>fzf#vim#with_preview', '<plug>fzf#run'],
-            \'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf', {'do': './install --completion --key-bindings --xdg --no-update-rc' }
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
-Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Files', 'GitFiles',
-            \'Buffers', 'Lines', 'BLines', 'History',
-            \'BTags', 'Rg', '<plug>fzf#vim#with_preview', '<plug>fzf#run']}
+Plug 'junegunn/fzf.vim'
     let g:fzf_layout = { 'down': '~25%' }
     nnoremap ;e :FZF<cr>
     nnoremap ;c :FZF %:h<cr>
@@ -125,6 +120,7 @@ Plug 'junegunn/fzf.vim', {'on': ['FZF', 'Files', 'GitFiles',
     " but alt doesn't work on neovim, change to ctrl-s/ctrl-d in vim.vim
     nnoremap ;rg :Rg<space>
     nnoremap ;rw :Rg <c-r><c-w><cr>
+    nnoremap ;rc :Rc<space>
 
 if has('nvim')
     " disable python interpreter check in neovim startup
@@ -260,17 +256,17 @@ Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
   if executable('rg')
       let g:ackprg = "rg -S --vimgrep --no-heading --no-column"
       " Rc: grep the folder of current editing file
-      " command! -bang -nargs=* Rc  call fzf#vim#grep
-      "     \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
-      "     \1, {'dir': expand('%:h:p')}, <bang>0)
+      command! -bang -nargs=* Rc  call fzf#vim#grep
+          \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
+          \1, fzf#vim#with_preview({'dir': expand('%:h:p')}), <bang>0)
       command! -complete=shellcmd -nargs=+ R
           \ call s:RunShellCommand("rg -S --vimgrep --no-heading --no-column ".<q-args>)
   elseif executable('ag')
       let g:ackprg = "ag --vimgrep"
       " Rc: grep the folder of current editing file
-      " command! -bang -nargs=* Rc  call fzf#vim#grep
-      "     \('ag --noheading --nogroup --color --smart-case '.shellescape(<q-args>),
-      "     \1, {'dir': expand('%:h:p')}, <bang>0)
+      command! -bang -nargs=* Rc  call fzf#vim#grep
+          \('ag --noheading --nogroup --color --smart-case '.shellescape(<q-args>),
+          \1, fzf#vim#with_preview({'dir': expand('%:h:p')}), <bang>0)
       command! -complete=shellcmd -nargs=+ R
           \ call s:RunShellCommand("ag --noheading --nogroup --nocolor --smart-case ".<q-args>)
   endif
