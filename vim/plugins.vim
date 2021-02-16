@@ -93,13 +93,13 @@ Plug 'jiangmiao/auto-pairs'
 " let g:AutoPairsShortcutToggle = '<leader>p'
 
 " " a command-line fuzzy finder written in Go
-Plug 'junegunn/fzf', {'do': './install --completion --key-bindings --xdg --no-update-rc' }
+Plug 'junegunn/fzf', {'do': './install --completion --key-bindings --xdg --no-update-rc'}
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
 Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
 Plug 'junegunn/fzf.vim'
-    let g:fzf_layout = { 'down': '~25%' }
+    let g:fzf_layout = {'down': '~25%'}
     nnoremap ;e :FZF<cr>
     nnoremap ;c :FZF %:h<cr>
     " git files
@@ -132,7 +132,7 @@ if has('nvim')
 endif
 
 if has("python3")
-    " Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+    " Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
     "   " let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
     "   " if !isdirectory(g:Lf_CacheDirectory)
     "   "     call mkdir(g:Lf_CacheDirectory, 'p')
@@ -201,7 +201,7 @@ if has("python3")
         let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
 
         " Snippets are separated from the engine. Add this if you want them:
-        Plug 'honza/vim-snippets', { 'on': [] }
+        Plug 'honza/vim-snippets', {'on': []}
 
     Plug 'ncm2/ncm2', {'on': []}
         Plug 'roxma/nvim-yarp', {'on': []}
@@ -252,7 +252,7 @@ if has("python3")
 endif
 
 " Vim plugin for the Perl module / CLI script 'ack'
-Plug 'mileszs/ack.vim',     { 'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd'] }
+Plug 'mileszs/ack.vim',     {'on': ['LAckAdd', 'LAck', 'Ack', 'AckAdd']}
   if executable('rg')
       let g:ackprg = "rg -S --vimgrep --no-heading --no-column"
       " Rc: grep the folder of current editing file
@@ -347,7 +347,7 @@ Plug 'deris/vim-shot-f', {'on': [
 "		\ 'GotoPrevMarker':    '[-',
 "		\ 'GotoNextMarkerAny': ']=',
 "		\ 'GotoPrevMarkerAny': '[=',
-"		\ }
+"		\}
 
 Plug 'jacquesbh/vim-showmarks'
 " mark: highlight several words in different colors simultaneously
@@ -380,10 +380,10 @@ Plug 'itchyny/lightline.vim'
     "            \},
     "            \ 'component_expand': {
     "            \   'buffers': 'lightline#bufferline#buffers'
-    "            \ },
+    "            \},
     "            \ 'component_type': {
     "            \   'buffers': 'tabsel'
-    "            \ }
+    "            \}
     "\}
     " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
@@ -403,18 +403,18 @@ Plug 'liuchengxu/vista.vim'
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ],
         \             [ 'readonly', 'filename', 'modified', 'method' ] ]
-        \ },
+        \},
         \ 'component_function': {
         \   'method': 'NearestMethodOrFunction'
-        \ },
-        \ }
+        \},
+        \}
 
 " speed up loading of large files
-Plug 'mhinz/vim-hugefile', { 'for': ['log', 'txt'] }
+Plug 'mhinz/vim-hugefile', {'for': ['log', 'txt']}
   let g:hugefile_trigger_size = 150
 
 " tree explorer plugin
-" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 " molokai theme
 Plug 'tomasr/molokai'
@@ -437,19 +437,19 @@ Plug 'matesea/vim-log-syntax', {'for': ['log', 'txt']}
 Plug 'altercation/vim-colors-solarized'
 
 " follow linux kernel coding style
-Plug 'vivien/vim-linux-coding-style', { 'for': ['c', 'h', 'S'] }
+Plug 'vivien/vim-linux-coding-style', {'for': ['c', 'h', 'S']}
 
 " vim tmux seamless navigator
 Plug 'christoomey/vim-tmux-navigator'
 
 " undo history visualizer
-Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
+Plug 'mbbill/undotree',     {'on': 'UndotreeToggle'}
   let g:undotree_WindowLayout = 2
   nnoremap U :UndotreeToggle<cr>
 
 " asynchronous completion framework
 " if has('nvim')
-"     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"     Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 " else
 "     Plug 'Shougo/deoplete.nvim'
 "     Plug 'roxma/nvim-yarp'
@@ -472,10 +472,10 @@ Plug 'mbbill/undotree',     { 'on': 'UndotreeToggle' }
 "     let g:completor_complete_options = 'menuone,noselect,preview'
 
 " c/cpp enhanced highlight
-Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'h', 'S', 'cpp'] }
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'h', 'S', 'cpp']}
 
 " unobtrusive scratch window
-" Plug 'mtth/scratch.vim', { 'on': ['<plug>(scratch-insert-reuse)',
+" Plug 'mtth/scratch.vim', {'on': ['<plug>(scratch-insert-reuse)',
 "    \'<plug>(scratch-insert-clear)',
 "    \'<plug>(scratch-selection-reuse)',
 "    \'<plug>(scratch-selection-clear)']}
@@ -517,8 +517,8 @@ Plug 'nathanaelkane/vim-indent-guides', {'for': ['c', 'h', 'S', 'cpp', 'python',
 " Plug 'm42e/trace32-practice.vim'
 
 " profile startuptime
-Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
-Plug 'dstein64/vim-startuptime', { 'on': [] }
+Plug 'tweekmonster/startuptime.vim', {'on': 'StartupTime'}
+Plug 'dstein64/vim-startuptime', {'on': []}
 
 " accelerate j/k movement
 Plug 'rhysd/accelerated-jk'
@@ -548,7 +548,7 @@ Plug 'haya14busa/vim-asterisk'
   map z#  <Plug>(asterisk-z#)
   let g:asterisk#keeppos = 1
 
-Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs'] }
+Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs']}
     let g:foldsearch_disable_mappings = 1
     " zE to remove all folding
     " zd to remove single folding

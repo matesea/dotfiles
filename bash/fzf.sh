@@ -7,8 +7,12 @@ fl() {
 
 zcase() {
     local dir
+    if [ -z "$__CASES" ]; then
+        echo "variable __CASES not defined"
+        return
+    fi
     dir="$(
-        find /local/mnt/workspace/case /local2/mnt/workspace/archived_case -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' |sort -r |cut -d' ' -f2 2>/dev/null \
+        find $__CASES -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' |sort -r |cut -d' ' -f2 2>/dev/null \
     | fzf)" || return
     cd "$prefix$dir" || return
 }
