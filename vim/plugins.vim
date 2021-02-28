@@ -350,8 +350,10 @@ Plug 'deris/vim-shot-f', {'on': [
 "		\}
 
 Plug 'jacquesbh/vim-showmarks'
+" needed by vim-mark
+Plug 'inkarkat/vim-ingo-library', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
 " mark: highlight several words in different colors simultaneously
-Plug 'mihais/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
+Plug 'inkarkat/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
     let g:mwDefaultHighlightingPalette = 'maximum'
     let g:mwHistAdd = '/@'
     let g:mw_no_mappings = 1
@@ -360,12 +362,11 @@ Plug 'mihais/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet',
     nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
     nmap * <Plug>MarkSearchOrCurNext
     nmap # <Plug>MarkSearchOrCurPrev
-	nmap <unique> <Leader>m <Plug>MarkSet
-	xmap <unique> <Leader>m <Plug>MarkSet
-	nmap <unique> <Leader>r <Plug>MarkRegex
-	xmap <unique> <Leader>r <Plug>MarkRegex
-	nmap <unique> <Leader>n <Plug>MarkClear
-
+ 	nmap <unique> <Leader>m <Plug>MarkSet
+ 	xmap <unique> <Leader>m <Plug>MarkSet
+ 	nmap <unique> <Leader>r <Plug>MarkRegex
+ 	xmap <unique> <Leader>r <Plug>MarkRegex
+ 	nmap <unique> <Leader>n <Plug>MarkClear
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
 
