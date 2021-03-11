@@ -581,3 +581,5 @@ Plug 'tpope/vim-sensible'
 
 " filter buffer content in-place without modification
 " Plug 'lambdalisue/fin.vim', {'on': 'Fin'}
+
+Plug 'ngemily/vim-vp4', {'on': ['Vp4FileLog', 'Vp4Annotate', 'Vp4Describe', 'Vp4']}
