@@ -31,47 +31,43 @@ Plug 'bronson/vim-trailing-whitespace', {'for': ['c', 'h', 'S', 'cpp', 'python',
 " Plug 'ntpeters/vim-better-whitespace', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
 
 " gtags-cscope
-    " Plug 'joereynolds/gtags-scope'
-    "   " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-    "   set cscopetag
-    "   " check cscope for definition of a symbol before checking ctags: set to 1
-    "   " if you want the reverse search order.
-    "   set csto=0
-    "   " show msg when any other cscope db added
-    "   set cscopeverbose
-Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
-    if ! has("cscope") || ! executable('gtags')
-        let g:loaded_gentags#gtags = 1
-    endif
-    if ! executable('ctags')
-        let g:loaded_gentags#ctags = 1
-    endif
-    let g:gen_tags#gtags_default_map = 0
-    " display result in quickfix
-    " set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
-    set cscoperelative
-    nnoremap <leader>cf :cscope find<space>
-    nnoremap <leader>cs :cscope find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <leader>cg :cscope find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <leader>cc :cscope find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <leader>ca :cscope add<space>
+Plug 'joereynolds/gtags-scope', {'on': 'GtagsCscope'}
+
+" " == cscope mappings ==
+" " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+" set cscopetag
+" check cscope for definition of a symbol before checking ctags: set to 1
+" if you want the reverse search order.
+set csto=0
+" show msg when any other cscope db added
+set cscopeverbose
+  " display result in quickfix
+set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
+set cscoperelative
+nnoremap <leader>cf :cscope find<space>
+nnoremap <leader>cs :cscope find s <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>cg :cscope find g <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>cc :cscope find c <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>ca :cscope add<space>
+
+" Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
+"     if ! has("cscope") || ! executable('gtags')
+"         let g:loaded_gentags#gtags = 1
+"     endif
+"     if ! executable('ctags')
+"         let g:loaded_gentags#ctags = 1
+"     endif
+"     let g:gen_tags#gtags_default_map = 0
 
 " Plug 'ludovicchabant/vim-gutentags'
-" Plug 'skywind3000/gutentags_plus'
+" Plug 'skywind3000/gutentags_plus' " if prefer gtags than cscope
 "     " enable gtags module
-"     let g:gutentags_modules = ['ctags', 'gtags_cscope']
-
+"     let g:gutentags_modules = ['gtags_cscope']
 "     " config project root markers.
-"     " let g:gutentags_project_root = ['.root']
-
-"     " generate datebases in my cache directory, prevent gtags files polluting my project
-"     " let g:gutentags_cache_dir = expand('~/.cache/tags')
-"     " let g:gutentags_cache_dir = expand('~/.cache/tags_dir')
-
-"     " change focus to quickfix window after search (optional).
-"     let g:gutentags_plus_switch = 1
-
+"     let g:gutentags_project_root = ['.root']
+"     let g:gutentags_cscope_build_inverted_index = 1
 "     let g:gutentags_plus_nomap = 1
+"     " gtags-cscope mappings
 "     nnoremap <leader>cf :GscopeFind<space>
 "     nnoremap <leader>cs :GscopeFind s <C-R>=expand("<cword>")<CR><CR>
 "     nnoremap <leader>cg :GscopeFind g <C-R>=expand("<cword>")<CR><CR>
@@ -81,8 +77,8 @@ Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
 
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix', {'on': ['<Plug>window:quickfix:toggle', '<Plug>window:location:toggle']}
-    nmap <leader>tq <Plug>window:quickfix:toggle
-    nmap <leader>tl <Plug>window:location:toggle
+    nmap <leader>q <Plug>window:quickfix:toggle
+    nmap <leader>l <Plug>window:location:toggle
 
 " Pairs of handy bracket mappings
 " Plug 'tpope/vim-unimpaired'

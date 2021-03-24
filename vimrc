@@ -162,13 +162,6 @@ try
 catch
 endtry
 
-" traverse quickfix
-" nnoremap <silent> gC :cprev<cr>
-" nnoremap <silent> gc :cnext<cr>
-" traverse location list
-" nnoremap <silent> gL :lprev<cr>
-" nnoremap <silent> gl :lnext<cr>
-
 set foldmethod=syntax
 set foldlevel=100
 " new buffer without name
