@@ -12,6 +12,8 @@
 " XX: vim-signify faster than gitgutter in startup
 Plug 'mhinz/vim-signify'
      set updatetime=300
+    nmap ]c <plug>(signify-next-hunk)
+    nmap [c <plug>(signify-prev-hunk)
 
 " git wrapper
 Plug 'tpope/vim-fugitive', {'on': ['Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV']}
@@ -353,7 +355,8 @@ Plug 'inkarkat/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet
     let g:mwDefaultHighlightingPalette = 'maximum'
     let g:mwHistAdd = '/@'
     let g:mw_no_mappings = 1
-    let g:mwAutoLoadMarks = 0
+    let g:mwAutoLoadMarks = 1
+    let g:mwAutoLoadMarks = 1
     nmap <Plug>IgnoreMarkSearchNext <Plug>MarkSearchNext
     nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
     nmap * <Plug>MarkSearchOrCurNext
