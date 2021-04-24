@@ -52,31 +52,6 @@ nnoremap <leader>cg :cscope find g <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>cc :cscope find c <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>ca :cscope add<space>
 
-" Plug 'jsfaint/gen_tags.vim', {'for': ['c', 'h', 'cpp', 'python']}
-"     if ! has("cscope") || ! executable('gtags')
-"         let g:loaded_gentags#gtags = 1
-"     endif
-"     if ! executable('ctags')
-"         let g:loaded_gentags#ctags = 1
-"     endif
-"     let g:gen_tags#gtags_default_map = 0
-
-" Plug 'ludovicchabant/vim-gutentags'
-" Plug 'skywind3000/gutentags_plus' " if prefer gtags than cscope
-"     " enable gtags module
-"     let g:gutentags_modules = ['gtags_cscope']
-"     " config project root markers.
-"     let g:gutentags_project_root = ['.root']
-"     let g:gutentags_cscope_build_inverted_index = 1
-"     let g:gutentags_plus_nomap = 1
-"     " gtags-cscope mappings
-"     nnoremap <leader>cf :GscopeFind<space>
-"     nnoremap <leader>cs :GscopeFind s <C-R>=expand("<cword>")<CR><CR>
-"     nnoremap <leader>cg :GscopeFind g <C-R>=expand("<cword>")<CR><CR>
-"     nnoremap <leader>cc :GscopeFind c <C-R>=expand("<cword>")<CR><CR>
-"     nnoremap <leader>ca :GscopeFind a <C-R>=expand("<cword>")<CR><CR>
-"     nnoremap <leader>cd :GscopeFind d <C-R>=expand("<cword>")<CR><CR>
-
 " toggle quickfix window
 Plug 'drmingdrmer/vim-toggle-quickfix', {'on': ['<Plug>window:quickfix:toggle', '<Plug>window:location:toggle']}
     nmap <leader>q <Plug>window:quickfix:toggle
@@ -130,67 +105,6 @@ if has('nvim')
 endif
 
 if has("python3")
-    " Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
-    "   " let g:Lf_CacheDirectory=$VIMDATA . '/LeaderF'
-    "   " if !isdirectory(g:Lf_CacheDirectory)
-    "   "     call mkdir(g:Lf_CacheDirectory, 'p')
-    "   " endif
-    "   " need git >= 2.11
-    "   " let g:Lf_RecurseSubmodules = 1
-    "   " by default leaderf will use commands like git ls-tree so some files will be missed
-    "   " rg is even faster than fd
-    "   if executable('rg')
-    "       let g:Lf_DefaultExternalTool = 'rg'
-    "       " let g:Lf_ExternalCommand = 'rg --no-messages --files %s'
-    "   " elseif executable('fd')
-    "   "     let g:Lf_ExternalCommand = 'fd --color=never -t f %s'
-    "   endif
-    "   let g:Lf_ShowDevIcons = 0
-    "   let g:Lf_ShortcutF = '<leader>fe'
-    "   let g:Lf_ShortcutB = '<leader>fb'
-    "   let g:Lf_NoChdir = 1
-    "   let g:Lf_ReverseOrder = 1
-    "   let g:Lf_GtagsStoreInProject = 1
-    "   if has('nvim-0.4.2')
-    "       let g:Lf_WindowPosition = 'popup'
-    "       let g:Lf_PreviewInPopup = 1
-    "   endif
-    "   " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
-
-    "   " XX: LeaderfFile doesn't work when selecting multiple files
-    "   " nnoremap <leader>fc       :<C-U><C-R>=printf("LeaderfFile %s ", expand("%:h"))<CR><CR>
-    "   nnoremap <leader>fl       :LeaderfLine<cr>
-    "   nnoremap <leader>fw       :LeaderfLineCword<cr>
-    "   nnoremap <leader>ft       :LeaderfBufTag<cr>
-    "   nnoremap <leader>ff       :LeaderfFunction<cr>
-
-    "   " nnoremap <leader>fta      :LeaderfBufTagAll<cr>
-    "   " nnoremap <leader>ffa      :LeaderfFunctionAll<cr>
-
-    "   " option: --match-path to fuzzy the path
-    "   nmap     <leader>rg       <Plug>LeaderfRgPrompt
-    "   nnoremap <leader>rw       :<C-U><C-R>=printf("Leaderf rg -F -e %s ", expand("<cword>"))<CR><CR>
-    "   nnoremap <leader>rc		:<C-U><C-R>=printf("Leaderf rg -F %s -e ", expand("%:h"))<CR><space>
-    "   nnoremap <leader>rcw      :<C-U><C-R>=printf("Leaderf rg -F -e %s %s", expand("<cword>"), expand("%:h"))<CR><CR>
-
-      " gtags
-      " nnoremap <leader>gu       :Leaderf gtags --update<cr>
-      " nnoremap <leader>gr       :Leaderf gtags --recall<cr>
-      " cursor on definition => reference
-      " on word has defined => definition
-      " otherwise jump to symbol if any
-      " nnoremap <leader>gb       :Leaderf gtags --by-context --auto-jump<cr>
-      " -d: definition, -r: being called, -s: symbol, -g: grep
-      " nnoremap <leader>gs       :Leaderf gtags --auto-jump -
-      " go definition
-      " nnoremap <leader>gg       :Leaderf gtags -d <c-r><c-w> --auto-jump<cr>
-      " nmap <leader>gd           <Plug>LeaderfGtagsDefinition
-      " go being called
-      " nnoremap <leader>gc       :Leaderf gtags -r <c-r><c-w> --auto-jump<cr>
-      " nmap <leader>gr           <Plug>LeaderfGtagsReference
-      " nmap <leader>gs           <Plug>LeaderfGtagsSymbol
-      " nmap <leader>gg           <Plug>LeaderfGtagsGrep
-
     " Track the engine.
     Plug 'SirVer/ultisnips', {'on': []}
         " Trigger configuration
