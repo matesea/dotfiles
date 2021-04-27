@@ -211,6 +211,10 @@ if has("python3")
         Plug 'ncm2/ncm2-gtags', {'on': []}
 
         function! s:load_insert(timer) abort
+            if (&filetype ==# 'log' || &filetype ==# 'text')
+                " echom 'not for log'
+                return
+            endif
             call plug#load('ncm2')
             call plug#load('nvim-yarp')
             call plug#load('ncm2-bufword')
@@ -398,7 +402,9 @@ Plug 'liuchengxu/vista.vim'
   let g:vista#renderer#enable_icon = 0
 
   " show the nearest function in your statusline automatically,
-  autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+  autocmd VimEnter *.c call vista#RunForNearestMethodOrFunction()
+  autocmd VimEnter *.h call vista#RunForNearestMethodOrFunction()
+  autocmd VimEnter *.py call vista#RunForNearestMethodOrFunction()
   let g:lightline = {
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ],
@@ -411,7 +417,7 @@ Plug 'liuchengxu/vista.vim'
 
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile', {'for': ['log', 'txt']}
-  let g:hugefile_trigger_size = 150
+  let g:hugefile_trigger_size = 50
 
 " tree explorer plugin
 " Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
@@ -499,7 +505,7 @@ Plug 'justinmk/vim-gtfo'
 " comment stuff out
 " Plug 'tpope/vim-commentary', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
 
-Plug 'tyru/caw.vim', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
+Plug 'tyru/caw.vim', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim', 'sh']}
 
 Plug 'nathanaelkane/vim-indent-guides', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
     let g:indent_guides_enable_on_vim_startup = 1
