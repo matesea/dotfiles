@@ -477,7 +477,6 @@ function genGtags() {
     done
 }
 
-export PATH="/opt/local/bin/:$HOME/bin:$PATH"
 if [[ ${EUID} == 0 ]] ; then
 	PS1='\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '
 else
