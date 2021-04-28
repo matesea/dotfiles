@@ -511,7 +511,7 @@ __lua=$(which lua 2>/dev/null)
 __zl=$(which z.lua 2>/dev/null)
 
 # z.lua or zoxide
-if [ ! -z $__zoxide ] && [ ! -z "$USE_ZOXIDE" ]; then
+if [ ! -z $__zoxide ]; then
     eval "$(zoxide init bash)"
     # zi to cd with fzf, as zz
     # zq to query but don't cd, as zl
