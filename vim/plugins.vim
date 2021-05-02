@@ -289,21 +289,17 @@ Plug 'farmergreg/vim-lastplace'
 
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
-    " Plug 'mengelbrecht/lightline-bufferline'
-    " set showtabline=2
-    " let g:lightline = {
-    "            \ 'tabline': {
-    "            \   'left': [['buffers']],
-    "            \   'right': [['close']]
-    "            \},
-    "            \ 'component_expand': {
-    "            \   'buffers': 'lightline#bufferline#buffers'
-    "            \},
-    "            \ 'component_type': {
-    "            \   'buffers': 'tabsel'
-    "            \}
-    "\}
-    " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+     let g:lightline                  = {}
+     " Plug 'mengelbrecht/lightline-bufferline'
+     " set showtabline=2
+     " let g:lightline#bufferline#show_number  = 0
+     " let g:lightline#bufferline#shorten_path = 0
+     " let g:lightline#bufferline#unnamed      = '[No Name]'
+     " let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+     " let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+     " let g:lightline.component_type   = {'buffers': 'tabsel'}
+
+     " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
 " Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim'
@@ -319,15 +315,11 @@ Plug 'liuchengxu/vista.vim'
   autocmd VimEnter *.c call vista#RunForNearestMethodOrFunction()
   autocmd VimEnter *.h call vista#RunForNearestMethodOrFunction()
   autocmd VimEnter *.py call vista#RunForNearestMethodOrFunction()
-  let g:lightline = {
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],
-        \             [ 'readonly', 'filename', 'modified', 'method' ] ]
-        \},
-        \ 'component_function': {
-        \   'method': 'NearestMethodOrFunction'
-        \},
-        \}
+  let g:lightline.colorscheme = 'molokai'
+  let g:lightline.active = {'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified', 'method' ] ]}
+  let g:lightline.component_function = {
+            \   'method': 'NearestMethodOrFunction'
+            \ }
 
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile', {'for': ['log', 'txt']}
@@ -348,6 +340,10 @@ endif
 " Plug 'erichdongubler/vim-sublime-monokai'
 
 " Plug 'morhetz/gruvbox'
+"
+" Plug 'cocopon/iceberg.vim'
+" Plug 'joshdick/onedark.vim'
+" Plug 'arcticicestudio/nord-vim'
 
 " syntax file to highlight various log files
 Plug 'matesea/vim-log-syntax', {'for': ['log', 'txt']}
