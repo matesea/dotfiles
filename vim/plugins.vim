@@ -132,13 +132,13 @@ if has("nvim-0.5")
         let g:compe.source = {}
         let g:compe.source.path = v:true
         let g:compe.source.buffer = v:true
+        let g:compe.source.tags = v:true
         let g:compe.source.calc = v:true
         let g:compe.source.nvim_lsp = v:true
         let g:compe.source.nvim_lua = v:true
         let g:compe.source.vsnip = v:true
 
     Plug 'andersevenrud/compe-tmux', {'on': []}
-        let g:compe.source = {}
         let g:compe.source.tmux = v:true
         " let g:compe.source.all_panes = v:true
 
