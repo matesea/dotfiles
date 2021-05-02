@@ -337,13 +337,17 @@ Plug 'mhinz/vim-hugefile', {'for': ['log', 'txt']}
 " Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 " molokai theme
-Plug 'tomasr/molokai'
-Plug 'crusoexia/vim-monokai'
+if has('nvim')
+    Plug 'tamelion/neovim-molokai'
+else
+    Plug 'tomasr/molokai'
+endif
+" Plug 'crusoexia/vim-monokai'
 " Plug 'sickill/vim-monokai'
 " Plug 'patstockwell/vim-monokai-tasty'
 " Plug 'erichdongubler/vim-sublime-monokai'
 
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 
 " syntax file to highlight various log files
 Plug 'matesea/vim-log-syntax', {'for': ['log', 'txt']}
@@ -502,3 +506,8 @@ Plug 'tpope/vim-sensible'
 " Plug 'lambdalisue/fin.vim', {'on': 'Fin'}
 
 Plug 'ngemily/vim-vp4', {'on': ['Vp4FileLog', 'Vp4Annotate', 'Vp4Describe', 'Vp4']}
+
+" make quickfix window better
+" slow in startup & nvim-nightly required
+" Plug 'kevinhwang91/nvim-bqf'
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
