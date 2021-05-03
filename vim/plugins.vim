@@ -133,14 +133,14 @@ if has("nvim-0.5")
         let g:compe.source.path = v:true
         let g:compe.source.buffer = v:true
         let g:compe.source.tags = v:true
-        let g:compe.source.calc = v:true
+        " let g:compe.source.calc = v:true
         let g:compe.source.nvim_lsp = v:true
         let g:compe.source.nvim_lua = v:true
         let g:compe.source.vsnip = v:true
 
     Plug 'andersevenrud/compe-tmux', {'on': []}
-        let g:compe.source.tmux = v:true
-        " let g:compe.source.all_panes = v:true
+        let g:compe.source.tmux = {}
+        let g:compe.source.tmux.all_panes = v:true
 
     " Plug 'ncm2/ncm2', {'on': []}
     "     Plug 'roxma/nvim-yarp', {'on': []}
@@ -166,7 +166,7 @@ if has("nvim-0.5")
             call plug#load('ultisnips')
             call plug#load('vim-snippets')
             call plug#load('nvim-compe')
-            call plug#load('compe-tmux')
+            " call plug#load('compe-tmux')
 
             " enable ncm2 for all buffers
             " call ncm2#enable_for_buffer()
@@ -318,7 +318,8 @@ Plug 'farmergreg/vim-lastplace'
 
 " A light and configurable statusline/tabline plugin for vim
 Plug 'itchyny/lightline.vim'
-     let g:lightline                  = {}
+    let g:lightline                  = {}
+    let g:lightline.colorscheme = 'molokai'
      " Plug 'mengelbrecht/lightline-bufferline'
      " set showtabline=2
      " let g:lightline#bufferline#show_number  = 0
@@ -345,7 +346,6 @@ Plug 'liuchengxu/vista.vim'
 
   autocmd VimEnter *.h call vista#RunForNearestMethodOrFunction()
   autocmd VimEnter *.py call vista#RunForNearestMethodOrFunction()
-  let g:lightline.colorscheme = 'molokai'
   let g:lightline.active = {'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified', 'method' ] ]}
   let g:lightline.component_function = {
             \   'method': 'NearestMethodOrFunction'
@@ -353,7 +353,7 @@ Plug 'liuchengxu/vista.vim'
 
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile', {'for': ['log', 'txt']}
-  let g:hugefile_trigger_size = 50
+  let g:hugefile_trigger_size = 150
 
 " tree explorer plugin
 " Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
@@ -384,7 +384,7 @@ Plug 'matesea/vim-log-syntax', {'for': ['log', 'txt']}
     " au rc Syntax log syn keyword logLevelWarning \(warn\|DELETE\|DELETING\|DELETED\|RETRY\|RETRYING\)
 
 " solarized colorscheme
-Plug 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized', {'on': []}
 
 " follow linux kernel coding style
 Plug 'vivien/vim-linux-coding-style', {'for': ['c', 'h', 'S']}
