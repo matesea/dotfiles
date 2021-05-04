@@ -316,10 +316,14 @@ Plug 'inkarkat/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
 
+" if has("nvim-0.5")
+"     Plug 'beauwilliams/statusline.lua'
+" else
+Plug 'lukelbd/vim-statusline'
+    " Plug 'itchyny/lightline.vim'
+" endif
+
 " A light and configurable statusline/tabline plugin for vim
-Plug 'itchyny/lightline.vim'
-    let g:lightline                  = {}
-    let g:lightline.colorscheme = 'molokai'
      " Plug 'mengelbrecht/lightline-bufferline'
      " set showtabline=2
      " let g:lightline#bufferline#show_number  = 0
@@ -332,24 +336,26 @@ Plug 'itchyny/lightline.vim'
      " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
 " Viewer & Finder for LSP symbols and tags in Vim
-Plug 'liuchengxu/vista.vim'
+Plug 'liuchengxu/vista.vim', {'On': 'Vista'}
   let g:vista_fzf_preview = ['right:50%']
-  function! NearestMethodOrFunction() abort
-    return get(b:, 'vista_nearest_method_or_function', '')
-  endfunction
-
-  set statusline+=%{NearestMethodOrFunction()}
-  let g:vista#renderer#enable_icon = 0
-
-  " show the nearest function in your statusline automatically,
-  autocmd VimEnter *.c call vista#RunForNearestMethodOrFunction()
-
-  autocmd VimEnter *.h call vista#RunForNearestMethodOrFunction()
-  autocmd VimEnter *.py call vista#RunForNearestMethodOrFunction()
-  let g:lightline.active = {'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified', 'method' ] ]}
-  let g:lightline.component_function = {
-            \   'method': 'NearestMethodOrFunction'
-            \ }
+  " function! NearestMethodOrFunction() abort
+  "   return get(b:, 'vista_nearest_method_or_function', '')
+  " endfunction
+  "
+  " set statusline+=%{NearestMethodOrFunction()}
+  " let g:vista#renderer#enable_icon = 0
+  "
+  " " show the nearest function in your statusline automatically,
+  " autocmd VimEnter *.c call vista#RunForNearestMethodOrFunction()
+  " autocmd VimEnter *.h call vista#RunForNearestMethodOrFunction()
+  " autocmd VimEnter *.py call vista#RunForNearestMethodOrFunction()
+  "
+  " let g:lightline                  = {}
+  " let g:lightline.colorscheme = 'ayu_dark'
+  " let g:lightline.active = {'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified', 'method' ] ]}
+  " let g:lightline.component_function = {
+  "         \   'method': 'NearestMethodOrFunction'
+  "         \ }
 
 " speed up loading of large files
 Plug 'mhinz/vim-hugefile', {'for': ['log', 'txt']}
