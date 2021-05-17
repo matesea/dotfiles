@@ -543,3 +543,4 @@ Plug 'ngemily/vim-vp4', {'on': ['Vp4FileLog', 'Vp4Annotate', 'Vp4Describe', 'Vp4
 " slow in startup & nvim-nightly required
 " Plug 'kevinhwang91/nvim-bqf'
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nanotee/zoxide.vim', {'on': ['Z', 'Zi', 'Lz', 'Lzi']}
