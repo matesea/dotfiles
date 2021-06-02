@@ -310,3 +310,9 @@ endfunction
 
 " allow mouse scroll
 " set mouse=a
+
+" exclude quickfix from bnext/bprev
+augroup qf
+    autocmd!
+    autocmd FileType qf set nobuflisted
+augroup END
