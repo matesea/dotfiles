@@ -4,9 +4,9 @@ else
     # for BSD ls
     export CLICOLOR=1
 fi
-if which rsync 1>/dev/null 2>&1; then
-    alias cp='rsync -avz'
-fi
+# if which rsync 1>/dev/null 2>&1; then
+#     alias cp='rsync -avz'
+# fi
 alias ll='ls -l'
 alias la='ls -la'
 alias lh='ls -lh'

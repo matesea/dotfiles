@@ -509,7 +509,7 @@ Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs']}
     " zE to remove all folding
     " zd to remove single folding
 
-Plug 'wellle/context.vim', {'for': ['c', 'h', 'S', 'cpp', 'python']}
+Plug 'wellle/context.vim'
 
 Plug 'machakann/vim-sandwich'
 
