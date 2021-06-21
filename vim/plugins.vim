@@ -134,13 +134,13 @@ if has("nvim-0.5")
         let g:compe.source.buffer = v:true
         let g:compe.source.tags = v:true
         " let g:compe.source.calc = v:true
-        let g:compe.source.nvim_lsp = v:true
-        let g:compe.source.nvim_lua = v:true
-        let g:compe.source.vsnip = v:true
+        let g:compe.source.nvim_lsp = v:false
+        let g:compe.source.nvim_lua = v:false
+        let g:compe.source.vsnip = v:false
 
     Plug 'andersevenrud/compe-tmux', {'on': []}
         let g:compe.source.tmux = {}
-        let g:compe.source.tmux.all_panes = v:true
+        let g:compe.source.tmux.all_panes = v:false
 
     " Plug 'ncm2/ncm2', {'on': []}
     "     Plug 'roxma/nvim-yarp', {'on': []}
@@ -166,7 +166,7 @@ if has("nvim-0.5")
             call plug#load('ultisnips')
             call plug#load('vim-snippets')
             call plug#load('nvim-compe')
-            " call plug#load('compe-tmux')
+            call plug#load('compe-tmux')
 
             " enable ncm2 for all buffers
             " call ncm2#enable_for_buffer()
