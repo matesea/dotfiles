@@ -104,7 +104,7 @@ if has('nvim')
     " let g:python_host_prog = '/opt/local/bin/python'
 endif
 
-if has("nvim-0.5")
+if has("python3")
     " Track the engine.
     Plug 'SirVer/ultisnips', {'on': []}
         " Trigger configuration
@@ -115,61 +115,61 @@ if has("nvim-0.5")
         " Snippets are separated from the engine. Add this if you want them:
         Plug 'honza/vim-snippets', {'on': []}
 
-    Plug 'hrsh7th/nvim-compe', {'on': []}
-        let g:compe = {}
-        let g:compe.enabled = v:true
-        let g:compe.autocomplete = v:true
-        let g:compe.debug = v:false
-        let g:compe.min_length = 1
-        let g:compe.preselect = 'enable'
-        let g:compe.throttle_time = 80
-        let g:compe.source_timeout = 200
-        let g:compe.incomplete_delay = 400
-        let g:compe.max_abbr_width = 100
-        let g:compe.max_kind_width = 100
-        let g:compe.max_menu_width = 100
-        let g:compe.documentation = v:true
-        let g:compe.source = {}
-        let g:compe.source.path = v:true
-        let g:compe.source.buffer = v:true
-        let g:compe.source.tags = v:true
-        " let g:compe.source.calc = v:true
-        let g:compe.source.nvim_lsp = v:false
-        let g:compe.source.nvim_lua = v:false
-        let g:compe.source.vsnip = v:false
+    " Plug 'hrsh7th/nvim-compe', {'on': []}
+    "     let g:compe = {}
+    "     let g:compe.enabled = v:true
+    "     let g:compe.autocomplete = v:true
+    "     let g:compe.debug = v:false
+    "     let g:compe.min_length = 1
+    "     let g:compe.preselect = 'enable'
+    "     let g:compe.throttle_time = 80
+    "     let g:compe.source_timeout = 200
+    "     let g:compe.incomplete_delay = 400
+    "     let g:compe.max_abbr_width = 100
+    "     let g:compe.max_kind_width = 100
+    "     let g:compe.max_menu_width = 100
+    "     let g:compe.documentation = v:true
+    "     let g:compe.source = {}
+    "     let g:compe.source.path = v:true
+    "     let g:compe.source.buffer = v:true
+    "     let g:compe.source.tags = v:true
+    "     " let g:compe.source.calc = v:true
+    "     let g:compe.source.nvim_lsp = v:false
+    "     let g:compe.source.nvim_lua = v:false
+    "     let g:compe.source.vsnip = v:false
+    " 
+    " Plug 'andersevenrud/compe-tmux', {'on': []}
+    "     let g:compe.source.tmux = {}
+    "     let g:compe.source.tmux.all_panes = v:false
 
-    Plug 'andersevenrud/compe-tmux', {'on': []}
-        let g:compe.source.tmux = {}
-        let g:compe.source.tmux.all_panes = v:false
-
-    " Plug 'ncm2/ncm2', {'on': []}
-    "     Plug 'roxma/nvim-yarp', {'on': []}
-    "     " NOTE: you need to install completion sources to get completions. Check
-    "     " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
-    "     Plug 'ncm2/ncm2-bufword', {'on': []}
-    "     Plug 'ncm2/ncm2-path', {'on': []}
-    "     Plug 'fgrsnau/ncm2-otherbuf', {'on': []}
-    "     Plug 'ncm2/ncm2-gtags', {'on': []}
+    Plug 'ncm2/ncm2', {'on': []}
+        Plug 'roxma/nvim-yarp', {'on': []}
+        " NOTE: you need to install completion sources to get completions. Check
+        " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+        Plug 'ncm2/ncm2-bufword', {'on': []}
+        Plug 'ncm2/ncm2-path', {'on': []}
+        Plug 'fgrsnau/ncm2-otherbuf', {'on': []}
+        Plug 'ncm2/ncm2-gtags', {'on': []}
 
         function! s:load_insert(timer) abort
             if (&filetype ==# 'log' || &filetype ==# 'text')
                 " echom 'not for log'
                 return
             endif
-            " call plug#load('ncm2')
-            " call plug#load('nvim-yarp')
-            " call plug#load('ncm2-bufword')
-            " call plug#load('ncm2-path')
-            " call plug#load('ncm2-otherbuf')
-            " call plug#load('ncm2-gtags')
+            call plug#load('ncm2')
+            call plug#load('nvim-yarp')
+            call plug#load('ncm2-bufword')
+            call plug#load('ncm2-path')
+            call plug#load('ncm2-otherbuf')
+            call plug#load('ncm2-gtags')
 
             call plug#load('ultisnips')
             call plug#load('vim-snippets')
-            call plug#load('nvim-compe')
-            call plug#load('compe-tmux')
+            " call plug#load('nvim-compe')
+            " call plug#load('compe-tmux')
 
             " enable ncm2 for all buffers
-            " call ncm2#enable_for_buffer()
+            call ncm2#enable_for_buffer()
 
             " When the <Enter> key is pressed while the popup menu is visible, it only
             " hides the menu. Use this mapping to close the menu and also start a new
@@ -510,6 +510,8 @@ Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs']}
     " zd to remove single folding
 
 Plug 'wellle/context.vim'
+    autocmd Filetype text call context#disable(1)
+    autocmd Filetype log call context#disable(1)
 
 Plug 'machakann/vim-sandwich'
 
