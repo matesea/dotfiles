@@ -17,6 +17,19 @@ zcase() {
     cd "$prefix$dir" || return
 }
 
+zrp() {
+    local dir
+    if [ -z "$__CASES" ]; then
+        echo "variable __CASES not defined"
+        return
+    fi
+    dir="$(
+        fd dmesg_TZ.txt $__CASES -t f 2>/dev/null \
+    | fzf)" || return
+        echo "zrp: $prefix$dir"
+    cd $(dirname "$prefix$dir") || return
+}
+
 # _fd - cd to selected directory
 _fd() {
   local dir
