@@ -17,6 +17,8 @@ zcase() {
     cd "$prefix$dir" || return
 }
 
+# jump into ramdump folder by finding dmesg_TZ.txt
+# sort the result by time in reverse order
 zrp() {
     local dir
     if [ -z "$__CASES" ]; then
@@ -24,7 +26,7 @@ zrp() {
         return
     fi
     dir="$(
-        fd dmesg_TZ.txt $__CASES -t f 2>/dev/null \
+        find $__CASES -name dmesg_TZ.txt -printf '%T@ %p\n' |sort -r |cut -d' ' -f2 2>/dev/null \
     | fzf)" || return
         echo "zrp: $prefix$dir"
     cd $(dirname "$prefix$dir") || return
