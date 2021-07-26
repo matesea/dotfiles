@@ -515,6 +515,7 @@ if [ ! -z $__zoxide ]; then
     eval "$(zoxide init bash)"
     # zi to cd with fzf, as zz
     # zq to query but don't cd, as zl
+    alias zq='zoxide query'
 elif [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
     # z.lua configuration and alias
     eval "$(lua ${__zl} --init bash enhanced once fzf)"

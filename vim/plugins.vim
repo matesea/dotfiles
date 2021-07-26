@@ -80,7 +80,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', {'do': './install --completion --key-bindings --xdg --no-update-rc'}
 " manage imported github repositories
 Plug 'atweiden/fzf-extras', {'on': []}
-Plug 'skywind3000/z.lua', {'on': []}
+" Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
 Plug 'junegunn/fzf.vim'
     let g:fzf_layout = {'down': '~25%'}

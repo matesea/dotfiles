@@ -13,7 +13,7 @@ zcase() {
     fi
     dir="$(
         find $__CASES -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' |sort -r |cut -d' ' -f2 2>/dev/null \
-    | fzf)" || return
+    | fzf --no-sort)" || return
     cd "$prefix$dir" || return
 }
 
@@ -27,7 +27,7 @@ zrp() {
     fi
     dir="$(
         find $__CASES -name dmesg_TZ.txt -printf '%T@ %p\n' |sort -r |cut -d' ' -f2 2>/dev/null \
-    | fzf)" || return
+    | fzf --no-sort)" || return
         echo "zrp: $prefix$dir"
     cd $(dirname "$prefix$dir") || return
 }
@@ -159,6 +159,24 @@ fe() {
     )
   ) || return
   "${EDITOR:-vim}" "${files[@]}"
+}
+
+# compare files in the same relative path
+fcmp() {
+  local IFS=$'\n'
+  local file=()
+  file=(
+    $(fzf \
+          --select-1 \
+          --exit-0
+    )
+  ) || return
+  "${EDITOR:-vim}" "${file}" "$1/${file}" -d
+}
+
+# compare files with diffent relative path
+fncmp() {
+    "${EDITOR:-vim}" -d $(fd "$1") $(fd "$1" "$2")
 }
 
 # grep/rg and jump to the line
