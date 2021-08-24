@@ -184,6 +184,10 @@ frg() {
     local files
     local file
     local line
+  # to avoid interrupted system call issue
+  # https://unix.stackexchange.com/questions/486908/bash-echo-write-error-interrupted-system-call
+  trap '' SIGWINCH
+
 
     [ ! -z "$1" ] || return
     files="$(rg -F "$1" --vimgrep --no-column 2>/dev/null)" || return
@@ -200,6 +204,10 @@ fco() {
   local tags
   local branches
   local target
+
+  # to avoid interrupted system call issue
+  # https://unix.stackexchange.com/questions/486908/bash-echo-write-error-interrupted-system-call
+  trap '' SIGWINCH
 
   tags="$(
     git tag \
@@ -230,6 +238,19 @@ fco() {
   )" || return
 
   git checkout "$(echo "$target" | awk '{print $2}')"
+
+  ## another implementation
+  # local tags branches target
+  # branches=$(
+  #   git --no-pager branch --all \
+  #   | sed '/^$/d') || return
+  # tags=$(
+  #   git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
+  # target=$(
+  #   (echo "$branches"; echo "$tags") |
+  #   fzf --no-hscroll --no-multi -n 2 \
+  #       --ansi) || return
+  # git checkout $(awk '{print $2}' <<<"$target" )
 }
 
 # fshow - git commit browser
@@ -316,4 +337,14 @@ ftpane() {
     tmux select-pane -t "$target_window.$target_pane" \
       && tmux select-window -t "$target_window"
   fi
+}
+
+# select files and mirror into case folder
+function mr() {
+    if [ -z "$__CASES" ]; then
+        echo "variable __CASES not defined"
+        return
+    fi
+    echo "rsync into $__CASES/$(basename ${PWD})..."
+    rsync --progress -avz $(fd -d 1| fzf -m) $__CASES/$(basename ${PWD})
 }
