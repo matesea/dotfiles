@@ -36,7 +36,7 @@ zrp() {
 _fd() {
   local dir
   dir="$(
-    fd "${1:-.}" -t d -d 5 2> /dev/null \
+    fd "${1:-.}" -t d -d 2 2> /dev/null \
       | fzf +m
   )" || return
   cd "$dir" || return

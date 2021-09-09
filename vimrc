@@ -167,7 +167,7 @@ set foldlevel=100
 " new buffer without name
 " nnoremap <leader>e  :enew<cr>
 " to reload current file and discard modification
-nnoremap <leader>R  :edit!<cr>
+nnoremap <leader>rd  :edit!<cr>
 nnoremap <leader>vd :%v##d<left><left>
 nnoremap <leader>vw :%v#<c-r><c-w>#d<cr>
 
@@ -240,6 +240,9 @@ endif
 call plug#begin(g:plugins)
 source $VIMHOME/plugins.vim
 call plug#end()
+
+" enable lua modules
+lua require('impatient')
 
 if has("gui_running")
     set guioptions-=e

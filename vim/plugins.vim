@@ -8,6 +8,7 @@
 "     let g:gitgutter_map_keys = 0
 "     nnoremap <silent> ]c :GitGutterNextHunk<cr>
 "     nnoremap <silent> [c :GitGutterPrevHunk<cr>
+Plug 'lewis6991/impatient.nvim'
 
 " XX: vim-signify faster than gitgutter in startup
 Plug 'mhinz/vim-signify'
@@ -484,8 +485,8 @@ Plug 'nathanaelkane/vim-indent-guides', {'for': ['c', 'h', 'S', 'cpp', 'python',
 " Plug 'm42e/trace32-practice.vim'
 
 " profile startuptime
-Plug 'tweekmonster/startuptime.vim', {'on': 'StartupTime'}
-Plug 'dstein64/vim-startuptime', {'on': []}
+" Plug 'tweekmonster/startuptime.vim', {'on': 'StartupTime'}
+Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
 
 " accelerate j/k movement
 Plug 'rhysd/accelerated-jk'
