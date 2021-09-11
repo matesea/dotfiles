@@ -2,8 +2,8 @@
 " set nocompatible
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
-let mapleader = ","
-let g:mapleader = ","
+" let mapleader = ","
+" let g:mapleader = ","
 
 let s:nvim = has('nvim')
 " let s:cygwin = has("unix") && has("win32unix")
@@ -28,38 +28,14 @@ else
     let $VIMINFO = $HOME
 endif
 
-set cindent     " c code indentation
-" set wildmode=longest:full,full
-" set wildmode=list:longest,full
-set wildmode=longest,full
-set showmode
-set showcmd
-set number
+" import setting
+lua require('setting')
 
-" remove cursorline because it harms scolling speed
-" set cursorline
-if has('nvim-0.3.2') || has("patch-8.1.0360")
-    set diffopt=filler,internal,algorithm:histogram,indent-heuristic
-else
-    set diffopt+=filler
-endif
-" less window redraw to speedup
-" improve redraw speed
-set ttyfast
-"set ttyscroll=3
-set lazyredraw
-" Sets how many lines of history VIM has to remember
-set history=2000
+" vim functions
+source $VIMHOME/function.vim
 
-" Enable filetype plugin
-" load plugins according to different file type
-filetype plugin indent off
-syntax sync minlines=250
-
-" omni completion, smart autocompletion for programs
-" when invoked, the text before the cursor is inspected to guess what might follow
-" A popup menu offers word completion choices that may include struct and class members, system functions
-set ofu=syntaxcomplete#Complete
+" import key mapping
+lua require('mapping')
 
 "set _viminfo path
 " if has("win32")
@@ -71,139 +47,6 @@ if s:nvim && ! has('win32') && ! has('win64')
 else
     set viminfo=!,'300,<50,@100,s10,h,n$VIMINFO/.viminfo
 endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the curors - when moving vertical..
-set so=7
-set cmdheight=2 "The commandbar height
-set hidden "Change buffer - without saving
-" Set backspace config
-set whichwrap+=<,>,h,l
-set ignorecase smartcase hlsearch
-set magic "Set magic on, for regular expressions
-set showmatch "Show matching bracets when text indicator is over them
-set mat=2 "How many tenths of a second to blink
-
-" No sound on errors
-set noerrorbells novisualbell t_vb=
-set tm=500
-
-set encoding=utf8
-try
-    lang en_US
-catch
-endtry
-
-set ffs=unix,dos,mac "Default file types
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git anyway...
-set nobackup nowritebackup noswapfile
-let &backupdir = $VIMDATA . '/backup/'
-if !isdirectory(&backupdir)
-    call mkdir(&backupdir, 'p')
-endif
-
-"Persistent undo
-if has("persistent_undo")
-    set undofile
-    let &undodir = $VIMDATA . '/undo'
-    if !isdirectory(&undodir)
-        call mkdir(&undodir, 'p')
-    endif
-endif
-
-" set undolevels=20
-" set undoreload=10000
-
-nnoremap <silent> ]b :bnext<cr>
-nnoremap <silent> [b :bprev<cr>
-nnoremap <silent> ]q :cnext<cr>
-nnoremap <silent> [q :cprev<cr>
-nnoremap <silent> ]l :lnext<cr>
-nnoremap <silent> [l :lprev<cr>
-nnoremap <silent> ]t :tabn<cr>
-nnoremap <silent> [t :tabp<cr>
-
-cnoremap <C-h> <Home>
-cnoremap <C-l> <End>
-cnoremap <C-f> <Right>
-cnoremap <C-b> <Left>
-
-" Switch (window) to the directory of the current opened buffer
-map <Leader>cd :lcd %:p:h<CR>:pwd<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set expandtab
-set shiftwidth=4
-set tabstop=4
-set scrolloff=999
-
-set linebreak       " line break
-set textwidth=500
-
-set nowrap " no wrap lines
-
-" Set default dictionary to english
-" set spelllang=en_us
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Specify the behavior when switching between buffers
-try
-    set switchbuf=usetab
-    set showtabline=1
-catch
-endtry
-
-set foldmethod=syntax
-set foldlevel=100
-" new buffer without name
-" nnoremap <leader>e  :enew<cr>
-" to reload current file and discard modification
-nnoremap <leader>rd  :edit!<cr>
-nnoremap <leader>vd :%v##d<left><left>
-nnoremap <leader>vw :%v#<c-r><c-w>#d<cr>
-
-" execute command and put the results into new buffer
-" # alternative file name which is the last edit file, % for current file name
-" they are readonly registers
-" check https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
-" or https://www.brianstorti.com/vim-registers/
-" ex: find pattern in current file :R rg <pattern> #
-
-""""""""""""""""""""""""""""""
-" => vimgrep
-""""""""""""""""""""""""""""""
-if executable('rg')
-    set grepprg=rg\ -S\ --vimgrep\ --no-heading\ --no-column
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
-elseif executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
-    set grepformat=%f:%1:%c%m
-else
-    set grepprg=grep\ -nH
-endif
-
-function! s:RunShellCommand(cmdline) abort
-  enew
-  setlocal buftype=nofile bufhidden=hide noswapfile
-  call setline(1, 'cmd:  ' . a:cmdline)
-  " call setline(2, 'Expanded to:  ' . a:cmdline)
-  " call append(line('$'), substitute(getline(0), '.', '=', 'g'))
-  silent execute '$read !'. a:cmdline
-endfunction
-
-function! RemoveEmptyLines() abort
-    silent! execute ':%g/^[\ \t]*$/d'
-endfunction
-command! -range=% RemoveEmptyLines call RemoveEmptyLines()
 
 " Plugin Manager Installation {{{
 let g:plugins = $VIMHOME.'/plugged'
@@ -244,76 +87,9 @@ call plug#end()
 " enable lua modules
 lua require('impatient')
 
-if has("gui_running")
-    set guioptions-=e
-else
-    set t_Co=256
-    set termguicolors
-endif
-set background=dark
 " XX: startup speed: molokai > monokai > vim-monokai-tasty
 " colorscheme vim-monokai-tasty
 colorscheme molokai
-
-" Fast saving from all modes
-nnoremap <Leader>w :write<CR>
-xnoremap <Leader>w <Esc>:write<CR>
-nnoremap <C-s> :<C-u>write<CR>
-xnoremap <C-s> :<C-u>write<CR>
-cnoremap <C-s> <C-u>write<CR>
-
-" toggle wrap
-nnoremap <silent> <leader>tw :setlocal wrap!<cr>
-" toggle relativenumber
-nnoremap <silent> <leader>tr :setlocal relativenumber!<cr>
-
-" C-r: Easier search and replace visual/select mode
-xnoremap <C-r> :<C-u>call <SID>get_selection('/')<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
-
-" Start an external command with a singlewr bang
-nnoremap ! :!
-
-" customize keyword for log filetype for MTDL9/vim-log-highlighting
-" au Syntax *.log syn match logLevelError   '\c\(error\|errors\|err\|failure\|fatal\|failed\|fail\|assert\|\<bug\>\)'
-" au Syntax *.log syn match logLevelWarning '\c\(warn\|warning\|delete\|deleting\|deleted\|retry\|retrying\|busy\)'
-
-" Returns visually selected text
-function! s:get_selection(cmdtype) "{{{
-	let temp = @s
-	normal! gv"sy
-	let @/ = substitute(escape(@s, '\'.a:cmdtype), '\n', '\\n', 'g')
-	let @s = temp
-endfunction "}}}
-
-" Delete buffer, leave blank window
-nnoremap <silent> <c-w>x  :<C-u>call <SID>window_empty_buffer()<CR>
-" toggle window zoom
-nnoremap <silent> <c-w>z  :<C-u>call <SID>zoom()<CR>
-
-" Simple zoom toggle
-function! s:zoom()
-	if exists('t:zoomed')
-		unlet t:zoomed
-		wincmd =
-	else
-		let t:zoomed = { 'nr': bufnr('%') }
-		vertical resize
-		resize
-		normal! ze
-	endif
-endfunction
-
-function! s:window_empty_buffer()
-	let l:current = bufnr('%')
-	if ! getbufvar(l:current, '&modified')
-		enew
-		silent! execute 'bdelete '.l:current
-	endif
-endfunction
-
-" allow mouse scroll
-" set mouse=a
-
 " exclude quickfix from bnext/bprev
 augroup qf
     autocmd!

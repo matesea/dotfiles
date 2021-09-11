@@ -1,0 +1,64 @@
+-- help function to map keys
+local map = function(key)
+  -- get the extra options
+  local opts = {noremap = true}
+  for i, v in pairs(key) do
+    if type(i) == 'string' then opts[i] = v end
+  end
+
+  -- basic support for buffer-scoped keybindings
+  local buffer = opts.buffer
+  opts.buffer = nil
+
+  if buffer then
+    vim.api.nvim_buf_set_keymap(0, key[1], key[2], key[3], opts)
+  else
+    vim.api.nvim_set_keymap(key[1], key[2], key[3], opts)
+  end
+end
+
+-- buffers
+map {'n', ']b', ':bnext<cr>', silent = true}
+map {'n', '[b', ':bprev<cr>', silent = true}
+-- quickfix
+map {'n', ']q', ':cnext<cr>', silent = true}
+map {'n', '[q', ':cprev<cr>', silent = true}
+-- localtion list
+map {'n', ']l', ':lnext<cr>', silent = true}
+map {'n', '[l', ':lprev<cr>', silent = true}
+-- tabs
+map {'n', ']t', ':tabn<cr>', silent = true}
+map {'n', '[t', ':tabp<cr>', silent = true}
+
+-- command mode
+map {'c', '<C-h>', '<Home>'}
+map {'c', '<C-l>', '<End>'}
+map {'c', '<C-f>', '<Right>'}
+map {'c', '<C-b>', '<Left>'}
+
+map {'', '<leader>cd', ':lcd %:p:h<cr>:pwd<cr>'}
+
+-- reload current buffer
+map {'n', '<leader>rd', ':edit!<cr>'}
+-- fileter all except lines match the pattern
+map {'n', '<leader>vd', ':%v##d<left><left>'}
+-- filter all lines except matching current word
+map {'n', '<leader>vw', ':%v#<c-r><c-w>#d'}
+
+-- write
+map {'n', '<leader>w', ':write<cr>'}
+map {'x', '<leader>w', '<esc>:write<cr>'}
+
+-- XXX: forgot what are these for?
+--[[
+  map {'n', '<c-s>', '<c-u>write<cr>'}
+  map {'x', '<c-s>', '<c-u>write<cr>'}
+  map {'c', '<c-s>', '<c-u>write<cr>'}
+]]--
+
+-- toggle wrap
+map {'n', '<leader>tw', ':setlocal wrap!<cr>', silent = true}
+-- toggle relative line number
+map {'n', '<leader>tr', ':setlocal relativenumber!<cr>', silent = true}
+
+map {'n', '!', ':!'}
