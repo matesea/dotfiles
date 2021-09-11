@@ -118,5 +118,5 @@ opt.background = 'dark'
  they are readonly registers
  check https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
  or https://www.brianstorti.com/vim-registers/
- ex: find pattern in current file :R rg <pattern> #
+ eg, find pattern in current file :R rg <pattern> #
 --]]
