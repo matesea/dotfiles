@@ -84,8 +84,27 @@ call plug#begin(g:plugins)
 source $VIMHOME/plugins.vim
 call plug#end()
 
-" enable lua modules
-lua require('impatient')
+lua << EOF
+    -- enable lua modules
+    require('impatient')
+
+    --[[
+    --require("bufferline").setup{}
+    local custom_gruvbox = require'lualine.themes.gruvbox'
+    -- Change the background of lualine_c section for normal mode
+    custom_gruvbox.normal.c.bg = '#112233' -- rgb colors are supported
+    require'lualine'.setup{
+      options = { theme  = custom_gruvbox },
+    }
+    ]]--
+    local snap = require'snap'
+    snap.maps {
+      {"<Leader><Leader>", snap.config.file {producer = "ripgrep.file"}},
+      {"<Leader>fb", snap.config.file {producer = "vim.buffer"}},
+      {"<Leader>ff", snap.config.vimgrep {}},
+      --- {"<Leader>fo", snap.config.file {producer = "vim.oldfile"}},
+    }
+EOF
 
 " XX: startup speed: molokai > monokai > vim-monokai-tasty
 " colorscheme vim-monokai-tasty

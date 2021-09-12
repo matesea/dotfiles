@@ -24,7 +24,18 @@ Plug 'junegunn/gv.vim', {'on': 'GV'}
 
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 
-" buffer tabs
+" if has('nvim')
+"     " require nerdfont
+"     Plug 'hoob3rt/lualine.nvim'
+"     Plug 'kyazdani42/nvim-web-devicons'
+"     Plug 'ryanoasis/vim-devicons'
+"
+"     " Plug 'kosayoda/nvim-lightbulb'
+"     " Plug 'beauwilliams/statusline.lua'
+"
+"     Plug 'akinsho/bufferline.nvim'
+" endif
+Plug 'lukelbd/vim-statusline'
 Plug 'ap/vim-buftabline'
     let g:buftabline_show = 1
     let g:buftabline_numbers = 2
@@ -84,7 +95,9 @@ Plug 'atweiden/fzf-extras', {'on': []}
 " Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
 Plug 'junegunn/fzf.vim'
-    let g:fzf_layout = {'down': '~25%'}
+    let g:fzf_layout = {'down': '~40%'}
+    " let g:fzf_layout = {'window': 'enew'}
+    " let g:fzf_layout = {'window': '-tabnew'}
     nnoremap ;e :FZF<cr>
     nnoremap ;c :FZF %:h<cr>
     " git files
@@ -106,6 +119,8 @@ Plug 'junegunn/fzf.vim'
     nnoremap ;rg :Rg<space>
     nnoremap ;rw :Rg <c-r><c-w><cr>
     nnoremap ;rc :Rc<space>
+
+Plug 'camspiers/snap', {'on': []}
 
 if has('nvim')
     " disable python interpreter check in neovim startup
@@ -149,7 +164,7 @@ if has("python3")
     "     let g:compe.source.nvim_lsp = v:false
     "     let g:compe.source.nvim_lua = v:false
     "     let g:compe.source.vsnip = v:false
-    " 
+    "
     " Plug 'andersevenrud/compe-tmux', {'on': []}
     "     let g:compe.source.tmux = {}
     "     let g:compe.source.tmux.all_panes = v:false
@@ -327,25 +342,6 @@ Plug 'inkarkat/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet
  	nmap <unique> <Leader>n <Plug>MarkClear
 " reopen files at the last edit position
 Plug 'farmergreg/vim-lastplace'
-
-" if has("nvim-0.5")
-"     Plug 'beauwilliams/statusline.lua'
-" else
-Plug 'lukelbd/vim-statusline'
-    " Plug 'itchyny/lightline.vim'
-" endif
-
-" A light and configurable statusline/tabline plugin for vim
-     " Plug 'mengelbrecht/lightline-bufferline'
-     " set showtabline=2
-     " let g:lightline#bufferline#show_number  = 0
-     " let g:lightline#bufferline#shorten_path = 0
-     " let g:lightline#bufferline#unnamed      = '[No Name]'
-     " let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
-     " let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
-     " let g:lightline.component_type   = {'buffers': 'tabsel'}
-
-     " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
 " Viewer & Finder for LSP symbols and tags in Vim
 Plug 'liuchengxu/vista.vim', {'On': 'Vista'}
