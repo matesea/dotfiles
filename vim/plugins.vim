@@ -324,11 +324,10 @@ Plug 'jacquesbh/vim-showmarks'
 " needed by vim-mark
 Plug 'inkarkat/vim-ingo-library', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
 " mark: highlight several words in different colors simultaneously
-Plug 'inkarkat/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex']}
+Plug 'inkarkat/vim-mark', {'on': ['MarkLoad', 'Mark', 'MarkSave', '<Plug>MarkSet', '<Plug>MarkRegex', '<Plug>MarkSearchOrCurNext', '<Plug>MarkSearchOrCurPrev']}
     let g:mwDefaultHighlightingPalette = 'maximum'
     let g:mwHistAdd = '/@'
     let g:mw_no_mappings = 1
-    let g:mwAutoLoadMarks = 1
     let g:mwAutoLoadMarks = 1
     nmap <Plug>IgnoreMarkSearchNext <Plug>MarkSearchNext
     nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
@@ -501,15 +500,15 @@ Plug 'rhysd/accelerated-jk'
 " disable hlsearch automatically when we done searching
 Plug 'romainl/vim-cool'
 
-Plug 'haya14busa/vim-asterisk'
-  map *   <Plug>(asterisk-*)
-  map #   <Plug>(asterisk-#)
-  map g*  <Plug>(asterisk-g*)
-  map g#  <Plug>(asterisk-g#)
-  map z*  <Plug>(asterisk-z*)
-  map gz* <Plug>(asterisk-gz*)
-  map z#  <Plug>(asterisk-z#)
-  let g:asterisk#keeppos = 1
+" Plug 'haya14busa/vim-asterisk'
+"   map *   <Plug>(asterisk-*)
+"   map #   <Plug>(asterisk-#)
+"   map g*  <Plug>(asterisk-g*)
+"   map g#  <Plug>(asterisk-g#)
+"   map z*  <Plug>(asterisk-z*)
+"   map gz* <Plug>(asterisk-gz*)
+"   map z#  <Plug>(asterisk-z#)
+"   let g:asterisk#keeppos = 1
 
 Plug 'embear/vim-foldsearch', {'on': ['Fp', 'Fw', 'Fs']}
     let g:foldsearch_disable_mappings = 1
@@ -520,7 +519,7 @@ Plug 'wellle/context.vim'
     autocmd Filetype text call context#disable(1)
     autocmd Filetype log call context#disable(1)
 
-" Plug 'machakann/vim-sandwich'
+Plug 'machakann/vim-sandwich'
 
 " Plug 'pechorin/any-jump.vim', {'on': ['AnyJump', 'AnyJumpVisual']}
 "     let g:any_jump_disable_default_keybindings = 1
