@@ -25,30 +25,29 @@ Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 
 " if has('nvim')
-"     " require nerdfont
-"     Plug 'hoob3rt/lualine.nvim'
-"     Plug 'kyazdani42/nvim-web-devicons'
-"     Plug 'ryanoasis/vim-devicons'
-"
-"     " Plug 'kosayoda/nvim-lightbulb'
-"     " Plug 'beauwilliams/statusline.lua'
-"
-"     Plug 'akinsho/bufferline.nvim'
+    " require nerdfont
+    Plug 'kyazdani42/nvim-web-devicons'
+     Plug 'ryanoasis/vim-devicons'
+
+    " Plug 'hoob3rt/lualine.nvim'
+    " Plug 'akinsho/bufferline.nvim'
+    Plug 'beauwilliams/statusline.lua'
+" else
+    " Plug 'lukelbd/vim-statusline'
+    Plug 'ap/vim-buftabline'
+        let g:buftabline_show = 1
+        let g:buftabline_numbers = 2
+        nmap <leader>1 <Plug>BufTabLine.Go(1)
+        nmap <leader>2 <Plug>BufTabLine.Go(2)
+        nmap <leader>3 <Plug>BufTabLine.Go(3)
+        nmap <leader>4 <Plug>BufTabLine.Go(4)
+        nmap <leader>5 <Plug>BufTabLine.Go(5)
+        nmap <leader>6 <Plug>BufTabLine.Go(6)
+        nmap <leader>7 <Plug>BufTabLine.Go(7)
+        nmap <leader>8 <Plug>BufTabLine.Go(8)
+        nmap <leader>9 <Plug>BufTabLine.Go(9)
+        nmap <leader>0 <Plug>BufTabLine.Go(-1)
 " endif
-Plug 'lukelbd/vim-statusline'
-Plug 'ap/vim-buftabline'
-    let g:buftabline_show = 1
-    let g:buftabline_numbers = 2
-    nmap <leader>1 <Plug>BufTabLine.Go(1)
-    nmap <leader>2 <Plug>BufTabLine.Go(2)
-    nmap <leader>3 <Plug>BufTabLine.Go(3)
-    nmap <leader>4 <Plug>BufTabLine.Go(4)
-    nmap <leader>5 <Plug>BufTabLine.Go(5)
-    nmap <leader>6 <Plug>BufTabLine.Go(6)
-    nmap <leader>7 <Plug>BufTabLine.Go(7)
-    nmap <leader>8 <Plug>BufTabLine.Go(8)
-    nmap <leader>9 <Plug>BufTabLine.Go(9)
-    nmap <leader>0 <Plug>BufTabLine.Go(-1)
 
 " highlights trailing whitespace in red
 Plug 'bronson/vim-trailing-whitespace', {'for': ['c', 'h', 'S', 'cpp', 'python', 'vim']}
@@ -120,7 +119,7 @@ Plug 'junegunn/fzf.vim'
     nnoremap ;rw :Rg <c-r><c-w><cr>
     nnoremap ;rc :Rc<space>
 
-Plug 'camspiers/snap', {'on': []}
+" Plug 'camspiers/snap', {'on': []}
 
 if has('nvim')
     " disable python interpreter check in neovim startup
@@ -521,7 +520,7 @@ Plug 'wellle/context.vim'
     autocmd Filetype text call context#disable(1)
     autocmd Filetype log call context#disable(1)
 
-Plug 'machakann/vim-sandwich'
+" Plug 'machakann/vim-sandwich'
 
 " Plug 'pechorin/any-jump.vim', {'on': ['AnyJump', 'AnyJumpVisual']}
 "     let g:any_jump_disable_default_keybindings = 1
@@ -534,11 +533,11 @@ Plug 'machakann/vim-sandwich'
 " 	" Normal mode: open last closed search window again
 " 	nnoremap <silent> <leader>il :AnyJumpLastResults<CR>
 
-Plug 'haya14busa/vim-edgemotion', {'on': ['<Plug>(edgemotion-j)', '<Plug>(edgemotion-k)']}
-	map gj <Plug>(edgemotion-j)
-	map gk <Plug>(edgemotion-k)
-	xmap gj <Plug>(edgemotion-j)
-	xmap gk <Plug>(edgemotion-k)
+" Plug 'haya14busa/vim-edgemotion', {'on': ['<Plug>(edgemotion-j)', '<Plug>(edgemotion-k)']}
+" 	map gj <Plug>(edgemotion-j)
+" 	map gk <Plug>(edgemotion-k)
+" 	xmap gj <Plug>(edgemotion-j)
+" 	xmap gk <Plug>(edgemotion-k)
 
 " defaults settings for eveyone
 Plug 'tpope/vim-sensible'

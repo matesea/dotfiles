@@ -43,7 +43,7 @@ map {'n', '<leader>rd', ':edit!<cr>'}
 -- fileter all except lines match the pattern
 map {'n', '<leader>vd', ':%v##d<left><left>'}
 -- filter all lines except matching current word
-map {'n', '<leader>vw', ':%v#<c-r><c-w>#d'}
+map {'n', '<leader>vw', ':%v#<c-r><c-w>#d<cr>'}
 
 -- write
 map {'n', '<leader>w', ':write<cr>'}

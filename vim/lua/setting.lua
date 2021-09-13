@@ -63,7 +63,12 @@ opt.visualbell = false
 opt.timeoutlen = 500
 
 opt.encoding = 'utf8'
-cmd('lang en_US')
+cmd([[
+    try
+        lang en_US
+    catch
+    endtry
+    ]])
 opt.fileformats = {'unix', 'dos', 'mac'}
 -- opt.t_vb = ''
 
