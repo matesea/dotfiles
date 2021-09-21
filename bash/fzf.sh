@@ -346,5 +346,5 @@ function mr() {
         return
     fi
     echo "rsync into $__CASES/$(basename ${PWD})..."
-    rsync --progress -avz $(fd -d 1| fzf -m) $__CASES/$(basename ${PWD})
+    rsync --progress -avz $(fd -d 1| fzf -m) $__CASES/$(basename ${PWD})/
 }
