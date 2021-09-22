@@ -113,3 +113,6 @@ opt.background = 'dark'
  or https://www.brianstorti.com/vim-registers/
  eg, find pattern in current file :R rg <pattern> #
 --]]
+
+ g.python3_host_skip_check = 1
+ g.python_host_skip_check = 1

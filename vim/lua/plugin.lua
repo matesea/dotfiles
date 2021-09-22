@@ -151,10 +151,19 @@ return require('packer').startup(function()
                 run = './install --completion --key-bindings --xdg --no-update-rc'
             }
         }
+        -- plugin fzf.vim
+        map {'n', ';e', ':FZF<cr>'}
+        map {'n', ';c', ':FZF %:h<cr>'}
+        map {'n', ';b', ':Buffers<cr>'}
+        map {'n', ';h', ':History'}
+        map {'n', ';a', ':Lines<cr>'}
+        map {'n', ';l', ':Blines<cr>'}
+        map {'n', ';w', ':Blines <c-r><c-w><cr>'}
+        map {'n', ';t', ':BTags<cr>'}
+        map {'n', ';rg', ':Rg<space>'}
+        map {'n', ';rw', ':Rg <c-r><c-w><cr>'}
+        -- map {'n', ';rc', ':Rc<space>'}
         -- g.fzf_layout = {'down': '~40%'}
-
-        g.python3_host_skip_check = 1
-        g.python_host_skip_check = 1
 
         -- use 'mileszs/ack.vim'
         use {
