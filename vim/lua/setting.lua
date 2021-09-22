@@ -1,25 +1,13 @@
 local opt = vim.opt -- global options
-local wopt = vim.wo -- window-local options
-local bopt = vim.bo -- buffer-local options
 local g = vim.g     -- global variable
 local fn = vim.fn
-local execute = vim.api.nvim_command
 local cmd = vim.cmd
-local call = vim.call
 local env = vim.env -- environment variables
 
--- not able to get environment variable
--- print('XDG_CONFIG_HOME:' .. fn.getenv('XDG_CONFIG_HOME'))
--- if fn.exists(env.XDG_CONFIG_HOME) == 1 and fn.isdirectory(env.XDG_CONFIG_HOME .. '/nvim') == 1 then
--- if fn.exists(fn.getenv(XDG_CONFIG_HOME)) == 1 then
---     print('XDG_CONFIG_HOME exist')
--- else
---     print('XDG_CONFIG_HOME not exist')
--- end
-
--- print('VIMHOME:' .. env.VIMHOME)
--- print('VIMDATA:' .. env.VIMDATA)
--- print('VIMINFO:' .. env.VIMINFO)
+-- local wopt = vim.wo -- window-local options
+-- local bopt = vim.bo -- buffer-local options
+-- local execute = vim.api.nvim_command
+-- local call = vim.call
 
 g.mapleader = ','
 opt.cindent = true

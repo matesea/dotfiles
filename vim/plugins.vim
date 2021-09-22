@@ -94,7 +94,7 @@ Plug 'atweiden/fzf-extras', {'on': []}
 " Plug 'skywind3000/z.lua', {'on': []}
 " " things you can do with fzf and vim
 Plug 'junegunn/fzf.vim'
-    let g:fzf_layout = {'down': '~40%'}
+    " let g:fzf_layout = {'down': '~40%'}
     " let g:fzf_layout = {'window': 'enew'}
     " let g:fzf_layout = {'window': '-tabnew'}
     nnoremap ;e :FZF<cr>
