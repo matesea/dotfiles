@@ -54,7 +54,7 @@ return require('packer').startup(function()
             config = function() require('impatient') end
         }
 
-        use 'mhinz/vim-signify'
+        use {'mhinz/vim-signify'}
         opt.updatetime = 300
 
         -- use {
@@ -85,9 +85,21 @@ return require('packer').startup(function()
         local statusline = require('statusline')
         statusline.tabline = false
 
-        use 'ap/vim-buftabline'
-        g.buftabline_show = 1
-        g.buftabline_numbers = 2
+        use {'ap/vim-buftabline',
+            config = function()
+                vim.g.buftabline_show = 1
+                vim.g.buftabline_numbers = 2
+                vim.api.nvim_set_keymap('n', '<leader>1', '<Plug>BufTabLine.Go(1)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>2', '<Plug>BufTabLine.Go(2)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>3', '<Plug>BufTabLine.Go(3)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>4', '<Plug>BufTabLine.Go(4)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>5', '<Plug>BufTabLine.Go(5)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>6', '<Plug>BufTabLine.Go(6)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>7', '<Plug>BufTabLine.Go(7)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>8', '<Plug>BufTabLine.Go(8)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {noremap = false})
+            end
+        }
 
         use 'bronson/vim-trailing-whitespace'
         g.extra_whitespace_ignored_filetypes = {
@@ -103,14 +115,23 @@ return require('packer').startup(function()
 
         use {'joereynolds/gtags-scope',
             opt = true,
-            cmd = 'GtagsCscope'
+            cmd = 'GtagsCscope',
+            setup = function()
+                vim.opt.csto = 0
+                -- show msg when any other cscope db added
+                vim.opt.cscopeverbose = true
+                -- display result in quickfix
+                vim.opt.cscopequickfix = 's-,c-,d-,i-,t-,e-,a-'
+                vim.opt.cscoperelative = true
+            end,
+            config = function()
+                vim.api.nvim_set_keymap('n', '<leader>cf', ':cscope find<space>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<leader>cs', ':cscope find s <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<leader>cg', ':cscope find g <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<leader>cc', ':cscope find c <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<leader>ca', ':cscope add<space>', {noremap = true})
+            end
         }
-        opt.csto = 0
-        -- show msg when any other cscope db added
-        opt.cscopeverbose = true
-        -- display result in quickfix
-        opt.cscopequickfix = 's-,c-,d-,i-,t-,e-,a-'
-        opt.cscoperelative = true
 
         use {'drmingdrmer/vim-toggle-quickfix',
             opt = true,
@@ -122,10 +143,11 @@ return require('packer').startup(function()
 
         use 'jiangmiao/auto-pairs'
 
-        use {'junegunn/fzf',
-            run = './install --completion --key-bindings --xdg --no-update-rc'
+        use {'junegunn/fzf.vim',
+            requires = {'junegunn/fzf',
+                run = './install --completion --key-bindings --xdg --no-update-rc'
+            }
         }
-        use 'junegunn/fzf.vim'
         -- g.fzf_layout = {'down': '~40%'}
 
         g.python3_host_skip_check = 1
@@ -135,17 +157,36 @@ return require('packer').startup(function()
         use {
             'moll/vim-bbye',
             opt = true,
-            cmd = 'Bdelete'
+            cmd = 'Bdelete',
+            keys = {{'n', 'bd'}},
+            config = function()
+                vim.api.nvim_set_keymap('n', 'bd', ':Bdelete!<cr>', {silent = true})
+            end
         }
 
         use {
+            -- XXX: not working
             'justinmk/vim-sneak',
             opt = true,
-            cmd = {'<Plug>Sneak_s', '<Plug>Sneak_S'}
+            cmd = {'<Plug>Sneak_s', '<Plug>Sneak_S'},
+            keys = {
+                {'n', 's'},
+                {'n', 'S'},
+            },
+            config = function()
+                vim.api.nvim_set_keymap('n', 's', '<Plug>Sneak_s', {noremap = true})
+                vim.api.nvim_set_keymap('n', 'S', '<Plug>Sneak_S', {noremap = true})
+                vim.api.nvim_set_keymap('x', 's', '<Plug>Sneak_s', {noremap = true})
+                vim.api.nvim_set_keymap('x', 'S', '<Plug>Sneak_S', {noremap = true})
+                vim.api.nvim_set_keymap('o', 's', '<Plug>Sneak_s', {noremap = true})
+                vim.api.nvim_set_keymap('o', 'S', '<Plug>Sneak_S', {noremap = true})
+            end
         }
+        cmd("let g:sneak#label = 1")
 
         --[[
         use {
+            -- XXX: not working
             'deris/vim-shot-f',
             opt = true,
             cmd = {
@@ -153,10 +194,30 @@ return require('packer').startup(function()
                 '<Plug>(shot-f-F)',
                 '<Plug>(shot-f-t)',
                 '<Plug>(shot-f-T)',
-            }
+            },
+            keys = {
+                {'n', 'f'},
+                {'n', 'F'},
+                {'n', 't'},
+                {'n', 'T'},
+            },
+            config = function()
+                vim.api.nvim_set_keymap('n', 'f', '<Plug>(shot-f-f)', {noremap = false})
+                vim.api.nvim_set_keymap('n', 'F', '<Plug>(shot-f-F)', {noremap = false})
+                vim.api.nvim_set_keymap('n', 't', '<Plug>(shot-f-t)', {noremap = false})
+                vim.api.nvim_set_keymap('n', 'T', '<Plug>(shot-f-T)', {noremap = false})
+                vim.api.nvim_set_keymap('x', 'f', '<Plug>(shot-f-f)', {noremap = false})
+                vim.api.nvim_set_keymap('x', 'F', '<Plug>(shot-f-F)', {noremap = false})
+                vim.api.nvim_set_keymap('x', 't', '<Plug>(shot-f-t)', {noremap = false})
+                vim.api.nvim_set_keymap('x', 'T', '<Plug>(shot-f-T)', {noremap = false})
+                vim.api.nvim_set_keymap('o', 'f', '<Plug>(shot-f-f)', {noremap = false})
+                vim.api.nvim_set_keymap('o', 'F', '<Plug>(shot-f-F)', {noremap = false})
+                vim.api.nvim_set_keymap('o', 't', '<Plug>(shot-f-t)', {noremap = false})
+                vim.api.nvim_set_keymap('o', 'T', '<Plug>(shot-f-T)', {noremap = false})
+            end
         }
         g.shot_f_no_default_key_mappings = 1
-        ]]--
+        --]]
 
         use 'jacquesbh/vim-showmarks'
 
@@ -175,19 +236,24 @@ return require('packer').startup(function()
             },
             keys = {
                 {'n', '<leader>m'},
-            }
+                {'n', '<leader>r'},
+            },
+            setup = function()
+                vim.g.mwDefaultHighlightingPalette = 'maximum'
+                vim.g.mwHistAdd = '/@'
+                vim.g.mw_no_mappings = 1
+                vim.g.mwAutoLoadMarks = 0
+            end,
+            config = function()
+                -- map {'n', '<Plug>IgnoreMarkSearchNext', '<Plug>MarkSearchNext', noremap = false}
+                -- map {'n', '<Plug>IgnoreMarkSearchPrev', '<Plug>MarkSearchPrev', noremap = false}
+                vim.api.nvim_set_keymap('n', '<leader>m', '<Plug>MarkSet', {noremap = false})
+                vim.api.nvim_set_keymap('x', '<leader>m', '<Plug>MarkSet', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>r', '<Plug>MarkRegex', {noremap = false})
+                vim.api.nvim_set_keymap('x', '<leader>r', '<Plug>MarkRegex', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>n', '<Plug>MarkClear', {noremap = false})
+            end
         }
-        g.mwDefaultHighlightingPalette = 'maximum'
-        g.mwHistAdd = '/@'
-        g.mw_no_mappings = 1
-        g.mwAutoLoadMarks = 0
-        -- map {'n', '<Plug>IgnoreMarkSearchNext', '<Plug>MarkSearchNext', noremap = false}
-        -- map {'n', '<Plug>IgnoreMarkSearchPrev', '<Plug>MarkSearchPrev', noremap = false}
-        map {'n', '<leader>m', '<Plug>MarkSet', noremap = false}
-        map {'x', '<leader>m', '<Plug>MarkSet', noremap = false}
-        map {'n', '<leader>r', '<Plug>MarkRegex', noremap = false}
-        map {'x', '<leader>r', '<Plug>MarkRegex', noremap = false}
-        map {'n', '<leader>n', '<Plug>MarkClear', noremap = false}
 
         use 'farmergreg/vim-lastplace'
 
@@ -231,7 +297,7 @@ return require('packer').startup(function()
         use {
             'tyru/caw.vim',
             opt = true,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh'}
+            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'}
         }
 
         use {'nathanaelkane/vim-indent-guides',
@@ -254,7 +320,12 @@ return require('packer').startup(function()
             cmd = 'StartupTime'
         }
 
-        use 'rhysd/accelerated-jk'
+        use {'rhysd/accelerated-jk',
+            config = function()
+                vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {silent = true, noremap = false})
+                vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {silent = true, noremap = false})
+            end
+        }
 
         use 'romainl/vim-cool'
 
