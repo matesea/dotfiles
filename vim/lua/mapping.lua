@@ -63,10 +63,6 @@ map {'n', '<leader>tr', ':setlocal relativenumber!<cr>', silent = true}
 
 map {'n', '!', ':!'}
 
--- plugin vim-signify
-map {'n', ']c', '<plug>(signify-next-hunk)', silent = true}
-map {'n', '[c', '<plug>(signify-prev-hunk)', silent = true}
-
 -- plugin vim-buftabline
 -- map {'n', '<leader>1', '<Plug>BufTabLine.Go(1)'}
 -- map {'n', '<leader>2', '<Plug>BufTabLine.Go(2)'}
@@ -100,28 +96,6 @@ map {'n', ';rw', ':Rg <c-r><c-w><cr>'}
 
 -- plugin vim-bbye
 -- map {'n', 'bd', ':Bdelete!<cr>', silent = true}
-
--- plugin vim-sneak
--- map {'n', 's', '<Plug>Sneak_s'}
--- map {'n', 'S', '<Plug>Sneak_S'}
--- map {'x', 's', '<Plug>Sneak_s'}
--- map {'x', 'S', '<Plug>Sneak_S'}
--- map {'o', 's', '<Plug>Sneak_s'}
--- map {'o', 'S', '<Plug>Sneak_S'}
-
--- plugin vim-shot-f
--- map {'n', 'f', '<Plug>(shot-f-f)', noremap = false}
--- map {'n', 'F', '<Plug>(shot-f-F)', noremap = false}
--- map {'n', 't', '<Plug>(shot-f-t)', noremap = false}
--- map {'n', 'T', '<Plug>(shot-f-T)', noremap = false}
--- map {'x', 'f', '<Plug>(shot-f-f)', noremap = false}
--- map {'x', 'F', '<Plug>(shot-f-F)', noremap = false}
--- map {'x', 't', '<Plug>(shot-f-t)', noremap = false}
--- map {'x', 'T', '<Plug>(shot-f-T)', noremap = false}
--- map {'o', 'f', '<Plug>(shot-f-f)', noremap = false}
--- map {'o', 'F', '<Plug>(shot-f-F)', noremap = false}
--- map {'o', 't', '<Plug>(shot-f-t)', noremap = false}
--- map {'o', 'T', '<Plug>(shot-f-T)', noremap = false}
 
 -- plugin vim-mark
 -- map {'n', '<Plug>IgnoreMarkSearchNext', '<Plug>MarkSearchNext', noremap = false}

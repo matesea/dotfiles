@@ -56,6 +56,9 @@ return require('packer').startup(function()
 
         use {'mhinz/vim-signify'}
         opt.updatetime = 300
+        -- plugin vim-signify
+        map {'n', ']c', '<plug>(signify-next-hunk)', silent = true}
+        map {'n', '[c', '<plug>(signify-prev-hunk)', silent = true}
 
         -- use {
         --     'tpope/vim-fugitive',
@@ -164,60 +167,7 @@ return require('packer').startup(function()
             end
         }
 
-        use {
-            -- XXX: not working
-            'justinmk/vim-sneak',
-            opt = true,
-            cmd = {'<Plug>Sneak_s', '<Plug>Sneak_S'},
-            keys = {
-                {'n', 's'},
-                {'n', 'S'},
-            },
-            config = function()
-                vim.api.nvim_set_keymap('n', 's', '<Plug>Sneak_s', {noremap = true})
-                vim.api.nvim_set_keymap('n', 'S', '<Plug>Sneak_S', {noremap = true})
-                vim.api.nvim_set_keymap('x', 's', '<Plug>Sneak_s', {noremap = true})
-                vim.api.nvim_set_keymap('x', 'S', '<Plug>Sneak_S', {noremap = true})
-                vim.api.nvim_set_keymap('o', 's', '<Plug>Sneak_s', {noremap = true})
-                vim.api.nvim_set_keymap('o', 'S', '<Plug>Sneak_S', {noremap = true})
-            end
-        }
-        cmd("let g:sneak#label = 1")
-
-        --[[
-        use {
-            -- XXX: not working
-            'deris/vim-shot-f',
-            opt = true,
-            cmd = {
-                '<Plug>(shot-f-f)',
-                '<Plug>(shot-f-F)',
-                '<Plug>(shot-f-t)',
-                '<Plug>(shot-f-T)',
-            },
-            keys = {
-                {'n', 'f'},
-                {'n', 'F'},
-                {'n', 't'},
-                {'n', 'T'},
-            },
-            config = function()
-                vim.api.nvim_set_keymap('n', 'f', '<Plug>(shot-f-f)', {noremap = false})
-                vim.api.nvim_set_keymap('n', 'F', '<Plug>(shot-f-F)', {noremap = false})
-                vim.api.nvim_set_keymap('n', 't', '<Plug>(shot-f-t)', {noremap = false})
-                vim.api.nvim_set_keymap('n', 'T', '<Plug>(shot-f-T)', {noremap = false})
-                vim.api.nvim_set_keymap('x', 'f', '<Plug>(shot-f-f)', {noremap = false})
-                vim.api.nvim_set_keymap('x', 'F', '<Plug>(shot-f-F)', {noremap = false})
-                vim.api.nvim_set_keymap('x', 't', '<Plug>(shot-f-t)', {noremap = false})
-                vim.api.nvim_set_keymap('x', 'T', '<Plug>(shot-f-T)', {noremap = false})
-                vim.api.nvim_set_keymap('o', 'f', '<Plug>(shot-f-f)', {noremap = false})
-                vim.api.nvim_set_keymap('o', 'F', '<Plug>(shot-f-F)', {noremap = false})
-                vim.api.nvim_set_keymap('o', 't', '<Plug>(shot-f-t)', {noremap = false})
-                vim.api.nvim_set_keymap('o', 'T', '<Plug>(shot-f-T)', {noremap = false})
-            end
-        }
-        g.shot_f_no_default_key_mappings = 1
-        --]]
+        use 'ggandor/lightspeed.nvim'
 
         use 'jacquesbh/vim-showmarks'
 
@@ -302,7 +252,7 @@ return require('packer').startup(function()
 
         use {'nathanaelkane/vim-indent-guides',
             opt = true,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim'}
+            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'}
         }
         g.indent_guides_enable_on_vim_startup = 1
         g.indent_guides_default_mapping = 0
