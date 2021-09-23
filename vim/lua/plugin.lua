@@ -165,9 +165,49 @@ return require('packer').startup(function()
         -- map {'n', ';rc', ':Rc<space>'}
         -- g.fzf_layout = {'down': '~40%'}
 
-        -- use 'mileszs/ack.vim'
-        use {
-            'moll/vim-bbye',
+        use {'mileszs/ack.vim',
+            config = function()
+                vim.g.ackprg = 'rg -S --vimgrep --no-heading --no-column'
+                vim.g.ackhighlight = 1
+            end
+        }
+
+        use {'ncm2/ncm2',
+            opt = true,
+            requires = {
+                {'SirVer/ultisnips', opt = true,
+                    setup = function()
+                        vim.g.UltiSnipsExpandTrigger = "<tab>"
+                        vim.g.UltiSnipsJumpForwardTrigger = "<c-b>"
+                        vim.g.UltiSnipsJumpBackwardTrigger = "<c-z>"
+                    end},
+                {'honza/vim-snippets', opt = true},
+                {'roxma/nvim-yarp', opt = true},
+                {'ncm2/ncm2-bufword', opt = true},
+                {'ncm2/ncm2-path', opt = true},
+                {'fgrsnau/ncm2-otherbuf', opt = true},
+                {'ncm2/ncm2-gtags', opt = true}
+            },
+            event = 'InsertEnter',
+            setup = function()
+                -- IMPORTANT: :help Ncm2PopupOpen for more information
+                vim.opt.completeopt = {'noinsert', 'menuone', 'noselect'}
+                -- suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+                -- found' messages
+                vim.opt.shortmess:append({c = true})
+
+                vim.cmd[[
+                    inoremap <c-c> <ESC>
+                    inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
+                    inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+                    ]]
+            end,
+            config = function()
+                vim.fn['ncm2#enable_for_buffer']()
+            end
+        }
+
+        use {'moll/vim-bbye',
             opt = true,
             cmd = 'Bdelete',
             keys = {{'n', 'bd'}},
