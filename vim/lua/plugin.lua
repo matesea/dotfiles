@@ -23,6 +23,8 @@ local map = function(key)
   end
 end
 
+-- require('impatient')
+
 local packer_install_dir = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
 local plug_url_format = ''
@@ -42,30 +44,47 @@ if fn.empty(fn.glob(packer_install_dir)) > 0 then
 end
 
 cmd [[packadd packer.nvim]]
+-- workaround: nvim-yarp autoload vimscript not loaded
+cmd [[packadd nvim-yarp]]
 
 return require('packer').startup(function()
-        use 'wbthomason/packer.nvim'
-
-        use 'tamelion/neovim-molokai'
-        cmd('colorscheme molokai')
-
         use {
             'lewis6991/impatient.nvim',
             config = function() require('impatient') end
         }
 
-        use {'mhinz/vim-signify'}
-        opt.updatetime = 300
-        -- plugin vim-signify
-        map {'n', ']c', '<plug>(signify-next-hunk)', silent = true}
-        map {'n', '[c', '<plug>(signify-prev-hunk)', silent = true}
+        use 'wbthomason/packer.nvim'
 
-        -- use {
-        --     'tpope/vim-fugitive',
-        --     opt = true,
-        --     cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV'}
-        -- }
+        use 'tamelion/neovim-molokai'
+        cmd('colorscheme molokai')
 
+        --[[
+        use {'mhinz/vim-signify',
+            config = function()
+                vim.api.nvim_set_keymap('n', ']c', '<plug>(signify-next-hunk)', {silent = true, noremap = false})
+                vim.api.nvim_set_keymap('n', '[c', '<plug>(signify-prev-hunk)', {silent = true, noremap = false})
+                vim.opt.updatetime = 300
+            end
+        }
+        ]]--
+
+        use {
+            'lewis6991/gitsigns.nvim',
+            requires = {
+                'nvim-lua/plenary.nvim'
+            },
+            config = function()
+                require('gitsigns').setup()
+            end
+        }
+
+        use {
+            'tpope/vim-fugitive',
+            opt = true,
+            cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV'}
+        }
+
+        --[[
         use {'junegunn/gv.vim',
             opt = true,
             requires = {
@@ -77,6 +96,7 @@ return require('packer').startup(function()
             },
             cmd = 'GV'
         }
+        ]]--
 
         use {
             'beauwilliams/statusline.lua',
@@ -352,4 +372,5 @@ return require('packer').startup(function()
             opt = true,
             cmd = {'Z', 'Zi', 'Lz', 'Lzi'}
         }
-end)
+    end
+    )
