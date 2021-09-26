@@ -26,14 +26,14 @@ Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 
 " if has('nvim')
     " require nerdfont
-    Plug 'kyazdani42/nvim-web-devicons'
-     Plug 'ryanoasis/vim-devicons'
+    " Plug 'kyazdani42/nvim-web-devicons'
+    " Plug 'ryanoasis/vim-devicons'
 
     " Plug 'hoob3rt/lualine.nvim'
     " Plug 'akinsho/bufferline.nvim'
-    Plug 'beauwilliams/statusline.lua'
+    " Plug 'beauwilliams/statusline.lua'
 " else
-    " Plug 'lukelbd/vim-statusline'
+    Plug 'lukelbd/vim-statusline'
     Plug 'ap/vim-buftabline'
         let g:buftabline_show = 1
         let g:buftabline_numbers = 2

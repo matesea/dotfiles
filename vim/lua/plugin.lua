@@ -23,7 +23,7 @@ local map = function(key)
   end
 end
 
--- require('impatient')
+require('impatient')
 
 local packer_install_dir = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
@@ -47,10 +47,10 @@ cmd [[packadd packer.nvim]]
 -- workaround: nvim-yarp autoload vimscript not loaded
 cmd [[packadd nvim-yarp]]
 
-return require('packer').startup(function()
+require('packer').startup{function()
         use {
             'lewis6991/impatient.nvim',
-            config = function() require('impatient') end
+            -- config = function() require('impatient') end
         }
 
         use 'wbthomason/packer.nvim'
@@ -81,7 +81,7 @@ return require('packer').startup(function()
         use {
             'tpope/vim-fugitive',
             opt = true,
-            cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV'}
+            cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame'}
         }
 
         --[[
@@ -98,6 +98,7 @@ return require('packer').startup(function()
         }
         ]]--
 
+        --[[
         use {
             'beauwilliams/statusline.lua',
             requires = {
@@ -107,6 +108,11 @@ return require('packer').startup(function()
         }
         local statusline = require('statusline')
         statusline.tabline = false
+        statusline.lsp_diagnostics = false
+        statusline.ale_diagnostics = false
+        --]]
+
+        use 'lukelbd/vim-statusline'
 
         use {'ap/vim-buftabline',
             config = function()
@@ -372,5 +378,12 @@ return require('packer').startup(function()
             opt = true,
             cmd = {'Z', 'Zi', 'Lz', 'Lzi'}
         }
-    end
-    )
+    end,
+    config = {
+        -- Move to lua dir so impatient.nvim can cache it
+        compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua'
+    }
+}
+
+-- load packer_compiled with lua cache impatient
+require('packer_compiled')
