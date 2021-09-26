@@ -167,7 +167,15 @@ require('packer').startup{function()
             cmd = {
                 '<Plug>window:quickfix:toggle',
                 '<Plug>window:location:toggle'
-            }
+            },
+            keys = {
+                {'n', '<leader>q'},
+                {'n', '<leader>l'},
+            },
+            config = function()
+                vim.api.nvim_set_keymap('n', '<leader>q', '<Plug>window:quickfix:toggle', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>l', '<Plug>window:location:toggle', {noremap = false})
+            end
         }
 
         use 'jiangmiao/auto-pairs'
@@ -377,6 +385,39 @@ require('packer').startup{function()
         use {'nanotee/zoxide.vim',
             opt = true,
             cmd = {'Z', 'Zi', 'Lz', 'Lzi'}
+        }
+
+        use {'justinmk/vim-gtfo',
+            opt = true,
+            keys = {
+                {'n', 'got'}
+            },
+        }
+
+        use 'kevinhwang91/nvim-bqf'
+        --[[
+        use {
+            'romgrk/nvim-treesitter-context',
+            requires = {
+                'nvim-treesitter/nvim-treesitter'
+            }
+        }
+        --]]
+
+        use {'rmagatti/auto-session',
+            config = function()
+                vim.o.sessionoptions = "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal"
+                local opts = {
+                      log_level = 'info',
+                      auto_session_enable_last_session = false,
+                      auto_session_root_dir = vim.fn.stdpath('data') .. "/sessions/",
+                      auto_session_enabled = false,
+                      auto_save_enabled = true,
+                      auto_restore_enabled = false,
+                      auto_session_suppress_dirs = nil
+                }
+                require('auto-session').setup(opts)
+            end
         }
     end,
     config = {
