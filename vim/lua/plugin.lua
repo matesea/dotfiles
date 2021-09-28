@@ -63,7 +63,6 @@ require('packer').startup{function()
             config = function()
                 vim.api.nvim_set_keymap('n', ']c', '<plug>(signify-next-hunk)', {silent = true, noremap = false})
                 vim.api.nvim_set_keymap('n', '[c', '<plug>(signify-prev-hunk)', {silent = true, noremap = false})
-                vim.opt.updatetime = 300
             end
         }
         ]]--
@@ -75,6 +74,7 @@ require('packer').startup{function()
             },
             config = function()
                 require('gitsigns').setup()
+                vim.opt.updatetime = 300
             end
         }
 
@@ -178,7 +178,14 @@ require('packer').startup{function()
             end
         }
 
-        use 'jiangmiao/auto-pairs'
+        -- use 'jiangmiao/auto-pairs'
+        use {'windwp/nvim-autopairs',
+            config = function()
+                require('nvim-autopairs').setup({
+                    disable_filetype = {"TelescopePrompt", "vim"}
+                })
+            end
+        }
 
         use {'junegunn/fzf.vim',
             requires = {'junegunn/fzf',
@@ -198,6 +205,8 @@ require('packer').startup{function()
         map {'n', ';rw', ':Rg <c-r><c-w><cr>'}
         -- map {'n', ';rc', ':Rc<space>'}
         -- g.fzf_layout = {'down': '~40%'}
+
+        -- use {'camspiers/snap'}
 
         use {'mileszs/ack.vim',
             config = function()
@@ -253,6 +262,11 @@ require('packer').startup{function()
         use 'ggandor/lightspeed.nvim'
 
         use 'jacquesbh/vim-showmarks'
+        --[[
+        use {'kshenoy/vim-signature',
+            opt = true,
+        }
+        ]]--
 
         use {'inkarkat/vim-mark',
             opt = true,
