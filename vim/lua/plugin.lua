@@ -112,7 +112,15 @@ require('packer').startup{function()
         statusline.ale_diagnostics = false
         --]]
 
-        use 'lukelbd/vim-statusline'
+        use {'hoob3rt/lualine.nvim',
+            requires = {'kyazdani42/nvim-web-devicons', opt = true},
+            config = function()
+                require('lualine').setup{
+                    options = {theme = 'ayu_dark'},
+                }
+            end
+        }
+        -- use 'lukelbd/vim-statusline'
 
         use {'ap/vim-buftabline',
             config = function()
@@ -181,9 +189,7 @@ require('packer').startup{function()
         -- use 'jiangmiao/auto-pairs'
         use {'windwp/nvim-autopairs',
             config = function()
-                require('nvim-autopairs').setup({
-                    disable_filetype = {"TelescopePrompt", "vim"}
-                })
+                require('nvim-autopairs').setup()
             end
         }
 
@@ -206,7 +212,25 @@ require('packer').startup{function()
         -- map {'n', ';rc', ':Rc<space>'}
         -- g.fzf_layout = {'down': '~40%'}
 
+        -- as alternative to fzf.vim
         -- use {'camspiers/snap'}
+
+        use {
+            'nvim-telescope/telescope.nvim',
+            opt = true,
+            requires = {
+                {'nvim-lua/plenary.nvim'},
+                {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
+            },
+            config = function()
+                require('telescope').load_extension('fzf')
+                vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>Telescope find_files<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<leader>g', '<cmd>Telescope live_grep<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>Telescope buffers<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<leader>h', '<cmd>Telescope command_history<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {noremap = true})
+            end
+        }
 
         use {'mileszs/ack.vim',
             config = function()
@@ -422,13 +446,13 @@ require('packer').startup{function()
             config = function()
                 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal"
                 local opts = {
-                      log_level = 'info',
+                      log_level = 'error',
                       auto_session_enable_last_session = false,
                       auto_session_root_dir = vim.fn.stdpath('data') .. "/sessions/",
                       auto_session_enabled = false,
                       auto_save_enabled = true,
                       auto_restore_enabled = false,
-                      auto_session_suppress_dirs = nil
+                      auto_session_suppress_dirs = {'/etc', '/tmp'}
                 }
                 require('auto-session').setup(opts)
             end
