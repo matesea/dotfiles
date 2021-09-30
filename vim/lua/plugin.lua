@@ -405,11 +405,13 @@ require('packer').startup{function()
             cmd = {'Fp', 'Fw', 'Fs'}
         }
 
+        --[[
         use 'wellle/context.vim'
         cmd[[
             autocmd Filetype text call context#disable(1)
             autocmd Filetype log call context#disable(1)
         ]]
+        --]]
 
         use 'machakann/vim-sandwich'
 
@@ -433,14 +435,26 @@ require('packer').startup{function()
         }
 
         use 'kevinhwang91/nvim-bqf'
-        --[[
+
+        -- replace context.vim
+        -- need manually enable
         use {
             'romgrk/nvim-treesitter-context',
+            opt = true,
+            cmd = {'TSContextEnable'},
             requires = {
-                'nvim-treesitter/nvim-treesitter'
-            }
+                {'nvim-treesitter/nvim-treesitter',
+                    opt = true,
+                    run = ':TSUpdate'
+                },
+            },
+            config = function()
+                require('treesitter-context').setup{
+                    enable = true,
+                    throttle = true,
+                }
+            end
         }
-        --]]
 
         use {'rmagatti/auto-session',
             config = function()
