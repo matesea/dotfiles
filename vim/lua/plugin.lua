@@ -212,15 +212,24 @@ require('packer').startup{function()
         -- map {'n', ';rc', ':Rc<space>'}
         -- g.fzf_layout = {'down': '~40%'}
 
-        -- as alternative to fzf.vim
+        -- alternative to fzf.vim
         -- use {'camspiers/snap'}
 
+        -- alternative to fzf.vim
         use {
             'nvim-telescope/telescope.nvim',
+            disable = true,
             opt = true,
             requires = {
-                {'nvim-lua/plenary.nvim'},
-                {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
+                {'nvim-lua/plenary.nvim',
+                    disable = true,
+                    opt = true,
+                },
+                {'nvim-telescope/telescope-fzf-native.nvim',
+                    disable = true,
+                    opt = true,
+                    run = 'make',
+                }
             },
             config = function()
                 require('telescope').load_extension('fzf')
@@ -229,6 +238,40 @@ require('packer').startup{function()
                 vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>Telescope buffers<cr>', {noremap = true})
                 vim.api.nvim_set_keymap('n', '<leader>h', '<cmd>Telescope command_history<cr>', {noremap = true})
                 vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {noremap = true})
+            end
+        }
+
+        -- alternative to fzf.vim
+        use { 'ibhagwan/fzf-lua',
+            requires = {
+                {'vijaymarupudi/nvim-fzf',
+                },
+                {'kyazdani42/nvim-web-devicons',
+                    opt = true,
+                },
+            },
+            config = function()
+                -- TODO: can fzf-lua utilize $FZF_DEFAULT_COMMAND? FzfLua files is kinda of slow
+                -- vim.api.nvim_set_keymap('n', '<space>e', "<cmd>lua require('fzf-lua').files({files{cmd = '(global -Pol || rg --no-messages --files --no-ignore) 2>/dev/null'}})<cr>",
+                --     {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>e', "<cmd>FzfLua files<cr>",
+                    {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>c', "<cmd>FzfLua files cwd=%:h<cr>",
+                    {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>rg', "<cmd>FzfLua live_grep<cr>",
+                    {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>rw', "<cmd>FzfLua grep_cword<cr>",
+                    {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>b', "<cmd>FzfLua buffers<cr>",
+                    {noremap = true, silent = true})
+                -- vim.api.nvim_set_keymap('n', '<space>hc', "<cmd>FzfLua command_history<cr>",
+                --     {noremap = true, silent = true})
+                -- vim.api.nvim_set_keymap('n', '<space>hf', "<cmd>FzfLua oldfiles<cr>",
+                --     {noremap = true, silent = true})
+                -- vim.api.nvim_set_keymap('n', '<space>hs', "<cmd>FzfLua search_history<cr>",
+                --     {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>a', "<cmd>FzfLua lines<cr>",
+                    {noremap = true, silent = true})
             end
         }
 
