@@ -216,6 +216,7 @@ require('packer').startup{function()
         -- use {'camspiers/snap'}
 
         -- alternative to fzf.vim
+        --[[
         use {
             'nvim-telescope/telescope.nvim',
             disable = true,
@@ -241,8 +242,8 @@ require('packer').startup{function()
             end
         }
 
-        -- alternative to fzf.vim
         use { 'ibhagwan/fzf-lua',
+            disable = true,
             requires = {
                 {'vijaymarupudi/nvim-fzf',
                 },
@@ -274,6 +275,7 @@ require('packer').startup{function()
                     {noremap = true, silent = true})
             end
         }
+        --]]
 
         use {'mileszs/ack.vim',
             config = function()
