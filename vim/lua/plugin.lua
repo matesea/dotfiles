@@ -55,10 +55,20 @@ require('packer').startup{function()
 
         use 'wbthomason/packer.nvim'
 
-        use 'tamelion/neovim-molokai'
-        cmd('colorscheme molokai')
-
+        use {'tamelion/neovim-molokai',
+            config = function()
+                vim.cmd('colorscheme molokai')
+            end
+        }
         --[[
+        use {
+            'tanvirtin/monokai.nvim',
+            disable = true,
+            config = function()
+                require('monokai').setup {}
+            end
+        }
+
         use {'mhinz/vim-signify',
             config = function()
                 vim.api.nvim_set_keymap('n', ']c', '<plug>(signify-next-hunk)', {silent = true, noremap = false})
@@ -241,23 +251,22 @@ require('packer').startup{function()
                 vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {noremap = true})
             end
         }
+        --]]
 
         use { 'ibhagwan/fzf-lua',
             disable = true,
             requires = {
                 {'vijaymarupudi/nvim-fzf',
+                    opt = true,
                 },
                 {'kyazdani42/nvim-web-devicons',
                     opt = true,
                 },
             },
             config = function()
-                -- TODO: can fzf-lua utilize $FZF_DEFAULT_COMMAND? FzfLua files is kinda of slow
-                -- vim.api.nvim_set_keymap('n', '<space>e', "<cmd>lua require('fzf-lua').files({files{cmd = '(global -Pol || rg --no-messages --files --no-ignore) 2>/dev/null'}})<cr>",
-                --     {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>e', "<cmd>FzfLua files<cr>",
+                vim.api.nvim_set_keymap('n', '<space>e', "<cmd>lua require('fzf-lua').files({files = {cmd = '(global -Pol || rg --no-messages --files --no-ignore) 2>/dev/null'}})<cr>",
                     {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>c', "<cmd>FzfLua files cwd=%:h<cr>",
+                vim.api.nvim_set_keymap('n', '<space>c', "<cmd>lua require('fzf-lua').files({cwd = %:h, files = {cmd = '(global -Pol || rg --no-messages --files --no-ignore) 2>/dev/null'}})<cr>",
                     {noremap = true, silent = true})
                 vim.api.nvim_set_keymap('n', '<space>rg', "<cmd>FzfLua live_grep<cr>",
                     {noremap = true, silent = true})
@@ -275,7 +284,6 @@ require('packer').startup{function()
                     {noremap = true, silent = true})
             end
         }
-        --]]
 
         use {'mileszs/ack.vim',
             config = function()
@@ -516,6 +524,34 @@ require('packer').startup{function()
                 require('auto-session').setup(opts)
             end
         }
+
+        use {
+            'neovim/nvim-lspconfig',
+            disable = true,
+            requires = {
+                {'kabouzeid/nvim-lspinstall',
+                    disable = true,
+                    config = function()
+                        local function setup_servers()
+                          require'lspinstall'.setup()
+                          local servers = require'lspinstall'.installed_servers()
+                          for _, server in pairs(servers) do
+                            require'lspconfig'[server].setup{}
+                          end
+                        end
+
+                        setup_servers()
+
+                        -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+                        require'lspinstall'.post_install_hook = function ()
+                          setup_servers() -- reload installed servers
+                          vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+                        end
+                    end
+                },
+                {'gfanto/fzf-lsp.nvim', disable = true},
+            }
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
@@ -525,3 +561,5 @@ require('packer').startup{function()
 
 -- load packer_compiled with lua cache impatient
 require('packer_compiled')
+
+-- require('lspconfig')
