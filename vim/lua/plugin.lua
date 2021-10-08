@@ -211,12 +211,14 @@ require('packer').startup{function()
         -- plugin fzf.vim
         map {'n', ';e', ':FZF<cr>'}
         map {'n', ';c', ':FZF %:h<cr>'}
+        map {'n', ';g', ':GFiles<cr>'}
         map {'n', ';b', ':Buffers<cr>'}
         map {'n', ';h', ':History'}
         map {'n', ';a', ':Lines<cr>'}
         map {'n', ';l', ':Blines<cr>'}
         map {'n', ';w', ':Blines <c-r><c-w><cr>'}
         map {'n', ';t', ':BTags<cr>'}
+        map {'n', ';m', ':Marks<cr>'}
         map {'n', ';rg', ':Rg<space>'}
         map {'n', ';rw', ':Rg <c-r><c-w><cr>'}
         -- map {'n', ';rc', ':Rc<space>'}
@@ -327,6 +329,7 @@ require('packer').startup{function()
             end
         }
 
+        --[[
         use {'moll/vim-bbye',
             opt = true,
             cmd = 'Bdelete',
@@ -335,10 +338,23 @@ require('packer').startup{function()
                 vim.api.nvim_set_keymap('n', 'bd', ':Bdelete!<cr>', {silent = true})
             end
         }
+        --]]
+
+        use {'famiu/bufdelete.nvim',
+            opt = true,
+            cmd = 'Bdelete',
+            keys = {{'n', 'bd'}},
+            config = function()
+                vim.api.nvim_set_keymap('n', 'bd', ':Bdelete<cr>', {silent = true, noremap = true})
+            end
+        }
 
         use 'ggandor/lightspeed.nvim'
 
-        use 'jacquesbh/vim-showmarks'
+        use {'jacquesbh/vim-showmarks',
+            opt = true,
+            -- DoShowMarks to enable
+        }
         --[[
         use {'kshenoy/vim-signature',
             opt = true,
@@ -466,7 +482,7 @@ require('packer').startup{function()
         ]]
         --]]
 
-        use 'machakann/vim-sandwich'
+        -- use 'machakann/vim-sandwich'
 
         use 'tpope/vim-sensible'
 
@@ -489,8 +505,6 @@ require('packer').startup{function()
 
         use 'kevinhwang91/nvim-bqf'
 
-        -- replace context.vim
-        -- need manually enable
         use {
             'romgrk/nvim-treesitter-context',
             opt = true,
@@ -552,6 +566,20 @@ require('packer').startup{function()
                 {'gfanto/fzf-lsp.nvim', disable = true},
             }
         }
+
+        --[[
+        use({
+            'tanvirtin/vgit.nvim',
+            disable = true,
+            event = 'BufWinEnter',
+            requires = {
+                'nvim-lua/plenary.nvim',
+            },
+            config = function()
+                require('vgit').setup()
+            end,
+        })
+        --]]
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
