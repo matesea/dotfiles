@@ -580,6 +580,14 @@ require('packer').startup{function()
             end,
         })
         --]]
+        use {'yamatsum/nvim-cursorline'}
+        use { 'beauwilliams/focus.nvim',
+            cmd = { "FocusSplitNicely", "FocusSplitCycle" },
+            module = "focus",
+            config = function()
+                require("focus").setup({hybridnumber = true})
+            end
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
