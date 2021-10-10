@@ -367,6 +367,7 @@ require('packer').startup{function()
                 {'inkarkat/vim-ingo-library', opt = true}
             },
             cmd = {
+                'Mark',
                 'MarkLoad',
                 'MarkSave',
                 '<Plug>MarkSet',
