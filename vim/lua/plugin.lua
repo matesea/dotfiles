@@ -581,7 +581,10 @@ require('packer').startup{function()
             end,
         })
         --]]
-        use {'yamatsum/nvim-cursorline'}
+        use {'yamatsum/nvim-cursorline',
+            opt = true,
+            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
+        }
         use { 'beauwilliams/focus.nvim',
             cmd = { "FocusSplitNicely", "FocusSplitCycle" },
             module = "focus",
