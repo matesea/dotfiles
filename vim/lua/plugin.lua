@@ -228,32 +228,30 @@ require('packer').startup{function()
         -- use {'camspiers/snap'}
 
         -- alternative to fzf.vim
-        --[[
         use {
             'nvim-telescope/telescope.nvim',
             disable = true,
-            opt = true,
             requires = {
                 {'nvim-lua/plenary.nvim',
                     disable = true,
-                    opt = true,
                 },
                 {'nvim-telescope/telescope-fzf-native.nvim',
                     disable = true,
-                    opt = true,
                     run = 'make',
                 }
             },
             config = function()
                 require('telescope').load_extension('fzf')
-                vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>Telescope find_files<cr>', {noremap = true})
-                vim.api.nvim_set_keymap('n', '<leader>g', '<cmd>Telescope live_grep<cr>', {noremap = true})
-                vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>Telescope buffers<cr>', {noremap = true})
-                vim.api.nvim_set_keymap('n', '<leader>h', '<cmd>Telescope command_history<cr>', {noremap = true})
-                vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<space>e', '<cmd>Telescope find_files<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<space>g', '<cmd>Telescope live_grep<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<space>b', '<cmd>Telescope buffers<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<space>h', '<cmd>Telescope command_history<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<space>a', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {noremap = true})
+                vim.cmd[[
+                    autocmd FileType TelescopePrompt call ncm2#disable_for_buffer()
+                    ]]
             end
         }
-        --]]
 
         use { 'ibhagwan/fzf-lua',
             disable = true,
@@ -525,18 +523,30 @@ require('packer').startup{function()
         }
 
         use {'rmagatti/auto-session',
+            disable = true,
             config = function()
                 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal"
                 local opts = {
                       log_level = 'error',
                       auto_session_enable_last_session = false,
                       auto_session_root_dir = vim.fn.stdpath('data') .. "/sessions/",
-                      auto_session_enabled = false,
+                      auto_session_enabled = true,
                       auto_save_enabled = true,
-                      auto_restore_enabled = false,
+                      auto_restore_enabled = true,
                       auto_session_suppress_dirs = {'/etc', '/tmp'}
                 }
                 require('auto-session').setup(opts)
+            end
+        }
+        use {'rmagatti/session-lens',
+            disable = true,
+            requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
+            config = function()
+                require('session-lens').setup{
+                      path_display = {'shorten'},
+                      theme_conf = { border = false },
+                      previewer = true
+                }
             end
         }
 
@@ -582,7 +592,7 @@ require('packer').startup{function()
         })
         --]]
         use {'yamatsum/nvim-cursorline',
-            opt = true,
+            disable = true,
             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
         }
         use { 'beauwilliams/focus.nvim',
