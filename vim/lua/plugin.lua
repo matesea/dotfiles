@@ -351,7 +351,7 @@ require('packer').startup{function()
 
         use {'jacquesbh/vim-showmarks',
             opt = true,
-            -- DoShowMarks to enable
+            cmd = 'DoShowMarks', -- DoShowMarks to enable
         }
         --[[
         use {'kshenoy/vim-signature',
