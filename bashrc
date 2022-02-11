@@ -587,3 +587,7 @@ if [ -f ${dotfiles}/ignore ] ; then
 else
     alias rg="rg --smart-case"
 fi
+
+function targz() {
+    tar --use-compress-program="pigz --best --recursive" -cf $1.tar.gz $1 && rm -rf $1
+}
