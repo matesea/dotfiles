@@ -29,9 +29,9 @@ local packer_install_dir = fn.stdpath('data')..'/site/pack/packer/start/packer.n
 
 local plug_url_format = ''
 -- if vim.g.is_linux > 0 then
-  plug_url_format = 'https://hub.fastgit.org/%s'
+--     plug_url_format = 'https://hub.fastgit.org/%s'
 -- else
---  plug_url_format = 'https://github.com/%s'
+    plug_url_format = 'https://github.com/%s'
 -- end
 
 local packer_repo = string.format(plug_url_format, 'wbthomason/packer.nvim')
@@ -463,7 +463,8 @@ require('packer').startup{function()
         }
 
         use {
-            'tyru/caw.vim',
+            -- 'tyru/caw.vim',
+            'b3nj5m1n/kommentary',
             opt = true,
             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'}
         }
@@ -551,6 +552,7 @@ require('packer').startup{function()
             end
         }
 
+        --[[
         use {'rmagatti/auto-session',
             disable = true,
             config = function()
@@ -581,31 +583,9 @@ require('packer').startup{function()
 
         use {
             'neovim/nvim-lspconfig',
-            disable = true,
-            requires = {
-                {'kabouzeid/nvim-lspinstall',
-                    disable = true,
-                    config = function()
-                        local function setup_servers()
-                          require'lspinstall'.setup()
-                          local servers = require'lspinstall'.installed_servers()
-                          for _, server in pairs(servers) do
-                            require'lspconfig'[server].setup{}
-                          end
-                        end
-
-                        setup_servers()
-
-                        -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-                        require'lspinstall'.post_install_hook = function ()
-                          setup_servers() -- reload installed servers
-                          vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-                        end
-                    end
-                },
-                {'gfanto/fzf-lsp.nvim', disable = true},
-            }
+            'williamboman/nvim-lsp-installer',
         }
+        --]]
 
         --[[
         use({
@@ -631,6 +611,8 @@ require('packer').startup{function()
                 require("focus").setup({hybridnumber = true})
             end
         }
+
+        use {'nathom/filetype.nvim'}
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
