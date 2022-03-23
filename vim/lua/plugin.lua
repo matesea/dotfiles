@@ -423,7 +423,16 @@ require('packer').startup{function()
             end
         }
 
-        use 'farmergreg/vim-lastplace'
+        -- use 'farmergreg/vim-lastplace'
+        use {'ethanholz/nvim-lastplace',
+            config = function()
+                require('nvim-lastplace').setup{
+                    lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
+                    lastplace_ignore_filetype = {"gitcommit", "gitrebase", "svn", "hgcommit"},
+                    lastplace_open_folds = true
+                }
+            end
+        }
 
         use {'liuchengxu/vista.vim',
             opt = true,
@@ -612,7 +621,18 @@ require('packer').startup{function()
             end
         }
 
-        use {'nathom/filetype.nvim'}
+        use {'nathom/filetype.nvim',
+            config = function()
+                require("filetype").setup({
+                    overrides = {
+                        extensions = {
+                            log = "log",
+                            txt = "log",
+                        }
+                    }
+                })
+            end
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
