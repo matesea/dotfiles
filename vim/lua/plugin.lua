@@ -50,7 +50,6 @@ cmd [[packadd nvim-yarp]]
 require('packer').startup{function()
         use {
             'lewis6991/impatient.nvim',
-            -- config = function() require('impatient') end
         }
 
         use 'wbthomason/packer.nvim'
@@ -135,9 +134,6 @@ require('packer').startup{function()
             },
             cmd = 'GV'
         }
-        ]]--
-
-        --[[
         use {
             'beauwilliams/statusline.lua',
             requires = {
@@ -356,23 +352,23 @@ require('packer').startup{function()
             end
         }
 
-        --[[
-        use {'moll/vim-bbye',
-            opt = true,
-            cmd = 'Bdelete',
-            keys = {{'n', 'bd'}},
-            config = function()
-                vim.api.nvim_set_keymap('n', 'bd', ':Bdelete!<cr>', {silent = true})
-            end
-        }
-        --]]
-
-        use {'famiu/bufdelete.nvim',
+        --[[ use {'famiu/bufdelete.nvim',
             opt = true,
             cmd = 'Bdelete',
             keys = {{'n', 'bd'}},
             config = function()
                 vim.api.nvim_set_keymap('n', 'bd', ':Bdelete<cr>', {silent = true, noremap = true})
+            end
+        } ]]
+
+        use {'kazhala/close-buffers.nvim',
+            opt = true,
+            cmd = {"BDelete", "BWipeout"},
+            keys = {{'n', 'bd'}, {'n', 'bo'}},
+            config = function()
+                require('close_buffers').setup()
+                vim.api.nvim_set_keymap('n', 'bd', ':BDelete this<cr>', {silent = true, noremap = true})
+                vim.api.nvim_set_keymap('n', 'bo', ':BDelete other<cr>', {silent = true, noremap = true})
             end
         }
 
