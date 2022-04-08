@@ -331,7 +331,7 @@ require('packer').startup{function()
                 {'ncm2/ncm2-bufword', opt = true},
                 {'ncm2/ncm2-path', opt = true},
                 {'fgrsnau/ncm2-otherbuf', opt = true},
-                {'ncm2/ncm2-gtags', opt = true}
+                -- {'ncm2/ncm2-gtags', opt = true}
             },
             event = 'InsertEnter',
             setup = function()
@@ -556,6 +556,20 @@ require('packer').startup{function()
                 }
             end
         }
+         use {
+             'm-demare/hlargs.nvim',
+             opt = true,
+             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
+             requires = {
+                 {'nvim-treesitter/nvim-treesitter',
+                 opt = true,
+                 run = 'TSUpdate',
+                },
+             },
+             config = function()
+                 require('hlargs').setup()
+             end
+         }
 
         --[[
         use {'rmagatti/auto-session',
