@@ -537,7 +537,16 @@ require('packer').startup{function()
             },
         }
 
-        use 'kevinhwang91/nvim-bqf'
+        use {'kevinhwang91/nvim-bqf',
+            config = function()
+                require('bqf').setup({
+                    func_map = {
+                        pscrollup = "",
+                        pscrolldown = "",
+                    },
+                })
+            end
+        }
 
         use {
             'romgrk/nvim-treesitter-context',
