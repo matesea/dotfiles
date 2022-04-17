@@ -551,6 +551,7 @@ require('packer').startup{function()
         use {
             'romgrk/nvim-treesitter-context',
             opt = true,
+            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'}, -- auto enable for those filetype
             cmd = {'TSContextEnable'},
             requires = {
                 {'nvim-treesitter/nvim-treesitter',
