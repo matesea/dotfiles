@@ -551,7 +551,7 @@ require('packer').startup{function()
         use {
             'romgrk/nvim-treesitter-context',
             opt = true,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'}, -- auto enable for those filetype
+            -- ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'}, -- auto enable for those filetype
             cmd = {'TSContextEnable'},
             requires = {
                 {'nvim-treesitter/nvim-treesitter',
@@ -569,7 +569,7 @@ require('packer').startup{function()
          use {
              'm-demare/hlargs.nvim',
              opt = true,
-             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
+             -- ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
              requires = {
                  {'nvim-treesitter/nvim-treesitter',
                  opt = true,
@@ -652,6 +652,12 @@ require('packer').startup{function()
                     }
                 })
             end
+        }
+        use {'gelguy/wilder.nvim',
+            config = function()
+                local wilder = require('wilder')
+                wilder.setup({modes = {':', '/', '?'}})
+            end,
         }
     end,
     config = {
