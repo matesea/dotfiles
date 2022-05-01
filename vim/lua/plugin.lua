@@ -654,9 +654,19 @@ require('packer').startup{function()
             end
         }
         use {'gelguy/wilder.nvim',
+            disable = true,
             config = function()
                 local wilder = require('wilder')
                 wilder.setup({modes = {':', '/', '?'}})
+            end,
+        }
+        use {'stevearc/aerial.nvim',
+            opt = true,
+            cmd = {'AerialToggle'},
+            config = function()
+                require("aerial").setup({
+                    backends = {"treesitter"}
+                })
             end,
         }
     end,
