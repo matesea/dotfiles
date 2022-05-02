@@ -546,8 +546,12 @@ __fzf=$(which fzf 2>/dev/null)
 if [ ! -z $__fzf ] ; then
     __fd=$(which fd 2>/dev/null)
     __rg=$(which rg 2>/dev/null)
+    __ff=$(which ff 2>/dev/null)
     # rg is even faster than fd
-    if [ ! -z $__rg ] ; then
+    if [ ! -z ${__ff} ] ; then
+        export FZF_DEFAULT_COMMAND='ff'
+        alias gf='ff -g'
+    elif [ ! -z $__rg ] ; then
         export FZF_DEFAULT_COMMAND='(global -Pol || rg --no-messages --files --no-ignore) 2>/dev/null'
         # export FZF_DEFAULT_COMMAND='if [ ! -z $(which global) && -e ./GPATH ]; then global -Pol; else rg --no-messages --files; fi'
     elif [ ! -z $__fd ] ; then

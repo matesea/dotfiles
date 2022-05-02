@@ -1,0 +1,37 @@
+#! /bin/sh
+
+read -r -d '' helptext <<EOF
+usage: ff [OPTIONS]
+  ff: wrap file finder with global/rg/fd/find
+  generate files.gz to cache the result from rg/fd/find
+OPTIONS:
+  -g: force the result with gnu global
+  -h: Print this usage
+EOF
+
+if [ "$1" == "-h" ]; then
+    echo "$helptext"
+    exit 0
+elif [ "$1" == "-g" ]; then
+    shift
+    force_global=1
+fi
+
+folder="."
+if [ "$#" -gt "0" ]; then
+    folder=${1%/}
+fi
+
+if [ "${force_global}" == "1" ] && global -Pol -S ${folder} 2>/dev/null; then
+    exit 0
+fi
+
+if [ ! -e "${folder}/files.gz" ]; then
+    ( rg --no-messages --files --no-ignore ${folder} ||
+        fd -t f -HIL . ${folder} ||
+        find ${folder} -path "*/\.*" -prune -o -type f -print -o -type l -print ) 2>/dev/null |
+        sed 's#^\.\/##' > ${folder}/files
+    pigz ${folder}/files
+fi
+
+pigz -dkc ${folder}/files.gz
