@@ -701,6 +701,10 @@ require('packer').startup{function()
                 })
             end,
         }
+        use {'matesea/trace32-practice.vim',
+            opt = true,
+            ft = {'cmm'}
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
