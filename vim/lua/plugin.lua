@@ -116,13 +116,6 @@ require('packer').startup{function()
             end
         }
 
-        use {
-            'tpope/vim-fugitive',
-            opt = true,
-            cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame'}
-        }
-
-        --[[
         use {'junegunn/gv.vim',
             opt = true,
             requires = {
@@ -134,6 +127,7 @@ require('packer').startup{function()
             },
             cmd = 'GV'
         }
+        --[[
         use {
             'beauwilliams/statusline.lua',
             requires = {
@@ -279,7 +273,7 @@ require('packer').startup{function()
         }
 
         use { 'ibhagwan/fzf-lua',
-            disable = true,
+            -- disable = true,
             config = function()
                 require('fzf-lua').setup{
                     files = {
