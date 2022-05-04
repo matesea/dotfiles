@@ -7,11 +7,15 @@ usage: ff [OPTIONS]
   gtags result is preferable than .files.gz
 OPTIONS:
   -h: Print this usage
+  -f: force re-generate index
 EOF
 
 if [ "$1" == "-h" ]; then
     echo "$helptext"
     exit 0
+elif [ "$1" == "-f" ]; then
+    shift
+    regen=1
 fi
 
 folder="."
@@ -19,16 +23,18 @@ if [ "$#" -gt "0" ]; then
     folder=${1%/}
 fi
 
+# prefer gtags results
 if global -Pol -S ${folder} 2>/dev/null; then
     exit 0
 fi
 
-if [ ! -e "${folder}/.files.gz" ]; then
+if [ "${regen}" != "" ] || [ ! -e "${folder}/.files.gz" ]; then
+    rm -rf ${folder}/.files ${folder}/.files.gz
     ( rg --no-messages --files --no-ignore ${folder} ||
         fd -t f -HIL . ${folder} ||
         find ${folder} -path "*/\.*" -prune -o -type f -print -o -type l -print ) 2>/dev/null |
         sed 's#^\.\/##' > ${folder}/.files
-    pigz ${folder}/.files
+    pigz --best -fq ${folder}/.files
 fi
 
-pigz -dkc ${folder}/.files.gz
+pigz -dkcfq ${folder}/.files.gz
