@@ -142,10 +142,13 @@ require('packer').startup{function()
         --]]
 
         use {'nvim-lualine/lualine.nvim',
-            requires = {'kyazdani42/nvim-web-devicons', opt = true},
+            -- requires = {'kyazdani42/nvim-web-devicons', opt = true},
             config = function()
                 require('lualine').setup{
-                    options = {theme = 'ayu_dark'},
+                    options = {
+                        icons_enabled = false,
+                        theme = 'ayu_dark'
+                    },
                 }
             end
         }
@@ -272,8 +275,10 @@ require('packer').startup{function()
             end
         }
 
-        use { 'ibhagwan/fzf-lua',
-            -- disable = true,
+        use {
+            'ibhagwan/fzf-lua',
+            opt = true,
+            cmd = {'FzfLua'},
             config = function()
                 require('fzf-lua').setup{
                     files = {
@@ -301,6 +306,14 @@ require('packer').startup{function()
                         file_icons = false,
                         color_icons = false,
                     },
+                    buffers = {
+                        file_icons = false,
+                        color_icons = false,
+                    },
+                    tabs = {
+                        file_icons = false,
+                        color_icons = false,
+                    },
                     tags = {
                         git_icons = false,
                         file_icons = false,
@@ -316,25 +329,19 @@ require('packer').startup{function()
                         file_icons = false,
                     },
                 }
-                vim.api.nvim_set_keymap('n', '<space>e', '<cmd>FzfLua files<cr>',
-                    {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>rg', "<cmd>FzfLua live_grep<cr>",
-                    {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>rw', "<cmd>FzfLua grep_cword<cr>",
-                    {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>b', "<cmd>FzfLua buffers<cr>",
-                    {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>hc', "<cmd>FzfLua command_history<cr>",
-                    {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>hf', "<cmd>FzfLua oldfiles<cr>",
-                    {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>hs', "<cmd>FzfLua search_history<cr>",
-                    {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>a', "<cmd>FzfLua lines<cr>",
-                    {noremap = true, silent = true})
-                vim.cmd[[nnoremap <space>c :FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>]]
             end
         }
+        -- plugin fzf.lua
+        map {'n', ';e', ':FZF<cr>'}
+        map {'n', '<space>e', '<cmd>FzfLua files<cr>'}
+        map {'n', '<space>rg', "<cmd>FzfLua live_grep<cr>"}
+        map {'n', '<space>rw', "<cmd>FzfLua grep_cword<cr>"}
+        map {'n', '<space>b', "<cmd>FzfLua buffers<cr>"}
+        map {'n', '<space>hc', "<cmd>FzfLua command_history<cr>"}
+        map {'n', '<space>hf', "<cmd>FzfLua oldfiles<cr>"}
+        map {'n', '<space>hs', "<cmd>FzfLua search_history<cr>"}
+        map {'n', '<space>a', "<cmd>FzfLua lines<cr>"}
+        vim.cmd[[nnoremap <space>c :FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>]]
 
         use {'mileszs/ack.vim',
             config = function()
