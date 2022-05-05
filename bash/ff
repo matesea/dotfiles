@@ -4,7 +4,7 @@ read -r -d '' helptext <<EOF
 usage: ff [OPTIONS]
   ff: wrap file finder with global/rg/fd/find
   generate .files.gz to cache the result from rg/fd/find
-  gtags result is preferable than .files.gz
+  search order: 1) gtags result 2) .files.gz if exist 3) rg/fd/find result
 OPTIONS:
   -h: Print this usage
   -f: force re-generate index
@@ -28,7 +28,7 @@ if global -Pol -S ${folder} 2>/dev/null; then
     exit 0
 fi
 
-if [ "${regen}" != "" ] || [ ! -e "${folder}/.files.gz" ]; then
+if [ "${regen}" != "" ]; then
     rm -rf ${folder}/.files ${folder}/.files.gz
     ( rg --no-messages --files --no-ignore ${folder} ||
         fd -t f -HIL . ${folder} ||
@@ -37,4 +37,11 @@ if [ "${regen}" != "" ] || [ ! -e "${folder}/.files.gz" ]; then
     pigz --best -fq ${folder}/.files
 fi
 
-pigz -dkcfq ${folder}/.files.gz
+if [ -e "${folder}/.files.gz" ]; then
+    pigz -dkcfq ${folder}/.files.gz
+else
+    ( rg --no-messages --files --no-ignore ${folder} ||
+        fd -t f -HIL . ${folder} ||
+        find ${folder} -path "*/\.*" -prune -o -type f -print -o -type l -print ) 2>/dev/null |
+        sed 's#^\.\/##'
+fi
