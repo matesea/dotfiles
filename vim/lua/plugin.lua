@@ -45,7 +45,7 @@ end
 
 cmd [[packadd packer.nvim]]
 -- workaround: nvim-yarp autoload vimscript not loaded
-cmd [[packadd nvim-yarp]]
+-- cmd [[packadd nvim-yarp]]
 
 require('packer').startup{function()
         use {
@@ -351,6 +351,7 @@ require('packer').startup{function()
         }
 
         use {'ncm2/ncm2',
+            disable = true,
             opt = true,
             requires = {
                 -- {'SirVer/ultisnips', opt = true,
@@ -642,12 +643,93 @@ require('packer').startup{function()
                 }
             end
         }
+        --]]
 
         use {
             'neovim/nvim-lspconfig',
-            'williamboman/nvim-lsp-installer',
+            disable = true,
+            tag = 'v0.1.3',
         }
-        --]]
+
+        use {
+            'williamboman/nvim-lsp-installer',
+            disable = true,
+        }
+
+        use {
+            'hrsh7th/nvim-cmp',
+            opt = true,
+            requires = {
+                {'hrsh7th/cmp-buffer', opt = true},
+                {'hrsh7th/cmp-path', opt = true},
+                {'hrsh7th/cmp-cmdline', opt = true},
+                {'hrsh7th/cmp-vsnip', opt = true},
+                {'hrsh7th/vim-vsnip', opt = true},
+                {'andersevenrud/cmp-tmux', opt = true},
+            },
+            event = 'InsertEnter',
+            setup = function()
+                vim.opt.completeopt = {'noinsert', 'menuone', 'noselect'}
+                vim.opt.shortmess:append({c = true})
+            end,
+            config = function()
+                local cmp = require'cmp'
+                cmp.setup({
+                    snippet = {
+                        expand = function(args)
+                          vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+                        end,
+                    },
+                    window = {
+                        -- completion = cmp.config.window.bordered(),
+                        -- documentation = cmp.config.window.bordered(),
+                    },
+                    mapping = {
+                      ['<C-Space>'] = cmp.mapping.complete(),
+		              ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+		              ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+                      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+
+		              ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+		              ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+
+                      ['<C-c>'] = function(fallback)
+                          cmp.close()
+                          fallback()
+                      end,
+                      ['<CR>'] = cmp.mapping.confirm({
+                          behavior = cmp.ConfirmBehavior.Replace,
+                          select = false
+                      }),
+                    },
+                    sources = cmp.config.sources({
+                      { name = 'path' },
+                      { name = 'tmux', option = { all_panes = true }},
+                      -- { name = 'nvim_lsp' },
+                      { name = 'vsnip' }, -- For vsnip users.
+                      { name = 'buffer' },
+                    }),
+                })
+                -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+                cmp.setup.cmdline('/', {
+                  mapping = cmp.mapping.preset.cmdline(),
+                  sources = {
+                    { name = 'buffer' }
+                  }
+                })
+
+                -- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+                -- cmp.setup.cmdline(':', {
+                --   mapping = cmp.mapping.preset.cmdline(),
+                --   sources = cmp.config.sources({
+                --     { name = 'path' }
+                --   }, {
+                --     { name = 'cmdline' }
+                --   })
+                -- })
+            end
+        }
 
         --[[
         use({
