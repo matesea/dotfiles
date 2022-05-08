@@ -169,6 +169,12 @@ require('packer').startup{function()
                 vim.api.nvim_set_keymap('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {noremap = false})
             end
         }
+        use { 'jose-elias-alvarez/buftabline.nvim',
+            disable = true,
+            config = function()
+                require("buftabline").setup {}
+            end
+        }
 
         use 'bronson/vim-trailing-whitespace'
         g.extra_whitespace_ignored_filetypes = {
@@ -583,7 +589,7 @@ require('packer').startup{function()
         }
 
         use {
-            'romgrk/nvim-treesitter-context',
+            'lewis6991/nvim-treesitter-context',
             opt = true,
             -- ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'}, -- auto enable for those filetype
             cmd = {'TSContextEnable'},
