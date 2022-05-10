@@ -62,3 +62,29 @@ map {'n', '<leader>tw', ':setlocal wrap!<cr>', silent = true}
 map {'n', '<leader>tr', ':setlocal relativenumber!<cr>', silent = true}
 
 map {'n', '!', ':!'}
+
+-- plugin fzf.vim
+map {'n', ';e', ':FZF<cr>'}
+map {'n', ';c', ':FZF %:h<cr>'}
+map {'n', ';g', ':GFiles<cr>'}
+map {'n', ';b', ':Buffers<cr>'}
+map {'n', ';h', ':History'}
+map {'n', ';a', ':Lines<cr>'}
+map {'n', ';l', ':Blines<cr>'}
+map {'n', ';w', ':Blines <c-r><c-w><cr>'}
+map {'n', ';t', ':BTags<cr>'}
+map {'n', ';m', ':Marks<cr>'}
+map {'n', ';rg', ':Rg<space>'}
+map {'n', ';rw', ':Rg <c-r><c-w><cr>'}
+
+-- plugin fzf.lua
+map {'n', ';e', ':FZF<cr>'}
+map {'n', '<space>e', '<cmd>FzfLua files<cr>'}
+map {'n', '<space>rg', "<cmd>FzfLua live_grep<cr>"}
+map {'n', '<space>rw', "<cmd>FzfLua grep_cword<cr>"}
+map {'n', '<space>b', "<cmd>FzfLua buffers<cr>"}
+map {'n', '<space>hc', "<cmd>FzfLua command_history<cr>"}
+map {'n', '<space>hf', "<cmd>FzfLua oldfiles<cr>"}
+map {'n', '<space>hs', "<cmd>FzfLua search_history<cr>"}
+map {'n', '<space>a', "<cmd>FzfLua lines<cr>"}
+vim.cmd[[nnoremap <space>c :FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>]]

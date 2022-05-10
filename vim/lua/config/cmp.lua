@@ -121,10 +121,10 @@ function M.setup()
     cmp.setup.cmdline(':', {
       mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources(
-      -- {{ name = 'buffer' }}, -- too annoying when buffer words popup
-      {
-        { name = 'path' },
-      })
+      {{name = 'buffer'}},
+      {{name = 'cmdline'}}
+      -- {{name = 'path'},}
+      )
     })
 end
 
