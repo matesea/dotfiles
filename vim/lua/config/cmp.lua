@@ -22,13 +22,13 @@ function M.setup()
         },
         mapping = {
           ['<C-Space>'] = cmp.mapping.complete(),
- 	     ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
- 	     ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+          ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+          ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
- 	     ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
- 	     ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+          ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+          ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
 
           ['<C-c>'] = function(fallback)
               cmp.close()
@@ -40,8 +40,24 @@ function M.setup()
           }),
         },
         sources = cmp.config.sources({
-          { name = 'buffer' },
-          { name = 'tmux' },
+          { name = 'buffer',
+            option = {
+              get_bufnrs = function()
+                  -- skip large files
+                  local buf = vim.api.nvim_get_current_buf()
+                  local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+                  if byte_size > 1024 * 1024 then -- 1 Megabyte max
+                      return {}
+                  end
+                  return vim.api.nvim_list_bufs()
+              end}
+          },
+          { name = 'tmux',
+            option = {
+                all_panes = true,
+                label = '[tmux]',
+            }
+          },
           { name = 'path' },
           -- { name = 'nvim_lsp' },
           { name = 'vsnip' }, -- For vsnip users.

@@ -465,7 +465,6 @@ function M.setup()
          cmd = {'TSContextEnable'},
          requires = {
              {'nvim-treesitter/nvim-treesitter',
-                 opt = true,
                  run = ':TSUpdate'
              },
          },
@@ -482,7 +481,6 @@ function M.setup()
           -- ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
           requires = {
               {'nvim-treesitter/nvim-treesitter',
-              opt = true,
               run = 'TSUpdate',
              },
           },
