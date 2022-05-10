@@ -205,55 +205,7 @@ function M.setup()
          },
          cmd = {'FzfLua'},
          config = function()
-             require('fzf-lua').setup{
-                 files = {
-                     cmd = 'ff',
-                     git_icons = false,
-                     file_icons = false,
-                     color_icons = false,
-                     previewer = false,
-                 },
-                 git = {
-                     files = {
-                         git_icons = false,
-                         file_icons = false,
-                         color_icons = false,
-                         previewer = false,
-                     },
-                     status = {
-                         git_icons = false,
-                         file_icons = false,
-                         color_icons = false,
-                     },
-                 },
-                 grep = {
-                     git_icons = false,
-                     file_icons = false,
-                     color_icons = false,
-                 },
-                 buffers = {
-                     file_icons = false,
-                     color_icons = false,
-                 },
-                 tabs = {
-                     file_icons = false,
-                     color_icons = false,
-                 },
-                 tags = {
-                     git_icons = false,
-                     file_icons = false,
-                     color_icons = false,
-                 },
-                 btags = {
-                     git_icons = false,
-                     file_icons = false,
-                     color_icons = false,
-                 },
-                 quickfix = {
-                     git_icons = false,
-                     file_icons = false,
-                 },
-             }
+             require('config.fzf-lua').setup()
          end
      }
      -- plugin fzf.lua
@@ -296,11 +248,6 @@ function M.setup()
          opt = true,
          cmd = 'DoShowMarks', -- DoShowMarks to enable
      }
-     --[[
-     use {'kshenoy/vim-signature',
-         opt = true,
-     }
-     ]]--
 
      use {'inkarkat/vim-mark',
          opt = true,
@@ -465,6 +412,7 @@ function M.setup()
          cmd = {'TSContextEnable'},
          requires = {
              {'nvim-treesitter/nvim-treesitter',
+                opt = true,
                  run = ':TSUpdate'
              },
          },
@@ -481,6 +429,7 @@ function M.setup()
           -- ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
           requires = {
               {'nvim-treesitter/nvim-treesitter',
+              opt = true,
               run = 'TSUpdate',
              },
           },
