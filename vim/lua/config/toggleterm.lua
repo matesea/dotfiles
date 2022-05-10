@@ -1,7 +1,11 @@
 local M = {}
 
 function M.setup()
-  require("toggleterm").setup {
+    local status_ok, toggleterm = pcall(require, 'toggleterm')
+    if not status_ok then
+        return
+    end
+  toggleterm.setup {
     size = 20,
     hide_numbers = true,
     open_mapping = [[<C-\>]],

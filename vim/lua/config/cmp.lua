@@ -1,10 +1,15 @@
 local M = {}
 
 function M.setup()
+    local status_ok, cmp = pcall(require, "cmp")
+
+    if not status_ok then
+        return
+    end
+
     vim.opt.completeopt = {'noinsert', 'menuone', 'noselect'}
     vim.opt.shortmess:append({c = true})
 
-    local cmp = require'cmp'
     cmp.setup({
         snippet = {
             expand = function(args)

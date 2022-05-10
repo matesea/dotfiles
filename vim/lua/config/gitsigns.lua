@@ -1,13 +1,19 @@
 local M = {}
 
 function M.setup()
+    local status_ok, gitsigns = pcall(require, "gitsigns")
+
+    if not status_ok then
+        return
+    end
+
     vim.opt.csto = 0
     -- show msg when any other cscope db added
     vim.opt.cscopeverbose = true
     -- display result in quickfix
     vim.opt.cscopequickfix = 's-,c-,d-,i-,t-,e-,a-'
     vim.opt.cscoperelative = true
-    require('gitsigns').setup{
+    gitsigns.setup{
         on_attach = function(bufnr)
             local function map(mode, lhs, rhs, opts)
                 opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})

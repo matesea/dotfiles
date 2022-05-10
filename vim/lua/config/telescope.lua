@@ -2,7 +2,11 @@
 local M = {}
 
 function M.setup()
-    require('telescope').load_extension('fzf')
+    local status_ok, telescope = pcall(require, "telescope")
+    if not status_ok then
+        return
+    end
+    telescope.load_extension('fzf')
     vim.api.nvim_set_keymap('n', '<space>e', '<cmd>Telescope find_files<cr>', {noremap = true})
     vim.api.nvim_set_keymap('n', '<space>g', '<cmd>Telescope live_grep<cr>', {noremap = true})
     vim.api.nvim_set_keymap('n', '<space>b', '<cmd>Telescope buffers<cr>', {noremap = true})

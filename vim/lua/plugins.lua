@@ -573,7 +573,7 @@ function M.setup()
  packer.startup(plugins)
 
  -- load packer_compiled with lua cache impatient
- require('packer_compiled')
+ pcall(require, 'packer_compiled')
  -- require('lspconfig')
 end
 
