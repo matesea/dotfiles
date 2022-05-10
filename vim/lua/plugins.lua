@@ -77,37 +77,7 @@ function M.setup()
          event = 'BufReadPre',
          requires = {'nvim-lua/plenary.nvim'},
          config = function()
-             require('gitsigns').setup{
-                 on_attach = function(bufnr)
-                         local function map(mode, lhs, rhs, opts)
-                             opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
-                             vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
-                         end
-
-                         -- Navigation
-                         map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-                         map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-
-                         -- Actions
-                         -- map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-                         -- map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-                         -- map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-                         -- map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-                         -- map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
-                         -- map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
-                         -- map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
-                         -- map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
-                         map('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
-                         -- map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
-                         -- map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
-                         -- map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
-                         -- map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
-                         -- -- Text object
-                         -- map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-                         -- map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-                 end
-                 }
-             vim.opt.updatetime = 300
+             require('config.gitsigns').setup()
          end
      }
 
@@ -122,34 +92,6 @@ function M.setup()
          },
          cmd = 'GV'
      }
-     --[[
-     use {
-         'beauwilliams/statusline.lua',
-         requires = {
-             {'kyazdani42/nvim-web-devicons'},
-             {'ryanoasis/vim-devicons'}
-         },
-     }
-     local statusline = require('statusline')
-     statusline.tabline = false
-     statusline.lsp_diagnostics = false
-     statusline.ale_diagnostics = false
-     --]]
-
-     --[[
-     use {'nvim-lualine/lualine.nvim',
-         -- requires = {'kyazdani42/nvim-web-devicons', opt = true},
-         config = function()
-             require('lualine').setup{
-                 options = {
-                     icons_enabled = false,
-                     theme = 'ayu_dark'
-                 },
-             }
-         end
-     }
-     --]]
-     -- use 'lukelbd/vim-statusline'
 
      use {'ap/vim-buftabline',
          config = function()
@@ -166,14 +108,6 @@ function M.setup()
              vim.api.nvim_set_keymap('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {noremap = false})
          end
      }
-     --[[
-     use { 'jose-elias-alvarez/buftabline.nvim',
-         disable = true,
-         config = function()
-             require("buftabline").setup {}
-         end
-     }
-     --]]
 
      use 'bronson/vim-trailing-whitespace'
      g.extra_whitespace_ignored_filetypes = {
@@ -190,20 +124,8 @@ function M.setup()
      use {'joereynolds/gtags-scope',
          opt = true,
          cmd = 'GtagsCscope',
-         setup = function()
-             vim.opt.csto = 0
-             -- show msg when any other cscope db added
-             vim.opt.cscopeverbose = true
-             -- display result in quickfix
-             vim.opt.cscopequickfix = 's-,c-,d-,i-,t-,e-,a-'
-             vim.opt.cscoperelative = true
-         end,
          config = function()
-             vim.api.nvim_set_keymap('n', '<leader>cf', ':cscope find<space>', {noremap = true})
-             vim.api.nvim_set_keymap('n', '<leader>cs', ':cscope find s <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-             vim.api.nvim_set_keymap('n', '<leader>cg', ':cscope find g <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-             vim.api.nvim_set_keymap('n', '<leader>cc', ':cscope find c <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-             vim.api.nvim_set_keymap('n', '<leader>ca', ':cscope add<space>', {noremap = true})
+             require('config.gtags').setup()
          end
      }
 
@@ -235,7 +157,8 @@ function M.setup()
      use {'junegunn/fzf.vim',
          requires = {'junegunn/fzf',
              run = './install --completion --key-bindings --xdg --no-update-rc'
-         }
+         },
+         event = 'BufEnter',
      }
      -- plugin fzf.vim
      map {'n', ';e', ':FZF<cr>'}
@@ -270,21 +193,16 @@ function M.setup()
              }
          },
          config = function()
-             require('telescope').load_extension('fzf')
-             vim.api.nvim_set_keymap('n', '<space>e', '<cmd>Telescope find_files<cr>', {noremap = true})
-             vim.api.nvim_set_keymap('n', '<space>g', '<cmd>Telescope live_grep<cr>', {noremap = true})
-             vim.api.nvim_set_keymap('n', '<space>b', '<cmd>Telescope buffers<cr>', {noremap = true})
-             vim.api.nvim_set_keymap('n', '<space>h', '<cmd>Telescope command_history<cr>', {noremap = true})
-             vim.api.nvim_set_keymap('n', '<space>a', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {noremap = true})
-             vim.cmd[[
-                 autocmd FileType TelescopePrompt call ncm2#disable_for_buffer()
-                 ]]
+             require('config.telescope').setup()
          end
      }
 
      use {
          'ibhagwan/fzf-lua',
          opt = true,
+         requires = {'junegunn/fzf',
+             run = './install --completion --key-bindings --xdg --no-update-rc'
+         },
          cmd = {'FzfLua'},
          config = function()
              require('fzf-lua').setup{
@@ -356,52 +274,6 @@ function M.setup()
              vim.g.ackhighlight = 1
          end
      }
-
-     use {'ncm2/ncm2',
-         disable = true,
-         opt = true,
-         requires = {
-             -- {'SirVer/ultisnips', opt = true,
-             --     setup = function()
-             --         vim.g.UltiSnipsExpandTrigger = "<tab>"
-             --         vim.g.UltiSnipsJumpForwardTrigger = "<c-b>"
-             --         vim.g.UltiSnipsJumpBackwardTrigger = "<c-z>"
-             --     end},
-             {'honza/vim-snippets', opt = true},
-             {'roxma/nvim-yarp', opt = true},
-             {'ncm2/ncm2-bufword', opt = true},
-             {'ncm2/ncm2-path', opt = true},
-             {'fgrsnau/ncm2-otherbuf', opt = true},
-             -- {'ncm2/ncm2-gtags', opt = true}
-         },
-         event = 'InsertEnter',
-         setup = function()
-             -- IMPORTANT: :help Ncm2PopupOpen for more information
-             vim.opt.completeopt = {'noinsert', 'menuone', 'noselect'}
-             -- suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-             -- found' messages
-             vim.opt.shortmess:append({c = true})
-
-             vim.cmd[[
-                 inoremap <c-c> <ESC>
-                 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
-                 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-                 ]]
-         end,
-         config = function()
-             vim.fn['ncm2#enable_for_buffer']()
-         end
-     }
-
-     --[[ use {'famiu/bufdelete.nvim',
-         opt = true,
-         cmd = 'Bdelete',
-         keys = {{'n', 'bd'}},
-         config = function()
-             vim.api.nvim_set_keymap('n', 'bd', ':Bdelete<cr>', {silent = true, noremap = true})
-         end
-     } ]]
-
      use {'kazhala/close-buffers.nvim',
          opt = true,
          cmd = {"BDelete", "BWipeout"},
@@ -413,7 +285,12 @@ function M.setup()
          end
      }
 
-     use 'ggandor/lightspeed.nvim'
+     use {'ggandor/lightspeed.nvim',
+        keys = {'s', 'S', 'f', 'F', 't', 'T'},
+        config = function()
+            require('lightspeed').setup {}
+        end
+    }
 
      use {'jacquesbh/vim-showmarks',
          opt = true,
@@ -549,14 +426,6 @@ function M.setup()
          cmd = {'Fp', 'Fw', 'Fs'}
      }
 
-     --[[
-     use 'wellle/context.vim'
-     cmd[[
-         autocmd Filetype text call context#disable(1)
-         autocmd Filetype log call context#disable(1)
-     ]]
-     --]]
-
      -- use 'machakann/vim-sandwich'
 
      use 'tpope/vim-sensible'
@@ -622,47 +491,6 @@ function M.setup()
           end
       }
 
-     --[[
-     use {'rmagatti/auto-session',
-         disable = true,
-         config = function()
-             vim.o.sessionoptions = "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal"
-             local opts = {
-                   log_level = 'error',
-                   auto_session_enable_last_session = false,
-                   auto_session_root_dir = vim.fn.stdpath('data') .. "/sessions/",
-                   auto_session_enabled = true,
-                   auto_save_enabled = true,
-                   auto_restore_enabled = true,
-                   auto_session_suppress_dirs = {'/etc', '/tmp'}
-             }
-             require('auto-session').setup(opts)
-         end
-     }
-     use {'rmagatti/session-lens',
-         disable = true,
-         requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
-         config = function()
-             require('session-lens').setup{
-                   path_display = {'shorten'},
-                   theme_conf = { border = false },
-                   previewer = true
-             }
-         end
-     }
-     --]]
-
-     use {
-         'neovim/nvim-lspconfig',
-         disable = true,
-         tag = 'v0.1.3',
-     }
-
-     use {
-         'williamboman/nvim-lsp-installer',
-         disable = true,
-     }
-
      use {
          'hrsh7th/nvim-cmp',
          opt = true,
@@ -676,64 +504,8 @@ function M.setup()
              -- {'quangnguyen30192/cmp-nvim-tags', opt = true, ft = {'c', 'h', 'python', 'cpp'}}
          },
          event = 'InsertEnter',
-         setup = function()
-             vim.opt.completeopt = {'noinsert', 'menuone', 'noselect'}
-             vim.opt.shortmess:append({c = true})
-         end,
          config = function()
-             local cmp = require'cmp'
-             cmp.setup({
-                 snippet = {
-                     expand = function(args)
-                       vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-                     end,
-                 },
-                 window = {
-                     -- completion = cmp.config.window.bordered(),
-                     -- documentation = cmp.config.window.bordered(),
-                 },
-                 mapping = {
-                   ['<C-Space>'] = cmp.mapping.complete(),
- 	              ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
- 	              ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
-                   ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                   ['<C-f>'] = cmp.mapping.scroll_docs(4),
-
- 	              ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
- 	              ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
-
-                   ['<C-c>'] = function(fallback)
-                       cmp.close()
-                       fallback()
-                   end,
-                   ['<CR>'] = cmp.mapping.confirm({
-                       behavior = cmp.ConfirmBehavior.Replace,
-                       select = false
-                   }),
-                 },
-                 sources = cmp.config.sources({
-                   { name = 'buffer' },
-                   { name = 'tmux' },
-                   { name = 'path' },
-                   -- { name = 'nvim_lsp' },
-                   { name = 'vsnip' }, -- For vsnip users.
-                 }),
-             })
-             -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-             cmp.setup.cmdline('/', {
-               mapping = cmp.mapping.preset.cmdline(),
-               sources = {
-                 { name = 'buffer' }
-               }
-             })
-
-             -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-             cmp.setup.cmdline(':', {
-               mapping = cmp.mapping.preset.cmdline(),
-               sources = cmp.config.sources({
-                 { name = 'buffer' }
-               })
-             })
+             require('config.cmp').setup()
          end
      }
 
@@ -750,10 +522,6 @@ function M.setup()
          end,
      })
      --]]
-     use {'yamatsum/nvim-cursorline',
-         disable = true,
-         ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
-     }
      use { 'beauwilliams/focus.nvim',
          cmd = { "FocusSplitNicely", "FocusSplitCycle" },
          module = "focus",
