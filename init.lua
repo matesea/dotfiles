@@ -24,53 +24,17 @@ else
     env.VIMINFO = home
 end
 
--- disable built-in plugins
-local disabled_built_ins = {
-    "netrw",
-    "netrwPlugin",
-    "netrwSettings",
-    "netrwFileHandlers",
-    "gzip",
-    "zip",
-    "zipPlugin",
-    "tar",
-    "tarPlugin",
-    "getscript",
-    "getscriptPlugin",
-    "vimball",
-    "vimballPlugin",
-    "2html_plugin",
-    "logipat",
-    "rrhelper",
-    "spellfile_plugin",
-    "matchit"
-}
-
-for _, plugin in pairs(disabled_built_ins) do
-    vim.g["loaded_" .. plugin] = 1
-end
 
 require('setting')
 cmd('source $VIMHOME/function.vim')
 
-cmd([[
-    set shada=!,'300,<50,@100,s10,h,n$VIMINFO/.viminfo.shada
-]])
-
--- import local settings
+-- import local settings if exist
 if xdg_data ~= nil and fn.filereadable(xdg_data .. '/vimrc') then
     cmd('source ' .. xdg_data .. '/vimrc')
 elseif fn.filereadable(home .. '/.local/vimrc') then
     cmd('source ' .. home .. '/.local/vimrc')
 end
 
-require('plugin')
+require('plugin').setup()
 require('mapping')
-
--- exclude quickfix from bnext/bprev
-cmd([[
-augroup qf
-    autocmd!
-    autocmd FileType qf set nobuflisted
-augroup END
-]])
+require('statusline')

@@ -4,6 +4,32 @@ local fn = vim.fn
 local cmd = vim.cmd
 local env = vim.env -- environment variables
 
+-- disable built-in plugins
+local disabled_built_ins = {
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "gzip",
+    "zip",
+    "zipPlugin",
+    "tar",
+    "tarPlugin",
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    "spellfile_plugin",
+    "matchit"
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+    g["loaded_" .. plugin] = 1
+end
+
 -- local wopt = vim.wo -- window-local options
 -- local bopt = vim.bo -- buffer-local options
 -- local execute = vim.api.nvim_command
@@ -116,3 +142,15 @@ opt.background = 'dark'
 
  g.python3_host_skip_check = 1
  g.python_host_skip_check = 1
+
+cmd([[
+    set shada=!,'300,<50,@100,s10,h,n$VIMINFO/.viminfo.shada
+]])
+
+-- exclude quickfix from bnext/bprev
+cmd([[
+augroup qf
+    autocmd!
+    autocmd FileType qf set nobuflisted
+augroup END
+]])
