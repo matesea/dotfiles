@@ -35,6 +35,6 @@ elseif fn.filereadable(home .. '/.local/vimrc') then
     cmd('source ' .. home .. '/.local/vimrc')
 end
 
-require('plugin').setup()
+require('plugins').setup()
 require('mapping')
 require('statusline')
