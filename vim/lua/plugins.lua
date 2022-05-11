@@ -130,6 +130,7 @@ function M.setup()
      use {'windwp/nvim-autopairs',
          -- requires = 'nvim-treesitter',
          -- module = {'nvim-autopairs.completion.cmp', 'nvim-autopairs'},
+         event = 'InsertEnter',
          config = function()
              require('nvim-autopairs').setup()
          end

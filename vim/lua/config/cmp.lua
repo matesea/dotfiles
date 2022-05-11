@@ -26,11 +26,11 @@ function M.setup()
     vim.opt.shortmess:append({c = true})
 
     cmp.setup({
-        snippet = {
-            expand = function(args)
-              vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            end,
-        },
+        -- snippet = {
+        --     expand = function(args)
+        --       vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        --     end,
+        -- },
         window = {
             -- completion = cmp.config.window.bordered(),
             -- documentation = cmp.config.window.bordered(),
@@ -106,7 +106,7 @@ function M.setup()
           },
           { name = 'path' },
           -- { name = 'nvim_lsp' },
-          { name = 'vsnip' }, -- For vsnip users.
+          -- { name = 'vsnip' }, -- For vsnip users.
         }),
     })
     -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
