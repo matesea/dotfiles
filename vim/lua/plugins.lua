@@ -189,7 +189,19 @@ function M.setup()
          end
      }
 
+     use {
+         'ggandor/leap.nvim',
+        keys = {'s', 'S', 'f', 'F', 't', 'T'},
+        config = function()
+            leap = require('leap')
+            leap.setup {
+                case_insensitive = true,
+            }
+            leap.set_default_keymaps()
+        end
+     }
      use {'ggandor/lightspeed.nvim',
+     disable = true,
         keys = {'s', 'S', 'f', 'F', 't', 'T'},
         config = function()
             require('lightspeed').setup {}
