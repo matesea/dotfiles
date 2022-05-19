@@ -1,6 +1,8 @@
  local function status_line()
   local mode = "%-5{%v:lua.string.upper(v:lua.vim.fn.mode())%}"
-  local file_name = "%-.16t"
+  -- base directory name of current working directory
+  local cwd = "%{v:lua.vim.fn.fnamemodify(v:lua.vim.fn.getcwd(), ':t')}"
+  local file_name = " %-.16t"
   -- local buf_nr = "[%n]"
   local fileformat = " [%{&fileformat}/"
   local fileencoding = "/%{&fileencoding?&fileencoding:&encoding}]"
@@ -11,8 +13,9 @@
   local pct_thru_file = "%5p%%"
 
   return string.format(
-    "%s%s%s%s%s%s%s%s%s",
+    "%s%s%s%s%s%s%s%s%s%s",
     mode,
+    cwd,
     file_name,
     modified,
     file_type,
