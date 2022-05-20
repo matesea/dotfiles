@@ -173,6 +173,7 @@ function M.setup()
      }
 
      use {'mileszs/ack.vim',
+        disable = true,
          config = function()
              vim.g.ackprg = 'rg -S --vimgrep --no-heading --no-column'
              vim.g.ackhighlight = 1
@@ -213,8 +214,29 @@ function M.setup()
          cmd = 'DoShowMarks', -- DoShowMarks to enable
      }
 
+     use {
+         -- replacement for vim-mark
+         'azabiong/vim-highlighter',
+         -- opt = true,
+         config = function()
+             vim.cmd [[
+                nn <leader>h :Hi +<space>
+                nn - <Cmd>Hi/next<CR>
+                nn _ <Cmd>Hi/previous<CR>
+                nn f<left> <Cmd>Hi/older<cr>
+                nn f<right> <Cmd>Hi/newer<cr>
+             ]]
+         end,
+         -- f + <cr>: HiSet, hightlight current word
+         -- f + <backspace>: HiErase
+         -- f + <C-L>: HiClear
+         -- f + tab: HiFind
+         -- :Hi + <pattern>: highlight one pattern
+         -- :Hi save <name>: save current highlight to file
+     }
+
      use {'inkarkat/vim-mark',
-         opt = true,
+         disable = true,
          requires = {
              {'inkarkat/vim-ingo-library', opt = true}
          },
