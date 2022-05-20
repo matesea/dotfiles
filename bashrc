@@ -493,6 +493,10 @@ if [ -f $HOME/.local/bashrc ]; then
     ## nvim ##
     # export XDG_CONFIG_HOME=<DATA_PATH>/.config
     # export XDG_DATA_HOME=<DATA_PATH>/.local/share
+
+elif [ -f $HOME/.local2/bashrc ]; then
+    # WA when $HOME/.local has been occupied
+    source $HOME/.local2/bashrc
 fi
 
 _nvim=$(which nvim 2>/dev/null)
