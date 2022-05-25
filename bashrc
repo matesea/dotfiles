@@ -600,3 +600,16 @@ function targz() {
     local dir=${1%/}
     tar --use-compress-program="pigz --best --recursive" -cf ${dir}.tar.gz ${dir} && rm -rf ${dir}
 }
+
+# unzip into directories
+function uzd() {
+    for i in $@;
+    do
+        if [ ! -e $i]; then
+            echo "skip $i because not exist"
+            continue
+        fi
+        local basename=$(basename $i)
+        unzip $i -d"${basename%.*}"
+    done
+}

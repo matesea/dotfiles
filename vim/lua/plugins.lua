@@ -104,7 +104,12 @@ function M.setup()
 
      use {'joereynolds/gtags-scope',
          opt = true,
-         cmd = 'GtagsCscope',
+         keys = {
+             {'n', '<leader>cf'},
+             {'n', '<leader>cs'},
+             {'n', '<leader>cg'},
+             {'n', '<leader>cc'},
+         },
          config = function()
              require('config.gtags').setup()
          end
@@ -192,6 +197,7 @@ function M.setup()
 
      use {
          'ggandor/leap.nvim',
+         opt = true,
         keys = {'s', 'S', 'f', 'F', 't', 'T'},
         config = function()
             leap = require('leap')
@@ -219,14 +225,17 @@ function M.setup()
          'azabiong/vim-highlighter',
          -- opt = true,
          config = function()
+             vim.api.nvim_set_keymap('n', 'f<c-h>', ':Hi+<space>', {noremap = true})
              vim.cmd [[
-                nn <leader>h :Hi +<space>
                 nn - <Cmd>Hi/next<CR>
                 nn _ <Cmd>Hi/previous<CR>
                 nn f<left> <Cmd>Hi/older<cr>
                 nn f<right> <Cmd>Hi/newer<cr>
              ]]
          end,
+         -- nn [<cr> <cmd>Hi {<cr>
+         -- nn ]<cr> <cmd>Hi }<cr>
+
          -- f + <cr>: HiSet, hightlight current word
          -- f + <backspace>: HiErase
          -- f + <C-L>: HiClear
