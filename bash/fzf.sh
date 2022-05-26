@@ -170,6 +170,20 @@ fe() {
   "${EDITOR:-vim}" "${files[@]}"
 }
 
+# select and run executable in this folder
+frun() {
+  local IFS=$'\n'
+  local file=()
+  file=(
+    $(find . -type f -executable -print | fzf \
+          --query="$1" \
+          --select-1 \
+          --exit-0
+    )
+  ) || return
+  $file
+}
+
 # compare files in the same relative path
 fcmp() {
   local IFS=$'\n'
