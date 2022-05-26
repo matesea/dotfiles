@@ -11,10 +11,15 @@ zcase() {
         echo "variable __CASES not defined"
         return
     fi
+    # adding trailing slash if not exist
+    local cases=${__CASES}
+    [[ "${cases}" != */ ]] && cases="${cases}/"
+
+    local pattern="${cases//\//\\\/}"
     dir="$(
-        find $__CASES -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' |sort -r |cut -d' ' -f2 2>/dev/null \
-    | fzf --no-sort)" || return
-    cd "$prefix$dir" || return
+        find $cases -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' 2>/dev/null |sort -r |cut -d' ' -f2 \
+            |sed "s#$pattern##" | fzf --no-sort)" || return
+    cd "$prefix$cases$dir" || return
 }
 
 # jump into ramdump folder by finding dmesg_TZ.txt
@@ -25,11 +30,15 @@ zrp() {
         echo "variable __CASES not defined"
         return
     fi
-    dir="$(
-        find $__CASES -name dmesg_TZ.txt -printf '%T@ %p\n' |sort -r |cut -d' ' -f2 2>/dev/null \
-    | fzf --no-sort)" || return
-        echo "zrp: $prefix$dir"
-    cd $(dirname "$prefix$dir") || return
+
+    # adding trailing slash if not exist
+    local cases="${__CASES/}/"
+    [[ "${cases}" != */ ]] && cases="${cases}/"
+
+    local pattern="${cases//\//\\\/}"
+    dir="$(find $cases -name dmesg_TZ.txt -printf '%T@ %p\n' 2>/dev/null |sort -r |cut -d' ' -f2 \
+        |sed "s#$pattern##" |fzf --no-sort)" || return
+    cd $(dirname "$prefix$cases$dir") || return
 }
 
 # _fd - cd to selected directory
