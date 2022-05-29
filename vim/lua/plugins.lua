@@ -53,8 +53,7 @@ function M.setup()
          end
      }
 
-     use {
-         'lewis6991/gitsigns.nvim',
+     use { 'lewis6991/gitsigns.nvim',
          event = 'BufReadPre',
          requires = {'nvim-lua/plenary.nvim'},
          config = function()
@@ -148,8 +147,7 @@ function M.setup()
          event = 'BufEnter',
      }
 
-     use {
-         'nvim-telescope/telescope.nvim',
+     use { 'nvim-telescope/telescope.nvim',
          disable = true,
          requires = {
              {'nvim-lua/plenary.nvim',
@@ -165,8 +163,7 @@ function M.setup()
          end
      }
 
-     use {
-         'ibhagwan/fzf-lua',
+     use { 'ibhagwan/fzf-lua',
          opt = true,
          requires = {'junegunn/fzf',
              run = './install --completion --key-bindings --xdg --no-update-rc'
@@ -177,8 +174,7 @@ function M.setup()
          end
      }
 
-     use {'mileszs/ack.vim',
-        disable = true,
+     use { 'mileszs/ack.vim',
          config = function()
              vim.g.ackprg = 'rg -S --vimgrep --no-heading --no-column'
              vim.g.ackhighlight = 1
@@ -195,8 +191,7 @@ function M.setup()
          end
      }
 
-     use {
-         'ggandor/leap.nvim',
+     use { 'ggandor/leap.nvim',
          opt = true,
         keys = {'s', 'S', 'f', 'F', 't', 'T'},
         config = function()
@@ -220,9 +215,7 @@ function M.setup()
          cmd = 'DoShowMarks', -- DoShowMarks to enable
      }
 
-     use {
-         -- replacement for vim-mark
-         'azabiong/vim-highlighter',
+     use { 'azabiong/vim-highlighter',
          -- opt = true,
          config = function()
              vim.api.nvim_set_keymap('n', 'f<c-h>', ':Hi+<space>', {noremap = true})
@@ -302,34 +295,28 @@ function M.setup()
      }
      g.hugefile_trigger_size = 150
 
-     use {
-         'matesea/vim-log-syntax',
+     use { 'matesea/vim-log-syntax',
          opt = true,
          ft = {'log', 'text'}
      }
 
-     use {
-         'vivien/vim-linux-coding-style',
+     use { 'vivien/vim-linux-coding-style',
          opt = true,
          ft = {'c', 'h', 'S'}
      }
 
-     use {
-         'mbbill/undotree',
+     use { 'mbbill/undotree',
          opt = true,
          cmd = 'UndotreeToggle'
      }
      g.undotree_WindowLayout = 2
 
-     use {
-         'octol/vim-cpp-enhanced-highlight',
+     use { 'octol/vim-cpp-enhanced-highlight',
          opt = true,
          ft = {'c', 'h', 'S', 'cpp'}
      }
 
-     use {
-         -- 'tyru/caw.vim',
-         'b3nj5m1n/kommentary',
+     use { 'b3nj5m1n/kommentary',
          opt = true,
          ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'}
      }
@@ -400,8 +387,7 @@ function M.setup()
          end
      }
 
-     use {
-         'lewis6991/nvim-treesitter-context',
+     use { 'lewis6991/nvim-treesitter-context',
          opt = true,
          -- ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'}, -- auto enable for those filetype
          cmd = {'TSContextEnable'},
@@ -418,8 +404,7 @@ function M.setup()
              }
          end
      }
-      use {
-          'm-demare/hlargs.nvim',
+      use { 'm-demare/hlargs.nvim',
           opt = true,
           -- ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
           requires = {
@@ -433,8 +418,7 @@ function M.setup()
           end
       }
 
-     use {
-         'hrsh7th/nvim-cmp',
+     use { 'hrsh7th/nvim-cmp',
          opt = true,
          requires = {
              {'hrsh7th/cmp-buffer', opt = true},
@@ -500,9 +484,19 @@ function M.setup()
              })
          end,
      }
-     use {'matesea/trace32-practice.vim',
+     use { 'matesea/trace32-practice.vim',
          opt = true,
          ft = {'cmm'}
+     }
+     use { 'vim-scripts/Quich-Filter',
+         disable = true,
+         config = function()
+             vim.cmd[[
+      nnoremap ,f :call FilteringNew().addToParameter('alt', @/).run()<CR>
+      nnoremap ,F :call FilteringNew().parseQuery(input('>'), '|').run()<CR>
+      nnoremap ,g :call FilteringGetForSource().return()<CR>
+             ]]
+         end
      }
  end
 
