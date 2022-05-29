@@ -78,13 +78,14 @@ map {'n', ';rg', ':Rg<space>'}
 map {'n', ';rw', ':Rg <c-r><c-w><cr>'}
 
 -- plugin fzf.lua
-map {'n', ';e', ':FZF<cr>'}
-map {'n', '<space>e', '<cmd>FzfLua files<cr>'}
-map {'n', '<space>rg', "<cmd>FzfLua live_grep<cr>"}
-map {'n', '<space>rw', "<cmd>FzfLua grep_cword<cr>"}
-map {'n', '<space>b', "<cmd>FzfLua buffers<cr>"}
-map {'n', '<space>hc', "<cmd>FzfLua command_history<cr>"}
-map {'n', '<space>hf', "<cmd>FzfLua oldfiles<cr>"}
-map {'n', '<space>hs', "<cmd>FzfLua search_history<cr>"}
+map {'n', '<space>/', "<cmd>FzfLua search_history<cr>"}
+map {'n', '<space>;', "<cmd>FzfLua command_history<cr>"}
 map {'n', '<space>a', "<cmd>FzfLua lines<cr>"}
+map {'n', '<space>b', "<cmd>FzfLua buffers<cr>"}
+map {'n', '<space>e', '<cmd>FzfLua files<cr>'}
+map {'n', '<space>g', "<cmd>FzfLua live_grep<cr>"}
+map {'n', '<space>j', "<cmd>FzfLua jumps<cr>"}
+map {'n', '<space>w', "<cmd>FzfLua grep_cword<cr>"}
+map {'n', '<space>x', "<cmd>FzfLua oldfiles<cr>"}
+
 vim.cmd[[nnoremap <space>c :FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>]]
