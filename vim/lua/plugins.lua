@@ -435,9 +435,7 @@ function M.setup()
          end
      }
 
-     --[[
-     use({
-         'tanvirtin/vgit.nvim',
+     use { 'tanvirtin/vgit.nvim',
          disable = true,
          event = 'BufWinEnter',
          requires = {
@@ -446,8 +444,7 @@ function M.setup()
          config = function()
              require('vgit').setup()
          end,
-     })
-     --]]
+     }
      use { 'beauwilliams/focus.nvim',
          cmd = { "FocusSplitNicely", "FocusSplitCycle" },
          module = "focus",
@@ -492,12 +489,14 @@ function M.setup()
          disable = true,
          config = function()
              vim.cmd[[
-      nnoremap ,f :call FilteringNew().addToParameter('alt', @/).run()<CR>
-      nnoremap ,F :call FilteringNew().parseQuery(input('>'), '|').run()<CR>
-      nnoremap ,g :call FilteringGetForSource().return()<CR>
+                nnoremap ,f :call FilteringNew().addToParameter('alt', @/).run()<CR>
+                nnoremap ,F :call FilteringNew().parseQuery(input('>'), '|').run()<CR>
+                nnoremap ,g :call FilteringGetForSource().return()<CR>
              ]]
          end
      }
+
+     use {'mtth/scratch.vim'}
  end
 
  packer_init()

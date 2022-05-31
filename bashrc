@@ -605,7 +605,7 @@ function targz() {
 function uzd() {
     for i in $@;
     do
-        if [ ! -e $i]; then
+        if [ ! -e "$i" ]; then
             echo "skip $i because not exist"
             continue
         fi
