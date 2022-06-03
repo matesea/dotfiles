@@ -47,3 +47,12 @@ xnoremap <C-r> :<C-u>call <SID>get_selection('/')<CR>:%s/\V<C-R>=@/<CR>//gc<Left
 nnoremap <silent> <c-w>x  :<C-u>call <SID>window_empty_buffer()<CR>
 " toggle window zoom
 nnoremap <silent> <c-w>z  :<C-u>call <SID>zoom()<CR>
+
+" Rgc: grep inside folder of current editing file
+command! -bang -nargs=* Rgd call fzf#vim#grep
+    \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
+    \1, fzf#vim#with_preview({'dir': expand('%:h:p')}), <bang>0)
+
+" Rgb: Rg and put the result into new buffer
+command! -complete=shellcmd -nargs=+ Rgb
+    \ call s:RunShellCommand("rg -S --vimgrep --no-heading --no-column ".<q-args>)

@@ -122,11 +122,11 @@ function M.setup()
          },
          keys = {
              {'n', '<leader>q'},
-             {'n', '<leader>l'},
+             {'n', '<leader>f'},
          },
          config = function()
              vim.api.nvim_set_keymap('n', '<leader>q', '<Plug>window:quickfix:toggle', {noremap = false})
-             vim.api.nvim_set_keymap('n', '<leader>l', '<Plug>window:location:toggle', {noremap = false})
+             vim.api.nvim_set_keymap('n', '<leader>f', '<Plug>window:location:toggle', {noremap = false})
          end
      }
 
@@ -164,7 +164,7 @@ function M.setup()
      }
 
      use { 'ibhagwan/fzf-lua',
-         opt = true,
+         disable = true,
          requires = {'junegunn/fzf',
              run = './install --completion --key-bindings --xdg --no-update-rc'
          },
@@ -175,6 +175,7 @@ function M.setup()
      }
 
      use { 'mileszs/ack.vim',
+         disable = true,
          config = function()
              vim.g.ackprg = 'rg -S --vimgrep --no-heading --no-column'
              vim.g.ackhighlight = 1
