@@ -103,12 +103,7 @@ function M.setup()
 
      use {'joereynolds/gtags-scope',
          opt = true,
-         keys = {
-             {'n', '<leader>cf'},
-             {'n', '<leader>cs'},
-             {'n', '<leader>cg'},
-             {'n', '<leader>cc'},
-         },
+         cmd = {'GtagsCscope',},
          config = function()
              require('config.gtags').setup()
          end
