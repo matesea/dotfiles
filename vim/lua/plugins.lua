@@ -493,6 +493,7 @@ function M.setup()
      }
 
      use {'mtth/scratch.vim'}
+     use {'vim-scripts/scons.vim', opt = true, ft = {'scons'}}
  end
 
  packer_init()
