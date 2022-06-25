@@ -74,6 +74,7 @@ function M.setup()
      }
 
      use {'ap/vim-buftabline',
+         disable = true,
          config = function()
              vim.g.buftabline_show = 1
              vim.g.buftabline_numbers = 2
@@ -385,8 +386,7 @@ function M.setup()
 
      use { 'lewis6991/nvim-treesitter-context',
          opt = true,
-         -- ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'}, -- auto enable for those filetype
-         cmd = {'TSContextEnable'},
+         ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'},
          requires = {
              {'nvim-treesitter/nvim-treesitter',
                 opt = true,
@@ -402,7 +402,7 @@ function M.setup()
      }
       use { 'm-demare/hlargs.nvim',
           opt = true,
-          -- ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
+          ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
           requires = {
               {'nvim-treesitter/nvim-treesitter',
               opt = true,
@@ -494,6 +494,15 @@ function M.setup()
 
      use {'mtth/scratch.vim'}
      use {'vim-scripts/scons.vim', opt = true, ft = {'scons'}}
+     use {'ConradIrwin/vim-bracketed-paste'}
+     use { "ur4ltz/surround.nvim",
+        opt = true,
+        config = function()
+          require"surround".setup {mappings_style = "surround"}
+        end
+     }
+     use 'antoinemadec/FixCursorHold.nvim'
+     -- use 'jaxbot/semantic-highlight.vim'
  end
 
  packer_init()
