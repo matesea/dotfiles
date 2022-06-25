@@ -74,7 +74,13 @@ opt.hlsearch = true
 
 opt.errorbells = false
 opt.visualbell = false
-opt.timeoutlen = 500
+
+opt.timeout = true
+opt.ttimeout = true
+opt.timeoutlen = 500 -- Time out on mappings
+opt.ttimeoutlen = 10 -- Time out on key codes
+opt.updatetime = 200 -- idle time to write swap and trigger CursorHold
+opt.redrawtime = 2000 -- time in milliseconds for stopping display redraw
 
 opt.encoding = 'utf8'
 cmd([[
