@@ -235,7 +235,7 @@ function M.setup()
      }
 
      use {'inkarkat/vim-mark',
-         disable = true,
+         opt = true,
          requires = {
              {'inkarkat/vim-ingo-library', opt = true}
          },
