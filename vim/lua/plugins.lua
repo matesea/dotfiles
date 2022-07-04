@@ -74,9 +74,9 @@ function M.setup()
      }
 
      use {'ap/vim-buftabline',
-         disable = true,
          config = function()
              vim.g.buftabline_show = 1
+             --[[
              vim.g.buftabline_numbers = 2
              vim.api.nvim_set_keymap('n', '<leader>1', '<Plug>BufTabLine.Go(1)', {noremap = false})
              vim.api.nvim_set_keymap('n', '<leader>2', '<Plug>BufTabLine.Go(2)', {noremap = false})
@@ -87,6 +87,7 @@ function M.setup()
              vim.api.nvim_set_keymap('n', '<leader>7', '<Plug>BufTabLine.Go(7)', {noremap = false})
              vim.api.nvim_set_keymap('n', '<leader>8', '<Plug>BufTabLine.Go(8)', {noremap = false})
              vim.api.nvim_set_keymap('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {noremap = false})
+             ]]
          end
      }
 
@@ -141,6 +142,9 @@ function M.setup()
              run = './install --completion --key-bindings --xdg --no-update-rc'
          },
          event = 'BufEnter',
+         -- config = function()
+         --     vim.cmd[[let g:fzf_layout = {'down': '~40%'}]]
+         -- end
      }
 
      use { 'nvim-telescope/telescope.nvim',
