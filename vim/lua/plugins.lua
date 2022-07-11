@@ -499,12 +499,7 @@ function M.setup()
      use {'mtth/scratch.vim'}
      use {'vim-scripts/scons.vim', opt = true, ft = {'scons'}}
      use {'ConradIrwin/vim-bracketed-paste'}
-     use { "ur4ltz/surround.nvim",
-        opt = true,
-        config = function()
-          require"surround".setup {mappings_style = "surround"}
-        end
-     }
+     use {"tpope/vim-surround"}
      use 'antoinemadec/FixCursorHold.nvim'
      -- use 'jaxbot/semantic-highlight.vim'
  end

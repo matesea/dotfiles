@@ -2,7 +2,7 @@
   local mode = "%-5{%v:lua.string.upper(v:lua.vim.fn.mode())%}"
   -- base directory name of current working directory
   local cwd = "%{v:lua.vim.fn.fnamemodify(v:lua.vim.fn.getcwd(), ':t')}"
-  local file_name = " %-.16t"
+  local file_name = " %-.40t"
   -- local buf_nr = "[%n]"
   local fileformat = " [%{&fileformat}/"
   local fileencoding = "/%{&fileencoding?&fileencoding:&encoding}]"
