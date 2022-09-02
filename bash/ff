@@ -30,7 +30,7 @@ fi
 
 if [ "${regen}" != "" ]; then
     rm -rf ${folder}/.files ${folder}/.files.gz
-    ( rg --no-messages --files --no-ignore ${folder} ||
+    ( rg --no-messages --files --no-ignore --hidden ${folder} ||
         fd -t f -HIL . ${folder} ||
         find ${folder} -path "*/\.*" -prune -o -type f -print -o -type l -print ) 2>/dev/null |
         sed 's#^\.\/##' > ${folder}/.files
@@ -40,7 +40,7 @@ fi
 if [ -e "${folder}/.files.gz" ]; then
     pigz -dkcfq ${folder}/.files.gz
 else
-    ( rg --no-messages --files --no-ignore ${folder} ||
+    ( rg --no-messages --files --no-ignore --hidden ${folder} ||
         fd -t f -HIL . ${folder} ||
         find ${folder} -path "*/\.*" -prune -o -type f -print -o -type l -print ) 2>/dev/null |
         sed 's#^\.\/##'
