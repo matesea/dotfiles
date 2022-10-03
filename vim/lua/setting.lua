@@ -134,8 +134,8 @@ cmd('set t_Co=256')
 opt.termguicolors = true
 opt.background = 'dark'
 
--- allow mouse scroll
--- opt.mouse = 'a'
+-- set as 'a' to allow mouse scroll
+opt.mouse = ''
 
 --[[
  == execute command and put the results into new buffer ==

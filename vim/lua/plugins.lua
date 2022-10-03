@@ -164,7 +164,7 @@ function M.setup()
      }
 
      use { 'ibhagwan/fzf-lua',
-         disable = true,
+         opt = true,
          requires = {'junegunn/fzf',
              run = './install --completion --key-bindings --xdg --no-update-rc'
          },
@@ -501,7 +501,16 @@ function M.setup()
      use {'ConradIrwin/vim-bracketed-paste'}
      use {"tpope/vim-surround"}
      use 'antoinemadec/FixCursorHold.nvim'
-     -- use 'jaxbot/semantic-highlight.vim'
+     --[[
+     use {'jaxbot/semantic-highlight.vim',
+        opt = true,
+        cmd = {'SemanticHighlight'}
+    }
+    ]]
+    use {'liuchengxu/vim-clap',
+        run = ':Clap install-binary!',
+        disable = true,
+    }
  end
 
  packer_init()
