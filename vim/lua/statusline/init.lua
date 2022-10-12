@@ -9,7 +9,7 @@
   local modified = " %-m"
   local file_type = " %y"
   local right_align = "%="
-  local line_no = "%10([%l/%L%)]"
+  local pos = "%10([%l/%v%)]"
   local pct_thru_file = "%5p%%"
 
   return string.format(
@@ -22,7 +22,7 @@
     right_align,
     fileformat,
     fileencoding,
-    line_no,
+    pos,
     pct_thru_file
   )
 end
