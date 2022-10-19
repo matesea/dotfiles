@@ -40,7 +40,8 @@ opt.cindent = true
 opt.showmode = true
 opt.number = true
 
-opt.diffopt:append({'filler', 'internal', 'algorithm:histogram', 'indent-heuristic', 'iwhite'})
+-- iwhite: ignore changes in amount of white space
+opt.diffopt:append({'filler', 'internal', 'algorithm:histogram', 'indent-heuristic'})
 
 -- less window redraw to speed up
 opt.ttyfast = true
