@@ -343,6 +343,7 @@ function M.setup()
      }
 
      use {'rhysd/accelerated-jk',
+        disable = true,
          config = function()
              vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {silent = true, noremap = false})
              vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {silent = true, noremap = false})
@@ -390,7 +391,7 @@ function M.setup()
 
      use { 'lewis6991/nvim-treesitter-context',
          opt = true,
-         ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'},
+         ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua', 'java'},
          requires = {
              {'nvim-treesitter/nvim-treesitter',
                 opt = true,
@@ -406,7 +407,7 @@ function M.setup()
      }
       use { 'm-demare/hlargs.nvim',
           opt = true,
-          ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'},
+          ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
           requires = {
               {'nvim-treesitter/nvim-treesitter',
               opt = true,
