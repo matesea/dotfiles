@@ -319,7 +319,7 @@ function M.setup()
 
      use { 'b3nj5m1n/kommentary',
          opt = true,
-         ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua'}
+         ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'}
      }
 
      use {'nathanaelkane/vim-indent-guides',
