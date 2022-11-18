@@ -389,7 +389,7 @@ function M.setup()
          end
      }
      use {'nvim-treesitter/nvim-treesitter',
-        opt = true,
+         -- opt = true,
          run = ':TSUpdate'
      }
 
@@ -406,7 +406,7 @@ function M.setup()
              }
          end
      }
-      use { 'm-demare/hlargs.nvim',
+     use { 'm-demare/hlargs.nvim',
           opt = true,
           ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
           requires = {
@@ -415,7 +415,7 @@ function M.setup()
           config = function()
               require('hlargs').setup()
           end
-      }
+     }
 
      use { 'hrsh7th/nvim-cmp',
          opt = true,
@@ -462,6 +462,10 @@ function M.setup()
                      }
                  }
              })
+            vim.cmd[[
+                syntax on
+                filetype plugin indent off
+            ]]
          end
      }
      use {'gelguy/wilder.nvim',
@@ -512,21 +516,21 @@ function M.setup()
     }
 
     use {'neovim/nvim-lspconfig',
-        opt = true,
+        disable = true,
         config = function()
             require('config.lspconfig').setup()
         end
     }
     use { "williamboman/mason.nvim",
-        opt = true,
+        disable = true,
         requires = 'neovim/nvim-lspconfig',
     }
     use {'williamboman/mason-lspconfig.nvim',
-        opt = true,
+        disable = true,
         requires = 'neovim/nvim-lspconfig',
     }
     use {'hrsh7th/cmp-nvim-lsp',
-        opt = true,
+        disable = true,
         requires = 'neovim/nvim-lspconfig',
     }
  end

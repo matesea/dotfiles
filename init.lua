@@ -29,10 +29,11 @@ require('setting')
 cmd('source $VIMHOME/function.vim')
 
 -- import local settings if exist
+local local_rc = nil
 if xdg_data ~= nil then
-    local local_rc = fn.glob(xdg_data .. '/vimrc')
+    local_rc = fn.glob(xdg_data .. '/vimrc')
 else
-    local local_rc = fn.glob(home .. '/.local/vimrc')
+    local_rc = fn.glob(home .. '/.local/vimrc')
 end
 if fn.empty(local_rc) == 0 then
     cmd('source ' .. local_rc)
