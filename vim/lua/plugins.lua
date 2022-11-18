@@ -388,15 +388,16 @@ function M.setup()
              })
          end
      }
+     use {'nvim-treesitter/nvim-treesitter',
+        opt = true,
+         run = ':TSUpdate'
+     }
 
      use { 'lewis6991/nvim-treesitter-context',
          opt = true,
          ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua', 'java'},
          requires = {
-             {'nvim-treesitter/nvim-treesitter',
-                opt = true,
-                 run = ':TSUpdate'
-             },
+             {'nvim-treesitter/nvim-treesitter'},
          },
          config = function()
              require('treesitter-context').setup{
@@ -409,10 +410,7 @@ function M.setup()
           opt = true,
           ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
           requires = {
-              {'nvim-treesitter/nvim-treesitter',
-              opt = true,
-              run = 'TSUpdate',
-             },
+              {'nvim-treesitter/nvim-treesitter'},
           },
           config = function()
               require('hlargs').setup()
@@ -511,6 +509,25 @@ function M.setup()
     use {'liuchengxu/vim-clap',
         run = ':Clap install-binary!',
         disable = true,
+    }
+
+    use {'neovim/nvim-lspconfig',
+        opt = true,
+        config = function()
+            require('config.lspconfig').setup()
+        end
+    }
+    use { "williamboman/mason.nvim",
+        opt = true,
+        requires = 'neovim/nvim-lspconfig',
+    }
+    use {'williamboman/mason-lspconfig.nvim',
+        opt = true,
+        requires = 'neovim/nvim-lspconfig',
+    }
+    use {'hrsh7th/cmp-nvim-lsp',
+        opt = true,
+        requires = 'neovim/nvim-lspconfig',
     }
  end
 
