@@ -163,7 +163,7 @@ function M.setup()
      }
 
      use { 'ibhagwan/fzf-lua',
-         opt = true,
+         disable = true,
          requires = {'junegunn/fzf',
              run = './install --completion --key-bindings --xdg --no-update-rc'
          },
@@ -498,11 +498,11 @@ function M.setup()
          end
      }
 
-     use {'mtth/scratch.vim'}
+     -- use {'mtth/scratch.vim'}
      use {'vim-scripts/scons.vim', opt = true, ft = {'scons'}}
-     use {'ConradIrwin/vim-bracketed-paste'}
+     -- use {'ConradIrwin/vim-bracketed-paste'}
      use {"tpope/vim-surround"}
-     use 'antoinemadec/FixCursorHold.nvim'
+     -- use 'antoinemadec/FixCursorHold.nvim'
      --[[
      use {'jaxbot/semantic-highlight.vim',
         opt = true,
