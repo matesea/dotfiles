@@ -54,7 +54,7 @@ function M.setup()
      }
 
      use { 'lewis6991/gitsigns.nvim',
-         event = 'BufReadPre',
+         event = 'VimEnter',
          requires = {'nvim-lua/plenary.nvim'},
          config = function()
              require('config.gitsigns').setup()
@@ -343,7 +343,6 @@ function M.setup()
      }
 
      use {'rhysd/accelerated-jk',
-        disable = true,
          config = function()
              vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {silent = true, noremap = false})
              vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {silent = true, noremap = false})
@@ -388,16 +387,32 @@ function M.setup()
              })
          end
      }
+     use {'nathom/filetype.nvim',
+         config = function()
+             require("filetype").setup({
+                 overrides = {
+                     extensions = {
+                         log = "log",
+                         txt = "log",
+                     }
+                 }
+             })
+            vim.cmd[[
+                syntax on
+                filetype plugin indent on
+            ]]
+         end
+     }
      use {'nvim-treesitter/nvim-treesitter',
          -- opt = true,
          run = ':TSUpdate'
      }
 
      use { 'lewis6991/nvim-treesitter-context',
-         opt = true,
+        opt = true,
          ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua', 'java'},
          requires = {
-             {'nvim-treesitter/nvim-treesitter'},
+             {'nvim-treesitter/nvim-treesitter', opt = true},
          },
          config = function()
              require('treesitter-context').setup{
@@ -410,7 +425,7 @@ function M.setup()
           opt = true,
           ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
           requires = {
-              {'nvim-treesitter/nvim-treesitter'},
+              {'nvim-treesitter/nvim-treesitter', opt = true},
           },
           config = function()
               require('hlargs').setup()
@@ -452,22 +467,6 @@ function M.setup()
          end
      }
 
-     use {'nathom/filetype.nvim',
-         config = function()
-             require("filetype").setup({
-                 overrides = {
-                     extensions = {
-                         log = "log",
-                         txt = "log",
-                     }
-                 }
-             })
-            vim.cmd[[
-                syntax on
-                filetype plugin indent off
-            ]]
-         end
-     }
      use {'gelguy/wilder.nvim',
          disable = true,
          config = function()
