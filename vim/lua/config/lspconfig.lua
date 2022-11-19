@@ -135,14 +135,14 @@ local function setup()
 	-- Configure LSP Handlers
 	-- ---
 
-	-- vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-	-- 	vim.lsp.diagnostic.on_publish_diagnostics, {
-	-- 		virtual_text = {
-	-- 			-- https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#show-source-in-diagnostics-neovim-06-only
-	-- 			source = 'if_many',
-	-- 			prefix = '●',
-	-- 		},
-	-- 	})
+	vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+		vim.lsp.diagnostic.on_publish_diagnostics, {
+			virtual_text = {
+				-- https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#show-source-in-diagnostics-neovim-06-only
+				source = 'if_many',
+				prefix = '●',
+			},
+		})
 
 	-- Configure diagnostics publish settings
 	-- vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(

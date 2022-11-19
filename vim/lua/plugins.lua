@@ -127,7 +127,6 @@ function M.setup()
          end
      }
 
-     -- use 'jiangmiao/auto-pairs'
      use {'windwp/nvim-autopairs',
          -- requires = 'nvim-treesitter',
          -- module = {'nvim-autopairs.completion.cmp', 'nvim-autopairs'},
@@ -404,12 +403,13 @@ function M.setup()
          end
      }
      use {'nvim-treesitter/nvim-treesitter',
-         -- opt = true,
+         opt = true,
+         event = "VimEnter",
          run = ':TSUpdate'
      }
 
      use { 'lewis6991/nvim-treesitter-context',
-        opt = true,
+         opt = true,
          ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua', 'java'},
          requires = {
              {'nvim-treesitter/nvim-treesitter', opt = true},
@@ -515,22 +515,16 @@ function M.setup()
     }
 
     use {'neovim/nvim-lspconfig',
-        disable = true,
+        opt = true,
+        ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+        requires = {
+            {'williamboman/mason.nvim', opt = true},
+            {'williamboman/mason-lspconfig.nvim', opt = true},
+            {'hrsh7th/cmp-nvim-lsp', opt = true}
+        },
         config = function()
             require('config.lspconfig').setup()
         end
-    }
-    use { "williamboman/mason.nvim",
-        disable = true,
-        requires = 'neovim/nvim-lspconfig',
-    }
-    use {'williamboman/mason-lspconfig.nvim',
-        disable = true,
-        requires = 'neovim/nvim-lspconfig',
-    }
-    use {'hrsh7th/cmp-nvim-lsp',
-        disable = true,
-        requires = 'neovim/nvim-lspconfig',
     }
  end
 
