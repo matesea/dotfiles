@@ -52,6 +52,12 @@ function M.setup()
              vim.cmd('colorscheme molokai')
          end
      }
+     use {'rebelot/kanagawa.nvim',
+        opt = true,
+        config = function()
+             vim.cmd("colorscheme kanagawa")
+        end
+     }
 
      use { 'lewis6991/gitsigns.nvim',
          event = 'VimEnter',
@@ -214,6 +220,7 @@ function M.setup()
          opt = true,
          cmd = 'DoShowMarks', -- DoShowMarks to enable
      }
+     use {'chentoast/marks.nvim', disable = true}
 
      use { 'azabiong/vim-highlighter',
          -- opt = true,
@@ -516,11 +523,10 @@ function M.setup()
 
     use {'neovim/nvim-lspconfig',
         opt = true,
-        ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
         requires = {
             {'williamboman/mason.nvim', opt = true},
             {'williamboman/mason-lspconfig.nvim', opt = true},
-            {'hrsh7th/cmp-nvim-lsp', opt = true}
+            {'hrsh7th/cmp-nvim-lsp', opt = true},
         },
         config = function()
             require('config.lspconfig').setup()
