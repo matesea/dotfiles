@@ -384,12 +384,16 @@ function M.setup()
      }
 
      use {'kevinhwang91/nvim-bqf',
+         ft = 'qf',
+         requires = {
+             {'nvim-treesitter/nvim-treesitter', opt = true},
+         },
          config = function()
              require('bqf').setup({
-                 func_map = {
+                 --[[ func_map = {
                      pscrollup = "",
                      pscrolldown = "",
-                 },
+                 }, ]]
              })
          end
      }
@@ -544,7 +548,6 @@ function M.setup()
 
  -- load packer_compiled with lua cache impatient
  pcall(require, 'packer_compiled')
- -- require('lspconfig')
 end
 
 return M
