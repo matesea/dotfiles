@@ -79,7 +79,15 @@ function M.setup()
          cmd = 'GV'
      }
 
+     use {'echasnovski/mini.tabline',
+        config = function()
+            require('mini.tabline').setup({
+                show_icons = false
+            })
+        end
+     }
      use {'ap/vim-buftabline',
+        disable = true,
          config = function()
              vim.g.buftabline_show = 1
              --[[
@@ -384,6 +392,7 @@ function M.setup()
      }
 
      use {'kevinhwang91/nvim-bqf',
+        opt = true,
          ft = 'qf',
          requires = {
              {'nvim-treesitter/nvim-treesitter', opt = true},
@@ -415,8 +424,11 @@ function M.setup()
      }
      use {'nvim-treesitter/nvim-treesitter',
          opt = true,
-         event = "VimEnter",
-         run = ':TSUpdate'
+         event = 'BufRead',
+         run = function()
+            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+            ts_update()
+        end,
      }
 
      use { 'lewis6991/nvim-treesitter-context',
@@ -487,6 +499,9 @@ function M.setup()
      }
      use {'stevearc/aerial.nvim',
          opt = true,
+          requires = {
+              {'nvim-treesitter/nvim-treesitter', opt = true},
+          },
          cmd = {'AerialToggle'},
          config = function()
              require("aerial").setup({
@@ -511,31 +526,23 @@ function M.setup()
 
      -- use {'mtth/scratch.vim'}
      use {'vim-scripts/scons.vim', opt = true, ft = {'scons'}}
-     -- use {'ConradIrwin/vim-bracketed-paste'}
      use {"tpope/vim-surround"}
-     -- use 'antoinemadec/FixCursorHold.nvim'
-     --[[
-     use {'jaxbot/semantic-highlight.vim',
-        opt = true,
-        cmd = {'SemanticHighlight'}
-    }
-    ]]
-    use {'liuchengxu/vim-clap',
-        run = ':Clap install-binary!',
-        disable = true,
-    }
+     use {'liuchengxu/vim-clap',
+         run = ':Clap install-binary!',
+         disable = true,
+     }
 
-    use {'neovim/nvim-lspconfig',
-        opt = true,
-        requires = {
-            {'williamboman/mason.nvim', opt = true},
-            {'williamboman/mason-lspconfig.nvim', opt = true},
-            {'hrsh7th/cmp-nvim-lsp', opt = true},
-        },
-        config = function()
-            require('config.lspconfig').setup()
-        end
-    }
+     use {'neovim/nvim-lspconfig',
+         opt = true,
+         requires = {
+             {'williamboman/mason.nvim', opt = true},
+             {'williamboman/mason-lspconfig.nvim', opt = true},
+             {'hrsh7th/cmp-nvim-lsp', opt = true},
+         },
+         config = function()
+             require('config.lspconfig').setup()
+         end
+     }
  end
 
  packer_init()
