@@ -177,7 +177,7 @@ function M.setup()
      }
 
      use { 'ibhagwan/fzf-lua',
-         disable = true,
+         opt = true,
          requires = {'junegunn/fzf',
              run = './install --completion --key-bindings --xdg --no-update-rc'
          },
