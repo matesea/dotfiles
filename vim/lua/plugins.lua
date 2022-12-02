@@ -357,6 +357,7 @@ function M.setup()
      }
 
      use {'rhysd/accelerated-jk',
+        disable = true,
          config = function()
              vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {silent = true, noremap = false})
              vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {silent = true, noremap = false})
@@ -541,6 +542,13 @@ function M.setup()
          },
          config = function()
              require('config.lspconfig').setup()
+         end
+     }
+     use {'DanilaMihailov/beacon.nvim'}
+     use {'rainbowhxch/accelerated-jk.nvim',
+         config = function()
+             vim.keymap.set('n', 'j', '<Plug>(accelerated_jk_gj)')
+             vim.keymap.set('n', 'k', '<Plug>(accelerated_jk_gk)')
          end
      }
  end
