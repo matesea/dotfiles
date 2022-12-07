@@ -356,6 +356,7 @@ function M.setup()
          cmd = 'StartupTime'
      }
 
+     --[[
      use {'rhysd/accelerated-jk',
         disable = true,
          config = function()
@@ -363,6 +364,7 @@ function M.setup()
              vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {silent = true, noremap = false})
          end
      }
+     ]]
 
      use 'romainl/vim-cool'
 
@@ -528,10 +530,6 @@ function M.setup()
      -- use {'mtth/scratch.vim'}
      use {'vim-scripts/scons.vim', opt = true, ft = {'scons'}}
      use {"tpope/vim-surround"}
-     use {'liuchengxu/vim-clap',
-         run = ':Clap install-binary!',
-         disable = true,
-     }
 
      use {'neovim/nvim-lspconfig',
          opt = true,
@@ -550,6 +548,10 @@ function M.setup()
              vim.keymap.set('n', 'j', '<Plug>(accelerated_jk_gj)')
              vim.keymap.set('n', 'k', '<Plug>(accelerated_jk_gk)')
          end
+     }
+     use {'rickhowe/spotdiff.vim',
+        opt = true,
+        cmd = 'Diffthis',
      }
  end
 
