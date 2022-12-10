@@ -194,6 +194,10 @@ function M.setup()
              vim.g.ackhighlight = 1
          end
      }
+     use { 'jesseleite/vim-agriculture',
+        opt = true,
+        cmd = 'RgRaw',
+     }
      use {'kazhala/close-buffers.nvim',
          opt = true,
          cmd = {"BDelete", "BWipeout"},
@@ -542,7 +546,6 @@ function M.setup()
              require('config.lspconfig').setup()
          end
      }
-     use {'DanilaMihailov/beacon.nvim'}
      use {'rainbowhxch/accelerated-jk.nvim',
          config = function()
              vim.keymap.set('n', 'j', '<Plug>(accelerated_jk_gj)')

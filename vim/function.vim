@@ -48,7 +48,7 @@ nnoremap <silent> <c-w>x  :<C-u>call <SID>window_empty_buffer()<CR>
 " toggle window zoom
 nnoremap <silent> <c-w>z  :<C-u>call <SID>zoom()<CR>
 
-" Rgc: grep inside folder of current editing file
+" Rgd: grep inside folder of current editing file
 command! -bang -nargs=* Rgd call fzf#vim#grep
     \('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
     \1, fzf#vim#with_preview({'dir': expand('%:h:p')}), <bang>0)
