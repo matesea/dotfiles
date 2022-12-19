@@ -198,6 +198,15 @@ function M.setup()
         opt = true,
         cmd = 'RgRaw',
      }
+
+     use {'trmckay/based.nvim',
+        opt = true,
+        cmd = "BasedConvert",
+        config = function()
+            require('based').setup({})
+        end,
+     }
+
      use {'kazhala/close-buffers.nvim',
          opt = true,
          cmd = {"BDelete", "BWipeout"},
