@@ -67,6 +67,9 @@ map {'n', '!', ':!'}
 map {'n', '<leader>gl', ':lgrep<space>'}
 map {'n', '<leader>ga', ':lgrepadd<space>'}
 
+-- remap ZQ to quit without saving anything
+map {'n', 'ZQ', ':qa!<cr>'}
+
 -- plugin fzf.vim
 map {'n', ';e', ':FZF<cr>'}
 map {'n', ';c', ':FZF %:h<cr>'}

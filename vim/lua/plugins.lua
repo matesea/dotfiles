@@ -414,12 +414,7 @@ function M.setup()
              {'nvim-treesitter/nvim-treesitter', opt = true},
          },
          config = function()
-             require('bqf').setup({
-                 --[[ func_map = {
-                     pscrollup = "",
-                     pscrolldown = "",
-                 }, ]]
-             })
+             require('bqf').setup()
          end
      }
      use {'nathom/filetype.nvim',
