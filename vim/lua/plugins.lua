@@ -61,7 +61,7 @@ function M.setup()
 
      use { 'lewis6991/gitsigns.nvim',
          event = 'VimEnter',
-         requires = {'nvim-lua/plenary.nvim'},
+         -- requires = {'nvim-lua/plenary.nvim'},
          config = function()
              require('config.gitsigns').setup()
          end
@@ -105,7 +105,10 @@ function M.setup()
          end
      }
 
-     use 'bronson/vim-trailing-whitespace'
+     use {'bronson/vim-trailing-whitespace',
+         opt = true,
+         ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+     }
      g.extra_whitespace_ignored_filetypes = {
          'diff',
          'gitcommit',
@@ -220,17 +223,17 @@ function M.setup()
 
      use { 'ggandor/leap.nvim',
          opt = true,
-        keys = {'s', 'S', 'f', 'F', 't', 'T'},
-        config = function()
-            leap = require('leap')
-            leap.setup {
-                case_insensitive = true,
-            }
-            leap.set_default_keymaps()
-        end
+         keys = {'s', 'S', 'f', 'F', 't', 'T'},
+         config = function()
+             leap = require('leap')
+             leap.setup {
+                 case_insensitive = true,
+             }
+             leap.set_default_keymaps()
+         end
      }
      use {'ggandor/lightspeed.nvim',
-     disable = true,
+        disable = true,
         keys = {'s', 'S', 'f', 'F', 't', 'T'},
         config = function()
             require('lightspeed').setup {}
