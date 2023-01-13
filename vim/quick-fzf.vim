@@ -25,5 +25,5 @@ command! FzfQF call fzf#run({
       \ 'source': map(getqflist(), function('<sid>qf_to_fzf')),
       \ 'down':   '20',
       \ 'sink*':   function('<sid>fzf_to_qf'),
-      \ 'options': '--reverse --multi --bind=ctrl-a:select-all,ctrl-d:deselect-all --prompt "quickfix> "',
+      \ 'options': '--reverse --multi --prompt "quickfix> "',
       \ })
