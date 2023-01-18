@@ -601,15 +601,18 @@ function targz() {
     tar --use-compress-program="pigz --best --recursive" -cf ${dir}.tar.gz ${dir} && rm -rf ${dir}
 }
 
-# unzip into directories
-function uzd() {
-    for i in $@;
+# navigate to git root directory
+alias gr='cd $(git rev-parse --show-toplevel)'
+
+# navigate to project root
+function pr() {
+    local dir=$(pwd)
+    while [ "$dir" != "/" ];
     do
-        if [ ! -e "$i" ]; then
-            echo "skip $i because not exist"
-            continue
+        if [ -e $dir/.git -o -e $dir/.repo ]; then
+            cd $dir
+            return
         fi
-        local basename=$(basename $i)
-        unzip $i -d"${basename%.*}"
+        dir=$(dirname $dir)
     done
 }
