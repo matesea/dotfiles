@@ -12,8 +12,14 @@ local completion_labels = {
 
 function M.setup()
     local status_ok, cmp = pcall(require, "cmp")
+    local filetype = vim.bo.filetype
 
     if not status_ok then
+        return
+    end
+
+    -- disable completion for log/text
+    if filetype == 'log' or filetype == 'text' then
         return
     end
 

@@ -119,6 +119,31 @@ function M.setup()
          'log',
          'text'
      }
+     --[[
+     use({
+         'emileferreira/nvim-strict',
+         opt = true,
+         ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+         config = function()
+             require('strict').setup({
+                excluded_filetypes = { 'text', 'markdown', 'html' },
+                deep_nesting = {
+                    depth_limit = 5,
+                    ignored_trailing_characters = ',',
+                    ignored_leading_characters = '.'
+                },
+                overlong_lines = {
+                    length_limit = 120
+                },
+                tab_indentation = {
+                    highlight = false,
+                    highlight_group = 'SpellBad',
+                    convert_on_save = false,
+                },
+            })
+         end
+     })
+     ]]
 
      use {'joereynolds/gtags-scope',
          opt = true,
@@ -386,7 +411,12 @@ function M.setup()
 
      use {'embear/vim-foldsearch',
          opt = true,
-         cmd = {'Fp', 'Fw', 'Fs'}
+         cmd = {
+             'Fp',  -- Show the lines that contain the given regular expression
+             'Fw',  -- Show lines which contain the word under the cursor
+             'Fs'   -- Show lines which contain previous search pattern
+             -- zE to clear all fold
+        },
      }
 
      -- use 'machakann/vim-sandwich'
@@ -412,13 +442,13 @@ function M.setup()
 
      use {'kevinhwang91/nvim-bqf',
         opt = true,
-         ft = 'qf',
-         requires = {
-             {'nvim-treesitter/nvim-treesitter', opt = true},
-         },
-         config = function()
-             require('bqf').setup()
-         end
+        ft = 'qf',
+        requires = {
+            {'nvim-treesitter/nvim-treesitter', opt = true},
+        },
+        config = function()
+            require('bqf').setup()
+        end
      }
      use {'nathom/filetype.nvim',
          config = function()
@@ -544,6 +574,7 @@ function M.setup()
 
      use {'neovim/nvim-lspconfig',
          opt = true,
+         as = 'lsp', -- :PackerLoad lsp to load
          requires = {
              {'williamboman/mason.nvim', opt = true},
              {'williamboman/mason-lspconfig.nvim', opt = true},
@@ -578,4 +609,3 @@ function M.setup()
 end
 
 return M
-
