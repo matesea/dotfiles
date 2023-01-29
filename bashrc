@@ -601,15 +601,18 @@ function targz() {
     tar --use-compress-program="pigz --best --recursive" -cf ${dir}.tar.gz ${dir} && rm -rf ${dir}
 }
 
-# navigate to git root directory
-alias gr='cd $(git rev-parse --show-toplevel)'
-
-# navigate to project root
-function pr() {
+# gr: go root, navigate to project root
+function gr() {
     local dir=$(pwd)
+    local gitroot=$(git rev-parse --show-toplevel 2>/dev/null)
+
+    if [ ! -z $gitroot ]; then
+        cd $(gitroot)
+        return
+    fi
     while [ "$dir" != "/" ];
     do
-        if [ -e $dir/.git -o -e $dir/.repo ]; then
+        if [ -e $dir/.git -o -e $dir/.repo -o -e $dir/GTAGS -o -e $dir/.files.gz ]; then
             cd $dir
             return
         fi
