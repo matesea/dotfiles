@@ -346,10 +346,11 @@ function M.setup()
      g.vista_fzf_preview = {'right:50%'}
 
      use {'mhinz/vim-hugefile',
-         opt = true,
-         ft = {'log', 'text'}
+        -- doesn't trigger if setting opt = true
+        setup = function()
+            vim.g.hugefile_trigger_size = 150
+        end
      }
-     g.hugefile_trigger_size = 150
 
      use { 'matesea/vim-log-syntax',
          opt = true,
