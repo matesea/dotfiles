@@ -607,7 +607,7 @@ function gr() {
     local gitroot=$(git rev-parse --show-toplevel 2>/dev/null)
 
     if [ ! -z $gitroot ]; then
-        cd $(gitroot)
+        cd $gitroot
         return
     fi
     while [ "$dir" != "/" ];
