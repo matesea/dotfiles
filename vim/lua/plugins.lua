@@ -469,7 +469,7 @@ function M.setup()
      }
      use {'nvim-treesitter/nvim-treesitter',
          opt = true,
-         event = 'BufRead',
+         -- event = 'BufRead',
          run = function()
             local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
             ts_update()
@@ -575,7 +575,6 @@ function M.setup()
 
      use {'neovim/nvim-lspconfig',
          opt = true,
-         as = 'lsp', -- :PackerLoad lsp to load
          requires = {
              {'williamboman/mason.nvim', opt = true},
              {'williamboman/mason-lspconfig.nvim', opt = true},

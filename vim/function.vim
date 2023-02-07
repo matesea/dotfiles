@@ -7,10 +7,10 @@ function! s:RunShellCommand(cmdline) abort
   silent execute '$read !'. a:cmdline
 endfunction
 
-function! RemoveEmptyLines() abort
+function! s:RemoveEmptyLines() abort
     silent! execute ':%g/^[\ \t]*$/d'
 endfunction
-command! -range=% RemoveEmptyLines call RemoveEmptyLines()
+command! -range=% RemoveEmptyLines call <SID>RemoveEmptyLines()
 
 " Returns visually selected text
 function! s:get_selection(cmdtype) "{{{
@@ -62,3 +62,12 @@ source $VIMHOME/quick-fzf.vim
 " WA to overwrite options overwritten by sensible.vim
 autocmd VimEnter * :set scrolloff=999
 autocmd VimEnter * :set history=2000
+
+" LoadLSP: manaully load lsp plugins
+function! s:LoadLSP() abort
+    lua require('packer').loader('mason.nvim')
+    lua require('packer').loader('mason-lspconfig.nvim')
+    lua require('packer').loader('cmp-nvim-lsp')
+    lua require('packer').loader('nvim-lspconfig')
+endfunction
+command! -range=% LoadLSP call <SID>LoadLSP()
