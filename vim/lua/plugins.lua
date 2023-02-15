@@ -70,7 +70,7 @@ function M.setup()
                 {
                     'tpope/vim-fugitive',
                     opt = true,
-                    cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV'}
+                    cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV', 'Gcd'}
                 },
             },
             cmd = 'GV'
@@ -115,6 +115,8 @@ function M.setup()
                     'markdown',
                     'log',
                     'text',
+                    'fzf',
+                    'terminal',
                 }
             end
         }
@@ -266,7 +268,7 @@ function M.setup()
        }
 
         use {'jacquesbh/vim-showmarks',
-            opt = true,
+            disable = true,
             cmd = 'DoShowMarks', -- DoShowMarks to enable
         }
         use {'chentoast/marks.nvim', disable = true}
@@ -340,7 +342,7 @@ function M.setup()
         }
 
         use {'liuchengxu/vista.vim',
-            opt = true,
+            disable = true,
             cmd = 'Vista',
             config = function()
                 g.vista_fzf_preview = {'right:50%'}
@@ -365,7 +367,7 @@ function M.setup()
         }
 
         use { 'mbbill/undotree',
-            opt = true,
+            disable = true,
             cmd = 'UndotreeToggle',
             confing = function()
                 vim.g.undotree_WindowLayout = 2
@@ -534,6 +536,7 @@ function M.setup()
             end,
         }
         use { 'beauwilliams/focus.nvim',
+            disable = true,
             cmd = { "FocusSplitNicely", "FocusSplitCycle" },
             module = "focus",
             config = function()
