@@ -10,6 +10,7 @@ fi
 alias ll='ls -l'
 alias la='ls -la'
 alias lh='ls -lh'
+alias g='global'
 
 alias tmux='tmux -2'
 alias recal='history |grep'
