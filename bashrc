@@ -15,6 +15,7 @@ alias g='global'
 alias tmux='tmux -2'
 alias recal='history |grep'
 alias grep='grep --color -i'
+alias g='global'
 # alias v='f -e vim'
 unset command_not_found_handle
 
@@ -602,8 +603,8 @@ function targz() {
     tar --use-compress-program="pigz --best --recursive" -cf ${dir}.tar.gz ${dir} && rm -rf ${dir}
 }
 
-# gr: go root, navigate to project root
-function gr() {
+# gcd: navigate to project root
+function gcd() {
     local dir=$(pwd)
     local gitroot=$(git rev-parse --show-toplevel 2>/dev/null)
 
@@ -619,4 +620,8 @@ function gr() {
         fi
         dir=$(dirname $dir)
     done
+}
+
+function vg() {
+    "${EDITOR:-vim}" $(global $1)
 }
