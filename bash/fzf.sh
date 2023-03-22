@@ -1,13 +1,15 @@
 # tmux popup supported since 3.2
-tmux_version=$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")
-if [ $(_version $tmux_version) -ge $(_version "3.2") ]; then
-    __FZF_TMUX_POPUP="-p"
-fi
+# if [ ! -z "$FZF_TMUX_OPTS" ]; then
+#     tmux_version=$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")
+#     if [ $(_version $tmux_version) -lt $(_version "3.2") ]; then
+#         FZF_TMUX_OPTS=""
+#     fi
+# fi
 
 # fl - git log selected files
 fl() {
   local files
-  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0 $__FZF_TMUX_POPUP))
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0 $FZF_TMUX_OPTS))
   [[ -n "$files" ]] && git log "${files[@]}"
 }
 
@@ -24,7 +26,7 @@ zcase() {
     local pattern="${cases//\//\\\/}"
     dir="$(
         find $cases -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' 2>/dev/null |sort -r |cut -d' ' -f2 \
-            |sed "s#$pattern##" | fzf-tmux --no-sort $__FZF_TMUX_POPUP)" || return
+            |sed "s#$pattern##" | fzf-tmux --no-sort $FZF_TMUX_OPTS)" || return
     cd "$prefix$cases$dir" || return
 }
 
@@ -43,7 +45,7 @@ zrp() {
 
     local pattern="${cases//\//\\\/}"
     dir="$(find $cases -name dmesg_TZ.txt -printf '%T@ %p\n' 2>/dev/null |sort -r |cut -d' ' -f2 \
-        |sed "s#$pattern##" |fzf-tmux --no-sort $__FZF_TMUX_POPUP)" || return
+        |sed "s#$pattern##" |fzf-tmux --no-sort $FZF_TMUX_OPTS)" || return
     cd $(dirname "$prefix$cases$dir") || return
 }
 
@@ -52,7 +54,7 @@ _fd() {
   local dir
   dir="$(
     fd "${1:-.}" -t d -d 2 2> /dev/null \
-      | fzf-tmux +m $__FZF_TMUX_POPUP
+      | fzf-tmux +m $FZF_TMUX_OPTS
   )" || return
   cd "$dir" || return
 }
@@ -62,7 +64,7 @@ _fda() {
   local dir
   dir="$(
     fd "${1:-.}" -t d --hidden 2> /dev/null \
-      | fzf-tmux +m $__FZF_TMUX_POPUP
+      | fzf-tmux +m $FZF_TMUX_OPTS
   )" || return
   cd "$dir" || return
 }
@@ -83,7 +85,7 @@ _fdr() {
 
   parent_dir="$(
     get_parent_dirs "$(realpath "${1:-$PWD}")" \
-      | fzf-tmux +m $__FZF_TMUX_POPUP
+      | fzf-tmux +m $FZF_TMUX_OPTS
   )" || return
 
   cd "$parent_dir" || return
@@ -97,7 +99,7 @@ _fst() {
       | sed 's#\s#\n#g' \
       | uniq \
       | sed "s#^~#$HOME#" \
-      | fzf-tmux +s +m -1 -q $__FZF_TMUX_POPUP "$*"
+      | fzf-tmux +s +m -1 -q $FZF_TMUX_OPTS "$*"
   )"
   # $dirの存在を確かめないとCtrl-Cしたとき$HOMEにcdしてしまう
   if [[ -d "$dir" ]]; then
@@ -108,7 +110,7 @@ _fst() {
 # _cdf - cd into the directory of the selected file
 _cdf() {
   local file
-  file="$(fzf-tmux +m -q $__FZF_TMUX_POPUP "$*")"
+  file="$(fzf-tmux +m -q $FZF_TMUX_OPTS "$*")"
   cd "$(dirname "$file")" || return
 }
 
@@ -168,7 +170,7 @@ fe() {
   files=(
     $(fzf-tmux \
           --query="$1" \
-          $__FZF_TMUX_POPUP \
+          $FZF_TMUX_OPTS \
           --multi \
           --select-1 \
           --exit-0 \
@@ -184,7 +186,7 @@ frun() {
   file=(
     $(find . -type f -executable -print | fzf-tmux \
           --query="$1" \
-          $__FZF_TMUX_POPUP \
+          $FZF_TMUX_OPTS \
           --select-1 \
           --exit-0
     )
@@ -198,7 +200,7 @@ fcmp() {
   local file=()
   file=(
     $(fzf-tmux \
-        $__FZF_TMUX_POPUP \
+        $FZF_TMUX_OPTS \
           --select-1 \
           --exit-0
     )
@@ -224,7 +226,7 @@ frg() {
     [ ! -z "$1" ] || return
     files="$(rg -F "$1" --vimgrep --no-column 2>/dev/null)" || return
     files=(
-        $(printf '%s' "$files" | fzf-tmux $__FZF_TMUX_POPUP --select-1)
+        $(printf '%s' "$files" | fzf-tmux $FZF_TMUX_OPTS --select-1)
         ) || return
     file="$(echo "${files[@]}" |awk 'BEGIN{FS=":"}{print $1}')" || return
     line=$(echo "${files[@]}"  |awk 'BEGIN{FS=":"}{print $2}')
@@ -299,7 +301,7 @@ fshow() {
     --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" \
     | fzf-tmux \
         --ansi \
-        $__FZF_TMUX_POPUP \
+        $FZF_TMUX_OPTS \
         --no-sort \
         --reverse \
         --tiebreak=index \
@@ -322,7 +324,7 @@ fs() {
   session="$(
     tmux list-sessions -F "#{session_name}" \
       | fzf-tmux \
-        $__FZF_TMUX_POPUP \
+        $FZF_TMUX_OPTS \
           --query="$1" \
           --select-1 \
           --exit-0
@@ -351,7 +353,7 @@ ftpane() {
   target="$(
     echo "$panes" \
       | grep -v "$current_pane" \
-      | fzf-tmux +m $__FZF_TMUX_POPUP --reverse
+      | fzf-tmux +m $FZF_TMUX_OPTS --reverse
   )" || return
 
   target_window="$(
