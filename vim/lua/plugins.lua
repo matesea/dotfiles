@@ -56,8 +56,9 @@ function M.setup()
            end
         }]]
 
+        use {'tpope/vim-fugitive'}
         use { 'lewis6991/gitsigns.nvim',
-            event = 'VimEnter',
+            -- event = 'VimEnter',
             -- requires = {'nvim-lua/plenary.nvim'},
             config = function()
                 require('config.gitsigns').setup()
@@ -66,13 +67,6 @@ function M.setup()
 
         use {'junegunn/gv.vim',
             opt = true,
-            requires = {
-                {
-                    'tpope/vim-fugitive',
-                    opt = true,
-                    cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV', 'Gcd'}
-                },
-            },
             cmd = 'GV'
         }
 
