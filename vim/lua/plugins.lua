@@ -58,6 +58,7 @@ function M.setup()
 
         use {'tpope/vim-fugitive'}
         use { 'lewis6991/gitsigns.nvim',
+            tag = 'release',
             -- event = 'VimEnter',
             -- requires = {'nvim-lua/plenary.nvim'},
             config = function()
