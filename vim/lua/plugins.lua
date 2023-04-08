@@ -496,6 +496,9 @@ function M.setup()
                local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
                ts_update()
            end,
+           config = function()
+               require('config.treesitter')
+           end
         },
 
         { 'lewis6991/nvim-treesitter-context',
