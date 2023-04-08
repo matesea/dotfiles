@@ -446,7 +446,7 @@ function M.setup()
 
         -- use 'machakann/vim-sandwich'
 
-        'tpope/vim-sensible',
+        -- 'tpope/vim-sensible',
 
         {'ngemily/vim-vp4',
             lazy = true,
