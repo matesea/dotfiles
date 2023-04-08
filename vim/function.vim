@@ -60,8 +60,8 @@ command! -complete=shellcmd -nargs=+ Rgb
 source $VIMHOME/quick-fzf.vim
 
 " WA to overwrite options overwritten by sensible.vim
-autocmd VimEnter * :set scrolloff=999
-autocmd VimEnter * :set history=2000
+" autocmd VimEnter * :set scrolloff=999
+" autocmd VimEnter * :set history=2000
 
 " LoadLSP: manaully load lsp plugins
 function! s:LoadLSP() abort

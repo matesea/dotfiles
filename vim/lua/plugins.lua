@@ -2,9 +2,9 @@ local M = {}
 
 function M.setup()
 
-    local conf = {
+    --[[ local conf = {
        profile = {
-         enable = true,
+         enabled = true,
          threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
        },
 
@@ -31,56 +31,74 @@ function M.setup()
            "https://github.com/wbthomason/packer.nvim",
            install_path,
          }
-         vim.cmd [[packadd packer.nvim]]
+         vim.cmd {packadd packer.nvim}
        end
        vim.cmd "autocmd BufWritePost plugins.lua source <afile> | PackerCompile"
+     end ]]
+
+     local function lazy_init()
+         local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+         if not vim.loop.fs_stat(lazypath) then
+           vim.fn.system({
+             "git",
+             "clone",
+             "--filter=blob:none",
+             "https://github.com/folke/lazy.nvim.git",
+             "--branch=stable", -- latest stable release
+             lazypath,
+           })
+         end
+         vim.opt.rtp:prepend(lazypath)
      end
 
     -- workaround: nvim-yarp autoload vimscript not loaded
     -- cmd [[packadd nvim-yarp]]
 
-    local function plugins(use)
-        use 'lewis6991/impatient.nvim'
+    local plugins = {
+        -- 'lewis6991/impatient.nvim',
 
-        use 'wbthomason/packer.nvim'
+        -- 'wbthomason/packer.nvim',
 
-        use {'tamelion/neovim-molokai',
+        {'tamelion/neovim-molokai',
             config = function()
                 vim.cmd('colorscheme molokai')
             end
-        }
-        --[[ use {'rebelot/kanagawa.nvim',
-           opt = true,
+        },
+        --[[ {'rebelot/kanagawa.nvim',,
+           lazy = true,
            config = function()
                 vim.cmd("colorscheme kanagawa")
            end
         }]]
 
-        use {'tpope/vim-fugitive'}
-        use { 'lewis6991/gitsigns.nvim',
-            tag = 'release',
-            -- event = 'VimEnter',
-            -- requires = {'nvim-lua/plenary.nvim'},
+        'tpope/vim-fugitive',
+
+        { 'lewis6991/gitsigns.nvim',
+            -- version = 'release',
+            event = 'VeryLazy',
+            dependencies = {
+                'nvim-lua/plenary.nvim',
+            },
             config = function()
                 require('config.gitsigns').setup()
             end
-        }
+        },
 
-        use {'junegunn/gv.vim',
-            opt = true,
+        {'junegunn/gv.vim',
+            lazy = true,
             cmd = 'GV'
-        }
+        },
 
-        use {'echasnovski/mini.tabline',
+        {'echasnovski/mini.tabline',
            config = function()
                require('mini.tabline').setup({
                    show_icons = false
                })
            end
-        }
+        },
         --[[
         use {'ap/vim-buftabline',
-           disable = true,
+           enabled = false,
             config = function()
                 vim.g.buftabline_show = 1
                 vim.g.buftabline_numbers = 2
@@ -97,10 +115,10 @@ function M.setup()
         }
         ]]
 
-        use {'bronson/vim-trailing-whitespace',
-            opt = true,
+        {'bronson/vim-trailing-whitespace',
+            lazy = true,
             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
-            setup = function()
+            init = function()
                 vim.g.extra_whitespace_ignored_filetypes = {
                     'diff',
                     'gitcommit',
@@ -114,11 +132,11 @@ function M.setup()
                     'terminal',
                 }
             end
-        }
+        },
         --[[
         use({
             'emileferreira/nvim-strict',
-            opt = true,
+            lazy = true,
             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
             config = function()
                 require('strict').setup({
@@ -141,110 +159,109 @@ function M.setup()
         })
         ]]
 
-        use {'joereynolds/gtags-scope',
-            opt = true,
+        {'joereynolds/gtags-scope',
+            lazy = true,
             cmd = {'GtagsCscope',},
             config = function()
                 require('config.gtags').setup()
             end
-        }
+        },
 
-        use {'drmingdrmer/vim-toggle-quickfix',
-            opt = true,
+        {'drmingdrmer/vim-toggle-quickfix',
+            lazy = true,
             --[[ cmd = {
                 '<Plug>window:quickfix:toggle',
                 '<Plug>window:location:toggle'
             }, ]]
             keys = {
-                {'n', '<leader>q'},
-                {'n', '<leader>f'},
+                '<leader>q',
+                '<leader>f',
             },
             config = function()
                 vim.api.nvim_set_keymap('n', '<leader>q', '<Plug>window:quickfix:toggle', {noremap = false})
                 vim.api.nvim_set_keymap('n', '<leader>f', '<Plug>window:location:toggle', {noremap = false})
             end
-        }
+        },
 
-        use {'windwp/nvim-autopairs',
-            -- requires = 'nvim-treesitter',
+        {'windwp/nvim-autopairs',
+            -- dependencies = 'nvim-treesitter',
             -- module = {'nvim-autopairs.completion.cmp', 'nvim-autopairs'},
             event = 'InsertEnter',
             config = function()
                 require('nvim-autopairs').setup()
             end
-        }
+        },
 
-        use {'junegunn/fzf.vim',
-            requires = {'junegunn/fzf',
-                run = './install --completion --key-bindings --xdg --no-update-rc'
+        {'junegunn/fzf.vim',
+            dependencies = {'junegunn/fzf',
+                build ='./install --completion --key-bindings --xdg --no-update-rc'
             },
             event = 'BufEnter',
             -- config = function()
             --     vim.cmd[[let g:fzf_layout = {'down': '~40%'}]]
             -- end
-        }
+        },
 
-        use { 'nvim-telescope/telescope.nvim',
-            disable = true,
-            requires = {
-                {'nvim-lua/plenary.nvim',
-                    disable = true,
-                },
+        --[[
+        { 'nvim-telescope/telescope.nvim',
+            dependencies = {
+                {'nvim-lua/plenary.nvim',},
                 {'nvim-telescope/telescope-fzf-native.nvim',
-                    disable = true,
-                    run = 'make',
+                    build ='make',
                 }
             },
             config = function()
                 require('config.telescope').setup()
             end
-        }
+        },
+        ]]
 
-        use { 'ibhagwan/fzf-lua',
-            opt = true,
-            requires = {'junegunn/fzf',
-                run = './install --completion --key-bindings --xdg --no-update-rc'
+        { 'ibhagwan/fzf-lua',
+            lazy = true,
+            dependencies = {'junegunn/fzf',
+                build ='./install --completion --key-bindings --xdg --no-update-rc'
             },
             cmd = {'FzfLua'},
             config = function()
                 require('config.fzf-lua').setup()
             end
-        }
+        },
 
-        use { 'mileszs/ack.vim',
-            disable = true,
+        --[[
+        { 'mileszs/ack.vim',
+            enabled = false,
             config = function()
                 vim.g.ackprg = 'rg -S --vimgrep --no-heading --no-column'
                 vim.g.ackhighlight = 1
             end
-        }
+        },
 
-        use { 'jesseleite/vim-agriculture',
-           disable = true,
+        { 'jesseleite/vim-agriculture',
+           enabled = false,
            cmd = 'RgRaw',
-        }
+        },]]
 
-        use {'trmckay/based.nvim',
-           opt = true,
+        {'trmckay/based.nvim',
+           lazy = true,
            cmd = "BasedConvert",
            config = function()
                require('based').setup({})
            end,
-        }
+        },
 
-        use {'kazhala/close-buffers.nvim',
-            opt = true,
+        {'kazhala/close-buffers.nvim',
+            lazy = true,
             cmd = {"BDelete", "BWipeout"},
-            keys = {{'n', 'bd'}, {'n', 'bo'}},
+            keys = {'bd', 'bo'},
             config = function()
                 require('close_buffers').setup()
                 vim.api.nvim_set_keymap('n', 'bd', ':BDelete this<cr>', {silent = true, noremap = true})
                 vim.api.nvim_set_keymap('n', 'bo', ':BDelete other<cr>', {silent = true, noremap = true})
             end
-        }
+        },
 
-        use { 'ggandor/leap.nvim',
-            opt = true,
+        { 'ggandor/leap.nvim',
+            lazy = true,
             keys = {'s', 'S', 'f', 'F', 't', 'T'},
             config = function()
                 leap = require('leap')
@@ -253,23 +270,25 @@ function M.setup()
                 }
                 leap.set_default_keymaps()
             end
-        }
-        use {'ggandor/lightspeed.nvim',
-           disable = true,
+        },
+        --[[
+        {'ggandor/lightspeed.nvim',
+           enabled = false,
            keys = {'s', 'S', 'f', 'F', 't', 'T'},
            config = function()
                require('lightspeed').setup {}
            end
-       }
+       },
 
-        use {'jacquesbh/vim-showmarks',
-            disable = true,
+        {'jacquesbh/vim-showmarks',
+            enabled = false,
             cmd = 'DoShowMarks', -- DoShowMarks to enable
-        }
-        use {'chentoast/marks.nvim', disable = true}
+        },
+        {'chentoast/marks.nvim', enabled = false},
+        ]]
 
-        use { 'azabiong/vim-highlighter',
-            -- opt = true,
+        { 'azabiong/vim-highlighter',
+            -- lazy = true,
             config = function()
                 vim.api.nvim_set_keymap('n', 'f<c-h>', ':Hi+<space>', {noremap = true})
                 vim.cmd [[
@@ -288,12 +307,12 @@ function M.setup()
             -- f + tab: HiFind
             -- :Hi + <pattern>: highlight one pattern
             -- :Hi save <name>: save current highlight to file
-        }
+        },
 
-        use {'inkarkat/vim-mark',
-            opt = true,
-            requires = {
-                {'inkarkat/vim-ingo-library', opt = true}
+        {'inkarkat/vim-mark',
+            lazy = true,
+            dependencies = {
+                {'inkarkat/vim-ingo-library', lazy = true}
             },
             cmd = {
                 'Mark',
@@ -305,10 +324,10 @@ function M.setup()
                 '<Plug>MarkSearchOrCurPrev' ]]
             },
             keys = {
-                {'n', '<leader>m'},
-                {'n', '<leader>r'},
+                {'<leader>m'},
+                {'<leader>r'},
             },
-            setup = function()
+            init = function()
                 vim.g.mwDefaultHighlightingPalette = 'maximum'
                 vim.g.mwHistAdd = '/@'
                 vim.g.mw_no_mappings = 1
@@ -323,10 +342,10 @@ function M.setup()
                 vim.api.nvim_set_keymap('x', '<leader>r', '<Plug>MarkRegex', {noremap = false})
                 vim.api.nvim_set_keymap('n', '<leader>n', '<Plug>MarkClear', {noremap = false})
             end
-        }
+        },
 
         -- use 'farmergreg/vim-lastplace'
-        use {'ethanholz/nvim-lastplace',
+        {'ethanholz/nvim-lastplace',
             config = function()
                 require('nvim-lastplace').setup{
                     lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
@@ -334,55 +353,57 @@ function M.setup()
                     lastplace_open_folds = true
                 }
             end
-        }
+        },
 
-        use {'liuchengxu/vista.vim',
-            disable = true,
+        --[[
+        {'liuchengxu/vista.vim',
+            enabled = false,
             cmd = 'Vista',
             config = function()
                 g.vista_fzf_preview = {'right:50%'}
             end
-        }
+        },]]
 
-        use {'mhinz/vim-hugefile',
-           -- doesn't trigger if setting opt = true
-           setup = function()
+        {'mhinz/vim-hugefile',
+           -- doesn't trigger if setting lazy = true
+           init = function()
                vim.g.hugefile_trigger_size = 150
            end
-        }
+        },
 
-        use { 'matesea/vim-log-syntax',
-            opt = true,
+        { 'matesea/vim-log-syntax',
+            lazy = true,
             ft = {'log', 'text'}
-        }
+        },
 
-        use { 'vivien/vim-linux-coding-style',
-            opt = true,
+        { 'vivien/vim-linux-coding-style',
+            lazy = true,
             ft = {'c', 'h', 'S'}
-        }
+        },
 
-        use { 'mbbill/undotree',
-            disable = true,
+        --[[
+        { 'mbbill/undotree',
+            enabled = false,
             cmd = 'UndotreeToggle',
             confing = function()
                 vim.g.undotree_WindowLayout = 2
             end
-        }
+        },]]
 
-        use { 'octol/vim-cpp-enhanced-highlight',
-            opt = true,
+        { 'octol/vim-cpp-enhanced-highlight',
+            lazy = true,
             ft = {'c', 'h', 'S', 'cpp'}
-        }
+        },
 
-        use { 'b3nj5m1n/kommentary',
-            opt = true,
+        { 'b3nj5m1n/kommentary',
+            lazy = true,
             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'}
-        }
+        },
 
-        use {'nathanaelkane/vim-indent-guides',
-            opt = true,
+        {'nathanaelkane/vim-indent-guides',
+            lazy = true,
             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'},
-            setup = function()
+            init = function()
                 vim.g.indent_guides_enable_on_vim_startup = 1
                 vim.g.indent_guides_default_mapping = 0
                 vim.g.indent_guides_tab_guides = 0
@@ -394,16 +415,16 @@ function M.setup()
                     'any-jump', 'gina-status', 'gina-commit', 'gina-log'
                 }
             end
-        }
+        },
 
-        use {'dstein64/vim-startuptime',
-            opt = true,
+        {'dstein64/vim-startuptime',
+            lazy = true,
             cmd = 'StartupTime'
-        }
+        },
 
         --[[
         use {'rhysd/accelerated-jk',
-           disable = true,
+           enabled = false,
             config = function()
                 vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {silent = true, noremap = false})
                 vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {silent = true, noremap = false})
@@ -411,50 +432,48 @@ function M.setup()
         }
         ]]
 
-        use 'romainl/vim-cool'
+        'romainl/vim-cool',
 
-        use {'embear/vim-foldsearch',
-            opt = true,
+        {'embear/vim-foldsearch',
+            lazy = true,
             cmd = {
                 'Fp',  -- Show the lines that contain the given regular expression
                 'Fw',  -- Show lines which contain the word under the cursor
                 'Fs'   -- Show lines which contain previous search pattern
                 -- zE to clear all fold
            },
-        }
+        },
 
         -- use 'machakann/vim-sandwich'
 
-        use 'tpope/vim-sensible'
+        'tpope/vim-sensible',
 
-        use {'ngemily/vim-vp4',
-            opt = true,
+        {'ngemily/vim-vp4',
+            lazy = true,
             cmd = {'Vp4FileLog', 'Vp4Annotate', 'Vp4Describe', 'Vp4'}
-        }
+        },
 
-        use {'nanotee/zoxide.vim',
-            opt = true,
+        {'nanotee/zoxide.vim',
+            lazy = true,
             cmd = {'Z', 'Zi', 'Lz', 'Lzi'}
-        }
+        },
 
-        use {'justinmk/vim-gtfo',
-            opt = true,
-            keys = {
-                {'n', 'got'}
-            },
-        }
+        {'justinmk/vim-gtfo',
+            lazy = true,
+            keys = 'got',
+        },
 
-        use {'kevinhwang91/nvim-bqf',
-           opt = true,
+        {'kevinhwang91/nvim-bqf',
+           lazy = true,
            ft = 'qf',
-           requires = {
-               {'nvim-treesitter/nvim-treesitter', opt = true},
+           dependencies = {
+               {'nvim-treesitter/nvim-treesitter', lazy = true},
            },
            config = function()
                require('bqf').setup()
            end
-        }
-        use {'nathom/filetype.nvim',
+        },
+        {'nathom/filetype.nvim',
             config = function()
                 require("filetype").setup({
                     overrides = {
@@ -469,87 +488,89 @@ function M.setup()
                    filetype plugin indent on
                ]]
             end
-        }
-        use {'nvim-treesitter/nvim-treesitter',
-            opt = true,
+        },
+        {'nvim-treesitter/nvim-treesitter',
+            lazy = true,
             -- event = 'BufRead',
-            run = function()
+            build =function()
                local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
                ts_update()
            end,
-        }
+        },
 
-        use { 'lewis6991/nvim-treesitter-context',
-            opt = true,
+        { 'lewis6991/nvim-treesitter-context',
+            lazy = true,
             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua', 'java'},
-            requires = {
-                {'nvim-treesitter/nvim-treesitter', opt = true},
+            dependencies = {
+                {'nvim-treesitter/nvim-treesitter', lazy = true},
             },
             config = function()
                 require('treesitter-context').setup{
-                    enable = true,
+                    enabled = true,
                     throttle = true,
                 }
             end
-        }
-        use { 'm-demare/hlargs.nvim',
-             opt = true,
+        },
+        { 'm-demare/hlargs.nvim',
+             lazy = true,
              ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
-             requires = {
-                 {'nvim-treesitter/nvim-treesitter', opt = true},
+             dependencies = {
+                 {'nvim-treesitter/nvim-treesitter', lazy = true},
              },
              config = function()
                  require('hlargs').setup()
              end
-        }
+        },
 
-        use { 'hrsh7th/nvim-cmp',
-            opt = true,
-            requires = {
-                {'hrsh7th/cmp-buffer', opt = true},
-                {'hrsh7th/cmp-path', opt = true},
-                {'hrsh7th/cmp-cmdline', opt = true},
-                {'hrsh7th/cmp-vsnip', opt = true},
-                {'hrsh7th/vim-vsnip', opt = true},
-                {'andersevenrud/cmp-tmux', opt = true},
-                -- {'quangnguyen30192/cmp-nvim-tags', opt = true, ft = {'c', 'h', 'python', 'cpp'}}
+        { 'hrsh7th/nvim-cmp',
+            lazy = true,
+            dependencies = {
+                {'hrsh7th/cmp-buffer', lazy = true},
+                {'hrsh7th/cmp-path', lazy = true},
+                {'hrsh7th/cmp-cmdline', lazy = true},
+                {'hrsh7th/cmp-vsnip', lazy = true},
+                {'hrsh7th/vim-vsnip', lazy = true},
+                {'andersevenrud/cmp-tmux', lazy = true},
+                -- {'quangnguyen30192/cmp-nvim-tags', lazy = true, ft = {'c', 'h', 'python', 'cpp'}}
             },
             event = 'InsertEnter',
             config = function()
                 require('config.cmp').setup()
             end
-        }
+        },
 
-        use { 'tanvirtin/vgit.nvim',
-            disable = true,
+        --[[
+        { 'tanvirtin/vgit.nvim',
+            enabled = false,
             event = 'BufWinEnter',
-            requires = {
+            dependencies = {
                 'nvim-lua/plenary.nvim',
             },
             config = function()
                 require('vgit').setup()
             end,
-        }
-        use { 'beauwilliams/focus.nvim',
-            disable = true,
+        },
+        { 'beauwilliams/focus.nvim',
+            enabled = false,
             cmd = { "FocusSplitNicely", "FocusSplitCycle" },
             module = "focus",
             config = function()
                 require("focus").setup({hybridnumber = true})
             end
-        }
+        },
 
-        use {'gelguy/wilder.nvim',
-            disable = true,
+        {'gelguy/wilder.nvim',
+            enabled = false,
             config = function()
                 local wilder = require('wilder')
                 wilder.setup({modes = {':', '/', '?'}})
             end,
-        }
-        use {'stevearc/aerial.nvim',
-            opt = true,
-             requires = {
-                 {'nvim-treesitter/nvim-treesitter', opt = true},
+        },
+        ]]
+        {'stevearc/aerial.nvim',
+            lazy = true,
+             dependencies = {
+                 {'nvim-treesitter/nvim-treesitter', lazy = true},
              },
             cmd = {'AerialToggle'},
             config = function()
@@ -557,13 +578,13 @@ function M.setup()
                     backends = {"treesitter"}
                 })
             end,
-        }
-        use { 'matesea/trace32-practice.vim',
-            opt = true,
+        },
+        { 'matesea/trace32-practice.vim',
+            lazy = true,
             ft = {'cmm'}
-        }
-        use { 'vim-scripts/Quich-Filter',
-            disable = true,
+        },
+        { 'vim-scripts/Quich-Filter',
+            enabled = false,
             config = function()
                 vim.cmd[[
                    nnoremap ,f :call FilteringNew().addToParameter('alt', @/).run()<CR>
@@ -571,45 +592,46 @@ function M.setup()
                    nnoremap ,g :call FilteringGetForSource().return()<CR>
                 ]]
             end
-        }
+        },
 
         -- use {'mtth/scratch.vim'}
-        use {'vim-scripts/scons.vim', opt = true, ft = {'scons'}}
-        use {"tpope/vim-surround"}
+        {'vim-scripts/scons.vim', lazy = true, ft = {'scons'}},
+        {"tpope/vim-surround"},
 
-        use {'neovim/nvim-lspconfig',
-            opt = true,
-            requires = {
-                {'williamboman/mason.nvim', opt = true},
-                {'williamboman/mason-lspconfig.nvim', opt = true},
-                {'hrsh7th/cmp-nvim-lsp', opt = true},
+        {'neovim/nvim-lspconfig',
+            lazy = true,
+            dependencies = {
+                {'williamboman/mason.nvim', lazy = true},
+                {'williamboman/mason-lspconfig.nvim', lazy = true},
+                {'hrsh7th/cmp-nvim-lsp', lazy = true},
             },
             config = function()
                 require('config.lspconfig').setup()
             end
-        }
-        use {'rainbowhxch/accelerated-jk.nvim',
+        },
+        {'rainbowhxch/accelerated-jk.nvim',
             config = function()
                 vim.keymap.set('n', 'j', '<Plug>(accelerated_jk_gj)')
                 vim.keymap.set('n', 'k', '<Plug>(accelerated_jk_gk)')
             end
-        }
-        use {'rickhowe/spotdiff.vim',
-           opt = true,
+        },
+        {'rickhowe/spotdiff.vim',
+           lazy = true,
            cmd = 'Diffthis',
-        }
-    end
+        },
+        { "nvim-tree/nvim-web-devicons", lazy = true },
+    }
 
-    packer_init()
-    local packer = require 'packer'
+    lazy_init()
+    local lazy = require 'lazy'
 
-    pcall(require, 'impatient')
+    -- pcall(require, 'impatient')
 
-    packer.init(conf)
-    packer.startup(plugins)
+    -- lazy.init(conf)
+    lazy.setup(plugins)
 
     -- load packer_compiled with lua cache impatient
-    pcall(require, 'packer_compiled')
+    -- pcall(require, 'packer_compiled')
 end
 
 return M

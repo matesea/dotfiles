@@ -52,8 +52,10 @@ opt.history = 2000
 
 -- Enable filetype plugin
 -- load plugins according to different file type
-cmd('filetype plugin indent off')
-cmd('syntax sync minlines=250')
+cmd([[
+    filetype plugin indent off
+    syntax sync minlines=250
+]])
 
 -- cmd("set shada=!,'300,<50,@100,s10,h,n$VIMINFO/.viminfo.shada")
 

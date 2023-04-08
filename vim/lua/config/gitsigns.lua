@@ -4,15 +4,10 @@ function M.setup()
     local status_ok, gitsigns = pcall(require, "gitsigns")
 
     if not status_ok then
+        vim.api.nvim_echo({{'fail to load gitsigns', 'WarningMsg'}}, false, {})
         return
     end
 
-    vim.opt.csto = 0
-    -- show msg when any other cscope db added
-    vim.opt.cscopeverbose = true
-    -- display result in quickfix
-    vim.opt.cscopequickfix = 's-,c-,d-,i-,t-,e-,a-'
-    vim.opt.cscoperelative = true
     gitsigns.setup{
         on_attach = function(bufnr)
             local gs = package.loaded.gitsigns
