@@ -54,11 +54,8 @@ function M.setup()
     -- workaround: nvim-yarp autoload vimscript not loaded
     -- cmd [[packadd nvim-yarp]]
 
+    local ft_code = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'}
     local plugins = {
-        -- 'lewis6991/impatient.nvim',
-
-        -- 'wbthomason/packer.nvim',
-
         {'tamelion/neovim-molokai',
             config = function()
                 vim.cmd('colorscheme molokai')
@@ -71,7 +68,9 @@ function M.setup()
            end
         }]]
 
-        'tpope/vim-fugitive',
+        { 'tpope/vim-fugitive',
+            event = 'VeryLazy',
+        },
 
         { 'lewis6991/gitsigns.nvim',
             -- version = 'release',
@@ -117,7 +116,7 @@ function M.setup()
 
         {'bronson/vim-trailing-whitespace',
             lazy = true,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+            ft = ft_code,
             init = function()
                 vim.g.extra_whitespace_ignored_filetypes = {
                     'diff',
@@ -137,7 +136,7 @@ function M.setup()
         use({
             'emileferreira/nvim-strict',
             lazy = true,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+            ft = ft_code,
             config = function()
                 require('strict').setup({
                    excluded_filetypes = { 'text', 'markdown', 'html' },
@@ -217,6 +216,7 @@ function M.setup()
         ]]
 
         { 'ibhagwan/fzf-lua',
+            enabled = false,
             lazy = true,
             dependencies = {'junegunn/fzf',
                 build ='./install --completion --key-bindings --xdg --no-update-rc'
@@ -262,14 +262,11 @@ function M.setup()
 
         { 'ggandor/leap.nvim',
             lazy = true,
-            keys = {'s', 'S', 'f', 'F', 't', 'T'},
-            config = function()
-                leap = require('leap')
-                leap.setup {
-                    case_insensitive = true,
-                }
-                leap.set_default_keymaps()
-            end
+            keys = {
+                { 'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to' },
+                { 'SS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to' },
+            },
+            config = true,
         },
         --[[
         {'ggandor/lightspeed.nvim',
@@ -344,7 +341,6 @@ function M.setup()
             end
         },
 
-        -- use 'farmergreg/vim-lastplace'
         {'ethanholz/nvim-lastplace',
             config = function()
                 require('nvim-lastplace').setup{
@@ -355,17 +351,7 @@ function M.setup()
             end
         },
 
-        --[[
-        {'liuchengxu/vista.vim',
-            enabled = false,
-            cmd = 'Vista',
-            config = function()
-                g.vista_fzf_preview = {'right:50%'}
-            end
-        },]]
-
         {'mhinz/vim-hugefile',
-           -- doesn't trigger if setting lazy = true
            init = function()
                vim.g.hugefile_trigger_size = 150
            end
@@ -397,12 +383,12 @@ function M.setup()
 
         { 'b3nj5m1n/kommentary',
             lazy = true,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+            ft = ft_code,
         },
         { 'echasnovski/mini.comment',
             enabled = false,
             version = false,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+            ft = ft_code,
             config = function()
                 require('mini.comment').setup()
             end
@@ -410,7 +396,7 @@ function M.setup()
 
         {'nathanaelkane/vim-indent-guides',
             lazy = true,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua'},
+            ft = ft_code,
             init = function()
                 vim.g.indent_guides_enable_on_vim_startup = 1
                 vim.g.indent_guides_default_mapping = 0
@@ -430,16 +416,6 @@ function M.setup()
             cmd = 'StartupTime'
         },
 
-        --[[
-        use {'rhysd/accelerated-jk',
-           enabled = false,
-            config = function()
-                vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {silent = true, noremap = false})
-                vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {silent = true, noremap = false})
-            end
-        }
-        ]]
-
         'romainl/vim-cool',
 
         {'embear/vim-foldsearch',
@@ -451,8 +427,6 @@ function M.setup()
                 -- zE to clear all fold
            },
         },
-
-        -- use 'machakann/vim-sandwich'
 
         -- 'tpope/vim-sensible',
 
@@ -511,7 +485,7 @@ function M.setup()
 
         { 'lewis6991/nvim-treesitter-context',
             lazy = true,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'lua', 'java'},
+            ft = ft_code,
             dependencies = {
                 {'nvim-treesitter/nvim-treesitter', lazy = true},
             },
@@ -524,7 +498,7 @@ function M.setup()
         },
         { 'm-demare/hlargs.nvim',
              lazy = true,
-             ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+             ft = ft_code,
              dependencies = {
                  {'nvim-treesitter/nvim-treesitter', lazy = true},
              },
@@ -580,9 +554,9 @@ function M.setup()
         ]]
         {'stevearc/aerial.nvim',
             lazy = true,
-             dependencies = {
-                 {'nvim-treesitter/nvim-treesitter', lazy = true},
-             },
+            dependencies = {
+                {'nvim-treesitter/nvim-treesitter', lazy = true},
+            },
             cmd = {'AerialToggle'},
             config = function()
                 require("aerial").setup({
@@ -639,11 +613,36 @@ function M.setup()
         },
         { 'echasnovski/mini.cursorword',
             version = false,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+            ft = ft_code,
             config = function()
                 require('mini.cursorword').setup()
             end
         },
+        { 's1n7ax/nvim-window-picker',
+            version = 'v1.*',
+            keys = {'sp'},
+            config = function()
+                require'window-picker'.setup()
+                vim.keymap.set("n", 'sp', function()
+                    local picker = require('window-picker')
+                    local picked_window_id = picker.pick_window() or vim.api.nvim_get_current_win()
+                    vim.api.nvim_set_current_win(picked_window_id)
+                end, { desc = "Pick a window" })
+            end,
+        },
+	    {
+            'ggandor/flit.nvim',
+            lazy = true,
+	        keys = function()
+                ---@type LazyKeys[]
+	            local ret = {}
+	            for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
+                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
+	            end
+	            return ret
+	        end,
+	        opts = { labeled_modes = 'nx' },
+	    },
     }
 
     lazy_init()

@@ -49,13 +49,6 @@ map {'n', '<leader>vw', ':%v#<c-r><c-w>#d<cr>'}
 map {'n', '<leader>w', ':write<cr>'}
 map {'x', '<leader>w', '<esc>:write<cr>'}
 
--- XXX: forgot what are these for?
---[[
-  map {'n', '<c-s>', '<c-u>write<cr>'}
-  map {'x', '<c-s>', '<c-u>write<cr>'}
-  map {'c', '<c-s>', '<c-u>write<cr>'}
-]]--
-
 -- toggle wrap
 map {'n', '<leader>tw', ':setlocal wrap!<cr>', silent = true}
 -- toggle relative line number
