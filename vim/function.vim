@@ -65,9 +65,6 @@ source $VIMHOME/quick-fzf.vim
 
 " LoadLSP: manaully load lsp plugins
 function! s:LoadLSP() abort
-    lua require('packer').loader('mason.nvim')
-    lua require('packer').loader('mason-lspconfig.nvim')
-    lua require('packer').loader('cmp-nvim-lsp')
-    lua require('packer').loader('nvim-lspconfig')
+	silent! execute 'Lazy load mason.nvim mason-lspconfig cmp-nvim-lsp nvim-lspconfig'
 endfunction
 command! -range=% LoadLSP call <SID>LoadLSP()
