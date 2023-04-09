@@ -196,7 +196,7 @@ function M.setup()
             dependencies = {'junegunn/fzf',
                 build ='./install --completion --key-bindings --xdg --no-update-rc'
             },
-            event = 'BufEnter',
+            event = 'VeryLazy',
             -- config = function()
             --     vim.cmd[[let g:fzf_layout = {'down': '~40%'}]]
             -- end
@@ -392,12 +392,20 @@ function M.setup()
 
         { 'octol/vim-cpp-enhanced-highlight',
             lazy = true,
-            ft = {'c', 'h', 'S', 'cpp'}
+            ft = {'c', 'h', 'S', 'cpp'},
         },
 
         { 'b3nj5m1n/kommentary',
             lazy = true,
-            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'}
+            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+        },
+        { 'echasnovski/mini.comment',
+            enabled = false,
+            version = false,
+            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+            config = function()
+                require('mini.comment').setup()
+            end
         },
 
         {'nathanaelkane/vim-indent-guides',
@@ -622,7 +630,20 @@ function M.setup()
            lazy = true,
            cmd = 'Diffthis',
         },
-        { "nvim-tree/nvim-web-devicons", lazy = true },
+        -- { "nvim-tree/nvim-web-devicons", lazy = true },
+        { "olimorris/persisted.nvim",
+            lazy = true,
+            config = function()
+                require("persisted").setup()
+            end,
+        },
+        { 'echasnovski/mini.cursorword',
+            version = false,
+            ft = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'},
+            config = function()
+                require('mini.cursorword').setup()
+            end
+        },
     }
 
     lazy_init()
