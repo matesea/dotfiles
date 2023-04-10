@@ -2,40 +2,6 @@ local M = {}
 
 function M.setup()
 
-    --[[ local conf = {
-       profile = {
-         enabled = true,
-         threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
-       },
-
-       display = {
-         open_fn = function()
-           return require("packer.util").float { border = "rounded" }
-         end,
-       },
-        -- Move to lua dir so impatient.nvim can cache it
-        compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua'
-    }
-
-     -- Check if packer.nvim is installed
-     -- Run PackerCompile if there are changes in this file
-     local function packer_init()
-       local fn = vim.fn
-       local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-       if fn.empty(fn.glob(install_path)) > 0 then
-         packer_bootstrap = fn.system {
-           "git",
-           "clone",
-           "--depth",
-           "1",
-           "https://github.com/wbthomason/packer.nvim",
-           install_path,
-         }
-         vim.cmd {packadd packer.nvim}
-       end
-       vim.cmd "autocmd BufWritePost plugins.lua source <afile> | PackerCompile"
-     end ]]
-
      local function lazy_init()
          local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
          if not vim.loop.fs_stat(lazypath) then
@@ -227,20 +193,6 @@ function M.setup()
             end
         },
 
-        --[[
-        { 'mileszs/ack.vim',
-            enabled = false,
-            config = function()
-                vim.g.ackprg = 'rg -S --vimgrep --no-heading --no-column'
-                vim.g.ackhighlight = 1
-            end
-        },
-
-        { 'jesseleite/vim-agriculture',
-           enabled = false,
-           cmd = 'RgRaw',
-        },]]
-
         {'trmckay/based.nvim',
            lazy = true,
            cmd = "BasedConvert",
@@ -269,14 +221,6 @@ function M.setup()
             config = true,
         },
         --[[
-        {'ggandor/lightspeed.nvim',
-           enabled = false,
-           keys = {'s', 'S', 'f', 'F', 't', 'T'},
-           config = function()
-               require('lightspeed').setup {}
-           end
-       },
-
         {'jacquesbh/vim-showmarks',
             enabled = false,
             cmd = 'DoShowMarks', -- DoShowMarks to enable
@@ -385,6 +329,7 @@ function M.setup()
             lazy = true,
             ft = ft_code,
         },
+
         { 'echasnovski/mini.comment',
             enabled = false,
             version = false,
@@ -455,6 +400,7 @@ function M.setup()
                require('bqf').setup()
            end
         },
+
         {'nathom/filetype.nvim',
             config = function()
                 require("filetype").setup({
@@ -471,10 +417,11 @@ function M.setup()
                ]]
             end
         },
+
         {'nvim-treesitter/nvim-treesitter',
             lazy = true,
             -- event = 'BufRead',
-            build =function()
+            build = function()
                local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
                ts_update()
            end,
@@ -496,6 +443,7 @@ function M.setup()
                 }
             end
         },
+
         { 'm-demare/hlargs.nvim',
              lazy = true,
              ft = ft_code,
@@ -564,23 +512,19 @@ function M.setup()
                 })
             end,
         },
+
         { 'matesea/trace32-practice.vim',
             lazy = true,
-            ft = {'cmm'}
-        },
-        { 'vim-scripts/Quich-Filter',
-            enabled = false,
-            config = function()
-                vim.cmd[[
-                   nnoremap ,f :call FilteringNew().addToParameter('alt', @/).run()<CR>
-                   nnoremap ,F :call FilteringNew().parseQuery(input('>'), '|').run()<CR>
-                   nnoremap ,g :call FilteringGetForSource().return()<CR>
-                ]]
-            end
+            ft = 'cmm',
         },
 
-        -- use {'mtth/scratch.vim'}
-        {'vim-scripts/scons.vim', lazy = true, ft = {'scons'}},
+        -- {'mtth/scratch.vim'}
+
+        {'vim-scripts/scons.vim',
+            lazy = true,
+            ft = 'scons',
+        },
+
         {"tpope/vim-surround"},
 
         {'neovim/nvim-lspconfig',
@@ -594,23 +538,28 @@ function M.setup()
                 require('config.lspconfig').setup()
             end
         },
+
         {'rainbowhxch/accelerated-jk.nvim',
             config = function()
                 vim.keymap.set('n', 'j', '<Plug>(accelerated_jk_gj)')
                 vim.keymap.set('n', 'k', '<Plug>(accelerated_jk_gk)')
             end
         },
+
         {'rickhowe/spotdiff.vim',
            lazy = true,
            cmd = 'Diffthis',
         },
+
         -- { "nvim-tree/nvim-web-devicons", lazy = true },
+
         { "olimorris/persisted.nvim",
             lazy = true,
             config = function()
                 require("persisted").setup()
             end,
         },
+
         { 'echasnovski/mini.cursorword',
             version = false,
             ft = ft_code,
@@ -618,6 +567,7 @@ function M.setup()
                 require('mini.cursorword').setup()
             end
         },
+
         { 's1n7ax/nvim-window-picker',
             version = 'v1.*',
             keys = {'sp'},
@@ -630,6 +580,7 @@ function M.setup()
                 end, { desc = "Pick a window" })
             end,
         },
+
 	    {
             'ggandor/flit.nvim',
             lazy = true,
@@ -647,14 +598,7 @@ function M.setup()
 
     lazy_init()
     local lazy = require 'lazy'
-
-    -- pcall(require, 'impatient')
-
-    -- lazy.init(conf)
     lazy.setup(plugins)
-
-    -- load packer_compiled with lua cache impatient
-    -- pcall(require, 'packer_compiled')
 end
 
 return M

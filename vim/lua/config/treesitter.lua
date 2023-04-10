@@ -3,6 +3,7 @@
 -- rafi settings
 
 -- Setup extra parsers.
+--[[
 local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
 
 parser_configs.http = {
@@ -13,18 +14,19 @@ parser_configs.http = {
 		branch = 'main',
 	},
 }
+]]
 
 -- Setup treesitter
 require('nvim-treesitter.configs').setup({
 	-- https://github.com/nvim-treesitter/nvim-treesitter#supported-languages
 	ensure_installed = {
-		'bash', 'c', 'cmake', 'comment', 'cpp', 'css', 'diff',
+        'bash', 'c', 'cmake', 'comment', 'cpp', 'css', 'diff',
         'fennel', 'fish', 'gitattributes', 'gitignore', 'go',
-		'html', 'http', 'ini', 'java', 'javascript', 'jsdoc', 'json',
+        'html', 'http', 'ini', 'java', 'javascript', 'jsdoc', 'json',
         'json5', 'jsonc', 'jsonnet', 'julia', 'kotlin', 'llvm',
         'lua', 'make', 'markdown', 'markdown_inline', 'ninja', 'nix',
-		'perl', 'php', 'python', 'query', 'r', 'regex', 'rst',
-		'ruby', 'rust', 'swift', 'vim',
+        'perl', 'php', 'python', 'query', 'r', 'regex', 'rst',
+        'ruby', 'rust', 'swift', 'vim',
 	},
 
 	highlight = {
