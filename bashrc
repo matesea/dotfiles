@@ -600,7 +600,7 @@ fi
 
 function targz() {
     local dir=${1%/}
-    tar --use-compress-program="pigz --best --recursive" -cf ${dir}.tar.gz ${dir} && rm -rf ${dir}
+    tar --use-compress-program="pigz --recursive" -cf ${dir}.tar.gz ${dir} && rm -rf ${dir}
 }
 
 # gcd: navigate to project root
