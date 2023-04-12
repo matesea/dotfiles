@@ -26,7 +26,7 @@ require('nvim-treesitter.configs').setup({
         'json5', 'jsonc', 'jsonnet', 'julia', 'kotlin', 'llvm',
         'lua', 'make', 'markdown', 'markdown_inline', 'ninja', 'nix',
         'perl', 'php', 'python', 'query', 'r', 'regex', 'rst',
-        'ruby', 'rust', 'swift', 'vim',
+        'ruby', 'rust', 'vim',
 	},
 
 	highlight = {

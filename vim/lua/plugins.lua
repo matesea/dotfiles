@@ -22,12 +22,12 @@ function M.setup()
 
     local ft_code = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'}
     local plugins = {
-        {'tamelion/neovim-molokai',
+        { 'tamelion/neovim-molokai',
             config = function()
                 vim.cmd('colorscheme molokai')
             end
         },
-        --[[ {'rebelot/kanagawa.nvim',,
+        --[[ { 'rebelot/kanagawa.nvim',,
            lazy = true,
            config = function()
                 vim.cmd("colorscheme kanagawa")
@@ -49,12 +49,12 @@ function M.setup()
             end
         },
 
-        {'junegunn/gv.vim',
+        { 'junegunn/gv.vim',
             lazy = true,
             cmd = 'GV'
         },
 
-        {'echasnovski/mini.tabline',
+        { 'echasnovski/mini.tabline',
            config = function()
                require('mini.tabline').setup({
                    show_icons = false
@@ -62,8 +62,8 @@ function M.setup()
            end
         },
         --[[
-        use {'ap/vim-buftabline',
-           enabled = false,
+        { 'ap/vim-buftabline',
+            enabled = false,
             config = function()
                 vim.g.buftabline_show = 1
                 vim.g.buftabline_numbers = 2
@@ -80,7 +80,7 @@ function M.setup()
         }
         ]]
 
-        {'bronson/vim-trailing-whitespace',
+        { 'bronson/vim-trailing-whitespace',
             lazy = true,
             ft = ft_code,
             init = function()
@@ -124,7 +124,7 @@ function M.setup()
         })
         ]]
 
-        {'joereynolds/gtags-scope',
+        { 'joereynolds/gtags-scope',
             lazy = true,
             cmd = {'GtagsCscope',},
             config = function()
@@ -132,7 +132,7 @@ function M.setup()
             end
         },
 
-        {'drmingdrmer/vim-toggle-quickfix',
+        { 'drmingdrmer/vim-toggle-quickfix',
             lazy = true,
             --[[ cmd = {
                 '<Plug>window:quickfix:toggle',
@@ -148,7 +148,7 @@ function M.setup()
             end
         },
 
-        {'windwp/nvim-autopairs',
+        { 'windwp/nvim-autopairs',
             -- dependencies = 'nvim-treesitter',
             -- module = {'nvim-autopairs.completion.cmp', 'nvim-autopairs'},
             event = 'InsertEnter',
@@ -157,7 +157,7 @@ function M.setup()
             end
         },
 
-        {'junegunn/fzf.vim',
+        { 'junegunn/fzf.vim',
             dependencies = {'junegunn/fzf',
                 build ='./install --completion --key-bindings --xdg --no-update-rc'
             },
@@ -193,7 +193,7 @@ function M.setup()
             end
         },
 
-        {'trmckay/based.nvim',
+        { 'trmckay/based.nvim',
            lazy = true,
            cmd = "BasedConvert",
            config = function()
@@ -201,7 +201,7 @@ function M.setup()
            end,
         },
 
-        {'kazhala/close-buffers.nvim',
+        { 'kazhala/close-buffers.nvim',
             lazy = true,
             cmd = {"BDelete", "BWipeout"},
             keys = {'bd', 'bo'},
@@ -221,7 +221,7 @@ function M.setup()
             config = true,
         },
         --[[
-        {'jacquesbh/vim-showmarks',
+        { 'jacquesbh/vim-showmarks',
             enabled = false,
             cmd = 'DoShowMarks', -- DoShowMarks to enable
         },
@@ -250,7 +250,7 @@ function M.setup()
             -- :Hi save <name>: save current highlight to file
         },
 
-        {'inkarkat/vim-mark',
+        { 'inkarkat/vim-mark',
             lazy = true,
             dependencies = {
                 {'inkarkat/vim-ingo-library', lazy = true}
@@ -285,7 +285,7 @@ function M.setup()
             end
         },
 
-        {'ethanholz/nvim-lastplace',
+        { 'ethanholz/nvim-lastplace',
             config = function()
                 require('nvim-lastplace').setup{
                     lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
@@ -295,7 +295,7 @@ function M.setup()
             end
         },
 
-        {'mhinz/vim-hugefile',
+        { 'mhinz/vim-hugefile',
            init = function()
                vim.g.hugefile_trigger_size = 150
            end
@@ -339,7 +339,7 @@ function M.setup()
             end
         },
 
-        {'nathanaelkane/vim-indent-guides',
+        { 'nathanaelkane/vim-indent-guides',
             lazy = true,
             ft = ft_code,
             init = function()
@@ -356,14 +356,14 @@ function M.setup()
             end
         },
 
-        {'dstein64/vim-startuptime',
+        { 'dstein64/vim-startuptime',
             lazy = true,
             cmd = 'StartupTime'
         },
 
         'romainl/vim-cool',
 
-        {'embear/vim-foldsearch',
+        { 'embear/vim-foldsearch',
             lazy = true,
             cmd = {
                 'Fp',  -- Show the lines that contain the given regular expression
@@ -375,22 +375,22 @@ function M.setup()
 
         -- 'tpope/vim-sensible',
 
-        {'ngemily/vim-vp4',
+        { 'ngemily/vim-vp4',
             lazy = true,
-            cmd = {'Vp4FileLog', 'Vp4Annotate', 'Vp4Describe', 'Vp4'}
+            cmd = { 'Vp4FileLog', 'Vp4Annotate', 'Vp4Describe', 'Vp4'}
         },
 
-        {'nanotee/zoxide.vim',
+        { 'nanotee/zoxide.vim',
             lazy = true,
-            cmd = {'Z', 'Zi', 'Lz', 'Lzi'}
+            cmd = { 'Z', 'Zi', 'Lz', 'Lzi'}
         },
 
-        {'justinmk/vim-gtfo',
+        { 'justinmk/vim-gtfo',
             lazy = true,
             keys = 'got',
         },
 
-        {'kevinhwang91/nvim-bqf',
+        { 'kevinhwang91/nvim-bqf',
            lazy = true,
            ft = 'qf',
            dependencies = {
@@ -401,7 +401,7 @@ function M.setup()
            end
         },
 
-        {'nathom/filetype.nvim',
+        { 'nathom/filetype.nvim',
             config = function()
                 require("filetype").setup({
                     overrides = {
@@ -418,7 +418,7 @@ function M.setup()
             end
         },
 
-        {'nvim-treesitter/nvim-treesitter',
+        { 'nvim-treesitter/nvim-treesitter',
             lazy = true,
             -- event = 'BufRead',
             build = function()
@@ -434,7 +434,7 @@ function M.setup()
             lazy = true,
             ft = ft_code,
             dependencies = {
-                {'nvim-treesitter/nvim-treesitter', lazy = true},
+                { 'nvim-treesitter/nvim-treesitter', lazy = true},
             },
             config = function()
                 require('treesitter-context').setup{
@@ -448,7 +448,7 @@ function M.setup()
              lazy = true,
              ft = ft_code,
              dependencies = {
-                 {'nvim-treesitter/nvim-treesitter', lazy = true},
+                 { 'nvim-treesitter/nvim-treesitter', lazy = true},
              },
              config = function()
                  require('hlargs').setup()
@@ -464,7 +464,7 @@ function M.setup()
                 {'hrsh7th/cmp-vsnip', lazy = true},
                 {'hrsh7th/vim-vsnip', lazy = true},
                 {'andersevenrud/cmp-tmux', lazy = true},
-                -- {'quangnguyen30192/cmp-nvim-tags', lazy = true, ft = {'c', 'h', 'python', 'cpp'}}
+                -- { 'quangnguyen30192/cmp-nvim-tags', lazy = true, ft = { 'c', 'h', 'python', 'cpp'}}
             },
             event = 'InsertEnter',
             config = function()
@@ -492,20 +492,20 @@ function M.setup()
             end
         },
 
-        {'gelguy/wilder.nvim',
+        { 'gelguy/wilder.nvim',
             enabled = false,
             config = function()
                 local wilder = require('wilder')
-                wilder.setup({modes = {':', '/', '?'}})
+                wilder.setup({modes = { ':', '/', '?'}})
             end,
         },
         ]]
-        {'stevearc/aerial.nvim',
+        { 'stevearc/aerial.nvim',
             lazy = true,
             dependencies = {
-                {'nvim-treesitter/nvim-treesitter', lazy = true},
+                { 'nvim-treesitter/nvim-treesitter', lazy = true},
             },
-            cmd = {'AerialToggle'},
+            cmd = { 'AerialToggle'},
             config = function()
                 require("aerial").setup({
                     backends = {"treesitter"}
@@ -520,14 +520,14 @@ function M.setup()
 
         -- {'mtth/scratch.vim'}
 
-        {'vim-scripts/scons.vim',
+        { 'vim-scripts/scons.vim',
             lazy = true,
             ft = 'scons',
         },
 
-        {"tpope/vim-surround"},
+        { "tpope/vim-surround" },
 
-        {'neovim/nvim-lspconfig',
+        { 'neovim/nvim-lspconfig',
             lazy = true,
             dependencies = {
                 {'williamboman/mason.nvim', lazy = true},
@@ -539,14 +539,14 @@ function M.setup()
             end
         },
 
-        {'rainbowhxch/accelerated-jk.nvim',
+        { 'rainbowhxch/accelerated-jk.nvim',
             config = function()
                 vim.keymap.set('n', 'j', '<Plug>(accelerated_jk_gj)')
                 vim.keymap.set('n', 'k', '<Plug>(accelerated_jk_gk)')
             end
         },
 
-        {'rickhowe/spotdiff.vim',
+        { 'rickhowe/spotdiff.vim',
            lazy = true,
            cmd = 'Diffthis',
         },
@@ -581,8 +581,7 @@ function M.setup()
             end,
         },
 
-	    {
-            'ggandor/flit.nvim',
+	    { 'ggandor/flit.nvim',
             lazy = true,
 	        keys = function()
                 ---@type LazyKeys[]
@@ -594,6 +593,11 @@ function M.setup()
 	        end,
 	        opts = { labeled_modes = 'nx' },
 	    },
+
+        { 'skywind3000/vim-preview',
+            lazy = true,
+            cmd = { 'PreviewQuickfix', 'PreviewSignature'},
+        },
     }
 
     lazy_init()
