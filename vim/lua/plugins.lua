@@ -189,7 +189,7 @@ function M.setup()
             keys = function()
                 ---@type LazyKeys[]
 	            local ret = {}
-	            for _, key in ipairs({ '/', ';', 'a', 'b', 'c', 'd', 'e', 'g', 'j', 'w', 'x', 't' }) do
+	            for _, key in ipairs({ '/', ';', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'j', 'w', 'x', 't' }) do
                     ret[#ret + 1] = { '<space>' .. key, mode = {'n'}, desc = key }
 	            end
 	            return ret
