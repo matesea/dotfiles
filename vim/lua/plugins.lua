@@ -182,12 +182,18 @@ function M.setup()
         ]]
 
         { 'ibhagwan/fzf-lua',
-            enabled = false,
             lazy = true,
             dependencies = {'junegunn/fzf',
                 build ='./install --completion --key-bindings --xdg --no-update-rc'
             },
-            cmd = {'FzfLua'},
+            keys = function()
+                ---@type LazyKeys[]
+	            local ret = {}
+	            for _, key in ipairs({ '/', ';', 'a', 'b', 'c', 'd', 'e', 'g', 'j', 'w', 'x', 't' }) do
+                    ret[#ret + 1] = { '<space>' .. key, mode = {'n'}, desc = key }
+	            end
+	            return ret
+            end,
             config = function()
                 require('config.fzf-lua').setup()
             end
@@ -351,7 +357,8 @@ function M.setup()
                 vim.g.indent_guides_exclude_filetypes = {
                     'help', 'defx', 'denite', 'denite-filter', 'startify',
                     'vista', 'vista_kind', 'tagbar', 'lsp-hover', 'clap_input',
-                    'any-jump', 'gina-status', 'gina-commit', 'gina-log'
+                    'any-jump', 'gina-status', 'gina-commit', 'gina-log', 'terminal',
+                    'fzf'
                 }
             end
         },
