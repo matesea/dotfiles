@@ -22,55 +22,18 @@ function M.setup()
     vim.cmd[[nnoremap <space>c :FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>]]
     vim.cmd[[nnoremap <space>d :FzfLua grep cwd=<C-R>=expand("%:h")<cr><cr>]]
 
-    fzf_lua.setup{
-        files = {
-            cmd = 'ff',
-            git_icons = false,
-            file_icons = false,
-            color_icons = false,
-            previewer = false,
+    local previewer = 'bat'
+    if vim.fn.executable('bat') ~= 1 then
+        previewer = 'builtin'
+    end
+
+    fzf_lua.setup({'max-perf',
+        winopts = {
+                preview = {default = previewer}
         },
-        git = {
-            files = {
-                git_icons = false,
-                file_icons = false,
-                color_icons = false,
-                previewer = false,
-            },
-            status = {
-                git_icons = false,
-                file_icons = false,
-                color_icons = false,
-            },
-        },
-        grep = {
-            git_icons = false,
-            file_icons = false,
-            color_icons = false,
-        },
-        buffers = {
-            file_icons = false,
-            color_icons = false,
-        },
-        tabs = {
-            file_icons = false,
-            color_icons = false,
-        },
-        tags = {
-            git_icons = false,
-            file_icons = false,
-            color_icons = false,
-        },
-        btags = {
-            git_icons = false,
-            file_icons = false,
-            color_icons = false,
-        },
-        quickfix = {
-            git_icons = false,
-            file_icons = false,
-        },
-    }
+        files = {previewer = false},
+        global_color_icons  = false,
+    })
 end
 
 return M
