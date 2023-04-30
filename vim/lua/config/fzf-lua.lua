@@ -16,9 +16,10 @@ function M.setup()
     vim.api.nvim_set_keymap('n', '<space>e', '<cmd>FzfLua files<cr>', {noremap = true})
     vim.api.nvim_set_keymap('n', '<space>g', "<cmd>FzfLua live_grep<cr>", {noremap = true})
     vim.api.nvim_set_keymap('n', '<space>j', "<cmd>FzfLua jumps<cr>", {noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>r', "<cmd>FzfLua grep<cr>", {noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>t', "<cmd>FzfLua btags<cr>", {noremap = true})
     vim.api.nvim_set_keymap('n', '<space>w', "<cmd>FzfLua grep_cword<cr>", {noremap = true})
     vim.api.nvim_set_keymap('n', '<space>x', "<cmd>FzfLua oldfiles<cr>", {noremap = true})
-    vim.api.nvim_set_keymap('n', '<space>t', "<cmd>FzfLua btags<cr>", {noremap = true})
     vim.cmd[[nnoremap <space>c :FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>]]
     vim.cmd[[nnoremap <space>d :FzfLua grep cwd=<C-R>=expand("%:h")<cr><cr>]]
 
@@ -28,6 +29,8 @@ function M.setup()
     end
 
     fzf_lua.setup({'max-perf',
+        -- fzf_bin = 'sk',
+        -- fzf_opts = { ["--no-separator"] = false},
         winopts = {
                 preview = {default = previewer}
         },
