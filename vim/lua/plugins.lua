@@ -404,7 +404,12 @@ function M.setup()
                {'nvim-treesitter/nvim-treesitter', lazy = true},
            },
            config = function()
-               require('bqf').setup()
+               require('bqf').setup({
+                    -- disable auto preview
+                    --[[ preview = {
+                        auto_preview = false
+                    } ]]
+                })
            end
         },
 
@@ -490,14 +495,6 @@ function M.setup()
                 require('vgit').setup()
             end,
         },
-        { 'beauwilliams/focus.nvim',
-            enabled = false,
-            cmd = { "FocusSplitNicely", "FocusSplitCycle" },
-            module = "focus",
-            config = function()
-                require("focus").setup({hybridnumber = true})
-            end
-        },
 
         { 'gelguy/wilder.nvim',
             enabled = false,
@@ -507,6 +504,16 @@ function M.setup()
             end,
         },
         ]]
+
+        { 'beauwilliams/focus.nvim',
+            lazy = true,
+            cmd = { "FocusSplitNicely", "FocusSplitCycle" , 'FocusEnable' },
+            module = "focus",
+            config = function()
+                require("focus").setup({hybridnumber = false})
+            end
+        },
+
         { 'stevearc/aerial.nvim',
             lazy = true,
             dependencies = {
@@ -517,6 +524,10 @@ function M.setup()
                 require("aerial").setup({
                     backends = {"treesitter"}
                 })
+
+                -- shortcut to find function in fzf mode
+                -- faster than fzf.vim/fzf-lua BTags
+                vim.keymap.set('n', ';z', '<cmd>call aerial#fzf()<cr>')
             end,
         },
 
@@ -525,7 +536,10 @@ function M.setup()
             ft = 'cmm',
         },
 
-        -- {'mtth/scratch.vim'}
+        { 'mtth/scratch.vim',
+            lazy = true,
+            cmd = { 'Scratch' },
+        },
 
         { 'vim-scripts/scons.vim',
             lazy = true,
@@ -601,10 +615,12 @@ function M.setup()
 	        opts = { labeled_modes = 'nx' },
 	    },
 
+        --[[
         { 'skywind3000/vim-preview',
             lazy = true,
             cmd = { 'PreviewQuickfix', 'PreviewSignature'},
         },
+        ]]
     }
 
     lazy_init()
