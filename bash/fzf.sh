@@ -53,7 +53,7 @@ zrp() {
 _fd() {
   local dir
   dir="$(
-    fd "${1:-.}" -t d -d 2 2> /dev/null \
+    fd "${1:-.}" -t d -d 8 2> /dev/null \
       | fzf-tmux +m $FZF_TMUX_OPTS
   )" || return
   cd "$dir" || return

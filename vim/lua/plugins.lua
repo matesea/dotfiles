@@ -401,7 +401,7 @@ function M.setup()
            lazy = true,
            ft = 'qf',
            dependencies = {
-               {'nvim-treesitter/nvim-treesitter', lazy = true},
+               {'nvim-treesitter/nvim-treesitter'},
            },
            config = function()
                require('bqf').setup({
@@ -446,7 +446,7 @@ function M.setup()
             lazy = true,
             ft = ft_code,
             dependencies = {
-                { 'nvim-treesitter/nvim-treesitter', lazy = true},
+                { 'nvim-treesitter/nvim-treesitter' },
             },
             config = function()
                 require('treesitter-context').setup{
@@ -460,7 +460,7 @@ function M.setup()
              lazy = true,
              ft = ft_code,
              dependencies = {
-                 { 'nvim-treesitter/nvim-treesitter', lazy = true},
+                 { 'nvim-treesitter/nvim-treesitter' },
              },
              config = function()
                  require('hlargs').setup()
@@ -517,7 +517,7 @@ function M.setup()
         { 'stevearc/aerial.nvim',
             lazy = true,
             dependencies = {
-                { 'nvim-treesitter/nvim-treesitter', lazy = true},
+                { 'nvim-treesitter/nvim-treesitter'},
             },
             cmd = { 'AerialToggle'},
             config = function()
@@ -619,6 +619,10 @@ function M.setup()
         { 'skywind3000/vim-preview',
             lazy = true,
             cmd = { 'PreviewQuickfix', 'PreviewSignature'},
+        },
+
+        { 'folke/which-key.nvim',
+            cmd = 'WhichKey',
         },
         ]]
     }
