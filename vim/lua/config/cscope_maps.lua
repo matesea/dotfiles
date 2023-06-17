@@ -24,23 +24,11 @@ function M.setup()
         vim.api.nvim_set_keymap('n', '<leader>cs', ':cscope find s <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
         vim.api.nvim_set_keymap('n', '<leader>cg', ':cscope find g <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
         vim.api.nvim_set_keymap('n', '<leader>cc', ':cscope find c <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>ct', ':cscope find t <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>ce', ':cscope find e <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>cf', ':cscope find f <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>ci', ':cscope find i <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>cd', ':cscope find d <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>ca', ':cscope find a <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
     else
         vim.api.nvim_set_keymap('n', '<leader>cf', ':Cscope find<space>', {noremap = true})
         vim.api.nvim_set_keymap('n', '<leader>cs', ':Cscope find s <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
         vim.api.nvim_set_keymap('n', '<leader>cg', ':Cscope find g <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
         vim.api.nvim_set_keymap('n', '<leader>cc', ':Cscope find c <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>ct', ':Cscope find t <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>ce', ':Cscope find e <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>cf', ':Cscope find f <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>ci', ':Cscope find i <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>cd', ':Cscope find d <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
-        vim.api.nvim_set_keymap('n', '<leader>ca', ':Cscope find a <C-R>=expand("<cword>")<cr><cr>', {noremap = true})
     end
 end
 
