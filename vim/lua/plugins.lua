@@ -405,6 +405,11 @@ function M.setup()
            },
            config = function()
                require('bqf').setup({
+                    func_map = {
+                        -- remap c-k/c-j to pscrollup/pscrolldown to free c-b/c-f
+                        pscrollup = '<C-k>',
+                        pscrolldown = '<C-j>',
+                    },
                     -- disable auto preview
                     --[[ preview = {
                         auto_preview = false
