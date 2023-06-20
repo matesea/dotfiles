@@ -21,6 +21,11 @@ function M.setup()
     -- cmd [[packadd nvim-yarp]]
 
     local ft_code = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'}
+    local ver = vim.version()
+    local is_neovim8 = function()
+        return ver.major == 0 and ver.minor < 9
+    end
+
     local plugins = {
         { 'tamelion/neovim-molokai',
             config = function()
@@ -419,6 +424,7 @@ function M.setup()
         },
 
         { 'nathom/filetype.nvim',
+            cond = is_neovim8(),
             config = function()
                 require("filetype").setup({
                     overrides = {
