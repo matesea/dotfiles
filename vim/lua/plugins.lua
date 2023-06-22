@@ -223,6 +223,7 @@ function M.setup()
             end
         },
 
+        --[[
         { 'ggandor/leap.nvim',
             lazy = true,
             keys = {
@@ -231,7 +232,6 @@ function M.setup()
             },
             config = true,
         },
-        --[[
         { 'jacquesbh/vim-showmarks',
             enabled = false,
             cmd = 'DoShowMarks', -- DoShowMarks to enable
@@ -633,6 +633,31 @@ function M.setup()
             config = function()
                 require('config.cscope_maps').setup()
             end
+        },
+        {
+            "folke/flash.nvim",
+            event = "VeryLazy",
+            ---@type Flash.Config
+            opts = {},
+            keys = {
+              {
+                "ss",
+                mode = { "n", "x", "o" },
+                function()
+                  -- default options: exact mode, multi window, all directions, with a backdrop
+                  require("flash").jump()
+                end,
+              },
+              --[[
+              {
+                "st",
+                mode = { "n", "o", "x" },
+                function()
+                  require("flash").treesitter()
+                end,
+              },
+              ]]
+            },
         },
 
         --[[
