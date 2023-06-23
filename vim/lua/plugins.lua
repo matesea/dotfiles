@@ -613,19 +613,6 @@ function M.setup()
             end,
         },
 
-	    { 'ggandor/flit.nvim',
-            lazy = true,
-	        keys = function()
-                ---@type LazyKeys[]
-	            local ret = {}
-	            for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
-                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
-	            end
-	            return ret
-	        end,
-	        opts = { labeled_modes = 'nx' },
-	    },
-
         -- cscope/gtags for nvim 0.9+
         {
             'dhananjaylatkar/cscope_maps.nvim',
@@ -661,13 +648,35 @@ function M.setup()
         },
 
         --[[
+	    { 'ggandor/flit.nvim',
+            lazy = true,
+	        keys = function()
+                ---@type LazyKeys[]
+	            local ret = {}
+	            for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
+                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
+	            end
+	            return ret
+	        end,
+	        opts = { labeled_modes = 'nx' },
+	    },
+
         { 'skywind3000/vim-preview',
             lazy = true,
             cmd = { 'PreviewQuickfix', 'PreviewSignature'},
         },
 
         { 'folke/which-key.nvim',
-            cmd = 'WhichKey',
+            event = "VeryLazy",
+            init = function()
+                vim.o.timeout = true
+                vim.o.timeoutlen = 300
+            end,
+            opts = {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
         },
         ]]
     }
