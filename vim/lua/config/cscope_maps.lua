@@ -11,12 +11,17 @@ function M.setup()
 
     require("cscope_maps").setup({
         disable_maps = false, -- true disables keymaps, only :Cscope will be loaded
+        skip_input_prompt = true, -- "true" doesn't ask for input
         cscope = {
             db_file = "GTAGS", -- location of cscope db file
             exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
             picker = "quickfix", -- "telescope", "fzf-lua" or "quickfix"
             skip_picker_for_single_result = true, -- jump directly to position for single result
-            -- db_build_cmd_args = { "-bqkv" }, -- args used for db build (:Cscope build)
+            -- these args are directly passed to "cscope -f <db_file> <args>"
+            -- db_build_cmd_args = { "-bqkv" },
+            -- statusline indicator, default is cscope executable
+            statusline_indicator = nil,
+
         },
     })
     if ver.major == 0 and ver.minor < 9 then

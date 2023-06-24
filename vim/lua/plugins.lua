@@ -619,7 +619,7 @@ function M.setup()
             lazy = true,
             config = function()
                 require('config.cscope_maps').setup()
-            end
+            end,
         },
         {
             "folke/flash.nvim",
@@ -628,20 +628,30 @@ function M.setup()
             opts = {},
             keys = {
               {
-                "ss",
-                mode = { "n", "x", "o" },
-                function()
-                  -- default options: exact mode, multi window, all directions, with a backdrop
-                  require("flash").jump()
-                end,
+                    "ss",
+                    mode = { "n", "x", "o" },
+                    function()
+                      -- default options: exact mode, multi window, all directions, with a backdrop
+                      require("flash").jump()
+                    end,
+                    desc = "Flash",
+              },
+              {
+                    "r",
+                    mode = "o",
+                    function()
+                        require("flash").remote()
+                    end,
+                    desc = "Remote Flash",
               },
               --[[
               {
-                "st",
-                mode = { "n", "o", "x" },
-                function()
-                  require("flash").treesitter()
-                end,
+                    "st",
+                    mode = { "n", "o", "x" },
+                    function()
+                      require("flash").treesitter()
+                    end,
+                    desc = "Flash Treesitter",
               },
               ]]
             },
