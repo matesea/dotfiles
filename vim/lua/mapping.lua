@@ -76,3 +76,5 @@ map {'n', ';t', ':BTags<cr>'}
 map {'n', ';m', ':Marks<cr>'}
 map {'n', ';r', ':Rg<space>'}
 map {'n', ';x', ':Rg <c-r><c-w><cr>'}
+
+map {'n', 'bd', '<cmd>bwipeout<cr>', {desc = 'Buffer wipeout'}}

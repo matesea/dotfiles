@@ -212,6 +212,7 @@ function M.setup()
            end,
         },
 
+        --[[
         { 'kazhala/close-buffers.nvim',
             lazy = true,
             cmd = {"BDelete", "BWipeout"},
@@ -223,7 +224,6 @@ function M.setup()
             end
         },
 
-        --[[
         { 'ggandor/leap.nvim',
             lazy = true,
             keys = {
@@ -572,6 +572,8 @@ function M.setup()
         },
 
         { 'rainbowhxch/accelerated-jk.nvim',
+            lazy = true,
+            keys = {'j', 'k'},
             config = function()
                 vim.keymap.set('n', 'j', '<Plug>(accelerated_jk_gj)')
                 vim.keymap.set('n', 'k', '<Plug>(accelerated_jk_gk)')
