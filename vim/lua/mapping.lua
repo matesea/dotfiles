@@ -63,18 +63,5 @@ map {'n', '<leader>ga', ':lgrepadd<space>'}
 -- remap ZQ to quit without saving anything
 map {'n', 'ZQ', ':qa!<cr>'}
 
--- plugin fzf.vim
-map {'n', ';e', ':FZF<cr>'}
-map {'n', ';c', ':FZF %:h<cr>'}
--- map {'n', ';g', ':GFiles<cr>'}
-map {'n', ';b', ':Buffers<cr>'}
-map {'n', ';h', ':History'}
-map {'n', ';a', ':Lines<cr>'}
-map {'n', ';l', ':Blines<cr>'}
-map {'n', ';w', ':Lines <c-r><c-w><cr>'}
-map {'n', ';t', ':BTags<cr>'}
-map {'n', ';m', ':Marks<cr>'}
-map {'n', ';r', ':Rg<space>'}
-map {'n', ';x', ':Rg <c-r><c-w><cr>'}
-
+-- wipe out buffer
 map {'n', 'bd', '<cmd>bwipeout<cr>', {desc = 'Buffer wipeout'}}

@@ -162,17 +162,28 @@ function M.setup()
             end
         },
 
+        --[[
         { 'junegunn/fzf.vim',
             dependencies = {'junegunn/fzf',
                 build ='./install --completion --key-bindings --xdg --no-update-rc'
             },
             event = 'VeryLazy',
-            -- config = function()
-            --     vim.cmd[[let g:fzf_layout = {'down': '~40%'}]]
-            -- end
+            config = function()
+                vim.api.nvim_set_keymap('n', '<space>e', ':FZF<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>c', ':FZF %:h<cr>', {noremap = true, silent = true})
+                -- vim.api.nvim_set_keymap('n', '<space>g', ':GFiles<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<space>b', ':Buffers<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>h', ':History', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>a', ':Lines<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>l', ':Blines<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>w', ':Lines <c-r><c-w><cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>t', ':BTags<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>m', ':Marks<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', '<space>r', ':Rg<space>', {noremap = true})
+                vim.api.nvim_set_keymap('n', '<space>x', ':Rg <c-r><c-w><cr>', {noremap = true, silent = true})
+            end
         },
 
-        --[[
         { 'nvim-telescope/telescope.nvim',
             dependencies = {
                 {'nvim-lua/plenary.nvim',},
@@ -194,8 +205,9 @@ function M.setup()
             keys = function()
                 ---@type LazyKeys[]
 	            local ret = {}
-	            for _, key in ipairs({ '/', ';', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'j', 'r', 't', 'w', 'x' }) do
-                    ret[#ret + 1] = { '<space>' .. key, mode = {'n'}, desc = key }
+                local prefix = ';'
+	            for _, key in ipairs({ '/', ':', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'j', 'r', 't', 'w', 'x' }) do
+                    ret[#ret + 1] = { prefix .. key, mode = {'n'}, desc = key }
 	            end
 	            return ret
             end,
@@ -538,7 +550,7 @@ function M.setup()
 
                 -- shortcut to find function in fzf mode
                 -- faster than fzf.vim/fzf-lua BTags
-                vim.keymap.set('n', ';z', '<cmd>call aerial#fzf()<cr>')
+                -- vim.keymap.set('n', ';z', '<cmd>call aerial#fzf()<cr>')
             end,
         },
 
@@ -655,6 +667,15 @@ function M.setup()
                     end,
                     desc = "Flash Treesitter",
               },
+              {
+                    "R",
+                    mode = { "n", "o", "x" },
+                    function()
+                      -- show labeled treesitter nodes around the search matches
+                      require("flash").treesitter_search()
+                    end,
+                    desc = "Treesitter Search",
+              }
               ]]
             },
         },
