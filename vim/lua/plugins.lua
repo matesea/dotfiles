@@ -236,14 +236,6 @@ function M.setup()
             end
         },
 
-        { 'ggandor/leap.nvim',
-            lazy = true,
-            keys = {
-                { 'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to' },
-                { 'SS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to' },
-            },
-            config = true,
-        },
         { 'jacquesbh/vim-showmarks',
             enabled = false,
             cmd = 'DoShowMarks', -- DoShowMarks to enable
@@ -635,6 +627,30 @@ function M.setup()
                 require('config.cscope_maps').setup()
             end,
         },
+
+        { 'ggandor/leap.nvim',
+            lazy = true,
+            keys = {
+                { 'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to' },
+                { 'SS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to' },
+            },
+            config = true,
+        },
+
+	    { 'ggandor/flit.nvim',
+            lazy = true,
+	        keys = function()
+                ---@type LazyKeys[]
+	            local ret = {}
+	            for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
+                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
+	            end
+	            return ret
+	        end,
+	        opts = { labeled_modes = 'nx' },
+	    },
+
+        --[[
         {
             "folke/flash.nvim",
             event = "VeryLazy",
@@ -658,7 +674,6 @@ function M.setup()
                     end,
                     desc = "Remote Flash",
               },
-              --[[
               {
                     "st",
                     mode = { "n", "o", "x" },
@@ -676,23 +691,8 @@ function M.setup()
                     end,
                     desc = "Treesitter Search",
               }
-              ]]
             },
         },
-
-        --[[
-	    { 'ggandor/flit.nvim',
-            lazy = true,
-	        keys = function()
-                ---@type LazyKeys[]
-	            local ret = {}
-	            for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
-                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
-	            end
-	            return ret
-	        end,
-	        opts = { labeled_modes = 'nx' },
-	    },
 
         { 'skywind3000/vim-preview',
             lazy = true,
