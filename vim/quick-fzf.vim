@@ -21,6 +21,7 @@ function! s:fzf_to_qf(filtered_list) abort
   endif
 endfunction
 
+" need fzf.vim
 command! FzfQF call fzf#run({
       \ 'source': map(getqflist(), function('<sid>qf_to_fzf')),
       \ 'down':   '20',

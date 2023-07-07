@@ -8,20 +8,20 @@ function M.setup()
     end
 
     -- plugin fzf.lua
-    vim.api.nvim_set_keymap('n', ';/', "<cmd>FzfLua search_history<cr>", {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';:', "<cmd>FzfLua command_history<cr>", {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';a', "<cmd>FzfLua lines<cr>", {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';b', "<cmd>FzfLua buffers<cr>", {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';f', ":FzfLua<space>", {noremap = true})
-    vim.api.nvim_set_keymap('n', ';e', '<cmd>FzfLua files<cr>', {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';g', "<cmd>FzfLua live_grep<cr>", {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';j', "<cmd>FzfLua jumps<cr>", {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';r', "<cmd>FzfLua grep<cr>", {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';t', "<cmd>FzfLua btags<cr>", {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';w', "<cmd>FzfLua grep_cword<cr>", {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', ';x', "<cmd>FzfLua oldfiles<cr>", {silent = true, noremap = true})
-    vim.cmd[[nnoremap ;c :FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>]]
-    vim.cmd[[nnoremap ;d :FzfLua grep cwd=<C-R>=expand("%:h")<cr><cr>]]
+    vim.api.nvim_set_keymap('n', '<space>/', "<cmd>FzfLua search_history<cr>", {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>:', "<cmd>FzfLua command_history<cr>", {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>a', "<cmd>FzfLua lines<cr>", {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>b', "<cmd>FzfLua buffers<cr>", {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>f', ":FzfLua<space>", {noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>e', '<cmd>FzfLua files<cr>', {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>g', "<cmd>FzfLua live_grep<cr>", {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>j', "<cmd>FzfLua jumps<cr>", {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>r', "<cmd>FzfLua grep<cr>", {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>t', "<cmd>FzfLua btags<cr>", {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>w', "<cmd>FzfLua grep_cword<cr>", {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<space>x', "<cmd>FzfLua oldfiles<cr>", {silent = true, noremap = true})
+    vim.cmd[[nnoremap <space>c :FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>]]
+    vim.cmd[[nnoremap <space>d :FzfLua grep cwd=<C-R>=expand("%:h")<cr><cr>]]
 
     local previewer = 'bat'
     if vim.fn.executable('bat') ~= 1 then

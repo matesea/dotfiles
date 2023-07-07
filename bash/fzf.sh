@@ -9,11 +9,34 @@
 # fl - git log selected files
 fl() {
   local files
+  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && git log "${files[@]}"
+}
+
+tl() {
+  local files
   IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0 $FZF_TMUX_OPTS))
   [[ -n "$files" ]] && git log "${files[@]}"
 }
 
 zcase() {
+    local dir
+    if [ -z "$__CASES" ]; then
+        echo "variable __CASES not defined"
+        return
+    fi
+    # adding trailing slash if not exist
+    local cases=${__CASES}
+    [[ "${cases}" != */ ]] && cases="${cases}/"
+
+    local pattern="${cases//\//\\\/}"
+    dir="$(
+        find $cases -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' 2>/dev/null |sort -r |cut -d' ' -f2 \
+            |sed "s#$pattern##" | fzf --no-sort)" || return
+    cd "$prefix$cases$dir" || return
+}
+
+tcase() {
     local dir
     if [ -z "$__CASES" ]; then
         echo "variable __CASES not defined"
@@ -45,7 +68,7 @@ zrp() {
 
     local pattern="${cases//\//\\\/}"
     dir="$(find $cases -name dmesg_TZ.txt -printf '%T@ %p\n' 2>/dev/null |sort -r |cut -d' ' -f2 \
-        |sed "s#$pattern##" |fzf-tmux --no-sort $FZF_TMUX_OPTS)" || return
+        |sed "s#$pattern##" |fzf --no-sort)" || return
     cd $(dirname "$prefix$cases$dir") || return
 }
 
@@ -54,7 +77,7 @@ _fd() {
   local dir
   dir="$(
     fd "${1:-.}" -t d -d 8 2> /dev/null \
-      | fzf-tmux +m $FZF_TMUX_OPTS
+      | fzf +m
   )" || return
   cd "$dir" || return
 }
@@ -64,7 +87,7 @@ _fda() {
   local dir
   dir="$(
     fd "${1:-.}" -t d --hidden 2> /dev/null \
-      | fzf-tmux +m $FZF_TMUX_OPTS
+      | fzf +m
   )" || return
   cd "$dir" || return
 }
@@ -85,7 +108,7 @@ _fdr() {
 
   parent_dir="$(
     get_parent_dirs "$(realpath "${1:-$PWD}")" \
-      | fzf-tmux +m $FZF_TMUX_OPTS
+      | fzf +m
   )" || return
 
   cd "$parent_dir" || return
@@ -99,7 +122,7 @@ _fst() {
       | sed 's#\s#\n#g' \
       | uniq \
       | sed "s#^~#$HOME#" \
-      | fzf-tmux +s +m -1 -q $FZF_TMUX_OPTS "$*"
+      | fzf +s +m -1 -q "$*"
   )"
   # $dirの存在を確かめないとCtrl-Cしたとき$HOMEにcdしてしまう
   if [[ -d "$dir" ]]; then
@@ -110,7 +133,7 @@ _fst() {
 # _cdf - cd into the directory of the selected file
 _cdf() {
   local file
-  file="$(fzf-tmux +m -q $FZF_TMUX_OPTS "$*")"
+  file="$(fzf +m -q "$*")"
   cd "$(dirname "$file")" || return
 }
 
@@ -168,6 +191,20 @@ fe() {
   local IFS=$'\n'
   local files=()
   files=(
+    $(fzf \
+          --query="$1" \
+          --multi \
+          --select-1 \
+          --exit-0 \
+    )
+  ) || return
+  "${EDITOR:-vim}" "${files[@]}"
+}
+
+te() {
+  local IFS=$'\n'
+  local files=()
+  files=(
     $(fzf-tmux \
           --query="$1" \
           $FZF_TMUX_OPTS \
@@ -184,9 +221,9 @@ frun() {
   local IFS=$'\n'
   local file=()
   file=(
-    $(find . -type f -executable -print | fzf-tmux \
+    $(find . -type f -executable -print | fzf \
           --query="$1" \
-          $FZF_TMUX_OPTS \
+          \
           --select-1 \
           --exit-0
     )
@@ -199,8 +236,8 @@ fcmp() {
   local IFS=$'\n'
   local file=()
   file=(
-    $(fzf-tmux \
-        $FZF_TMUX_OPTS \
+    $(fzf \
+        \
           --select-1 \
           --exit-0
     )
@@ -226,7 +263,7 @@ frg() {
     [ ! -z "$1" ] || return
     files="$(rg -F "$1" --vimgrep --no-column 2>/dev/null)" || return
     files=(
-        $(printf '%s' "$files" | fzf-tmux $FZF_TMUX_OPTS --select-1)
+        $(printf '%s' "$files" | fzf --select-1)
         ) || return
     file="$(echo "${files[@]}" |awk 'BEGIN{FS=":"}{print $1}')" || return
     line=$(echo "${files[@]}"  |awk 'BEGIN{FS=":"}{print $2}')
@@ -259,7 +296,7 @@ fco() {
 
   target="$(
     printf '%s\n%s' "$tags" "$branches" \
-      | fzf-tmux \
+      | fzf \
           -d20 \
           -- \
           --no-hscroll \
@@ -282,7 +319,7 @@ fco() {
   #   git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
   # target=$(
   #   (echo "$branches"; echo "$tags") |
-  #   fzf-tmux --no-hscroll --no-multi -n 2 \
+  #   fzf --no-hscroll --no-multi -n 2 \
   #       --ansi) || return
   # git checkout $(awk '{print $2}' <<<"$target" )
 }
@@ -299,9 +336,9 @@ fshow() {
     --graph \
     --color=always \
     --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" \
-    | fzf-tmux \
+    | fzf \
         --ansi \
-        $FZF_TMUX_OPTS \
+        \
         --no-sort \
         --reverse \
         --tiebreak=index \
@@ -323,8 +360,8 @@ fs() {
 
   session="$(
     tmux list-sessions -F "#{session_name}" \
-      | fzf-tmux \
-        $FZF_TMUX_OPTS \
+      | fzf \
+        \
           --query="$1" \
           --select-1 \
           --exit-0
@@ -353,7 +390,7 @@ ftpane() {
   target="$(
     echo "$panes" \
       | grep -v "$current_pane" \
-      | fzf-tmux +m $FZF_TMUX_OPTS --reverse
+      | fzf +m --reverse
   )" || return
 
   target_window="$(
@@ -382,5 +419,5 @@ function mr() {
         return
     fi
     echo "rsync into $__CASES/$(basename ${PWD})..."
-    rsync --progress -avz $(fd -d 1| fzf-tmux -m) $__CASES/$(basename ${PWD})/
+    rsync --progress -avz $(fd -d 1| fzf -m) $__CASES/$(basename ${PWD})/
 }

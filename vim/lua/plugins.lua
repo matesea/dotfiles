@@ -162,28 +162,37 @@ function M.setup()
             end
         },
 
-        --[[
         { 'junegunn/fzf.vim',
             dependencies = {'junegunn/fzf',
                 build ='./install --completion --key-bindings --xdg --no-update-rc'
             },
-            event = 'VeryLazy',
+            lazy = true,
+            keys = function()
+                ---@type LazyKeys[]
+	            local ret = {}
+                local prefix = ';'
+	            for _, key in ipairs({ 'e', 'c', 'g', 'b', 'h', 'a', 'l', 'w', 't', 'm', 'r', 'x' }) do
+                    ret[#ret + 1] = { prefix .. key, mode = {'n'}, desc = key }
+	            end
+	            return ret
+            end,
             config = function()
-                vim.api.nvim_set_keymap('n', '<space>e', ':FZF<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>c', ':FZF %:h<cr>', {noremap = true, silent = true})
-                -- vim.api.nvim_set_keymap('n', '<space>g', ':GFiles<cr>', {noremap = true})
-                vim.api.nvim_set_keymap('n', '<space>b', ':Buffers<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>h', ':History', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>a', ':Lines<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>l', ':Blines<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>w', ':Lines <c-r><c-w><cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>t', ':BTags<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>m', ':Marks<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', '<space>r', ':Rg<space>', {noremap = true})
-                vim.api.nvim_set_keymap('n', '<space>x', ':Rg <c-r><c-w><cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', ';e', ':FZF<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', ';c', ':FZF %:h<cr>', {noremap = true, silent = true})
+                -- vim.api.nvim_set_keymap('n', ';g', ':GFiles<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', ';b', ':Buffers<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', ';h', ':History', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', ';a', ':Lines<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', ';l', ':Blines<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', ';w', ':Lines <c-r><c-w><cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', ';t', ':BTags<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', ';m', ':Marks<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', ';r', ':Rg<space>', {noremap = true})
+                vim.api.nvim_set_keymap('n', ';x', ':Rg <c-r><c-w><cr>', {noremap = true, silent = true})
             end
         },
 
+        --[[
         { 'nvim-telescope/telescope.nvim',
             dependencies = {
                 {'nvim-lua/plenary.nvim',},
@@ -205,7 +214,7 @@ function M.setup()
             keys = function()
                 ---@type LazyKeys[]
 	            local ret = {}
-                local prefix = ';'
+                local prefix = '<space>'
 	            for _, key in ipairs({ '/', ':', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'j', 'r', 't', 'w', 'x' }) do
                     ret[#ret + 1] = { prefix .. key, mode = {'n'}, desc = key }
 	            end
@@ -690,7 +699,15 @@ function M.setup()
                       require("flash").treesitter_search()
                     end,
                     desc = "Treesitter Search",
-              }
+              },
+              {
+                    "<c-s>",
+                    mode = { "c" },
+                    function()
+                      require("flash").toggle()
+                    end,
+                    desc = "Toggle Flash Search",
+              },
             },
         },
 
