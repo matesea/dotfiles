@@ -162,33 +162,38 @@ function M.setup()
             end
         },
 
+        { 'junegunn/fzf',
+            lazy = true,
+            event = 'VeryLazy',
+            build ='./install --completion --key-bindings --xdg --no-update-rc',
+        },
+
         { 'junegunn/fzf.vim',
-            dependencies = {'junegunn/fzf',
-                build ='./install --completion --key-bindings --xdg --no-update-rc'
-            },
+            dependencies = {'fzf' },
             lazy = true,
             keys = function()
                 ---@type LazyKeys[]
 	            local ret = {}
-                local prefix = ';'
+                local prefix = '<space>'
 	            for _, key in ipairs({ 'e', 'c', 'g', 'b', 'h', 'a', 'l', 'w', 't', 'm', 'r', 'x' }) do
                     ret[#ret + 1] = { prefix .. key, mode = {'n'}, desc = key }
 	            end
 	            return ret
             end,
             config = function()
-                vim.api.nvim_set_keymap('n', ';e', ':FZF<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', ';c', ':FZF %:h<cr>', {noremap = true, silent = true})
-                -- vim.api.nvim_set_keymap('n', ';g', ':GFiles<cr>', {noremap = true})
-                vim.api.nvim_set_keymap('n', ';b', ':Buffers<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', ';h', ':History', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', ';a', ':Lines<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', ';l', ':Blines<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', ';w', ':Lines <c-r><c-w><cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', ';t', ':BTags<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', ';m', ':Marks<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', ';r', ':Rg<space>', {noremap = true})
-                vim.api.nvim_set_keymap('n', ';x', ':Rg <c-r><c-w><cr>', {noremap = true, silent = true})
+                local prefix = '<space>'
+                vim.api.nvim_set_keymap('n', prefix ..'e', ':FZF<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix ..'c', ':FZF %:h<cr>', {noremap = true, silent = true})
+                -- vim.api.nvim_set_keymap('n', prefix .. 'g', ':GFiles<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'b', ':Buffers<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'h', ':History', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'a', ':Lines<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'l', ':Blines<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'w', ':Lines <c-r><c-w><cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 't', ':BTags<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'm', ':Marks<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'r', ':Rg<space>', {noremap = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'x', ':Rg <c-r><c-w><cr>', {noremap = true, silent = true})
             end
         },
 
@@ -208,20 +213,18 @@ function M.setup()
 
         { 'ibhagwan/fzf-lua',
             lazy = true,
-            dependencies = {'junegunn/fzf',
-                build ='./install --completion --key-bindings --xdg --no-update-rc'
-            },
+            dependencies = {'fzf'},
             keys = function()
                 ---@type LazyKeys[]
 	            local ret = {}
-                local prefix = '<space>'
+                local prefix = ';'
 	            for _, key in ipairs({ '/', ':', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'j', 'r', 't', 'w', 'x' }) do
                     ret[#ret + 1] = { prefix .. key, mode = {'n'}, desc = key }
 	            end
 	            return ret
             end,
             config = function()
-                require('config.fzf-lua').setup()
+                require('config.fzf-lua').setup(';')
             end
         },
 
@@ -659,57 +662,56 @@ function M.setup()
 	        opts = { labeled_modes = 'nx' },
 	    },
 
-        --[[
         {
             "folke/flash.nvim",
+            enabled = false,
             event = "VeryLazy",
             ---@type Flash.Config
             opts = {},
             keys = {
-              {
-                    "ss",
-                    mode = { "n", "x", "o" },
-                    function()
-                      -- default options: exact mode, multi window, all directions, with a backdrop
-                      require("flash").jump()
-                    end,
-                    desc = "Flash",
-              },
-              {
-                    "r",
-                    mode = "o",
-                    function()
+                    {
+                        "s",
+                        mode = { "n", "x", "o" },
+                        function()
+                          require("flash").jump()
+                        end,
+                        desc = "Flash",
+                    },
+                    {
+                      "S",
+                      mode = { "n", "o", "x" },
+                      function()
+                        require("flash").treesitter()
+                      end,
+                      desc = "Flash Treesitter",
+                    },
+                    {
+                      "r",
+                      mode = "o",
+                      function()
                         require("flash").remote()
-                    end,
-                    desc = "Remote Flash",
-              },
-              {
-                    "st",
-                    mode = { "n", "o", "x" },
-                    function()
-                      require("flash").treesitter()
-                    end,
-                    desc = "Flash Treesitter",
-              },
-              {
-                    "R",
-                    mode = { "n", "o", "x" },
-                    function()
-                      -- show labeled treesitter nodes around the search matches
-                      require("flash").treesitter_search()
-                    end,
-                    desc = "Treesitter Search",
-              },
-              {
-                    "<c-s>",
-                    mode = { "c" },
-                    function()
-                      require("flash").toggle()
-                    end,
-                    desc = "Toggle Flash Search",
-              },
+                      end,
+                      desc = "Remote Flash",
+                    },
+                    {
+                      "R",
+                      mode = { "o", "x" },
+                      function()
+                        require("flash").treesitter_search()
+                      end,
+                      desc = "Flash Treesitter Search",
+                    },
+                    {
+                      "<c-s>",
+                      mode = { "c" },
+                      function()
+                        require("flash").toggle()
+                      end,
+                      desc = "Toggle Flash Search",
+                    },
             },
         },
+        --[[
 
         { 'skywind3000/vim-preview',
             lazy = true,
