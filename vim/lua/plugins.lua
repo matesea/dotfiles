@@ -549,6 +549,7 @@ function M.setup()
             lazy = true,
             dependencies = {
                 {'nvim-treesitter'},
+                {'fzf'},
             },
             cmd = { 'AerialToggle'},
             config = function()
@@ -558,7 +559,7 @@ function M.setup()
 
                 -- shortcut to find function in fzf mode
                 -- faster than fzf.vim/fzf-lua BTags
-                -- vim.keymap.set('n', ';z', '<cmd>call aerial#fzf()<cr>')
+                vim.keymap.set('n', ';z', '<cmd>call aerial#fzf()<cr>')
             end,
         },
 
