@@ -57,8 +57,6 @@ command! -bang -nargs=* Rgd call fzf#vim#grep
 command! -complete=shellcmd -nargs=+ Rgb
     \ call s:RunShellCommand("rg -S --vimgrep --no-heading --no-column ".<q-args>)
 
-source $VIMHOME/quick-fzf.vim
-
 " WA to overwrite options overwritten by sensible.vim
 " autocmd VimEnter * :set scrolloff=999
 " autocmd VimEnter * :set history=2000

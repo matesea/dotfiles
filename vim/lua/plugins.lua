@@ -164,12 +164,16 @@ function M.setup()
 
         { 'junegunn/fzf',
             lazy = true,
-            event = 'VeryLazy',
+            -- fzf is loaded either by fzf to filter quickfix or caused by dependencies
+            cmd = "FzfQF",
             build ='./install --completion --key-bindings --xdg --no-update-rc',
+            config = function()
+                vim.cmd("source $VIMHOME/quick-fzf.vim")
+            end
         },
 
         { 'junegunn/fzf.vim',
-            dependencies = {'fzf' },
+            dependencies = {'fzf'},
             lazy = true,
             keys = function()
                 ---@type LazyKeys[]
