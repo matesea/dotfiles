@@ -88,6 +88,7 @@ function M.setup()
         { 'bronson/vim-trailing-whitespace',
             lazy = true,
             ft = ft_code,
+            cmd = 'FixWhitespace',
             init = function()
                 vim.g.extra_whitespace_ignored_filetypes = {
                     'diff',
