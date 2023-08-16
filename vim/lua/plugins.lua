@@ -41,7 +41,7 @@ function M.setup()
 
         { 'tpope/vim-fugitive',
             lazy = true,
-            cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV'},
+            cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV', 'Gcd'},
         },
 
         { 'lewis6991/gitsigns.nvim',
@@ -220,6 +220,7 @@ function M.setup()
         { 'ibhagwan/fzf-lua',
             lazy = true,
             dependencies = {'fzf'},
+            cmd = 'FzfLua',
             keys = function()
                 ---@type LazyKeys[]
 	            local ret = {}
