@@ -40,7 +40,8 @@ function M.setup()
         }]]
 
         { 'tpope/vim-fugitive',
-            event = 'VeryLazy',
+            lazy = true,
+            cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV'},
         },
 
         { 'lewis6991/gitsigns.nvim',
@@ -261,7 +262,6 @@ function M.setup()
         ]]
 
         { 'azabiong/vim-highlighter',
-            -- lazy = true,
             config = function()
                 vim.api.nvim_set_keymap('n', 'f<c-h>', ':Hi+<space>', {noremap = true})
                 vim.cmd [[
