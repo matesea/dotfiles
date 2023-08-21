@@ -65,7 +65,7 @@ cmd([[
 opt.ofu = 'syntaxcomplete#Completion'
 
 opt.so = 7
-opt.cmdheight = 2
+opt.cmdheight = 1
 opt.hidden = true
 opt.whichwrap:append('<,>,h,l')
 opt.magic = true

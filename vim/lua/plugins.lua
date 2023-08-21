@@ -28,20 +28,35 @@ function M.setup()
 
     local plugins = {
         { 'tamelion/neovim-molokai',
+            lazy = false,
             config = function()
-                vim.cmd('colorscheme molokai')
+                vim.cmd.colorscheme 'molokai'
             end
         },
-        --[[ { 'rebelot/kanagawa.nvim',,
+
+        { 'dasupradyumna/midnight.nvim',
+            lazy = true,
+            priority = 1000,
+            config = function()
+                vim.cmd.colorscheme 'midnight'
+            end
+        },
+
+        { 'rebelot/kanagawa.nvim',
            lazy = true,
            config = function()
                 vim.cmd("colorscheme kanagawa")
            end
-        }]]
+        },
 
         { 'tpope/vim-fugitive',
             lazy = true,
             cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV', 'Gcd'},
+        },
+
+        { 'FabijanZulj/blame.nvim',
+            lazy = true,
+            cmd = 'ToggleBlame',
         },
 
         { 'lewis6991/gitsigns.nvim',
@@ -259,8 +274,13 @@ function M.setup()
             enabled = false,
             cmd = 'DoShowMarks', -- DoShowMarks to enable
         },
-        {'chentoast/marks.nvim', enabled = false},
         ]]
+        { 'chentoast/marks.nvim',
+            lazy = true,
+            config = function()
+                require('marks').setup()
+            end
+        },
 
         { 'azabiong/vim-highlighter',
             config = function()
@@ -607,8 +627,6 @@ function M.setup()
            lazy = true,
            cmd = 'Diffthis',
         },
-
-        -- { "nvim-tree/nvim-web-devicons", lazy = true },
 
         { "olimorris/persisted.nvim",
             lazy = true,
