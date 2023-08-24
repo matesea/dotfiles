@@ -38,6 +38,13 @@ function M.setup(prefix)
         actions = {
             files = {
                 ["default"] = actions.file_edit, -- align with fzf.vim
+                ["ctrl-s"] = actions.file_split,
+                ["ctrl-v"] = actions.file_vsplit,
+            },
+            buffers = {
+                ["default"] = actions.buf_edit, -- align with fzf.vim
+                ["ctrl-s"] = actions.buf_split,
+                ["ctrl-v"] = actions.buf_vsplit,
             },
         },
         files = {previewer = false},
