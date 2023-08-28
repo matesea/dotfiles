@@ -27,7 +27,25 @@ function M.setup()
     end
 
     local plugins = {
+        { "fabius/molokai.nvim",
+            dependencies = "rktjmp/lush.nvim",
+            lazy = false,
+            priority = 1000,
+            config = function()
+                vim.cmd.colorscheme 'molokai'
+            end
+        },
+
+        {'tanvirtin/monokai.nvim',
+            enabled = false,
+            lazy = false,
+            config = function()
+                require('monokai').setup {}
+            end
+        },
+
         { 'tamelion/neovim-molokai',
+            enabled = false,
             lazy = false,
             config = function()
                 vim.cmd.colorscheme 'molokai'
@@ -60,6 +78,7 @@ function M.setup()
         },
 
         {'rhysd/git-messenger.vim',
+            enabled = false,
 		    cmd = 'GitMessenger',
 		    keys = {
 		    	{ '<Leader>gm', '<Plug>(git-messenger)', desc = 'Git messenger'}
@@ -95,6 +114,9 @@ function M.setup()
                })
            end
         },
+
+	    { 'nmac427/guess-indent.nvim', lazy = false, priority = 50, config = true },
+
         --[[
         { 'ap/vim-buftabline',
             enabled = false,
