@@ -275,7 +275,7 @@ function M.setup()
                 ---@type LazyKeys[]
 	            local ret = {}
                 local prefix = ';'
-	            for _, key in ipairs({ '/', ':', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'j', 'r', 't', 'w', 'x' }) do
+	            for _, key in ipairs({ '/', ':', 'a', 'b', 'c', 'd', 'e', 'f', 'F', 'j', 'r', 't', 'w', 'o' }) do
                     ret[#ret + 1] = { prefix .. key, mode = {'n'}, desc = key }
 	            end
 	            return ret
