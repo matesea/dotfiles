@@ -225,6 +225,7 @@ function M.setup()
         },
 
         { 'junegunn/fzf.vim',
+            enabled = false,
             dependencies = {'fzf'},
             lazy = true,
             keys = function()
@@ -271,17 +272,19 @@ function M.setup()
             lazy = true,
             dependencies = {'fzf'},
             cmd = 'FzfLua',
-            keys = function()
-                ---@type LazyKeys[]
-	            local ret = {}
-                local prefix = ';'
-	            for _, key in ipairs({ '/', ':', 'a', 'b', 'c', 'd', 'e', 'f', 'F', 'j', 'r', 't', 'w', 'o' }) do
-                    ret[#ret + 1] = { prefix .. key, mode = {'n'}, desc = key }
-	            end
-	            return ret
-            end,
+            keys = {
+                {';a', '<cmd>FzfLua lines<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'open buffer lines'},
+                {';b', '<cmd>FzfLua buffers<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'open buffers'},
+                {';s', '<cmd>FzfLua<space>', mode = {'n'}, noremap = true, desc = 'FzfLua prompt'},
+                {';f', '<cmd>FzfLua builtin<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'FzfLua prompt'},
+                {';e', '<cmd>FzfLua files<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'find files'},
+                {';t', '<cmd>FzfLua btags<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'search buffer tags'},
+                {';w', '<cmd>FzfLua grep_cword<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'search word under cursor'},
+                {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', mode = {'n'}, noremap = true, silent = true, desc = 'find files with cwd'},
+                {';d', ':FzfLua grep cwd=<C-R>=expand("%:h")<cr><cr>', mode = {'n'}, noremap = true, silent = true, desc = 'grep files with cwd'},
+            },
             config = function()
-                require('config.fzf-lua').setup(';')
+                require('config.fzf-lua').setup()
             end
         },
 
