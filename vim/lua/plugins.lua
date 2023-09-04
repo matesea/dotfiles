@@ -275,7 +275,7 @@ function M.setup()
             keys = {
                 {';a', '<cmd>FzfLua lines<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'open buffer lines'},
                 {';b', '<cmd>FzfLua buffers<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'open buffers'},
-                {';s', '<cmd>FzfLua<space>', mode = {'n'}, noremap = true, desc = 'FzfLua prompt'},
+                {';s', ':FzfLua<space>', mode = {'n'}, noremap = true, desc = 'FzfLua prompt'},
                 {';f', '<cmd>FzfLua builtin<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'FzfLua prompt'},
                 {';e', '<cmd>FzfLua files<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'find files'},
                 {';t', '<cmd>FzfLua btags<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'search buffer tags'},
