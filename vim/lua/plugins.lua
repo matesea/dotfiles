@@ -462,6 +462,9 @@ function M.setup()
                 'Fw',  -- Show lines which contain the word under the cursor
                 'Fs'   -- Show lines which contain previous search pattern
                 -- zE to clear all fold
+                -- zo close fold, zC to close all fold
+                -- zo open fold, zO to open all fold
+                -- za toggle fold, toggle it recursively
            },
         },
 
@@ -728,8 +731,9 @@ function M.setup()
         {
             "folke/flash.nvim",
             enabled = false,
-            event = "VeryLazy",
+            -- event = "VeryLazy",
             ---@type Flash.Config
+            lazy = true,
             opts = {},
             keys = {
                 { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },

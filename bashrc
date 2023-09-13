@@ -623,5 +623,7 @@ function gcd() {
 }
 
 function vg() {
-    "${EDITOR:-vim}" $(global $1)
+    if [ -e GTAGS ]; then
+        "${EDITOR:-vim}" $(global $1)
+    fi
 }

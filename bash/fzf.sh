@@ -6,6 +6,15 @@ if [ ! -z "$FZF_TMUX_OPTS" ]; then
     fi
 fi
 
+cmd_exists() {
+    command -v "$@" >/dev/null 2>&1
+}
+
+AWK_CMD='awk'
+if cmd_exists gawk; then
+    AWK_CMD='gawk'
+fi
+
 # fl - git log selected files
 fl() {
   local files
@@ -420,4 +429,11 @@ function mr() {
     fi
     echo "rsync into $__CASES/$(basename ${PWD})..."
     rsync --progress -avz $(fd -d 1| fzf -m) $__CASES/$(basename ${PWD})/
+}
+
+function vm() {
+    if [ -e .git ]; then
+        "${EDITOR:-vim}" $(git status --porcelain | \
+            $AWK_CMD '/^\s*M\y/{print $2}' |fzf -m)
+    fi
 }
