@@ -184,6 +184,9 @@ function M.setup()
         { 'joereynolds/gtags-scope',
             lazy = true,
             cmd = {'GtagsCscope',},
+            keys = {
+                {'<leader>gc', '<cmd>GtagsCscope<cr>', mode = {'n'}, noremap = true, silent = false, desc = 'start gtags-cscope'},
+            },
             config = function()
                 require('config.gtags').setup()
             end
