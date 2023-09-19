@@ -480,7 +480,11 @@ function M.setup()
 
         { 'nanotee/zoxide.vim',
             lazy = true,
-            cmd = { 'Z', 'Zi', 'Lz', 'Lzi'}
+            cmd = { 'Z', 'Zi', 'Lz', 'Lzi'},
+            keys = {
+                {'<leader>zz', ':Z<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide'},
+                {'<leader>zi', ':Zi<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide+fzf'},
+            },
         },
 
         { 'justinmk/vim-gtfo',
