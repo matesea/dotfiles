@@ -389,7 +389,27 @@ function M.setup()
             end
         },
 
+        { "LunarVim/bigfile.nvim",
+            init = function()
+                require("bigfile").setup {
+                    filesize = 20, -- size of the file in MiB, the plugin round file sizes to the closest MiB
+                    pattern = { "*" }, -- autocmd pattern or function see <### Overriding the detection of big files>
+                    features = { -- features to disable
+                      "indent_blankline",
+                      "illuminate",
+                      "lsp",
+                      "treesitter",
+                      "syntax",
+                      "matchparen",
+                      -- "vimopts",
+                      "filetype",
+                    },
+                  }
+            end
+        },
+
         { 'mhinz/vim-hugefile',
+            enabled = false,
            init = function()
                vim.g.hugefile_trigger_size = 150
            end
@@ -482,8 +502,8 @@ function M.setup()
             lazy = true,
             cmd = { 'Z', 'Zi', 'Lz', 'Lzi'},
             keys = {
-                {'<leader>zz', ':Z<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide'},
-                {'<leader>zi', ':Zi<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide+fzf'},
+                {'zz', ':Z<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide'},
+                {'zi', ':Zi<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide+fzf'},
             },
         },
 
