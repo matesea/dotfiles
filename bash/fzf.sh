@@ -240,23 +240,14 @@ frun() {
   $file
 }
 
-# compare files in the same relative path
+# compare files, one under pwd, the other under specified folder
 fcmp() {
-  local IFS=$'\n'
-  local file=()
-  file=(
-    $(fzf \
-        \
-          --select-1 \
-          --exit-0
-    )
-  ) || return
-  "${EDITOR:-vim}" "${file}" "$1/${file}" -d
-}
+  [ ! -z "$1" ] || return
+  local file1=$(rg --no-messages --files |fzf)
+  local file2=$(rg --no-messages --files "$1"|fzf)
 
-# compare files with diffent relative path
-fncmp() {
-    "${EDITOR:-vim}" -d $(fd "$1") $(fd "$1" "$2")
+
+  "${EDITOR:-vim}" "${file1}" "${file2}" -d
 }
 
 # grep/rg and jump to the line
@@ -429,11 +420,4 @@ function mr() {
     fi
     echo "rsync into $__CASES/$(basename ${PWD})..."
     rsync --progress -avz $(fd -d 1| fzf -m) $__CASES/$(basename ${PWD})/
-}
-
-function vm() {
-    if [ -e .git ]; then
-        "${EDITOR:-vim}" $(git status --porcelain | \
-            $AWK_CMD '/^\s*M\y/{print $2}' |fzf -m)
-    fi
 }
