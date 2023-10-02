@@ -502,8 +502,8 @@ function M.setup()
             lazy = true,
             cmd = { 'Z', 'Zi', 'Lz', 'Lzi'},
             keys = {
-                {'zz', ':Z<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide'},
-                {'zi', ':Zi<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide+fzf'},
+                {'<leader>zz', ':Z<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide'},
+                {'<leader>zi', ':Zi<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide+fzf'},
             },
         },
 
@@ -594,9 +594,10 @@ function M.setup()
                 {'hrsh7th/cmp-buffer', lazy = true},
                 {'hrsh7th/cmp-path', lazy = true},
                 {'hrsh7th/cmp-cmdline', lazy = true},
-                {'hrsh7th/cmp-vsnip', lazy = true},
-                {'hrsh7th/vim-vsnip', lazy = true},
                 {'andersevenrud/cmp-tmux', lazy = true},
+                {'hrsh7th/cmp-vsnip', lazy = true},
+                -- {'hrsh7th/vim-vsnip', lazy = true},
+                -- {'saadparwaiz1/cmp_luasnip', dependencies = 'L3MON4D3/LuaSnip'},
                 -- { 'quangnguyen30192/cmp-nvim-tags', lazy = true, ft = { 'c', 'h', 'python', 'cpp'}}
             },
             event = 'InsertEnter',

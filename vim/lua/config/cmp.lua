@@ -4,7 +4,7 @@ local completion_labels = {
 	nvim_lsp = "[LSP]",
 	nvim_lua = "[Lua]",
     cmdline = "[Cmd]",
-	-- buffer   = "[Buf]",
+	buffer   = "[Buf]",
 	path     = "[Path]",
 	-- vsnip    = "[VSnip]",
 	tmux     = "[Tmux]",
@@ -24,19 +24,23 @@ function M.setup()
     end
 
     local has_words_before = function()
-      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
+				if vim.bo.buftype == 'prompt' then
+					return false
+				end
+				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+				-- stylua: ignore
+				return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
     end
 
     vim.opt.completeopt = {'noinsert', 'menuone', 'noselect'}
     vim.opt.shortmess:append({c = true})
 
     cmp.setup({
-        -- snippet = {
-        --     expand = function(args)
-        --       vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        --     end,
-        -- },
+        --[[ snippet = {
+            expand = function(args)
+              vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            end,
+        }, ]]
         window = {
             -- completion = cmp.config.window.bordered(),
             -- documentation = cmp.config.window.bordered(),
