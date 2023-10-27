@@ -184,9 +184,11 @@ function M.setup()
         { 'joereynolds/gtags-scope',
             lazy = true,
             cmd = {'GtagsCscope',},
+            --[[
             keys = {
                 {'<leader>gc', '<cmd>GtagsCscope<cr>', mode = {'n'}, noremap = true, silent = false, desc = 'start gtags-cscope'},
             },
+            ]]
             config = function()
                 require('config.gtags').setup()
             end
@@ -423,6 +425,11 @@ function M.setup()
         { 'vivien/vim-linux-coding-style',
             lazy = true,
             ft = {'c', 'h', 'S'}
+        },
+
+        { 'Vimjas/vim-python-pep8-indent',
+            lazy = true,
+            ft = {'python'},
         },
 
         --[[
@@ -755,6 +762,9 @@ function M.setup()
         {
             'dhananjaylatkar/cscope_maps.nvim',
             lazy = true,
+            keys = {
+                {'<leader>gc', '<cmd>Lazy load cscope_maps.nvim<cr>', mode = {'n'}, noremap = true, silent = false, desc = 'start gtags-cscope'},
+            },
             config = function()
                 require('config.cscope_maps').setup()
             end,
