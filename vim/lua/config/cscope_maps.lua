@@ -26,7 +26,7 @@ function M.setup()
 
         },
     })
-    vim.api.nvim_set_keymap('n', '<leader>cf', ':Cscope find<space>', {silent = true, noremap = true})
+    vim.api.nvim_set_keymap('n', '<leader>cf', ':Cscope find<space>', {silent = false, noremap = true})
     vim.api.nvim_set_keymap('n', '<leader>cs', ':Cscope find s <C-R>=expand("<cword>")<cr><cr>', {silent = true, noremap = true})
     vim.api.nvim_set_keymap('n', '<leader>cg', ':Cscope find g <C-R>=expand("<cword>")<cr><cr>', {silent = true, noremap = true})
     vim.api.nvim_set_keymap('n', '<leader>cc', ':Cscope find c <C-R>=expand("<cword>")<cr><cr>', {silent = true, noremap = true})
