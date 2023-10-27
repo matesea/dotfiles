@@ -446,18 +446,18 @@ function M.setup()
             ft = {'c', 'h', 'S', 'cpp'},
         },
 
-        { 'b3nj5m1n/kommentary',
-            lazy = true,
-            ft = ft_code,
-        },
-
         { 'echasnovski/mini.comment',
-            enabled = false,
             version = false,
             ft = ft_code,
-            config = function()
-                require('mini.comment').setup()
-            end
+            dependencies = {'nvim-ts-context-commentstring'},
+            opts = {
+                options = {
+                    custom_commentstring = function()
+                        return require('ts_context_commentstring.internal').calculate_commentstring()
+                            or vim.bo.commentstring
+                    end,
+                },
+            },
         },
 
         { 'nathanaelkane/vim-indent-guides',
@@ -558,15 +558,25 @@ function M.setup()
             end
         },
 
+        { 'JoosepAlviste/nvim-ts-context-commentstring',
+            lazy = true,
+            config = function()
+                require('ts_context_commentstring').setup {}
+            end
+        },
+
         { 'nvim-treesitter/nvim-treesitter',
             lazy = true,
             -- event = 'BufRead',
+            dependencies = {
+			    {'nvim-ts-context-commentstring'},
+            },
             build = function()
                local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
                ts_update()
            end,
            config = function()
-               require('config.treesitter')
+                require('config.treesitter')
            end
         },
 
