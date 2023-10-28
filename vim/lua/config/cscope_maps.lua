@@ -17,7 +17,7 @@ function M.setup()
         cscope = {
             db_file = "GTAGS", -- location of cscope db file
             exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
-            picker = "quickfix", -- "telescope", "fzf-lua" or "quickfix"
+            picker = 'quickfix', -- "telescope", "fzf-lua" or "quickfix"
             skip_picker_for_single_result = true, -- jump directly to position for single result
             -- these args are directly passed to "cscope -f <db_file> <args>"
             -- db_build_cmd_args = { "-bqkv" },
@@ -26,10 +26,6 @@ function M.setup()
 
         },
     })
-    vim.api.nvim_set_keymap('n', '<leader>cf', ':Cscope find<space>', {silent = false, noremap = true})
-    vim.api.nvim_set_keymap('n', '<leader>cs', ':Cscope find s <C-R>=expand("<cword>")<cr><cr>', {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', '<leader>cg', ':Cscope find g <C-R>=expand("<cword>")<cr><cr>', {silent = true, noremap = true})
-    vim.api.nvim_set_keymap('n', '<leader>cc', ':Cscope find c <C-R>=expand("<cword>")<cr><cr>', {silent = true, noremap = true})
 end
 
 return M

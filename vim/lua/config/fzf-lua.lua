@@ -13,7 +13,9 @@ function M.setup()
     end
 
     local actions = require "fzf-lua.actions"
-    fzf_lua.setup({'max-perf',
+    fzf_lua.setup({
+        'max-perf',
+        -- 'default',
         -- fzf_bin = 'sk',
         -- fzf_opts = { ["--no-separator"] = false},
         winopts = {

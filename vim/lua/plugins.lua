@@ -183,8 +183,8 @@ function M.setup()
 
         { 'joereynolds/gtags-scope',
             lazy = true,
-            cmd = {'GtagsCscope',},
             --[[
+            cmd = {'GtagsCscope',},
             keys = {
                 {'<leader>gc', '<cmd>GtagsCscope<cr>', mode = {'n'}, noremap = true, silent = false, desc = 'start gtags-cscope'},
             },
@@ -196,18 +196,10 @@ function M.setup()
 
         { 'drmingdrmer/vim-toggle-quickfix',
             lazy = true,
-            --[[ cmd = {
-                '<Plug>window:quickfix:toggle',
-                '<Plug>window:location:toggle'
-            }, ]]
             keys = {
-                '<leader>q',
-                '<leader>f',
+                {'<leader>q', '<Plug>window:quickfix:toggle', desc = 'toggle quickfix'},
+                {'<leader>f', '<Plug>window:location:toggle', desc = 'toggle location list'},
             },
-            config = function()
-                vim.api.nvim_set_keymap('n', '<leader>q', '<Plug>window:quickfix:toggle', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>f', '<Plug>window:location:toggle', {noremap = false})
-            end
         },
 
         { 'windwp/nvim-autopairs',
@@ -238,7 +230,7 @@ function M.setup()
 	            local ret = {}
                 local prefix = '<space>'
 	            for _, key in ipairs({ 'e', 'c', 'g', 'b', 'h', 'a', 'l', 'w', 't', 'm', 'r', 'x' }) do
-                    ret[#ret + 1] = { prefix .. key, mode = {'n'}, desc = key }
+                    ret[#ret + 1] = { prefix .. key, desc = key }
 	            end
 	            return ret
             end,
@@ -278,15 +270,15 @@ function M.setup()
             dependencies = {'fzf'},
             cmd = 'FzfLua',
             keys = {
-                {';a', '<cmd>FzfLua lines<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'open buffer lines'},
-                {';b', '<cmd>FzfLua buffers<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'open buffers'},
-                {';s', ':FzfLua<space>', mode = {'n'}, noremap = true, desc = 'FzfLua prompt'},
-                {';f', '<cmd>FzfLua builtin<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'FzfLua prompt'},
-                {';e', '<cmd>FzfLua files<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'find files'},
-                {';t', '<cmd>FzfLua btags<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'search buffer tags'},
-                {';w', '<cmd>FzfLua grep_cword<cr>', mode = {'n'}, noremap = true, silent = true, desc = 'search word under cursor'},
-                {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', mode = {'n'}, noremap = true, silent = true, desc = 'find files with cwd'},
-                {';d', ':FzfLua grep cwd=<C-R>=expand("%:h")<cr><cr>', mode = {'n'}, noremap = true, silent = true, desc = 'grep files with cwd'},
+                {';a', '<cmd>FzfLua lines<cr>', desc = 'open buffer lines'},
+                {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
+                {';s', ':FzfLua<space>', desc = 'FzfLua prompt'},
+                {';f', '<cmd>FzfLua builtin<cr>', desc = 'FzfLua prompt'},
+                {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
+                {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
+                {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
+                {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'find files with cwd'},
+                {';d', ':FzfLua grep cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'grep files with cwd'},
             },
             config = function()
                 require('config.fzf-lua').setup()
@@ -509,8 +501,8 @@ function M.setup()
             lazy = true,
             cmd = { 'Z', 'Zi', 'Lz', 'Lzi'},
             keys = {
-                {'<leader>zz', ':Z<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide'},
-                {'<leader>zi', ':Zi<space>', mode = {'n'}, noremap = true, silent = false, desc = 'cd with zoxide+fzf'},
+                {'<leader>zz', ':Z<space>', desc = 'cd with zoxide'},
+                {'<leader>zi', ':Zi<space>', desc = 'cd with zoxide+fzf'},
             },
         },
 
@@ -570,6 +562,7 @@ function M.setup()
             -- event = 'BufRead',
             dependencies = {
 			    {'nvim-ts-context-commentstring'},
+                {'nvim-treesitter-context'},
             },
             build = function()
                local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
@@ -583,9 +576,6 @@ function M.setup()
         { 'nvim-treesitter/nvim-treesitter-context',
             lazy = true,
             ft = ft_code,
-            dependencies = {
-                {'nvim-treesitter'},
-            },
             config = function()
                 require('treesitter-context').setup{
                       enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -603,22 +593,6 @@ function M.setup()
                 }
             end
         },
-
-        --[[
-        { 'lewis6991/nvim-treesitter-context',
-            lazy = true,
-            ft = ft_code,
-            dependencies = {
-                {'nvim-treesitter'},
-            },
-            config = function()
-                require('treesitter-context').setup{
-                    enabled = true,
-                    throttle = true,
-                }
-            end
-        },
-        ]]
 
         { 'm-demare/hlargs.nvim',
              lazy = true,
@@ -773,8 +747,20 @@ function M.setup()
             'dhananjaylatkar/cscope_maps.nvim',
             lazy = true,
             keys = {
-                {'<leader>gc', '<cmd>Lazy load cscope_maps.nvim<cr>', mode = {'n'}, noremap = true, silent = false, desc = 'start gtags-cscope'},
+                {'<leader>cf', ':Cscope find<space>',
+                    desc = 'trigger Cscope'},
+                {'<leader>cs', ':Cscope find s <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find all references to a token under cursor'},
+                {'<leader>cg', ':Cscope find g <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find definition of the token under cursor'},
+                {'<leader>cc', ':Cscope find c <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find all calls to the function under cursor'},
+                {'<leader>ct', ':Cscope find t <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find all instances of the text under cursor'},
+                {'<leader>ca', ':Cscope find a <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find functions that function under cursor calls'},
             },
+            cmd = {'Cscope'},
             config = function()
                 require('config.cscope_maps').setup()
             end,
@@ -783,13 +769,15 @@ function M.setup()
         { 'ggandor/leap.nvim',
             lazy = true,
             keys = {
-                { 'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to' },
-                { 'SS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to' },
+                {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
+                {'sS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
+                {'SS', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
             },
             config = true,
         },
 
 	    { 'ggandor/flit.nvim',
+            enabled = false,
             lazy = true,
 	        keys = function()
                 ---@type LazyKeys[]
@@ -805,13 +793,13 @@ function M.setup()
         {
             "folke/flash.nvim",
             enabled = false,
-            -- event = "VeryLazy",
+            event = "VeryLazy",
             ---@type Flash.Config
             lazy = true,
             opts = {},
             keys = {
                 { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-                { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+                { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
                 { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
                 { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
                 { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
