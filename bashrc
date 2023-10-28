@@ -418,7 +418,7 @@ function gen_cs_for_each_subdir() {
         return
     fi
 
-    for i in $(ls $folder/files/*.files |grep -v '\<all*.files\>' )
+    for i in $(fd -d 1 .files $folder/files/ -E 'all*.files' )
     do
         local out_name=$(echo $i |${_gsed} 's$\.files$\.out$')
         echo gen $out_name...
