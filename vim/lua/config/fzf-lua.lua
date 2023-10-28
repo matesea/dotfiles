@@ -16,11 +16,15 @@ function M.setup()
     fzf_lua.setup({
         'max-perf',
         -- 'default',
-        -- fzf_bin = 'sk',
-        -- fzf_opts = { ["--no-separator"] = false},
-        winopts = {
-                preview = {default = previewer}
-        },
+        fzf_bin = 'fzf-tmux',
+        fzf_opts = {['--border'] = 'rounded'},
+        fzf_tmux_opts = {['-p'] = '80%,90%'},
+        winopts = {preview = {default = previewer, layout = 'horizontal'}},
+
+        --[[
+        -- for max-perf
+        winopts = {preview = {default = previewer}},
+        ]]
         actions = {
             files = {
                 ["default"] = actions.file_edit, -- align with fzf.vim

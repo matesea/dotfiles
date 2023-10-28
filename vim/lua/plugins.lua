@@ -767,6 +767,7 @@ function M.setup()
         },
 
         { 'ggandor/leap.nvim',
+            enabled = false,
             lazy = true,
             keys = {
                 {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
@@ -792,7 +793,7 @@ function M.setup()
 
         {
             "folke/flash.nvim",
-            enabled = false,
+            -- enabled = false,
             event = "VeryLazy",
             ---@type Flash.Config
             lazy = true,
