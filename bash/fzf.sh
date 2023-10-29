@@ -1,10 +1,10 @@
 # tmux popup supported since 3.2
-if [ ! -z "$FZF_TMUX_OPTS" ]; then
-    tmux_version=$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")
-    if [ $(_version $tmux_version) -lt $(_version "3.2") ]; then
-        export FZF_TMUX_OPTS=""
-    fi
-fi
+# if [ ! -z "$FZF_TMUX_OPTS" ]; then
+#     tmux_version=$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")
+#     if [ $(_version $tmux_version) -lt $(_version "3.2") ]; then
+#         export FZF_TMUX_OPTS=""
+#     fi
+# fi
 if [ -z "$FZF_TMUX_OPTS" ]; then
   export FZF='fzf'
 else
