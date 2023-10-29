@@ -5,26 +5,30 @@ if [ ! -z "$FZF_TMUX_OPTS" ]; then
         export FZF_TMUX_OPTS=""
     fi
 fi
-
-cmd_exists() {
-    command -v "$@" >/dev/null 2>&1
-}
-
-AWK_CMD='awk'
-if cmd_exists gawk; then
-    AWK_CMD='gawk'
+if [ -z "$FZF_TMUX_OPTS" ]; then
+  export FZF='fzf'
+else
+  export FZF='fzf-tmux'
 fi
+
+# cmd_exists() {
+#     command -v "$@" >/dev/null 2>&1
+# }
+# AWK_CMD='awk'
+# if cmd_exists gawk; then
+#     AWK_CMD='gawk'
+# fi
 
 # fl - git log selected files
 fl() {
   local files
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  IFS=$'\n' files=($($FZF --query="$1" --multi --select-1 --exit-0 $FZF_TMUX_OPTS))
   [[ -n "$files" ]] && git log "${files[@]}"
 }
 
 tl() {
   local files
-  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0 $FZF_TMUX_OPTS))
+  IFS=$'\n' files=($($FZF --query="$1" --multi --select-1 --exit-0 $FZF_TMUX_OPTS))
   [[ -n "$files" ]] && git log "${files[@]}"
 }
 
@@ -41,7 +45,7 @@ zcase() {
     local pattern="${cases//\//\\\/}"
     dir="$(
         find $cases -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' 2>/dev/null |sort -r |cut -d' ' -f2 \
-            |sed "s#$pattern##" | fzf --no-sort)" || return
+            |sed "s#$pattern##" | $FZF --no-sort $FZF_TMUX_OPTS)" || return
     cd "$prefix$cases$dir" || return
 }
 
@@ -58,7 +62,7 @@ tcase() {
     local pattern="${cases//\//\\\/}"
     dir="$(
         find $cases -maxdepth 2 -mindepth 1 -type d -printf '%T@ %p\n' 2>/dev/null |sort -r |cut -d' ' -f2 \
-            |sed "s#$pattern##" | fzf-tmux --no-sort $FZF_TMUX_OPTS)" || return
+            |sed "s#$pattern##" | $FZF --no-sort $FZF_TMUX_OPTS)" || return
     cd "$prefix$cases$dir" || return
 }
 
@@ -77,7 +81,7 @@ zrp() {
 
     local pattern="${cases//\//\\\/}"
     dir="$(find $cases -name dmesg_TZ.txt -printf '%T@ %p\n' 2>/dev/null |sort -r |cut -d' ' -f2 \
-        |sed "s#$pattern##" |fzf --no-sort)" || return
+        |sed "s#$pattern##" |$FZF --no-sort $FZF_TMUX_OPTS)" || return
     cd $(dirname "$prefix$cases$dir") || return
 }
 
@@ -86,7 +90,7 @@ _fd() {
   local dir
   dir="$(
     fd "${1:-.}" -t d -d 8 2> /dev/null \
-      | fzf +m
+      | $FZF +m $FZF_TMUX_OPTS
   )" || return
   cd "$dir" || return
 }
@@ -96,7 +100,7 @@ _fda() {
   local dir
   dir="$(
     fd "${1:-.}" -t d --hidden 2> /dev/null \
-      | fzf +m
+      | $FZF +m $FZF_TMUX_OPTS
   )" || return
   cd "$dir" || return
 }
@@ -117,7 +121,7 @@ _fdr() {
 
   parent_dir="$(
     get_parent_dirs "$(realpath "${1:-$PWD}")" \
-      | fzf +m
+      | $FZF +m $FZF_TMUX_OPTS
   )" || return
 
   cd "$parent_dir" || return
@@ -131,7 +135,7 @@ _fst() {
       | sed 's#\s#\n#g' \
       | uniq \
       | sed "s#^~#$HOME#" \
-      | fzf +s +m -1 -q "$*"
+      | $FZF +s +m $FZF_TMUX_OPTS -1 -q "$*"
   )"
   # $dirの存在を確かめないとCtrl-Cしたとき$HOMEにcdしてしまう
   if [[ -d "$dir" ]]; then
@@ -142,7 +146,7 @@ _fst() {
 # _cdf - cd into the directory of the selected file
 _cdf() {
   local file
-  file="$(fzf +m -q "$*")"
+  file="$($FZF +m -q $FZF_TMUX_OPTS "$*")"
   cd "$(dirname "$file")" || return
 }
 
@@ -200,7 +204,8 @@ fe() {
   local IFS=$'\n'
   local files=()
   files=(
-    $(fzf \
+    $($FZF \
+        $FZF_TMUX_OPTS \
           --query="$1" \
           --multi \
           --select-1 \
@@ -214,7 +219,7 @@ te() {
   local IFS=$'\n'
   local files=()
   files=(
-    $(fzf-tmux \
+    $($FZF \
           --query="$1" \
           $FZF_TMUX_OPTS \
           --multi \
@@ -230,9 +235,9 @@ frun() {
   local IFS=$'\n'
   local file=()
   file=(
-    $(find . -type f -executable -print | fzf \
+    $(find . -type f -executable -print | $FZF \
           --query="$1" \
-          \
+          $FZF_TMUX_OPTS\
           --select-1 \
           --exit-0
     )
@@ -243,8 +248,8 @@ frun() {
 # compare files, one under pwd, the other under specified folder
 fcmp() {
   [ ! -z "$1" ] || return
-  local file1=$(rg --no-messages --files |fzf)
-  local file2=$(rg --no-messages --files "$1"|fzf)
+  local file1=$(rg --no-messages --files |$FZF $FZF_TMUX_OPTS)
+  local file2=$(rg --no-messages --files "$1"|$FZF $FZF_TMUX_OPTS)
 
 
   "${EDITOR:-vim}" "${file1}" "${file2}" -d
@@ -263,7 +268,7 @@ frg() {
     [ ! -z "$1" ] || return
     files="$(rg -F "$1" --vimgrep --no-column 2>/dev/null)" || return
     files=(
-        $(printf '%s' "$files" | fzf --select-1)
+        $(printf '%s' "$files" | $FZF $FZF_TMUX_OPTS --select-1)
         ) || return
     file="$(echo "${files[@]}" |awk 'BEGIN{FS=":"}{print $1}')" || return
     line=$(echo "${files[@]}"  |awk 'BEGIN{FS=":"}{print $2}')
@@ -296,7 +301,8 @@ fco() {
 
   target="$(
     printf '%s\n%s' "$tags" "$branches" \
-      | fzf \
+      | $FZF \
+        $FZF_TMUX_OPTS \
           -d20 \
           -- \
           --no-hscroll \
@@ -336,9 +342,9 @@ fshow() {
     --graph \
     --color=always \
     --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" \
-    | fzf \
+    | $FZF \
         --ansi \
-        \
+        $FZF_TMUX_OPTS\
         --no-sort \
         --reverse \
         --tiebreak=index \
@@ -360,8 +366,8 @@ fs() {
 
   session="$(
     tmux list-sessions -F "#{session_name}" \
-      | fzf \
-        \
+      | $FZF \
+        $FZF_TMUX_OPTS\
           --query="$1" \
           --select-1 \
           --exit-0
@@ -390,7 +396,7 @@ ftpane() {
   target="$(
     echo "$panes" \
       | grep -v "$current_pane" \
-      | fzf +m --reverse
+      | $FZF +m --reverse $FZF_TMUX_OPTS
   )" || return
 
   target_window="$(
@@ -419,5 +425,5 @@ function mr() {
         return
     fi
     echo "rsync into $__CASES/$(basename ${PWD})..."
-    rsync --progress -avz $(fd -d 1| fzf -m) $__CASES/$(basename ${PWD})/
+    rsync --progress -avz $(fd -d 1| $FZF -m $FZF_TMUX_OPTS) $__CASES/$(basename ${PWD})/
 }

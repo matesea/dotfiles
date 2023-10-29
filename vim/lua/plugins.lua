@@ -794,7 +794,7 @@ function M.setup()
         {
             "folke/flash.nvim",
             -- enabled = false,
-            event = "VeryLazy",
+            -- event = "VeryLazy",
             ---@type Flash.Config
             lazy = true,
             opts = {},
