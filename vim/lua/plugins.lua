@@ -486,7 +486,7 @@ function M.setup()
                 -- zE to clear all fold
                 -- zo close fold, zC to close all fold
                 -- zo open fold, zO to open all fold
-                -- za toggle fold, toggle it recursively
+                -- za toggle fold, zA toggle it recursively
            },
         },
 
@@ -806,6 +806,25 @@ function M.setup()
                 { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
             },
         },
+
+        { 'kevinhwang91/nvim-ufo',
+           lazy = true,
+           keys = {
+                {'zM', function() require('ufo').closeAllFolds() end, desc = 'close all folds'},
+                {'zR', function() require('ufo').openAllFolds() end, desc = 'open all folds'},
+                -- {'zm', function() require('ufo').closeFoldsWith() end, desc = 'close fold with v:count'},
+                -- {'zr', function() require('ufo').openFoldsExceptKinds end, desc = 'open all folds'},
+            },
+           dependencies ={
+                {'kevinhwang91/promise-async', lazy = true},
+                {'nvim-treesitter'},
+                -- {'nvim-lspconfig'},
+            },
+           config = function()
+                -- either 'treesitte' or 'lspconfig'
+                require('config.nvim-ufo').setup('treesitter')
+           end
+        }
         --[[
 
         { 'skywind3000/vim-preview',
