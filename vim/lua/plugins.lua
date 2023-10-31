@@ -275,6 +275,7 @@ function M.setup()
                 {';s', ':FzfLua<space>', desc = 'FzfLua prompt'},
                 {';f', '<cmd>FzfLua builtin<cr>', desc = 'FzfLua prompt'},
                 {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
+                {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
                 {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
                 {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
                 {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'find files with cwd'},
@@ -812,7 +813,7 @@ function M.setup()
            keys = {
                 {'zM', function() require('ufo').closeAllFolds() end, desc = 'close all folds'},
                 {'zR', function() require('ufo').openAllFolds() end, desc = 'open all folds'},
-                -- {'zm', function() require('ufo').closeFoldsWith() end, desc = 'close fold with v:count'},
+                {'zm', function() require('ufo').closeFoldsWith() end, desc = 'close fold with v:count'},
                 -- {'zr', function() require('ufo').openFoldsExceptKinds end, desc = 'open all folds'},
             },
            dependencies ={
