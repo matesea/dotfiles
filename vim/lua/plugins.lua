@@ -181,19 +181,6 @@ function M.setup()
         })
         ]]
 
-        { 'joereynolds/gtags-scope',
-            lazy = true,
-            --[[
-            cmd = {'GtagsCscope',},
-            keys = {
-                {'<leader>gc', '<cmd>GtagsCscope<cr>', mode = {'n'}, noremap = true, silent = false, desc = 'start gtags-cscope'},
-            },
-            ]]
-            config = function()
-                require('config.gtags').setup()
-            end
-        },
-
         { 'drmingdrmer/vim-toggle-quickfix',
             lazy = true,
             keys = {
@@ -743,30 +730,6 @@ function M.setup()
             end,
         },
 
-        -- cscope/gtags for nvim 0.9+
-        {
-            'dhananjaylatkar/cscope_maps.nvim',
-            lazy = true,
-            keys = {
-                {'<leader>cf', ':Cscope find<space>',
-                    desc = 'trigger Cscope'},
-                {'<leader>cs', ':Cscope find s <C-R>=expand("<cword>")<cr><cr>',
-                    desc = 'find all references to a token under cursor'},
-                {'<leader>cg', ':Cscope find g <C-R>=expand("<cword>")<cr><cr>',
-                    desc = 'find definition of the token under cursor'},
-                {'<leader>cc', ':Cscope find c <C-R>=expand("<cword>")<cr><cr>',
-                    desc = 'find all calls to the function under cursor'},
-                {'<leader>ct', ':Cscope find t <C-R>=expand("<cword>")<cr><cr>',
-                    desc = 'find all instances of the text under cursor'},
-                {'<leader>ca', ':Cscope find a <C-R>=expand("<cword>")<cr><cr>',
-                    desc = 'find functions that function under cursor calls'},
-            },
-            cmd = {'Cscope'},
-            config = function()
-                require('config.cscope_maps').setup()
-            end,
-        },
-
         { 'ggandor/leap.nvim',
             enabled = false,
             lazy = true,
@@ -847,6 +810,52 @@ function M.setup()
         },
         ]]
     }
+
+    if ver.major >= 1 or ver.minor >= 9 then
+        -- cscope/gtags for nvim 0.9+
+        table.insert(plugins, {
+            'dhananjaylatkar/cscope_maps.nvim',
+            lazy = true,
+            keys = {
+                {'<leader>cf', ':Cscope find<space>', desc = 'trigger Cscope'},
+                {'<leader>cs', ':Cscope find s <C-R>=expand("<cword>")<cr><cr>',
+					desc = 'find all references to a token under cursor'},
+                {'<leader>cg', ':Cscope find g <C-R>=expand("<cword>")<cr><cr>',
+					desc = 'find definition of the token under cursor'},
+                {'<leader>cc', ':Cscope find c <C-R>=expand("<cword>")<cr><cr>',
+					desc = 'find all calls to the function under cursor'},
+                {'<leader>ct', ':Cscope find t <C-R>=expand("<cword>")<cr><cr>',
+					desc = 'find all instances of the text under cursor'},
+                {'<leader>ca', ':Cscope find a <C-R>=expand("<cword>")<cr><cr>',
+					desc = 'find functions that function under cursor calls'},
+            },
+            cmd = {'Cscope'},
+            config = function()
+                require('config.cscope_maps').setup()
+            end,
+        })
+    else
+        table.insert(plugins, { 'joereynolds/gtags-scope',
+            lazy = true,
+            cmd = {'GtagsCscope'},
+            keys = {
+                {'<leader>cf', ':cscope find<space>', desc = 'trigger Cscope'},
+                {'<leader>cs', ':cscope find s <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find all references to a token under cursor'},
+                {'<leader>cg', ':cscope find g <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find definition of the token under cursor'},
+                {'<leader>cc', ':cscope find c <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find all calls to the function under cursor'},
+                {'<leader>ct', ':cscope find t <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find all instances of the text under cursor'},
+                {'<leader>ca', ':cscope find a <C-R>=expand("<cword>")<cr><cr>',
+                    desc = 'find functions that function under cursor calls'},
+            },
+            config = function()
+                require('config.gtags').setup()
+            end
+        })
+    end
 
     lazy_init()
     local lazy = require 'lazy'

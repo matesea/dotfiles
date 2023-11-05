@@ -13,18 +13,9 @@ function M.setup()
     end
 
     local actions = require "fzf-lua.actions"
-    fzf_lua.setup({
-        'max-perf',
-        -- 'default',
-        fzf_bin = 'fzf-tmux',
-        fzf_opts = {['--border'] = 'rounded'},
-        fzf_tmux_opts = {['-p'] = '80%,90%'},
-        winopts = {preview = {default = previewer, layout = 'horizontal'}},
 
-        --[[
-        -- for max-perf
-        winopts = {preview = {default = previewer}},
-        ]]
+    local fzf_lua_table = {
+        'max-perf',
         actions = {
             files = {
                 ["default"] = actions.file_edit, -- align with fzf.vim
@@ -39,7 +30,19 @@ function M.setup()
         },
         files = {previewer = false},
         global_color_icons  = false,
-    })
+    }
+
+    local fzf_tmux_opts = vim.env.FZF_TMUX_OPTS
+    if fzf_tmux_opts ~= nil then
+        -- FZF_TMUX_OPTS set, choose with fzf-tmux popup window
+        fzf_lua_table.fzf_bin = 'fzf-tmux'
+        fzf_lua_table.fzf_opts = {['--border'] = 'rounded'}
+        fzf_lua_table.fzf_tmux_opts = {['-p'] = '80%,90%'}
+        fzf_lua_table.winopts = {preview = {default = previewer, layout = 'horizontal'}}
+    else -- max-perf profile
+        fzf_lua_table['winopts'] = {preview = {default = previewer}}
+    end
+    fzf_lua.setup(fzf_lua_table)
 end
 
 return M
