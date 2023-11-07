@@ -7,10 +7,12 @@ function M.setup()
         return
     end
 
-    local previewer = 'bat'
-    if vim.fn.executable('bat') ~= 1 then
+    local previewer = 'builtin'
+    --[[
+    if vim.fn.executable('bat') == 1 then
         previewer = 'builtin'
     end
+    ]]
 
     local actions = require "fzf-lua.actions"
 

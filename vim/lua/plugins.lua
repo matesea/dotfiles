@@ -259,8 +259,8 @@ function M.setup()
             keys = {
                 {';a', '<cmd>FzfLua lines<cr>', desc = 'open buffer lines'},
                 {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
-                {';s', ':FzfLua<space>', desc = 'FzfLua prompt'},
-                {';f', '<cmd>FzfLua builtin<cr>', desc = 'FzfLua prompt'},
+                {';s', '<cmd>FzfLua tagstack<cr>', desc = 'pick tagstack'},
+                {';f', '<cmd>FzfLua builtin<cr>', desc = 'pick fzf-lua builtin'},
                 {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
                 {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
                 {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
