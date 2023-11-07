@@ -264,9 +264,11 @@ function M.setup()
                 {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
                 {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
                 {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
+                {';h', '<cmd>FzfLua oldfiles<cr>', desc = 'choose file from history'},
+                {';g', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},
                 {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
                 {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'find files with cwd'},
-                {';d', ':FzfLua grep cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'grep files with cwd'},
+                {';d', ':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'grep files with cwd'},
             },
             config = function()
                 require('config.fzf-lua').setup()
@@ -518,24 +520,6 @@ function M.setup()
                     } ]]
                 })
            end
-        },
-
-        { 'nathom/filetype.nvim',
-            cond = is_neovim8(),
-            config = function()
-                require("filetype").setup({
-                    overrides = {
-                        extensions = {
-                            log = "log",
-                            txt = "log",
-                        }
-                    }
-                })
-               vim.cmd[[
-                   syntax on
-                   filetype plugin indent on
-               ]]
-            end
         },
 
         { 'JoosepAlviste/nvim-ts-context-commentstring',
@@ -813,8 +797,8 @@ function M.setup()
 
     if ver.major >= 1 or ver.minor >= 9 then
         -- cscope/gtags for nvim 0.9+
-        table.insert(plugins, {
-            'dhananjaylatkar/cscope_maps.nvim',
+        table.insert(plugins,
+            { 'dhananjaylatkar/cscope_maps.nvim',
             lazy = true,
             keys = {
                 {'<leader>cf', ':Cscope find<space>', desc = 'trigger Cscope'},
@@ -835,7 +819,8 @@ function M.setup()
             end,
         })
     else
-        table.insert(plugins, { 'joereynolds/gtags-scope',
+        table.insert(plugins,
+            { 'joereynolds/gtags-scope',
             lazy = true,
             cmd = {'GtagsCscope'},
             keys = {
@@ -855,6 +840,24 @@ function M.setup()
                 require('config.gtags').setup()
             end
         })
+        table.insert(plugins,
+            { 'nathom/filetype.nvim',
+                cond = is_neovim8(),
+                config = function()
+                    require("filetype").setup({
+                        overrides = {
+                            extensions = {
+                                log = "log",
+                                txt = "log",
+                            }
+                        }
+                    })
+                   vim.cmd[[
+                       syntax on
+                       filetype plugin indent on
+                   ]]
+                end
+            })
     end
 
     lazy_init()
