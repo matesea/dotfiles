@@ -54,7 +54,7 @@ require('nvim-treesitter.configs').setup({
 	},
 
 	-- See: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-	--[[ textobjects = {
+	textobjects = {
 		select = {
 			enable = true,
 			-- Automatically jump forward to textobj, similar to targets.vim
@@ -67,7 +67,26 @@ require('nvim-treesitter.configs').setup({
 				['ic'] = '@class.inner',
 			},
 		},
-	}, ]]
+		move = {
+			enable = true,
+			set_jumps = true,
+			goto_next_start = {
+				['],'] = '@parameter.inner',
+			},
+			goto_previous_start = {
+				['[,'] = '@parameter.inner',
+			},
+		},
+		swap = {
+			enable = true,
+			swap_next = {
+				['>,'] = '@parameter.inner',
+			},
+			swap_previous = {
+				['<,'] = '@parameter.inner',
+			},
+		},
+	},
 
 	-- See: https://github.com/JoosepAlviste/nvim-ts-context-commentstring
 	context_commentstring = {

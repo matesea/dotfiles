@@ -67,6 +67,17 @@ function M.setup()
            end
         },
 
+        { 'ribru17/bamboo.nvim',
+           lazy = true,
+           priority = 1000,
+           config = function()
+             require('bamboo').setup {
+               -- optional configuration here
+             }
+             require('bamboo').load()
+           end,
+        },
+
         { 'tpope/vim-fugitive',
             lazy = true,
             cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV', 'Gcd'},
@@ -533,6 +544,7 @@ function M.setup()
             lazy = true,
             -- event = 'BufRead',
             dependencies = {
+                {'nvim-treesitter-textobjects'},
 			    {'nvim-ts-context-commentstring'},
                 {'nvim-treesitter-context'},
             },
@@ -545,9 +557,16 @@ function M.setup()
            end
         },
 
+        { 'nvim-treesitter/nvim-treesitter-textobjects',
+            lazy = true,
+        },
+
         { 'nvim-treesitter/nvim-treesitter-context',
             lazy = true,
             ft = ft_code,
+            keys = {
+                {'gd', mode = 'n', function() require("treesitter-context").go_to_context() end, desc = 'jump to definition'},
+            },
             config = function()
                 require('treesitter-context').setup{
                       enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
