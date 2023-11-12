@@ -29,6 +29,7 @@ function M.setup()
     local plugins = {
         { "fabius/molokai.nvim",
             dependencies = "rktjmp/lush.nvim",
+            enabled = false,
             lazy = false,
             priority = 1000,
             config = function()
@@ -49,6 +50,13 @@ function M.setup()
             lazy = false,
             config = function()
                 vim.cmd.colorscheme 'molokai'
+            end
+        },
+
+        { 'sainnhe/sonokai',
+            lazy = false,
+            config = function()
+                vim.cmd.colorscheme 'sonokai'
             end
         },
 
@@ -657,7 +665,12 @@ function M.setup()
                 {'nvim-treesitter'},
                 {'fzf'},
             },
-            cmd = { 'AerialToggle'},
+            keys = {
+                {']a', '<cmd>AerialNext<cr>', desc = '[Aerial]jump to next symbol'},
+                {'[a', '<cmd>AerialPrev<cr>', desc = '[Aerial]jump to prevoius symbol'},
+                {'<leader>a', '<cmd>AerialToggle<cr>', desc = 'toggle Aerial window'},
+                {';z', '<cmd> call aerial#fzf()<cr>', desc = 'choose symbol with fzf'}
+            },
             config = function()
                 require("aerial").setup({
                     backends = {"treesitter"}
@@ -665,7 +678,7 @@ function M.setup()
 
                 -- shortcut to find function in fzf mode
                 -- faster than fzf.vim/fzf-lua BTags
-                vim.keymap.set('n', ';z', '<cmd>call aerial#fzf()<cr>')
+                -- vim.keymap.set('n', ';z', '<cmd>call aerial#fzf()<cr>')
             end,
         },
 
@@ -733,11 +746,11 @@ function M.setup()
 
         { 'rainbowhxch/accelerated-jk.nvim',
             lazy = true,
-            keys = {'j', 'k'},
-            config = function()
-                vim.keymap.set('n', 'j', '<Plug>(accelerated_jk_gj)')
-                vim.keymap.set('n', 'k', '<Plug>(accelerated_jk_gk)')
-            end
+            keys = {
+                {'j', '<Plug>(accelerated_jk_gj)', desc = 'accelerated j'},
+                {'k', '<Plug>(accelerated_jk_gk)', desc = 'accelerated k'},
+            },
+            opts = {},
         },
 
         { 'rickhowe/spotdiff.vim',
