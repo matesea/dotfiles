@@ -26,11 +26,159 @@ function M.setup()
         return ver.major == 0 and ver.minor < 9
     end
 
+    --[[
+    local disabled = {
+        'tpope/vim-sensible',
+
+        { 'windwp/nvim-autopairs',
+            -- dependencies = 'nvim-treesitter',
+            -- module = {'nvim-autopairs.completion.cmp', 'nvim-autopairs'},
+            event = 'InsertEnter',
+            config = function()
+                require('nvim-autopairs').setup()
+            end
+        },
+
+        { 'tanvirtin/vgit.nvim',
+            event = 'BufWinEnter',
+            dependencies = {
+                'nvim-lua/plenary.nvim',
+            },
+            config = function()
+                require('vgit').setup()
+            end,
+        },
+
+        { 'gelguy/wilder.nvim',
+            config = function()
+                local wilder = require('wilder')
+                wilder.setup({modes = { ':', '/', '?'}})
+            end,
+        },
+
+        { 'mbbill/undotree',
+            cmd = 'UndotreeToggle',
+            confing = function()
+                vim.g.undotree_WindowLayout = 2
+            end
+        },
+
+        {'rhysd/git-messenger.vim',
+		    cmd = 'GitMessenger',
+		    keys = {
+		    	{ '<Leader>gm', '<Plug>(git-messenger)', desc = 'Git messenger'}
+		    },
+		    init = function()
+		    	vim.g.git_messenger_include_diff = 'current'
+		    	vim.g.git_messenger_no_default_mappings = false
+		    	vim.g.git_messenger_floating_win_opts = { border = 'rounded' }
+		    end,
+        },
+
+        { 'ap/vim-buftabline',
+            config = function()
+                vim.g.buftabline_show = 1
+                vim.g.buftabline_numbers = 2
+                vim.api.nvim_set_keymap('n', '<leader>1', '<Plug>BufTabLine.Go(1)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>2', '<Plug>BufTabLine.Go(2)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>3', '<Plug>BufTabLine.Go(3)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>4', '<Plug>BufTabLine.Go(4)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>5', '<Plug>BufTabLine.Go(5)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>6', '<Plug>BufTabLine.Go(6)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>7', '<Plug>BufTabLine.Go(7)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>8', '<Plug>BufTabLine.Go(8)', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {noremap = false})
+            end
+        },
+
+        { 'junegunn/fzf.vim',
+            dependencies = {'fzf'},
+            lazy = true,
+            keys = function()
+                ---@type LazyKeys[]
+	            local ret = {}
+                local prefix = '<space>'
+	            for _, key in ipairs({ 'e', 'c', 'g', 'b', 'h', 'a', 'l', 'w', 't', 'm', 'r', 'x' }) do
+                    ret[#ret + 1] = { prefix .. key, desc = key }
+	            end
+	            return ret
+            end,
+            config = function()
+                local prefix = '<space>'
+                vim.api.nvim_set_keymap('n', prefix ..'e', ':FZF<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix ..'c', ':FZF %:h<cr>', {noremap = true, silent = true})
+                -- vim.api.nvim_set_keymap('n', prefix .. 'g', ':GFiles<cr>', {noremap = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'b', ':Buffers<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'h', ':History', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'a', ':Lines<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'l', ':Blines<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'w', ':Lines <c-r><c-w><cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 't', ':BTags<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'm', ':Marks<cr>', {noremap = true, silent = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'r', ':Rg<space>', {noremap = true})
+                vim.api.nvim_set_keymap('n', prefix .. 'x', ':Rg <c-r><c-w><cr>', {noremap = true, silent = true})
+            end
+        },
+
+        { 'nvim-telescope/telescope.nvim',
+            dependencies = {
+                {'nvim-lua/plenary.nvim',},
+                {'nvim-telescope/telescope-fzf-native.nvim',
+                    build ='make',
+                }
+            },
+            config = function()
+                require('config.telescope').setup()
+            end
+        },
+
+        { 'kazhala/close-buffers.nvim',
+            lazy = true,
+            cmd = {"BDelete", "BWipeout"},
+            keys = {'bd', 'bo'},
+            config = function()
+                require('close_buffers').setup()
+                vim.api.nvim_set_keymap('n', 'bd', ':BDelete this<cr>', {silent = true, noremap = true})
+                vim.api.nvim_set_keymap('n', 'bo', ':BDelete other<cr>', {silent = true, noremap = true})
+            end
+        },
+
+        { 'jacquesbh/vim-showmarks',
+            cmd = 'DoShowMarks', -- DoShowMarks to enable
+        },
+
+        { 'mhinz/vim-hugefile',
+           init = function()
+               vim.g.hugefile_trigger_size = 150
+           end
+        },
+
+        { "tpope/vim-surround" },
+
+        { 'skywind3000/vim-preview',
+            lazy = true,
+            cmd = { 'PreviewQuickfix', 'PreviewSignature'},
+        },
+
+        { 'folke/which-key.nvim',
+            event = "VeryLazy",
+            init = function()
+                vim.o.timeout = true
+                vim.o.timeoutlen = 300
+            end,
+            opts = {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
+        },
+    }
+    ]]
+
     local plugins = {
         { "fabius/molokai.nvim",
             dependencies = "rktjmp/lush.nvim",
-            enabled = false,
-            lazy = false,
+            lazy = true,
             priority = 1000,
             config = function()
                 vim.cmd.colorscheme 'molokai'
@@ -38,16 +186,16 @@ function M.setup()
         },
 
         {'tanvirtin/monokai.nvim',
-            enabled = false,
-            lazy = false,
+            lazy = true,
+            priority = 1000,
             config = function()
                 require('monokai').setup {}
             end
         },
 
         { 'tamelion/neovim-molokai',
-            enabled = false,
-            lazy = false,
+            lazy = true,
+            priority = 1000,
             config = function()
                 vim.cmd.colorscheme 'molokai'
             end
@@ -55,6 +203,7 @@ function M.setup()
 
         { 'sainnhe/sonokai',
             lazy = false,
+            priority = 1000,
             config = function()
                 vim.cmd.colorscheme 'sonokai'
             end
@@ -70,6 +219,7 @@ function M.setup()
 
         { 'rebelot/kanagawa.nvim',
            lazy = true,
+            priority = 1000,
            config = function()
                 vim.cmd("colorscheme kanagawa")
            end
@@ -94,19 +244,6 @@ function M.setup()
         { 'FabijanZulj/blame.nvim',
             lazy = true,
             cmd = 'ToggleBlame',
-        },
-
-        {'rhysd/git-messenger.vim',
-            enabled = false,
-		    cmd = 'GitMessenger',
-		    keys = {
-		    	{ '<Leader>gm', '<Plug>(git-messenger)', desc = 'Git messenger'}
-		    },
-		    init = function()
-		    	vim.g.git_messenger_include_diff = 'current'
-		    	vim.g.git_messenger_no_default_mappings = false
-		    	vim.g.git_messenger_floating_win_opts = { border = 'rounded' }
-		    end,
         },
 
         { 'lewis6991/gitsigns.nvim',
@@ -136,25 +273,6 @@ function M.setup()
 
 	    { 'nmac427/guess-indent.nvim', lazy = false, priority = 50, config = true },
 
-        --[[
-        { 'ap/vim-buftabline',
-            enabled = false,
-            config = function()
-                vim.g.buftabline_show = 1
-                vim.g.buftabline_numbers = 2
-                vim.api.nvim_set_keymap('n', '<leader>1', '<Plug>BufTabLine.Go(1)', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>2', '<Plug>BufTabLine.Go(2)', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>3', '<Plug>BufTabLine.Go(3)', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>4', '<Plug>BufTabLine.Go(4)', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>5', '<Plug>BufTabLine.Go(5)', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>6', '<Plug>BufTabLine.Go(6)', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>7', '<Plug>BufTabLine.Go(7)', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>8', '<Plug>BufTabLine.Go(8)', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {noremap = false})
-            end
-        }
-        ]]
-
         { 'bronson/vim-trailing-whitespace',
             lazy = true,
             ft = ft_code,
@@ -174,31 +292,6 @@ function M.setup()
                 }
             end
         },
-        --[[
-        use({
-            'emileferreira/nvim-strict',
-            lazy = true,
-            ft = ft_code,
-            config = function()
-                require('strict').setup({
-                   excluded_filetypes = { 'text', 'markdown', 'html' },
-                   deep_nesting = {
-                       depth_limit = 5,
-                       ignored_trailing_characters = ',',
-                       ignored_leading_characters = '.'
-                   },
-                   overlong_lines = {
-                       length_limit = 120
-                   },
-                   tab_indentation = {
-                       highlight = false,
-                       highlight_group = 'SpellBad',
-                       convert_on_save = false,
-                   },
-               })
-            end
-        })
-        ]]
 
         { 'drmingdrmer/vim-toggle-quickfix',
             lazy = true,
@@ -207,17 +300,6 @@ function M.setup()
                 {'<leader>f', '<Plug>window:location:toggle', desc = 'toggle location list'},
             },
         },
-
-        --[[
-        { 'windwp/nvim-autopairs',
-            -- dependencies = 'nvim-treesitter',
-            -- module = {'nvim-autopairs.completion.cmp', 'nvim-autopairs'},
-            event = 'InsertEnter',
-            config = function()
-                require('nvim-autopairs').setup()
-            end
-        },
-        ]]
 
         { 'echasnovski/mini.pairs',
             event = 'InsertEnter',
@@ -233,50 +315,6 @@ function M.setup()
                 vim.cmd("source $VIMHOME/quick-fzf.vim")
             end
         },
-
-        { 'junegunn/fzf.vim',
-            enabled = false,
-            dependencies = {'fzf'},
-            lazy = true,
-            keys = function()
-                ---@type LazyKeys[]
-	            local ret = {}
-                local prefix = '<space>'
-	            for _, key in ipairs({ 'e', 'c', 'g', 'b', 'h', 'a', 'l', 'w', 't', 'm', 'r', 'x' }) do
-                    ret[#ret + 1] = { prefix .. key, desc = key }
-	            end
-	            return ret
-            end,
-            config = function()
-                local prefix = '<space>'
-                vim.api.nvim_set_keymap('n', prefix ..'e', ':FZF<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix ..'c', ':FZF %:h<cr>', {noremap = true, silent = true})
-                -- vim.api.nvim_set_keymap('n', prefix .. 'g', ':GFiles<cr>', {noremap = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'b', ':Buffers<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'h', ':History', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'a', ':Lines<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'l', ':Blines<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'w', ':Lines <c-r><c-w><cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 't', ':BTags<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'm', ':Marks<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'r', ':Rg<space>', {noremap = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'x', ':Rg <c-r><c-w><cr>', {noremap = true, silent = true})
-            end
-        },
-
-        --[[
-        { 'nvim-telescope/telescope.nvim',
-            dependencies = {
-                {'nvim-lua/plenary.nvim',},
-                {'nvim-telescope/telescope-fzf-native.nvim',
-                    build ='make',
-                }
-            },
-            config = function()
-                require('config.telescope').setup()
-            end
-        },
-        ]]
 
         { 'ibhagwan/fzf-lua',
             lazy = true,
@@ -309,23 +347,6 @@ function M.setup()
            end,
         },
 
-        --[[
-        { 'kazhala/close-buffers.nvim',
-            lazy = true,
-            cmd = {"BDelete", "BWipeout"},
-            keys = {'bd', 'bo'},
-            config = function()
-                require('close_buffers').setup()
-                vim.api.nvim_set_keymap('n', 'bd', ':BDelete this<cr>', {silent = true, noremap = true})
-                vim.api.nvim_set_keymap('n', 'bo', ':BDelete other<cr>', {silent = true, noremap = true})
-            end
-        },
-
-        { 'jacquesbh/vim-showmarks',
-            enabled = false,
-            cmd = 'DoShowMarks', -- DoShowMarks to enable
-        },
-        ]]
         { 'chentoast/marks.nvim',
             lazy = true,
             config = function()
@@ -418,13 +439,6 @@ function M.setup()
             end
         },
 
-        { 'mhinz/vim-hugefile',
-            enabled = false,
-           init = function()
-               vim.g.hugefile_trigger_size = 150
-           end
-        },
-
         { 'matesea/vim-log-syntax',
             lazy = true,
             ft = {'log', 'text'}
@@ -439,15 +453,6 @@ function M.setup()
             lazy = true,
             ft = {'python'},
         },
-
-        --[[
-        { 'mbbill/undotree',
-            enabled = false,
-            cmd = 'UndotreeToggle',
-            confing = function()
-                vim.g.undotree_WindowLayout = 2
-            end
-        },]]
 
         { 'octol/vim-cpp-enhanced-highlight',
             lazy = true,
@@ -505,8 +510,6 @@ function M.setup()
                 -- za toggle fold, zA toggle it recursively
            },
         },
-
-        -- 'tpope/vim-sensible',
 
         { 'ngemily/vim-vp4',
             lazy = true,
@@ -629,27 +632,6 @@ function M.setup()
             end
         },
 
-        --[[
-        { 'tanvirtin/vgit.nvim',
-            enabled = false,
-            event = 'BufWinEnter',
-            dependencies = {
-                'nvim-lua/plenary.nvim',
-            },
-            config = function()
-                require('vgit').setup()
-            end,
-        },
-
-        { 'gelguy/wilder.nvim',
-            enabled = false,
-            config = function()
-                local wilder = require('wilder')
-                wilder.setup({modes = { ':', '/', '?'}})
-            end,
-        },
-        ]]
-
         { 'beauwilliams/focus.nvim',
             lazy = true,
             cmd = { "FocusSplitNicely", "FocusSplitCycle" , 'FocusEnable' },
@@ -697,9 +679,7 @@ function M.setup()
             ft = 'scons',
         },
 
-        -- { "tpope/vim-surround" },
-        {
-            'echasnovski/mini.surround',
+        { 'echasnovski/mini.surround',
             -- stylua: ignore
             keys = function(_, keys)
                 -- Populate the keys based on the user's options
@@ -813,7 +793,6 @@ function M.setup()
 
         {
             "folke/flash.nvim",
-            -- enabled = false,
             -- event = "VeryLazy",
             ---@type Flash.Config
             lazy = true,
@@ -858,26 +837,6 @@ function M.setup()
 	            vim.g.dsf_no_mappings = 1
 	        end,
 	    },
-        --[[
-
-        { 'skywind3000/vim-preview',
-            lazy = true,
-            cmd = { 'PreviewQuickfix', 'PreviewSignature'},
-        },
-
-        { 'folke/which-key.nvim',
-            event = "VeryLazy",
-            init = function()
-                vim.o.timeout = true
-                vim.o.timeoutlen = 300
-            end,
-            opts = {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
-        },
-        ]]
     }
 
     if ver.major >= 1 or ver.minor >= 9 then
