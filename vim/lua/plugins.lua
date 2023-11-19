@@ -321,7 +321,8 @@ function M.setup()
             dependencies = {'fzf'},
             cmd = 'FzfLua',
             keys = {
-                {';a', '<cmd>FzfLua lines<cr>', desc = 'open buffer lines'},
+                {';a', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
+                {';l', '<cmd>FzfLua blines<cr>', desc = 'current buffer lines'},
                 {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
                 {';s', '<cmd>FzfLua tagstack<cr>', desc = 'pick tagstack'},
                 {';f', '<cmd>FzfLua builtin<cr>', desc = 'pick fzf-lua builtin'},
@@ -553,6 +554,9 @@ function M.setup()
 
         { 'JoosepAlviste/nvim-ts-context-commentstring',
             lazy = true,
+            init = function()
+                vim.g.skip_ts_context_commentstring_module = true
+            end,
             config = function()
                 require('ts_context_commentstring').setup {}
             end
@@ -767,7 +771,6 @@ function M.setup()
         },
 
         { 'ggandor/leap.nvim',
-            enabled = false,
             lazy = true,
             keys = {
                 {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
@@ -778,7 +781,6 @@ function M.setup()
         },
 
 	    { 'ggandor/flit.nvim',
-            enabled = false,
             lazy = true,
 	        keys = function()
                 ---@type LazyKeys[]
@@ -793,6 +795,7 @@ function M.setup()
 
         {
             "folke/flash.nvim",
+            enabled = false,
             -- event = "VeryLazy",
             ---@type Flash.Config
             lazy = true,
