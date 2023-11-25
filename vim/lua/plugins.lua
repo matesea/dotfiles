@@ -771,6 +771,7 @@ function M.setup()
         },
 
         { 'ggandor/leap.nvim',
+            enabled = false,
             lazy = true,
             keys = {
                 {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
@@ -781,6 +782,7 @@ function M.setup()
         },
 
 	    { 'ggandor/flit.nvim',
+            enabled = false,
             lazy = true,
 	        keys = function()
                 ---@type LazyKeys[]
@@ -793,9 +795,7 @@ function M.setup()
 	        opts = { labeled_modes = 'nx' },
 	    },
 
-        {
-            "folke/flash.nvim",
-            enabled = false,
+        { "folke/flash.nvim",
             -- event = "VeryLazy",
             ---@type Flash.Config
             lazy = true,
@@ -828,8 +828,7 @@ function M.setup()
            end
         },
 
-	    {
-	        'AndrewRadev/dsf.vim',
+	    { 'AndrewRadev/dsf.vim',
 	        -- stylua: ignore
             lazy = true,
 	        keys = {
