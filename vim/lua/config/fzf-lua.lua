@@ -8,11 +8,6 @@ function M.setup()
     end
 
     local previewer = 'builtin'
-    --[[
-    if vim.fn.executable('bat') == 1 then
-        previewer = 'builtin'
-    end
-    ]]
 
     local actions = require "fzf-lua.actions"
 
@@ -32,17 +27,31 @@ function M.setup()
         },
         files = {previewer = false},
         global_color_icons  = false,
+        winopts = {
+            preview = {
+                default = previewer,
+                layout = 'vertical',
+                vertical = 'down:45%'
+            }
+        }
     }
 
     local fzf_tmux_opts = vim.env.FZF_TMUX_OPTS
     if fzf_tmux_opts ~= nil then
         -- FZF_TMUX_OPTS set, choose with fzf-tmux popup window
+        if vim.fn.executable('bat') == 1 then
+            previewer = 'bat'
+        end
         fzf_lua_table.fzf_bin = 'fzf-tmux'
         fzf_lua_table.fzf_opts = {['--border'] = 'rounded'}
         fzf_lua_table.fzf_tmux_opts = {['-p'] = '80%,90%'}
-        fzf_lua_table.winopts = {preview = {default = previewer, layout = 'horizontal'}}
-    else -- max-perf profile
-        fzf_lua_table['winopts'] = {preview = {default = previewer}}
+        fzf_lua_table.winopts = {
+            preview = {
+                default = previewer,
+                layout = 'vertical',
+                vertical = 'down:45%'
+            }
+        }
     end
     fzf_lua.setup(fzf_lua_table)
 end

@@ -172,6 +172,27 @@ function M.setup()
                 -- refer to the configuration section below
             }
         },
+
+        { 'kevinhwang91/nvim-bqf',
+           lazy = true,
+           ft = 'qf',
+           dependencies = {
+               {'nvim-treesitter'},
+           },
+           config = function()
+               require('bqf').setup({
+                    func_map = {
+                        -- remap c-k/c-j to pscrollup/pscrolldown to free c-b/c-f
+                        pscrollup = '<C-k>',
+                        pscrolldown = '<C-j>',
+                    },
+                    preview = {
+                        auto_preview = false
+                    }
+                })
+           end
+        },
+
     }
     ]]
 
@@ -529,27 +550,6 @@ function M.setup()
         { 'justinmk/vim-gtfo',
             lazy = true,
             keys = 'got',
-        },
-
-        { 'kevinhwang91/nvim-bqf',
-           lazy = true,
-           ft = 'qf',
-           dependencies = {
-               {'nvim-treesitter'},
-           },
-           config = function()
-               require('bqf').setup({
-                    func_map = {
-                        -- remap c-k/c-j to pscrollup/pscrolldown to free c-b/c-f
-                        pscrollup = '<C-k>',
-                        pscrolldown = '<C-j>',
-                    },
-                    -- disable auto preview
-                    --[[ preview = {
-                        auto_preview = false
-                    } ]]
-                })
-           end
         },
 
         { 'JoosepAlviste/nvim-ts-context-commentstring',
