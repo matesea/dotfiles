@@ -322,6 +322,12 @@ function M.setup()
             },
         },
 
+        { "ashfinal/qfview.nvim",
+            lazy = true,
+            ft = 'qf',
+            config = true,
+        },
+
         { 'echasnovski/mini.pairs',
             event = 'InsertEnter',
             opts = {}
@@ -406,10 +412,12 @@ function M.setup()
                 'Mark',
                 'MarkLoad',
                 'MarkSave',
-                --[[ '<Plug>MarkSet',
+                --[[
+                '<Plug>MarkSet',
                 '<Plug>MarkRegex',
                 '<Plug>MarkSearchOrCurNext',
-                '<Plug>MarkSearchOrCurPrev' ]]
+                '<Plug>MarkSearchOrCurPrev'
+                ]]
             },
             keys = {
                 {'<leader>m'},
