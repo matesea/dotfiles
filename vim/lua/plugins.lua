@@ -193,6 +193,12 @@ function M.setup()
            end
         },
 
+        { "ashfinal/qfview.nvim",
+            lazy = true,
+            ft = 'qf',
+            config = true,
+        },
+
     }
     ]]
 
@@ -322,7 +328,7 @@ function M.setup()
             },
         },
 
-        { "ashfinal/qfview.nvim",
+        { "yorickpeterse/nvim-pqf",
             lazy = true,
             ft = 'qf',
             config = true,
