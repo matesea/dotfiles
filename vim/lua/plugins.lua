@@ -329,8 +329,6 @@ function M.setup()
         },
 
         { "yorickpeterse/nvim-pqf",
-            lazy = true,
-            ft = 'qf',
             config = true,
         },
 
