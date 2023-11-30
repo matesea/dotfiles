@@ -216,12 +216,10 @@ function M.setup()
                 'Mark',
                 'MarkLoad',
                 'MarkSave',
-                --[[
-                '<Plug>MarkSet',
-                '<Plug>MarkRegex',
-                '<Plug>MarkSearchOrCurNext',
-                '<Plug>MarkSearchOrCurPrev'
-                ]]
+                -- '<Plug>MarkSet',
+                -- '<Plug>MarkRegex',
+                -- '<Plug>MarkSearchOrCurNext',
+                -- '<Plug>MarkSearchOrCurPrev'
             },
             keys = {
                 {'<leader>m'},
