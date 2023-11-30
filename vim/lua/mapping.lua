@@ -21,11 +21,11 @@ end
 map {'n', ']b', ':bnext<cr>', silent = true}
 map {'n', '[b', ':bprev<cr>', silent = true}
 -- quickfix
-map {'n', ']q', ':cnext<cr>', silent = true}
-map {'n', '[q', ':cprev<cr>', silent = true}
+-- map {'n', ']q', ':cnext<cr>', silent = true}
+-- map {'n', '[q', ':cprev<cr>', silent = true}
 -- localtion list
-map {'n', ']f', ':lnext<cr>', silent = true}
-map {'n', '[f', ':lprev<cr>', silent = true}
+-- map {'n', ']f', ':lnext<cr>', silent = true}
+-- map {'n', '[f', ':lprev<cr>', silent = true}
 -- tabs
 map {'n', ']t', ':tabn<cr>', silent = true}
 map {'n', '[t', ':tabp<cr>', silent = true}

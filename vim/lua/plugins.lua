@@ -199,6 +199,51 @@ function M.setup()
             config = true,
         },
 
+        { 'drmingdrmer/vim-toggle-quickfix',
+            lazy = true,
+            keys = {
+                {'<leader>q', '<Plug>window:quickfix:toggle', desc = 'toggle quickfix'},
+                {'<leader>f', '<Plug>window:location:toggle', desc = 'toggle location list'},
+            },
+        },
+
+        { 'inkarkat/vim-mark',
+            lazy = true,
+            dependencies = {
+                {'inkarkat/vim-ingo-library', lazy = true}
+            },
+            cmd = {
+                'Mark',
+                'MarkLoad',
+                'MarkSave',
+                --[[
+                '<Plug>MarkSet',
+                '<Plug>MarkRegex',
+                '<Plug>MarkSearchOrCurNext',
+                '<Plug>MarkSearchOrCurPrev'
+                ]]
+            },
+            keys = {
+                {'<leader>m'},
+                {'<leader>r'},
+            },
+            init = function()
+                vim.g.mwDefaultHighlightingPalette = 'maximum'
+                vim.g.mwHistAdd = '/@'
+                vim.g.mw_no_mappings = 1
+                vim.g.mwAutoLoadMarks = 0
+            end,
+            config = function()
+                -- map {'n', '<Plug>IgnoreMarkSearchNext', '<Plug>MarkSearchNext', noremap = false}
+                -- map {'n', '<Plug>IgnoreMarkSearchPrev', '<Plug>MarkSearchPrev', noremap = false}
+                vim.api.nvim_set_keymap('n', '<leader>m', '<Plug>MarkSet', {noremap = false})
+                vim.api.nvim_set_keymap('x', '<leader>m', '<Plug>MarkSet', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>r', '<Plug>MarkRegex', {noremap = false})
+                vim.api.nvim_set_keymap('x', '<leader>r', '<Plug>MarkRegex', {noremap = false})
+                vim.api.nvim_set_keymap('n', '<leader>n', '<Plug>MarkClear', {noremap = false})
+            end
+        },
+
     }
     ]]
 
@@ -320,15 +365,19 @@ function M.setup()
             end
         },
 
-        { 'drmingdrmer/vim-toggle-quickfix',
-            lazy = true,
+        { 'stevearc/qf_helper.nvim',
+            ft = 'qf',
             keys = {
-                {'<leader>q', '<Plug>window:quickfix:toggle', desc = 'toggle quickfix'},
-                {'<leader>f', '<Plug>window:location:toggle', desc = 'toggle location list'},
+                {'<leader>q', '<cmd>QFToggle!<cr>', desc = 'toggle quickfix'},
+                {'<leader>f', '<cmd>LLToggle!<cr>', desc = 'toggle location list'},
+                {']q', '<cmd>QNext<cr>', desc = 'next quickfix/location list item'},
+                {'[q', '<cmd>QPrevious<cr>', desc = 'previous quickfix/location list item'},
             },
+            config = true,
         },
 
         { "yorickpeterse/nvim-pqf",
+            event = 'UIEnter',
             config = true,
         },
 
@@ -353,18 +402,19 @@ function M.setup()
             cmd = 'FzfLua',
             keys = {
                 {';a', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
-                {';l', '<cmd>FzfLua blines<cr>', desc = 'current buffer lines'},
                 {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
-                {';s', '<cmd>FzfLua tagstack<cr>', desc = 'pick tagstack'},
-                {';f', '<cmd>FzfLua builtin<cr>', desc = 'pick fzf-lua builtin'},
-                {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
-                {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
-                {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
-                {';h', '<cmd>FzfLua oldfiles<cr>', desc = 'choose file from history'},
-                {';g', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},
-                {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
                 {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'find files with cwd'},
                 {';d', ':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'grep files with cwd'},
+                {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
+                {';f', '<cmd>FzfLua builtin<cr>', desc = 'pick fzf-lua builtin'},
+                {';g', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},
+                {';h', '<cmd>FzfLua oldfiles<cr>', desc = 'choose file from history'},
+                {';j', '<cmd>FzfLua jumps<cr>', desc = 'pick from jumps'},
+                {';l', '<cmd>FzfLua blines<cr>', desc = 'current buffer lines'},
+                {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
+                {';s', '<cmd>FzfLua tagstack<cr>', desc = 'pick tagstack'},
+                {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
+                {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
             },
             config = function()
                 require('config.fzf-lua').setup()
@@ -405,43 +455,6 @@ function M.setup()
             -- f + tab: HiFind
             -- :Hi + <pattern>: highlight one pattern
             -- :Hi save <name>: save current highlight to file
-        },
-
-        { 'inkarkat/vim-mark',
-            lazy = true,
-            dependencies = {
-                {'inkarkat/vim-ingo-library', lazy = true}
-            },
-            cmd = {
-                'Mark',
-                'MarkLoad',
-                'MarkSave',
-                --[[
-                '<Plug>MarkSet',
-                '<Plug>MarkRegex',
-                '<Plug>MarkSearchOrCurNext',
-                '<Plug>MarkSearchOrCurPrev'
-                ]]
-            },
-            keys = {
-                {'<leader>m'},
-                {'<leader>r'},
-            },
-            init = function()
-                vim.g.mwDefaultHighlightingPalette = 'maximum'
-                vim.g.mwHistAdd = '/@'
-                vim.g.mw_no_mappings = 1
-                vim.g.mwAutoLoadMarks = 0
-            end,
-            config = function()
-                -- map {'n', '<Plug>IgnoreMarkSearchNext', '<Plug>MarkSearchNext', noremap = false}
-                -- map {'n', '<Plug>IgnoreMarkSearchPrev', '<Plug>MarkSearchPrev', noremap = false}
-                vim.api.nvim_set_keymap('n', '<leader>m', '<Plug>MarkSet', {noremap = false})
-                vim.api.nvim_set_keymap('x', '<leader>m', '<Plug>MarkSet', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>r', '<Plug>MarkRegex', {noremap = false})
-                vim.api.nvim_set_keymap('x', '<leader>r', '<Plug>MarkRegex', {noremap = false})
-                vim.api.nvim_set_keymap('n', '<leader>n', '<Plug>MarkClear', {noremap = false})
-            end
         },
 
         { 'ethanholz/nvim-lastplace',
