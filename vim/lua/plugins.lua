@@ -369,7 +369,7 @@ function M.setup()
                 {'<leader>q', '<cmd>QFToggle!<cr>', desc = 'toggle quickfix'},
                 {'<leader>f', '<cmd>LLToggle!<cr>', desc = 'toggle location list'},
                 {']q', '<cmd>QNext<cr>', desc = 'next quickfix/location list item'},
-                {'[q', '<cmd>QPrevious<cr>', desc = 'previous quickfix/location list item'},
+                {'[q', '<cmd>QPrev<cr>', desc = 'previous quickfix/location list item'},
             },
             config = true,
         },
@@ -794,7 +794,6 @@ function M.setup()
         },
 
         { 'ggandor/leap.nvim',
-            enabled = false,
             lazy = true,
             keys = {
                 {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
@@ -805,7 +804,6 @@ function M.setup()
         },
 
 	    { 'ggandor/flit.nvim',
-            enabled = false,
             lazy = true,
 	        keys = function()
                 ---@type LazyKeys[]
@@ -821,6 +819,7 @@ function M.setup()
         { "folke/flash.nvim",
             -- event = "VeryLazy",
             ---@type Flash.Config
+            enabled = false,
             lazy = true,
             opts = {},
             keys = {
