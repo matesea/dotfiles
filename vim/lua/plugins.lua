@@ -242,6 +242,29 @@ function M.setup()
             end
         },
 
+        { 'ggandor/leap.nvim',
+            lazy = true,
+            keys = {
+                {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
+                {'sS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
+                {'SS', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
+            },
+            config = true,
+        },
+
+	    { 'ggandor/flit.nvim',
+            lazy = true,
+	        keys = function()
+                ---@type LazyKeys[]
+	            local ret = {}
+	            for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
+                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
+	            end
+	            return ret
+	        end,
+	        opts = { labeled_modes = 'nx' },
+	    },
+
     }
     ]]
 
@@ -612,22 +635,12 @@ function M.setup()
             keys = {
                 {'gd', mode = 'n', function() require("treesitter-context").go_to_context() end, desc = 'jump to definition'},
             },
-            config = function()
-                require('treesitter-context').setup{
-                      enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-                      max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-                      min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-                      line_numbers = true,
-                      multiline_threshold = 20, -- Maximum number of lines to show for a single context
-                      trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-                      mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
-                      -- Separator between context and content. Should be a single character string, like '-'.
-                      -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-                      separator = nil,
-                      zindex = 20, -- The Z-index of the context window
-                      on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
-                }
-            end
+            opts = {
+                mode = 'cursor',
+                max_lines = 3,
+                line_numbers = true,
+                trim_scope = 'outer',
+            },
         },
 
         { 'm-demare/hlargs.nvim',
@@ -793,37 +806,13 @@ function M.setup()
             end,
         },
 
-        { 'ggandor/leap.nvim',
-            lazy = true,
-            keys = {
-                {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
-                {'sS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
-                {'SS', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
-            },
-            config = true,
-        },
-
-	    { 'ggandor/flit.nvim',
-            lazy = true,
-	        keys = function()
-                ---@type LazyKeys[]
-	            local ret = {}
-	            for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
-                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
-	            end
-	            return ret
-	        end,
-	        opts = { labeled_modes = 'nx' },
-	    },
-
         { "folke/flash.nvim",
             -- event = "VeryLazy",
             ---@type Flash.Config
-            enabled = false,
             lazy = true,
             opts = {},
             keys = {
-                { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+                { "ss", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
                 { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
                 { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
                 { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
