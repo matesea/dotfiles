@@ -581,7 +581,12 @@ function M.setup()
 
         { 'ngemily/vim-vp4',
             lazy = true,
-            cmd = { 'Vp4FileLog', 'Vp4Annotate', 'Vp4Describe', 'Vp4'}
+            cmd = { 'Vp4FileLog', 'Vp4Annotate', 'Vp4Describe', 'Vp4'},
+            config = function()
+                if vim.fn.exists(':TSContextDisable') > 0 then
+                    vim.cmd('TSContextDisable')
+                end
+            end
         },
 
         { 'nanotee/zoxide.vim',
