@@ -748,7 +748,7 @@ function M.setup()
                     { name = 'nvim_lsp', priority = 50 },
                     { name = 'path', priority = 40 },
                     { name = 'luasnip', priority = 30 },
-                    { name = 'buffer', priority = 50, keyword_length = 3 },
+                    { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
                     { name = 'emoji', insert = true, priority = 20 },
                     {
                         name = 'tmux',
@@ -772,7 +772,7 @@ function M.setup()
                     callback = function(ev)
                         local sources = preferred_sources
                         if not tooBig(ev.buf) then
-                            sources[#sources + 1] = { name = "buffer", priority = 50, keyword_length = 3 }
+                            sources[#sources + 1] = {name = "buffer", priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }}
                         end
                         cmp.setup.buffer({
                             sources = cmp.config.sources(sources),
