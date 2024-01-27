@@ -758,7 +758,7 @@ function M.setup()
                     },
                 }
                 local function tooBig(bufnr)
-                    local max_filesize = 50 * 1024 -- 500 KB
+                    local max_filesize = 1024 * 1024 -- 1MB
                     local check_stats = (vim.uv or vim.loop).fs_stat
                     local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
                     if ok and stats and stats.size > max_filesize then
