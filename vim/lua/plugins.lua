@@ -64,15 +64,15 @@ function M.setup()
         },
 
         {'rhysd/git-messenger.vim',
-		    cmd = 'GitMessenger',
-		    keys = {
-		    	{ '<Leader>gm', '<Plug>(git-messenger)', desc = 'Git messenger'}
-		    },
-		    init = function()
-		    	vim.g.git_messenger_include_diff = 'current'
-		    	vim.g.git_messenger_no_default_mappings = false
-		    	vim.g.git_messenger_floating_win_opts = { border = 'rounded' }
-		    end,
+            cmd = 'GitMessenger',
+            keys = {
+                { '<Leader>gm', '<Plug>(git-messenger)', desc = 'Git messenger'}
+            },
+            init = function()
+                vim.g.git_messenger_include_diff = 'current'
+                vim.g.git_messenger_no_default_mappings = false
+                vim.g.git_messenger_floating_win_opts = { border = 'rounded' }
+            end,
         },
 
         { 'ap/vim-buftabline',
@@ -96,12 +96,12 @@ function M.setup()
             lazy = true,
             keys = function()
                 ---@type LazyKeys[]
-	            local ret = {}
+                local ret = {}
                 local prefix = '<space>'
-	            for _, key in ipairs({ 'e', 'c', 'g', 'b', 'h', 'a', 'l', 'w', 't', 'm', 'r', 'x' }) do
+                for _, key in ipairs({ 'e', 'c', 'g', 'b', 'h', 'a', 'l', 'w', 't', 'm', 'r', 'x' }) do
                     ret[#ret + 1] = { prefix .. key, desc = key }
-	            end
-	            return ret
+                end
+                return ret
             end,
             config = function()
                 local prefix = '<space>'
@@ -252,18 +252,18 @@ function M.setup()
             config = true,
         },
 
-	    { 'ggandor/flit.nvim',
+        { 'ggandor/flit.nvim',
             lazy = true,
-	        keys = function()
+            keys = function()
                 ---@type LazyKeys[]
-	            local ret = {}
-	            for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
+                local ret = {}
+                for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
                     ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
-	            end
-	            return ret
-	        end,
-	        opts = { labeled_modes = 'nx' },
-	    },
+                end
+                return ret
+            end,
+            opts = { labeled_modes = 'nx' },
+        },
 
     }
     ]]
@@ -364,7 +364,7 @@ function M.setup()
            end
         },
 
-	    { 'nmac427/guess-indent.nvim', lazy = false, priority = 50, config = true },
+        { 'nmac427/guess-indent.nvim', lazy = false, priority = 50, config = true },
 
         { 'bronson/vim-trailing-whitespace',
             lazy = true,
@@ -618,7 +618,7 @@ function M.setup()
             -- event = 'BufRead',
             dependencies = {
                 {'nvim-treesitter-textobjects'},
-			    {'nvim-ts-context-commentstring'},
+                {'nvim-ts-context-commentstring'},
                 {'nvim-treesitter-context'},
             },
             build = function()
@@ -659,22 +659,218 @@ function M.setup()
              end
         },
 
+        { 'L3MON4D3/LuaSnip',
+            build = (not jit.os:find('Windows'))
+                    and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+                or nil,
+            dependencies = {
+                -- Preconfigured snippets for different languages
+                'rafamadriz/friendly-snippets',
+                config = function()
+                    require('luasnip.loaders.from_vscode').lazy_load()
+                    require('luasnip.loaders.from_lua').load({ paths = { './snippets' } })
+                end,
+            },
+            -- stylua: ignore
+            keys = {
+                { '<C-l>', function() require('luasnip').expand_or_jump() end, mode = { 'i', 's' } },
+            },
+            opts = {
+                history = true,
+                delete_check_events = 'TextChanged',
+                -- ft_func = function()
+                --     return vim.split(vim.bo.filetype, '.', { plain = true })
+                -- end,
+            },
+            config = function(_, opts)
+                require('luasnip').setup(opts)
+                vim.api.nvim_create_user_command('LuaSnipEdit', function()
+                    require('luasnip.loaders').edit_snippet_files()
+                end, {})
+            end,
+        },
+
         { 'hrsh7th/nvim-cmp',
             lazy = true,
             dependencies = {
-                {'hrsh7th/cmp-buffer', lazy = true},
-                {'hrsh7th/cmp-path', lazy = true},
-                {'hrsh7th/cmp-cmdline', lazy = true},
-                {'andersevenrud/cmp-tmux', lazy = true},
-                {'hrsh7th/cmp-vsnip', lazy = true},
-                -- {'hrsh7th/vim-vsnip', lazy = true},
-                -- {'saadparwaiz1/cmp_luasnip', dependencies = 'L3MON4D3/LuaSnip'},
-                -- { 'quangnguyen30192/cmp-nvim-tags', lazy = true, ft = { 'c', 'h', 'python', 'cpp'}}
+                -- nvim-cmp source for buffer words
+                'hrsh7th/cmp-buffer',
+                -- nvim-cmp source for path
+                'hrsh7th/cmp-path',
+                -- nvim-cmp source for emoji
+                -- 'hrsh7th/cmp-emoji',
+                -- Luasnip completion source for nvim-cmp
+                'saadparwaiz1/cmp_luasnip',
+                -- Tmux completion source for nvim-cmp
+                'andersevenrud/cmp-tmux',
             },
             event = 'InsertEnter',
-            config = function()
-                require('config.cmp').setup()
-            end
+            opts = function()
+                vim.api.nvim_set_hl(
+                    0,
+                    'CmpGhostText',
+                    { link = 'Comment', default = true }
+                )
+                local cmp = require('cmp')
+                local defaults = require('cmp.config.default')()
+                local luasnip = require('luasnip')
+                local completion_labels = {
+                    nvim_lsp = "[LSP]",
+                    nvim_lua = "[Lua]",
+                    cmdline  = "[Cmd]",
+                    buffer   = "[Buf]",
+                    path     = "[Path]",
+                    tmux     = "[Tmux]",
+                }
+
+                local function has_words_before()
+                    if vim.bo.buftype == 'prompt' then
+                        return false
+                    end
+                    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+                    -- stylua: ignore
+                    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+                end
+
+                local preferred_sources = {
+                    { name = 'nvim_lsp', priority = 50 },
+                    { name = 'path', priority = 40 },
+                    { name = 'luasnip', priority = 30 },
+                    { name = 'emoji', insert = true, priority = 20 },
+                    {
+                        name = 'tmux',
+                        priority = 10,
+                        keyword_length = 3,
+                        option = { all_panes = true, label = 'tmux' },
+                    },
+                }
+                local all_sources = {
+                    { name = 'nvim_lsp', priority = 50 },
+                    { name = 'path', priority = 40 },
+                    { name = 'luasnip', priority = 30 },
+                    { name = 'buffer', priority = 50, keyword_length = 3 },
+                    { name = 'emoji', insert = true, priority = 20 },
+                    {
+                        name = 'tmux',
+                        priority = 10,
+                        keyword_length = 3,
+                        option = { all_panes = true, label = 'tmux' },
+                    },
+                }
+                local function tooBig(bufnr)
+                    local max_filesize = 50 * 1024 -- 500 KB
+                    local check_stats = (vim.uv or vim.loop).fs_stat
+                    local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
+                    if ok and stats and stats.size > max_filesize then
+                        return true
+                    else
+                        return false
+                    end
+                end
+                vim.api.nvim_create_autocmd("BufRead", {
+                    group = vim.api.nvim_create_augroup("CmpBufferDisableGrp", { clear = true }),
+                    callback = function(ev)
+                        local sources = preferred_sources
+                        if not tooBig(ev.buf) then
+                            sources[#sources + 1] = { name = "buffer", priority = 50, keyword_length = 3 }
+                        end
+                        cmp.setup.buffer({
+                            sources = cmp.config.sources(sources),
+                        })
+                    end,
+                })
+
+                return {
+                    sorting = defaults.sorting,
+                    experimental = {
+                        ghost_text = {
+                            hl_group = 'Comment',
+                        },
+                    },
+                    snippet = {
+                        expand = function(args)
+                            require('luasnip').lsp_expand(args.body)
+                        end,
+                    },
+                    sources = cmp.config.sources(all_sources),
+                    performance = {
+                        max_view_entries = 20,
+                    },
+                    mapping = cmp.mapping.preset.insert({
+                        -- <CR> accepts currently selected item.
+                        -- Set `select` to `false` to only confirm explicitly selected items.
+                        ['<CR>'] = cmp.mapping.confirm({ select = false }),
+                        ['<S-CR>'] = cmp.mapping.confirm({
+                            behavior = cmp.ConfirmBehavior.Replace,
+                            select = false,
+                        }),
+                        ['<C-Space>'] = cmp.mapping.complete(),
+                        ['<C-n>'] = cmp.mapping.select_next_item({
+                            behavior = cmp.SelectBehavior.Insert,
+                        }),
+                        ['<C-j>'] = cmp.mapping.select_next_item({
+                            behavior = cmp.SelectBehavior.Insert,
+                        }),
+                        ['<C-p>'] = cmp.mapping.select_prev_item({
+                            behavior = cmp.SelectBehavior.Insert,
+                        }),
+                        ['<C-k>'] = cmp.mapping.select_prev_item({
+                            behavior = cmp.SelectBehavior.Insert,
+                        }),
+                        ['<C-d>'] = cmp.mapping.select_next_item({ count = 5 }),
+                        ['<C-u>'] = cmp.mapping.select_prev_item({ count = 5 }),
+                        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                        ['<C-c>'] = function(fallback)
+                            cmp.close()
+                            fallback()
+                        end,
+                        ['<Tab>'] = cmp.mapping(function(fallback)
+                            if cmp.visible() then
+                                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                            elseif luasnip.locally_jumpable(1) then
+                                luasnip.jump(1)
+                            elseif has_words_before() then
+                                cmp.complete()
+                            else
+                                fallback()
+                            end
+                        end, { 'i', 's' }),
+                        ['<S-Tab>'] = cmp.mapping(function(fallback)
+                            if cmp.visible() then
+                                cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+                            elseif luasnip.locally_jumpable(-1) then
+                                luasnip.jump(-1)
+                            else
+                                fallback()
+                            end
+                        end, { 'i', 's' }),
+                    }),
+                    formatting = {
+                        format = function(entry, vim_item)
+                            -- Set menu source name
+                            vim_item.kind = vim_item.kind
+                            if completion_labels[entry.source.name] then
+                                vim_item.menu = completion_labels[entry.source.name]
+                            end
+
+                            vim_item.dup = ({
+                                nvim_lua = 0,
+                                buffer = 0,
+                            })[entry.source.name] or 1
+
+                            return vim_item
+                        end,
+                    },
+                }
+            end,
+            ---@param opts cmp.ConfigSchema
+            config = function(_, opts)
+                for _, source in ipairs(opts.sources) do
+                    source.group_index = source.group_index or 1
+                end
+                require('cmp').setup(opts)
+            end,
         },
 
         { 'beauwilliams/focus.nvim',
@@ -844,17 +1040,17 @@ function M.setup()
            end
         },
 
-	    { 'AndrewRadev/dsf.vim',
-	        -- stylua: ignore
+        { 'AndrewRadev/dsf.vim',
+            -- stylua: ignore
             lazy = true,
-	        keys = {
-	            { 'dsf', '<Plug>DsfDelete', noremap = true, desc = 'Delete Surrounding Function' },
-	            { 'csf', '<Plug>DsfChange', noremap = true, desc = 'Change Surrounding Function' },
-	        },
-	        init = function()
-	            vim.g.dsf_no_mappings = 1
-	        end,
-	    },
+            keys = {
+                { 'dsf', '<Plug>DsfDelete', noremap = true, desc = 'Delete Surrounding Function' },
+                { 'csf', '<Plug>DsfChange', noremap = true, desc = 'Change Surrounding Function' },
+            },
+            init = function()
+                vim.g.dsf_no_mappings = 1
+            end,
+        },
     }
 
     if ver.major >= 1 or ver.minor >= 9 then
@@ -865,15 +1061,15 @@ function M.setup()
             keys = {
                 {'<leader>cf', ':Cscope find<space>', desc = 'trigger Cscope'},
                 {'<leader>cs', ':Cscope find s <C-R>=expand("<cword>")<cr><cr>',
-					desc = 'find all references to a token under cursor'},
+                    desc = 'find all references to a token under cursor'},
                 {'<leader>cg', ':Cscope find g <C-R>=expand("<cword>")<cr><cr>',
-					desc = 'find definition of the token under cursor'},
+                    desc = 'find definition of the token under cursor'},
                 {'<leader>cc', ':Cscope find c <C-R>=expand("<cword>")<cr><cr>',
-					desc = 'find all calls to the function under cursor'},
+                    desc = 'find all calls to the function under cursor'},
                 {'<leader>ct', ':Cscope find t <C-R>=expand("<cword>")<cr><cr>',
-					desc = 'find all instances of the text under cursor'},
+                    desc = 'find all instances of the text under cursor'},
                 {'<leader>ca', ':Cscope find a <C-R>=expand("<cword>")<cr><cr>',
-					desc = 'find functions that function under cursor calls'},
+                    desc = 'find functions that function under cursor calls'},
             },
             cmd = {'Cscope'},
             config = function()
