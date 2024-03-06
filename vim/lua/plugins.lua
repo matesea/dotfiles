@@ -1051,6 +1051,26 @@ function M.setup()
                 vim.g.dsf_no_mappings = 1
             end,
         },
+
+        {
+            "ThePrimeagen/harpoon",
+            branch = "harpoon2",
+            dependencies = { "nvim-lua/plenary.nvim" },
+            opts = {},
+            -- stylua: ignore
+            keys = {
+                { '<Leader>ua', 'ga', desc = 'Show character under cursor' },
+                { 'ga', function() require('harpoon'):list():append() end, desc = 'Add location' },
+                { '<C-e>', function() require('harpoon').ui:toggle_quick_menu(require('harpoon'):list()) end },
+                { '<C-n>', function() require('harpoon'):list():next() end, desc = 'Next location' },
+                { '<C-p>', function() require('harpoon'):list():prev() end, desc = 'Previous location' },
+                { '<Leader>mr', function() require('harpoon'):list():remove() end, desc = 'Remove location' },
+                { '<Leader>1', function() require('harpoon'):list():select(1) end, desc = 'Harpoon select 1' },
+                { '<Leader>2', function() require('harpoon'):list():select(2) end, desc = 'Harpoon select 2' },
+                { '<Leader>3', function() require('harpoon'):list():select(3) end, desc = 'Harpoon select 3' },
+                { '<Leader>4', function() require('harpoon'):list():select(4) end, desc = 'Harpoon select 4' },
+            },
+        },
     }
 
     if ver.major >= 1 or ver.minor >= 9 then
