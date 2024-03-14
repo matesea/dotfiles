@@ -242,27 +242,18 @@ function M.setup()
             end
         },
 
-        { 'ggandor/leap.nvim',
+        { "folke/flash.nvim",
+            -- event = "VeryLazy",
+            ---@type Flash.Config
             lazy = true,
+            opts = {},
             keys = {
-                {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
-                {'sS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
-                {'SS', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
+                { "ss", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+                { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+                { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+                { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+                { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
             },
-            config = true,
-        },
-
-        { 'ggandor/flit.nvim',
-            lazy = true,
-            keys = function()
-                ---@type LazyKeys[]
-                local ret = {}
-                for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
-                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
-                end
-                return ret
-            end,
-            opts = { labeled_modes = 'nx' },
         },
 
     }
@@ -1007,18 +998,27 @@ function M.setup()
             end,
         },
 
-        { "folke/flash.nvim",
-            -- event = "VeryLazy",
-            ---@type Flash.Config
+        { 'ggandor/leap.nvim',
             lazy = true,
-            opts = {},
             keys = {
-                { "ss", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-                { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-                { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-                { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-                { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+                {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
+                {'sS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
+                {'SS', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
             },
+            config = true,
+        },
+
+        { 'ggandor/flit.nvim',
+            lazy = true,
+            keys = function()
+                ---@type LazyKeys[]
+                local ret = {}
+                for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
+                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
+                end
+                return ret
+            end,
+            opts = { labeled_modes = 'nx' },
         },
 
         { 'kevinhwang91/nvim-ufo',
