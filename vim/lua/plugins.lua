@@ -1071,6 +1071,11 @@ function M.setup()
                 { '<Leader>4', function() require('harpoon'):list():select(4) end, desc = 'Harpoon select 4' },
             },
         },
+
+        { 'westeri/asl-vim',
+            lazy = true,
+            ft = 'asl',
+        }
     }
 
     if ver.major >= 1 or ver.minor >= 9 then
