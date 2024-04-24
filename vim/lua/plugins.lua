@@ -434,6 +434,21 @@ function M.setup()
             end
         },
 
+        {
+            "gennaro-tedesco/nvim-possession",
+            dependencies = {
+                "ibhagwan/fzf-lua",
+            },
+            lazy = true,
+            config = true,
+            keys = {
+                {"<leader>sl", function() require('nvim-possession').list() end, desc = 'list existing sessions'},
+                {"<leader>sn", function() require('nvim-possession').new() end, desc = 'create new session'},
+                {"<leader>su", function() require('nvim-possession').update() end, desc = 'update current session'},
+                {"<leader>sd", function() require('nvim-possession').delete() end, desc = 'delete current session'},
+            },
+        },
+
         { 'trmckay/based.nvim',
            lazy = true,
            cmd = "BasedConvert",
@@ -971,13 +986,6 @@ function M.setup()
            cmd = 'Diffthis',
         },
 
-        { "olimorris/persisted.nvim",
-            lazy = true,
-            config = function()
-                require("persisted").setup()
-            end,
-        },
-
         { 'echasnovski/mini.cursorword',
             version = false,
             ft = ft_code,
@@ -1061,7 +1069,7 @@ function M.setup()
             -- stylua: ignore
             keys = {
                 { '<Leader>ua', 'ga', desc = 'Show character under cursor' },
-                { 'ga', function() require('harpoon'):list():append() end, desc = 'Add location' },
+                { 'ga', function() require('harpoon'):list():add() end, desc = 'Add location' },
                 { '<C-e>', function() require('harpoon').ui:toggle_quick_menu(require('harpoon'):list()) end },
                 { '<C-n>', function() require('harpoon'):list():next() end, desc = 'Next location' },
                 { '<C-p>', function() require('harpoon'):list():prev() end, desc = 'Previous location' },
