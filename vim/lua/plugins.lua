@@ -704,8 +704,6 @@ function M.setup()
                 'hrsh7th/cmp-buffer',
                 -- nvim-cmp source for path
                 'hrsh7th/cmp-path',
-                -- nvim-cmp source for emoji
-                -- 'hrsh7th/cmp-emoji',
                 -- Luasnip completion source for nvim-cmp
                 'saadparwaiz1/cmp_luasnip',
                 -- Tmux completion source for nvim-cmp
@@ -743,7 +741,6 @@ function M.setup()
                     { name = 'nvim_lsp', priority = 50 },
                     { name = 'path', priority = 40 },
                     { name = 'luasnip', priority = 30 },
-                    -- { name = 'emoji', insert = true, priority = 20 },
                     {
                         name = 'tmux',
                         priority = 10,
@@ -756,13 +753,23 @@ function M.setup()
                     { name = 'path', priority = 40 },
                     { name = 'luasnip', priority = 30 },
                     { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                    -- { name = 'emoji', insert = true, priority = 20 },
                     {
                         name = 'tmux',
                         priority = 10,
                         keyword_length = 3,
                         option = { all_panes = true, label = 'tmux' },
                     },
+                }
+                local cmd_sources = {
+                    { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
+                    --[[
+                    {
+                        name = 'tmux',
+                        priority = 10,
+                        keyword_length = 3,
+                        option = { all_panes = true, label = 'tmux' },
+                    },
+                    ]]
                 }
                 local function tooBig(bufnr)
                     local max_filesize = 1024 * 1024 -- 1MB
@@ -783,6 +790,10 @@ function M.setup()
                         end
                         cmp.setup.buffer({
                             sources = cmp.config.sources(sources),
+                        })
+                        cmp.setup.cmdline(':', {
+                            mapping = cmp.mapping.preset.cmdline(),
+                            sources = cmp.config.sources(cmd_sources)
                         })
                     end,
                 })
@@ -1093,17 +1104,13 @@ function M.setup()
             { 'dhananjaylatkar/cscope_maps.nvim',
             lazy = true,
             keys = {
-                {'<leader>cf', ':Cscope find<space>', desc = 'trigger Cscope'},
-                {'<leader>cs', ':Cscope find s <C-R>=expand("<cword>")<cr><cr>',
+                {'<space>f', ':Cscope find<space>', desc = 'trigger Cscope'},
+                {'<space>s', ':Cscope find s <C-R>=expand("<cword>")<cr><cr>', silent = true,
                     desc = 'find all references to a token under cursor'},
-                {'<leader>cg', ':Cscope find g <C-R>=expand("<cword>")<cr><cr>',
+                {'<space>g', ':Cscope find g <C-R>=expand("<cword>")<cr><cr>', silent = true,
                     desc = 'find definition of the token under cursor'},
-                {'<leader>cc', ':Cscope find c <C-R>=expand("<cword>")<cr><cr>',
+                {'<space>c', ':Cscope find c <C-R>=expand("<cword>")<cr><cr>', silent = true,
                     desc = 'find all calls to the function under cursor'},
-                {'<leader>ct', ':Cscope find t <C-R>=expand("<cword>")<cr><cr>',
-                    desc = 'find all instances of the text under cursor'},
-                {'<leader>ca', ':Cscope find a <C-R>=expand("<cword>")<cr><cr>',
-                    desc = 'find functions that function under cursor calls'},
             },
             cmd = {'Cscope'},
             config = function()
@@ -1116,17 +1123,13 @@ function M.setup()
             lazy = true,
             cmd = {'GtagsCscope'},
             keys = {
-                {'<leader>cf', ':cscope find<space>', desc = 'trigger Cscope'},
-                {'<leader>cs', ':cscope find s <C-R>=expand("<cword>")<cr><cr>',
+                {'<space>f', ':cscope find<space>', desc = 'trigger Cscope'},
+                {'<space>s', ':cscope find s <C-R>=expand("<cword>")<cr><cr>', silent = true,
                     desc = 'find all references to a token under cursor'},
-                {'<leader>cg', ':cscope find g <C-R>=expand("<cword>")<cr><cr>',
+                {'<space>g', ':cscope find g <C-R>=expand("<cword>")<cr><cr>', silent = true,
                     desc = 'find definition of the token under cursor'},
-                {'<leader>cc', ':cscope find c <C-R>=expand("<cword>")<cr><cr>',
+                {'<space>c', ':cscope find c <C-R>=expand("<cword>")<cr><cr>', silent = true,
                     desc = 'find all calls to the function under cursor'},
-                {'<leader>ct', ':cscope find t <C-R>=expand("<cword>")<cr><cr>',
-                    desc = 'find all instances of the text under cursor'},
-                {'<leader>ca', ':cscope find a <C-R>=expand("<cword>")<cr><cr>',
-                    desc = 'find functions that function under cursor calls'},
             },
             config = function()
                 require('config.gtags').setup()
