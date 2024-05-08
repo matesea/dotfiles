@@ -787,13 +787,13 @@ function M.setup()
                         local sources = preferred_sources
                         if not tooBig(ev.buf) then
                             sources[#sources + 1] = {name = "buffer", priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }}
+                            cmp.setup.cmdline(':', {
+                                mapping = cmp.mapping.preset.cmdline(),
+                                sources = cmp.config.sources(cmd_sources)
+                            })
                         end
                         cmp.setup.buffer({
                             sources = cmp.config.sources(sources),
-                        })
-                        cmp.setup.cmdline(':', {
-                            mapping = cmp.mapping.preset.cmdline(),
-                            sources = cmp.config.sources(cmd_sources)
                         })
                     end,
                 })
