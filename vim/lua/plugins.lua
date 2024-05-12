@@ -985,6 +985,7 @@ function M.setup()
             end
         },
 
+        --[[
         { 'rainbowhxch/accelerated-jk.nvim',
             lazy = true,
             keys = {
@@ -993,6 +994,7 @@ function M.setup()
             },
             opts = {},
         },
+        ]]
 
         { 'rickhowe/spotdiff.vim',
            lazy = true,
