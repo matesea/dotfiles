@@ -826,15 +826,17 @@ function M.setup()
                         ['<C-n>'] = cmp.mapping.select_next_item({
                             behavior = cmp.SelectBehavior.Insert,
                         }),
-                        ['<C-j>'] = cmp.mapping.select_next_item({
+                        ['<C-p>'] = cmp.mapping.select_prev_item({
                             behavior = cmp.SelectBehavior.Insert,
                         }),
-                        ['<C-p>'] = cmp.mapping.select_prev_item({
+                        --[[ disable c-k/c-j select to not conflict with vim-tmux-navigator
+                        ['<C-j>'] = cmp.mapping.select_next_item({
                             behavior = cmp.SelectBehavior.Insert,
                         }),
                         ['<C-k>'] = cmp.mapping.select_prev_item({
                             behavior = cmp.SelectBehavior.Insert,
                         }),
+                        ]]
                         ['<C-d>'] = cmp.mapping.select_next_item({ count = 5 }),
                         ['<C-u>'] = cmp.mapping.select_prev_item({ count = 5 }),
                         ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -1095,6 +1097,24 @@ function M.setup()
         { 'westeri/asl-vim',
             lazy = true,
             ft = 'asl',
+        },
+
+        {
+            "christoomey/vim-tmux-navigator",
+            cmd = {
+              "TmuxNavigateLeft",
+              "TmuxNavigateDown",
+              "TmuxNavigateUp",
+              "TmuxNavigateRight",
+              "TmuxNavigatePrevious",
+            },
+            keys = {
+              { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+              { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+              { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+              { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+              { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+            },
         }
     }
 
