@@ -513,21 +513,13 @@ fi
 export EDITOR="$VISUAL"
 
 __zoxide=$(which zoxide 2>/dev/null)
-__lua=$(which lua 2>/dev/null)
-__zl=$(which z.lua 2>/dev/null)
 
-# z.lua or zoxide
+# zoxide
 if [ ! -z $__zoxide ]; then
     eval "$(zoxide init bash)"
     # zi to cd with fzf, as zz
     # zq to query but don't cd, as zl
     alias zq='zoxide query'
-elif [ ! -z $__lua  ] && [ ! -z $__zl ] ; then
-    # z.lua configuration and alias
-    eval "$(lua ${__zl} --init bash enhanced once fzf)"
-    # export _ZL_HYPHEN=1 # treat dash as regular character
-    alias zz='z -I'
-    alias zb='z -b -I'
 fi
 
 if [ -z ${dotfiles} ] ; then
@@ -589,7 +581,7 @@ fi
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-unset __fd __fzf __zl __lua __rg __zoxide
+unset __fd __fzf __rg __zoxide
 
 if [ -f ${dotfiles}/ignore ] ; then
     alias rg="rg --ignore-file ${dotfiles}/ignore --smart-case"
