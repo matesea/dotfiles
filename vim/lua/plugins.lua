@@ -256,6 +256,16 @@ function M.setup()
             },
         },
 
+        { 'rainbowhxch/accelerated-jk.nvim',
+            lazy = true,
+            keys = {
+                {'j', '<Plug>(accelerated_jk_gj)', desc = 'accelerated j'},
+                {'k', '<Plug>(accelerated_jk_gk)', desc = 'accelerated k'},
+            },
+            opts = {},
+        },
+
+
     }
     ]]
 
@@ -985,15 +995,6 @@ function M.setup()
             end
         },
 
-        { 'rainbowhxch/accelerated-jk.nvim',
-            lazy = true,
-            keys = {
-                {'j', '<Plug>(accelerated_jk_gj)', desc = 'accelerated j'},
-                {'k', '<Plug>(accelerated_jk_gk)', desc = 'accelerated k'},
-            },
-            opts = {},
-        },
-
         { 'rickhowe/spotdiff.vim',
            lazy = true,
            cmd = 'Diffthis',
@@ -1024,8 +1025,8 @@ function M.setup()
             lazy = true,
             keys = {
                 {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
-                {'sS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
-                {'SS', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
+                {'SS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
+                {'gs', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
             },
             config = true,
         },
