@@ -265,7 +265,10 @@ function M.setup()
             opts = {},
         },
 
-
+        { 'justinmk/vim-gtfo',
+            lazy = true,
+            keys = 'got',
+        },
     }
     ]]
 
@@ -613,11 +616,6 @@ function M.setup()
                 {'<leader>zz', ':Z<space>', desc = 'cd with zoxide'},
                 {'<leader>zi', ':Zi<space>', desc = 'cd with zoxide+fzf'},
             },
-        },
-
-        { 'justinmk/vim-gtfo',
-            lazy = true,
-            keys = 'got',
         },
 
         { 'JoosepAlviste/nvim-ts-context-commentstring',

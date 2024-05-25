@@ -66,3 +66,15 @@ function! s:LoadLSP() abort
 	silent! execute 'Lazy load mason.nvim mason-lspconfig cmp-nvim-lsp nvim-lspconfig'
 endfunction
 command! -range=% LoadLSP call <SID>LoadLSP()
+
+
+" inspired by gtfo.vim
+" open virtual/horizontal tmux window and cd to the folder of current file
+" only support tmux 1.6+
+func! s:tmux_split(dir, opt) abort
+	let l:dir = substitute(expand(a:dir, 1), '\\\\\+', '\', 'g')
+	silent call system("tmux split-window " . a:opt . " -c '" . l:dir . "'")
+endf
+
+nnoremap <silent><leader>ts :<c-u>call <sid>tmux_split("%:p:h", "")<cr>
+nnoremap <silent><leader>tv :<c-u>call <sid>tmux_split("%:p:h", "-h")<cr>

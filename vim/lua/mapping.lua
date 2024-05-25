@@ -48,12 +48,6 @@ map {'n', '<leader>vw', ':%v#<c-r><c-w>#d<cr>'}
 -- write
 map {'n', '<leader>w', ':write<cr>'}
 map {'x', '<leader>w', '<esc>:write<cr>'}
-
--- toggle wrap
-map {'n', '<leader>tw', ':setlocal wrap!<cr>', silent = true}
--- toggle relative line number
-map {'n', '<leader>tr', ':setlocal relativenumber!<cr>', silent = true}
-
 map {'n', '!', ':!'}
 
 -- grep into location list
