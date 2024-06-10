@@ -59,3 +59,9 @@ map {'n', 'ZQ', ':qa!<cr>'}
 
 -- wipe out buffer
 map {'n', 'bd', '<cmd>bwipeout<cr>', {desc = 'Buffer wipeout'}}
+
+-- colemak-dh arrow keys
+map {'n', 'm', 'h', {desc = 'left'}}
+map {'n', 'n', 'j', {desc = 'down'}}
+map {'n', 'e', 'k', {desc = 'up'}}
+map {'n', 'i', 'l', {desc = 'right'}}
