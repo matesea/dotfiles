@@ -256,15 +256,6 @@ function M.setup()
             },
         },
 
-        { 'rainbowhxch/accelerated-jk.nvim',
-            lazy = true,
-            keys = {
-                {'j', '<Plug>(accelerated_jk_gj)', desc = 'accelerated j'},
-                {'k', '<Plug>(accelerated_jk_gk)', desc = 'accelerated k'},
-            },
-            opts = {},
-        },
-
         { 'justinmk/vim-gtfo',
             lazy = true,
             keys = 'got',
@@ -1024,8 +1015,8 @@ function M.setup()
         { 'ggandor/leap.nvim',
             lazy = true,
             keys = {
-                {'s', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
-                {'S', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
+                {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
+                {'SS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
                 {'gs', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
             },
             config = true,
@@ -1043,6 +1034,16 @@ function M.setup()
             end,
             opts = { labeled_modes = 'nx' },
         },
+
+        { 'rainbowhxch/accelerated-jk.nvim',
+            lazy = true,
+            keys = {
+                {'j', '<Plug>(accelerated_jk_gj)', desc = 'accelerated j'},
+                {'k', '<Plug>(accelerated_jk_gk)', desc = 'accelerated k'},
+            },
+            opts = {},
+        },
+
 
         { 'kevinhwang91/nvim-ufo',
            lazy = true,
