@@ -260,6 +260,18 @@ function M.setup()
             lazy = true,
             keys = 'got',
         },
+
+        { 'm-demare/hlargs.nvim',
+             lazy = true,
+             ft = ft_code,
+             dependencies = {
+                 {'nvim-treesitter'},
+             },
+             config = function()
+                 require('hlargs').setup()
+             end
+        },
+
     }
     ]]
 
@@ -429,6 +441,7 @@ function M.setup()
                 {';j', '<cmd>FzfLua jumps<cr>', desc = 'pick from jumps'},
                 {';l', '<cmd>FzfLua blines<cr>', desc = 'current buffer lines'},
                 {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
+                {';r', '<cmd>FzfLua registers<cr>', desc = 'pick from registers'},
                 {';s', '<cmd>FzfLua tagstack<cr>', desc = 'pick tagstack'},
                 {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
                 {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
@@ -652,17 +665,6 @@ function M.setup()
                 line_numbers = true,
                 trim_scope = 'outer',
             },
-        },
-
-        { 'm-demare/hlargs.nvim',
-             lazy = true,
-             ft = ft_code,
-             dependencies = {
-                 {'nvim-treesitter'},
-             },
-             config = function()
-                 require('hlargs').setup()
-             end
         },
 
         { 'L3MON4D3/LuaSnip',
