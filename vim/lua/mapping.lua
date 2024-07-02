@@ -20,12 +20,6 @@ end
 -- buffers
 map {'n', ']b', ':bnext<cr>', silent = true}
 map {'n', '[b', ':bprev<cr>', silent = true}
--- quickfix
--- map {'n', ']q', ':cnext<cr>', silent = true}
--- map {'n', '[q', ':cprev<cr>', silent = true}
--- localtion list
--- map {'n', ']f', ':lnext<cr>', silent = true}
--- map {'n', '[f', ':lprev<cr>', silent = true}
 -- tabs
 map {'n', ']t', ':tabn<cr>', silent = true}
 map {'n', '[t', ':tabp<cr>', silent = true}
@@ -59,9 +53,3 @@ map {'n', 'ZQ', ':qa!<cr>'}
 
 -- wipe out buffer
 map {'n', 'bd', '<cmd>bwipeout<cr>', {desc = 'Buffer wipeout'}}
-
--- colemak-dh arrow keys
--- map {'n', 'm', 'h', {desc = 'left'}}
--- map {'n', 'n', 'j', {desc = 'down'}}
--- map {'n', 'e', 'k', {desc = 'up'}}
--- map {'n', 'i', 'l', {desc = 'right'}}
