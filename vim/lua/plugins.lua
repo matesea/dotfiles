@@ -538,7 +538,6 @@ function M.setup()
 
         { 'vivien/vim-linux-coding-style',
             lazy = true,
-            ft = {'c', 'h', 'S'}
         },
 
         { 'Vimjas/vim-python-pep8-indent',
