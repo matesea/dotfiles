@@ -1118,7 +1118,14 @@ function M.setup()
               { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
               { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
             },
-        }
+        },
+
+        { "max397574/better-escape.nvim",
+            config = function()
+              require("better_escape").setup{}
+            end,
+        },
+
     }
 
     if ver.major >= 1 or ver.minor >= 9 then
