@@ -1025,6 +1025,7 @@ function M.setup()
 
         { 'ggandor/flit.nvim',
             lazy = true,
+            dependencies = 'ggandor/leap.nvim',
             keys = function()
                 ---@type LazyKeys[]
                 local ret = {}

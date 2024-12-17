@@ -7,6 +7,7 @@ fi
 # if which rsync 1>/dev/null 2>&1; then
 #     alias cp='rsync -avz'
 # fi
+alias d='cd'
 alias ll='ls -l'
 alias la='ls -la'
 alias lh='ls -lh'
