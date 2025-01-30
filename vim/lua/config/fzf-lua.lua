@@ -13,6 +13,9 @@ function M.setup()
 
     local fzf_lua_table = {
         'max-perf',
+        defaults = {
+            color_icons = false,
+        },
         actions = {
             files = {
                 ["default"] = actions.file_edit, -- align with fzf.vim
@@ -26,7 +29,6 @@ function M.setup()
             },
         },
         files = {previewer = false},
-        global_color_icons  = false,
         winopts = {
             preview = {
                 default = previewer,
