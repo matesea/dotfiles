@@ -485,14 +485,16 @@ function M.setup()
             config = function()
                 vim.api.nvim_set_keymap('n', 'f<c-h>', ':Hi+<space>', {noremap = true})
                 vim.cmd [[
-                   nn - <Cmd>Hi/next<CR>
-                   nn _ <Cmd>Hi/previous<CR>
-                   nn f<left> <Cmd>Hi/older<cr>
-                   nn f<right> <Cmd>Hi/newer<cr>
+                    nn [g <cmd>Hi {<cr>
+                    nn ]g <cmd>Hi }<cr>
+                    nn [f <cmd>Hi <<cr>
+                    nn ]f <cmd>Hi ><cr>
                 ]]
             end,
-            -- nn [<cr> <cmd>Hi {<cr>
-            -- nn ]<cr> <cmd>Hi }<cr>
+            -- [g: jump to any highlight backward
+            -- ]g: jump to any highlight forward
+            -- [f: jump to highlight under cursor backward
+            -- ]f: jump to highlight under cursor forward
 
             -- f + <cr>: HiSet, hightlight current word
             -- f + <backspace>: HiErase
