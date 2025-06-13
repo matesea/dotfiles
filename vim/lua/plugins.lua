@@ -242,19 +242,30 @@ function M.setup()
             end
         },
 
-        { "folke/flash.nvim",
-            -- event = "VeryLazy",
-            ---@type Flash.Config
+        { 'ggandor/leap.nvim',
             lazy = true,
-            opts = {},
             keys = {
-                { "ss", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-                { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-                { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-                { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-                { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+                {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
+                {'SS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
+                {'gs', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
             },
+            config = true,
         },
+
+        { 'ggandor/flit.nvim',
+            lazy = true,
+            dependencies = 'ggandor/leap.nvim',
+            keys = function()
+                ---@type LazyKeys[]
+                local ret = {}
+                for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
+                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
+                end
+                return ret
+            end,
+            opts = { labeled_modes = 'nx' },
+        },
+
 
         { 'justinmk/vim-gtfo',
             lazy = true,
@@ -269,6 +280,16 @@ function M.setup()
              },
              config = function()
                  require('hlargs').setup()
+             end
+        },
+
+        {
+            'nvim-lualine/lualine.nvim',
+             init = function()
+                 vim.g.trouble_lualine = false -- disable document symbols in statusline
+                 require('lualine').setup{
+                    options = {theme = 'auto'},
+                 }
              end
         },
 
@@ -445,10 +466,27 @@ function M.setup()
                 {';s', '<cmd>FzfLua tagstack<cr>', desc = 'pick tagstack'},
                 {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
                 {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
+                {';z', '<cmd>FzfLua zoxide<cr>', desc = 'jump directory with zoxide'},
             },
             config = function()
                 require('config.fzf-lua').setup()
             end
+        },
+
+        { "folke/flash.nvim",
+            -- event = "VeryLazy",
+            ---@type Flash.Config
+            lazy = true,
+            opts = {},
+            keys = {
+                { "ss", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+                --[[
+                { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+                { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+                { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+                { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+                --]]
+            },
         },
 
         {
@@ -612,15 +650,6 @@ function M.setup()
                     vim.cmd('TSContextDisable')
                 end
             end
-        },
-
-        { 'nanotee/zoxide.vim',
-            lazy = true,
-            cmd = { 'Z', 'Zi', 'Lz', 'Lzi'},
-            keys = {
-                {'<leader>zz', ':Z<space>', desc = 'cd with zoxide'},
-                {'<leader>zi', ':Zi<space>', desc = 'cd with zoxide+fzf'},
-            },
         },
 
         { 'JoosepAlviste/nvim-ts-context-commentstring',
@@ -899,8 +928,11 @@ function M.setup()
 
         { 'beauwilliams/focus.nvim',
             lazy = true,
-            cmd = { "FocusSplitNicely", "FocusSplitCycle" , 'FocusEnable' },
+            cmd = { "FocusSplitNicely", "FocusSplitCycle" , 'FocusToggle' },
             module = "focus",
+            keys = {
+                {'<leader>fn', '<cmd>FocusSplitNicely<cr>', 'split focus nicely'}
+            },
             config = function()
                 require("focus").setup({hybridnumber = false})
             end
@@ -916,7 +948,6 @@ function M.setup()
                 {']a', '<cmd>AerialNext<cr>', desc = '[Aerial]jump to next symbol'},
                 {'[a', '<cmd>AerialPrev<cr>', desc = '[Aerial]jump to prevoius symbol'},
                 {'<leader>a', '<cmd>AerialToggle<cr>', desc = 'toggle Aerial window'},
-                {';z', '<cmd> call aerial#fzf()<cr>', desc = 'choose symbol with fzf'}
             },
             config = function()
                 require("aerial").setup({
@@ -1013,30 +1044,6 @@ function M.setup()
                     vim.api.nvim_set_current_win(picked_window_id)
                 end, { desc = "Pick a window" })
             end,
-        },
-
-        { 'ggandor/leap.nvim',
-            lazy = true,
-            keys = {
-                {'ss', '<Plug>(leap-forward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap forward to'},
-                {'SS', '<Plug>(leap-backward-to)', mode = { 'n', 'x', 'o' }, desc = 'Leap backward to'},
-                {'gs', '<Plug>(leap-from-window)', mode = { 'n', 'x', 'o' }, desc = 'Leap from window'},
-            },
-            config = true,
-        },
-
-        { 'ggandor/flit.nvim',
-            lazy = true,
-            dependencies = 'ggandor/leap.nvim',
-            keys = function()
-                ---@type LazyKeys[]
-                local ret = {}
-                for _, key in ipairs({ 'f', 'F', 't', 'T' }) do
-                    ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
-                end
-                return ret
-            end,
-            opts = { labeled_modes = 'nx' },
         },
 
         { 'rainbowhxch/accelerated-jk.nvim',
