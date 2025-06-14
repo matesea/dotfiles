@@ -283,16 +283,6 @@ function M.setup()
              end
         },
 
-        {
-            'nvim-lualine/lualine.nvim',
-             init = function()
-                 vim.g.trouble_lualine = false -- disable document symbols in statusline
-                 require('lualine').setup{
-                    options = {theme = 'auto'},
-                 }
-             end
-        },
-
     }
     ]]
 
@@ -926,10 +916,21 @@ function M.setup()
             end,
         },
 
+        { 'levouh/tint.nvim',
+            lazy = true,
+            config = function()
+                require('tint').setup()
+            end
+        },
+
         { 'beauwilliams/focus.nvim',
             lazy = true,
             cmd = { "FocusSplitNicely", "FocusSplitCycle" , 'FocusToggle' },
             module = "focus",
+            dependencies = {
+                'levouh/tint.nvim',
+                'nvim-lualine/lualine.nvim',
+            },
             keys = {
                 {'<leader>fn', '<cmd>FocusSplitNicely<cr>', 'split focus nicely'}
             },
@@ -1130,12 +1131,14 @@ function M.setup()
             },
         },
 
+        -- jk to escape
         { "max397574/better-escape.nvim",
             config = function()
               require("better_escape").setup{}
             end,
         },
 
+        -- gb to start, j{l/c/r} to align
         {
             'echasnovski/mini.align',
             opts = {
@@ -1159,7 +1162,7 @@ function M.setup()
                 { '<leader>ib', '<cmd>AnyJumpBack<CR>', desc = 'Any Jump Back' },
                 { '<leader>il', '<cmd>AnyJumpLastResults<CR>', desc = 'Any Jump Resume' },
             },
-            init = function()
+            config = function()
                 vim.g.any_jump_disable_default_keybindings = 1
                 vim.api.nvim_create_autocmd('FileType', {
                     group = vim.api.nvim_create_augroup('rafi.any-jump', {}),
@@ -1170,6 +1173,23 @@ function M.setup()
                 })
             end,
         },
+
+        {
+            'nvim-lualine/lualine.nvim',
+             lazy = true,
+             init = function()
+                 vim.g.trouble_lualine = false -- disable document symbols in statusline
+             end,
+             config = function()
+                 require('lualine').setup{
+                    options = {
+                        icon_enabled = false,
+                        theme = 'auto',
+                    },
+                 }
+             end
+        },
+
     }
 
     if ver.major >= 1 or ver.minor >= 9 then
