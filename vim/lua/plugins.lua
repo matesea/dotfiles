@@ -316,6 +316,10 @@ function M.setup()
             lazy = false,
             priority = 1000,
             config = function()
+                vim.g.sonokai_style = 'default'
+                vim.g.sonokai_better_performance = 1
+                -- vim.g.sonokai_transparent_background = 1
+                vim.g.sonokai_dim_inactive_windows = 1
                 vim.cmd.colorscheme 'sonokai'
             end
         },
@@ -332,7 +336,10 @@ function M.setup()
            lazy = true,
             priority = 1000,
            config = function()
-                vim.cmd("colorscheme kanagawa")
+               require('kanagawa').setup({
+                       dimInactive = true,
+                       })
+                vim.cmd.colorscheme 'kanagawa'
            end
         },
 
@@ -1184,7 +1191,7 @@ function M.setup()
                  require('lualine').setup{
                     options = {
                         icon_enabled = false,
-                        theme = 'auto',
+                        theme = 'sonokai',
                     },
                  }
              end
