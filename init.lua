@@ -44,4 +44,3 @@ end
 
 require('plugins').setup()
 require('mapping')
-require('statusline')

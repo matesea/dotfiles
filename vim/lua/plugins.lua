@@ -382,11 +382,13 @@ function M.setup()
         },
 
         { 'echasnovski/mini.tabline',
-           config = function()
-               require('mini.tabline').setup({
-                   show_icons = false
-               })
-           end
+           version = '*',
+           config = true,
+        },
+
+        { 'echasnovski/mini.statusline',
+           version = '*',
+           config = true,
         },
 
         { 'nmac427/guess-indent.nvim', lazy = false, priority = 50, config = true },
@@ -936,7 +938,6 @@ function M.setup()
             module = "focus",
             dependencies = {
                 'levouh/tint.nvim',
-                'nvim-lualine/lualine.nvim',
             },
             keys = {
                 {'<leader>fn', '<cmd>FocusSplitNicely<cr>', 'split focus nicely'}
@@ -1180,23 +1181,6 @@ function M.setup()
                 })
             end,
         },
-
-        {
-            'nvim-lualine/lualine.nvim',
-             lazy = true,
-             init = function()
-                 vim.g.trouble_lualine = false -- disable document symbols in statusline
-             end,
-             config = function()
-                 require('lualine').setup{
-                    options = {
-                        icon_enabled = false,
-                        theme = 'sonokai',
-                    },
-                 }
-             end
-        },
-
     }
 
     if ver.major >= 1 or ver.minor >= 9 then
