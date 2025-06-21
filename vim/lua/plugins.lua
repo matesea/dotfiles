@@ -1043,7 +1043,7 @@ function M.setup()
         },
 
         { 's1n7ax/nvim-window-picker',
-            version = 'v1.*',
+            version = '2.*',
             keys = {'sp'},
             config = function()
                 require'window-picker'.setup()
@@ -1181,12 +1181,8 @@ function M.setup()
                 })
             end,
         },
-    }
 
-    if ver.major >= 1 or ver.minor >= 9 then
-        -- cscope/gtags for nvim 0.9+
-        table.insert(plugins,
-            { 'dhananjaylatkar/cscope_maps.nvim',
+        { 'dhananjaylatkar/cscope_maps.nvim',
             lazy = true,
             keys = {
                 {'<space>f', ':Cscope find<space>', desc = 'trigger Cscope'},
@@ -1201,44 +1197,9 @@ function M.setup()
             config = function()
                 require('config.cscope_maps').setup()
             end,
-        })
-    else
-        table.insert(plugins,
-            { 'joereynolds/gtags-scope',
-            lazy = true,
-            cmd = {'GtagsCscope'},
-            keys = {
-                {'<space>f', ':cscope find<space>', desc = 'trigger Cscope'},
-                {'<space>s', ':cscope find s <C-R>=expand("<cword>")<cr><cr>', silent = true,
-                    desc = 'find all references to a token under cursor'},
-                {'<space>g', ':cscope find g <C-R>=expand("<cword>")<cr><cr>', silent = true,
-                    desc = 'find definition of the token under cursor'},
-                {'<space>c', ':cscope find c <C-R>=expand("<cword>")<cr><cr>', silent = true,
-                    desc = 'find all calls to the function under cursor'},
-            },
-            config = function()
-                require('config.gtags').setup()
-            end
-        })
-        table.insert(plugins,
-            { 'nathom/filetype.nvim',
-                cond = is_neovim8(),
-                config = function()
-                    require("filetype").setup({
-                        overrides = {
-                            extensions = {
-                                log = "log",
-                                txt = "log",
-                            }
-                        }
-                    })
-                   vim.cmd[[
-                       syntax on
-                       filetype plugin indent on
-                   ]]
-                end
-            })
-    end
+        }
+    }
+
 
     lazy_init()
     local lazy = require 'lazy'
