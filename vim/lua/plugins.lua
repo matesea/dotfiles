@@ -283,23 +283,22 @@ function M.setup()
              end
         },
 
-        { 'nathanaelkane/vim-indent-guides',
+        { 'echasnovski/mini.indentscope',
+            version = '*',
             lazy = true,
-            enabled = false;
             ft = ft_code,
-            init = function()
-                vim.g.indent_guides_enable_on_vim_startup = 1
-                vim.g.indent_guides_default_mapping = 0
-                vim.g.indent_guides_tab_guides = 0
-                vim.g.indent_guides_color_change_percent = 3
-                vim.g.indent_guides_guide_size = 1
-                vim.g.indent_guides_exclude_filetypes = {
-                    'help', 'defx', 'denite', 'denite-filter', 'startify',
-                    'vista', 'vista_kind', 'tagbar', 'lsp-hover', 'clap_input',
-                    'any-jump', 'gina-status', 'gina-commit', 'gina-log', 'terminal',
-                    'fzf'
-                }
+            config = function()
+                require('mini.indentscope').setup{}
             end
+        },
+
+        {  "lukas-reineke/indent-blankline.nvim",
+            lazy = true,
+            ft = ft_code,
+            main = "ibl",
+            ---@module "ibl"
+                ---@type ibl.config
+            opts = {},
         },
     }
     ]]
@@ -620,22 +619,22 @@ function M.setup()
             },
         },
 
-        { 'echasnovski/mini.indentscope',
-            version = '*',
+        { 'nathanaelkane/vim-indent-guides',
             lazy = true,
             ft = ft_code,
-            config = function()
-                require('mini.indentscope').setup()
+            init = function()
+                vim.g.indent_guides_enable_on_vim_startup = 1
+                vim.g.indent_guides_default_mapping = 0
+                vim.g.indent_guides_tab_guides = 0
+                vim.g.indent_guides_color_change_percent = 3
+                vim.g.indent_guides_guide_size = 1
+                vim.g.indent_guides_exclude_filetypes = {
+                    'help', 'defx', 'denite', 'denite-filter', 'startify',
+                    'vista', 'vista_kind', 'tagbar', 'lsp-hover', 'clap_input',
+                    'any-jump', 'gina-status', 'gina-commit', 'gina-log', 'terminal',
+                    'fzf'
+                }
             end
-        },
-
-        {  "lukas-reineke/indent-blankline.nvim",
-            lazy = true,
-            ft = ft_code,
-            main = "ibl",
-            ---@module "ibl"
-                ---@type ibl.config
-            opts = {},
         },
 
         { 'dstein64/vim-startuptime',
