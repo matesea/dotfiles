@@ -102,7 +102,7 @@ opt.swapfile = false
 -- setup undo
 opt.undofile = true
 if fn.has('persistent_undo') == 1 then
-    g.undodir = env.VIMDATA .. '/undo'
+    g.undodir = vim.fn.stdpath('cache') .. '/undo'
 end
 
 opt.expandtab = true
