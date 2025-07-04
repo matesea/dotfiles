@@ -390,10 +390,6 @@ function M.setup()
            config = true,
         },
 
-        { 'tiagovla/scope.nvim', config = true },
-
-        { 'nmac427/guess-indent.nvim', lazy = false, priority = 50, config = true },
-
         { 'bronson/vim-trailing-whitespace',
             lazy = true,
             ft = ft_code,
@@ -938,7 +934,6 @@ function M.setup()
             lazy = true,
             dependencies = {
                 {'nvim-treesitter'},
-                {'fzf'},
             },
             keys = {
                 {']a', '<cmd>AerialNext<cr>', desc = '[Aerial]jump to next symbol'},
@@ -959,11 +954,6 @@ function M.setup()
         { 'matesea/trace32-practice.vim',
             lazy = true,
             ft = 'cmm',
-        },
-
-        { 'mtth/scratch.vim',
-            lazy = true,
-            cmd = { 'Scratch' },
         },
 
         { 'vim-scripts/scons.vim',
@@ -1184,7 +1174,7 @@ function M.setup()
             config = function()
                 require('config.cscope_maps').setup()
             end,
-        }
+        },
     }
 
 
