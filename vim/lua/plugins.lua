@@ -921,6 +921,7 @@ function M.setup()
         },
         { 'b0o/incline.nvim',
             lazy = true,
+            event = 'VeryLazy',
             config = function()
                 require('incline').setup()
             end,
@@ -932,7 +933,6 @@ function M.setup()
             module = "focus",
             dependencies = {
                 'levouh/tint.nvim',
-                'b0o/incline.nvim',
             },
             keys = {
                 {'<leader>fn', '<cmd>FocusSplitNicely<cr>', 'split focus nicely'}
