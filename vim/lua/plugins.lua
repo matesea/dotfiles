@@ -380,6 +380,11 @@ function M.setup()
             cmd = 'GV'
         },
 
+        { 'echasnovski/mini.icons',
+            version = '*',
+            config = true,
+        },
+
         { 'echasnovski/mini.tabline',
            version = '*',
            config = true,
@@ -914,6 +919,12 @@ function M.setup()
                 require('tint').setup()
             end
         },
+        { 'b0o/incline.nvim',
+            lazy = true,
+            config = function()
+                require('incline').setup()
+            end,
+        },
 
         { 'beauwilliams/focus.nvim',
             lazy = true,
@@ -921,6 +932,7 @@ function M.setup()
             module = "focus",
             dependencies = {
                 'levouh/tint.nvim',
+                'b0o/incline.nvim',
             },
             keys = {
                 {'<leader>fn', '<cmd>FocusSplitNicely<cr>', 'split focus nicely'}
