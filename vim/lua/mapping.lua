@@ -52,4 +52,4 @@ map {'n', '<leader>ga', ':lgrepadd<space>'}
 map {'n', 'ZQ', ':qa!<cr>'}
 
 -- wipe out buffer
-map {'n', 'bd', '<cmd>bwipeout<cr>', {desc = 'Buffer wipeout'}}
+-- map {'n', 'bd', '<cmd>bwipeout<cr>', {desc = 'Buffer wipeout'}}

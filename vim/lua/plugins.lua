@@ -282,6 +282,28 @@ function M.setup()
                 ---@type ibl.config
             opts = {},
         },
+
+        { 'bronson/vim-trailing-whitespace',
+            lazy = true,
+            enabled = false,
+            ft = ft_code,
+            cmd = 'FixWhitespace',
+            init = function()
+                vim.g.extra_whitespace_ignored_filetypes = {
+                    'diff',
+                    'gitcommit',
+                    'unite',
+                    'qf',
+                    'help',
+                    'markdown',
+                    'log',
+                    'text',
+                    'fzf',
+                    'terminal',
+                }
+            end
+        },
+
     }
     ]]
 
@@ -381,38 +403,40 @@ function M.setup()
         },
 
         { 'echasnovski/mini.icons',
-            version = '*',
+            version = false,
+            lazy = true,
             config = true,
         },
 
         { 'echasnovski/mini.tabline',
-           version = '*',
+           version = false,
+           dependencies = {'mini.icons'},
            config = true,
+        },
+
+        { 'echasnovski/mini.bufremove',
+            version = false,
+            keys = {
+                {'bd', mode = 'n', function() require("mini.bufremove").wipeout() end,
+                    desc = 'wipeout buffer'
+                },
+            },
+            config = true,
         },
 
         { 'echasnovski/mini.statusline',
-           version = '*',
+           version = false,
+           dependencies = {'mini.icons'},
            config = true,
         },
 
-        { 'bronson/vim-trailing-whitespace',
+        { 'echasnovski/mini.trailspace',
+            version = false,
             lazy = true,
             ft = ft_code,
-            cmd = 'FixWhitespace',
-            init = function()
-                vim.g.extra_whitespace_ignored_filetypes = {
-                    'diff',
-                    'gitcommit',
-                    'unite',
-                    'qf',
-                    'help',
-                    'markdown',
-                    'log',
-                    'text',
-                    'fzf',
-                    'terminal',
-                }
-            end
+            config = {
+                only_in_normal_buffers = true,
+            },
         },
 
         { 'stevearc/qf_helper.nvim',
@@ -431,6 +455,7 @@ function M.setup()
         },
 
         { 'echasnovski/mini.pairs',
+            version = false,
             event = 'InsertEnter',
             opts = {}
         },
@@ -599,7 +624,7 @@ function M.setup()
         },
 
         { 'echasnovski/mini.indentscope',
-            version = '*',
+            version = false,
             ft = ft_code,
             keys = {
                 {'<leader>iu', mode = 'n', function() require("mini.indentscope").undraw() end, desc = 'undraw indentscope'},
@@ -922,8 +947,30 @@ function M.setup()
         { 'b0o/incline.nvim',
             lazy = true,
             event = 'VeryLazy',
+            dependencies = {'mini.icons'},
             config = function()
-                require('incline').setup()
+                local helpers = require 'incline.helpers'
+                local mini_icons = require 'mini.icons'
+                require('incline').setup {
+                  window = {
+                    padding = 0,
+                    margin = { horizontal = 0 },
+                  },
+                  render = function(props)
+                    local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':t')
+                    if filename == '' then
+                      filename = '[No Name]'
+                    end
+                    local ft_icon, ft_color = mini_icons.get("file", filename)
+                    local modified = vim.bo[props.buf].modified
+                    return {
+                      ' ',
+                      { filename, gui = modified and 'bold,italic' or 'bold' },
+                      ' ',
+                      ft_icon and { ft_icon, ' ', guibg = 'none', group = ft_color } or '',
+                    }
+                  end,
+                }
             end,
         },
 
@@ -974,6 +1021,7 @@ function M.setup()
         },
 
         { 'echasnovski/mini.surround',
+            version = false,
             -- stylua: ignore
             keys = function(_, keys)
                 -- Populate the keys based on the user's options
@@ -1138,6 +1186,7 @@ function M.setup()
         -- gb to start, j{l/c/r} to align
         {
             'echasnovski/mini.align',
+            version = false,
             opts = {
                 mappings = {
                     start = 'gb',
