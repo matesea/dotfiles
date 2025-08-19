@@ -1071,6 +1071,19 @@ function M.setup()
            cmd = 'Diffthis',
         },
 
+        -- Perform diffs on blocks of code
+        {
+            'AndrewRadev/linediff.vim',
+            lazy = true,
+            cmd = { 'Linediff', 'LinediffAdd' },
+            keys = {
+                { '<leader>mdf', ':Linediff<CR>', mode = 'x', desc = 'Line diff' },
+                { '<leader>mda', ':LinediffAdd<CR>', mode = 'x', desc = 'Line diff add' },
+                { '<leader>mds', '<cmd>LinediffShow<CR>', desc = 'Line diff show' },
+                { '<leader>mdr', '<cmd>LinediffReset<CR>', desc = 'Line diff reset' },
+            },
+        },
+
         { 'echasnovski/mini.cursorword',
             version = false,
             ft = ft_code,
