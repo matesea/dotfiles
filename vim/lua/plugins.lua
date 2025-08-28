@@ -89,35 +89,6 @@ function M.setup()
             end
         },
 
-        { 'junegunn/fzf.vim',
-            dependencies = {'fzf'},
-            lazy = true,
-            keys = function()
-                ---@type LazyKeys[]
-                local ret = {}
-                local prefix = '<space>'
-                for _, key in ipairs({ 'e', 'c', 'g', 'b', 'h', 'a', 'l', 'w', 't', 'm', 'r', 'x' }) do
-                    ret[#ret + 1] = { prefix .. key, desc = key }
-                end
-                return ret
-            end,
-            config = function()
-                local prefix = '<space>'
-                vim.api.nvim_set_keymap('n', prefix ..'e', ':FZF<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix ..'c', ':FZF %:h<cr>', {noremap = true, silent = true})
-                -- vim.api.nvim_set_keymap('n', prefix .. 'g', ':GFiles<cr>', {noremap = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'b', ':Buffers<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'h', ':History', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'a', ':Lines<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'l', ':Blines<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'w', ':Lines <c-r><c-w><cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 't', ':BTags<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'm', ':Marks<cr>', {noremap = true, silent = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'r', ':Rg<space>', {noremap = true})
-                vim.api.nvim_set_keymap('n', prefix .. 'x', ':Rg <c-r><c-w><cr>', {noremap = true, silent = true})
-            end
-        },
-
         { 'kazhala/close-buffers.nvim',
             lazy = true,
             cmd = {"BDelete", "BWipeout"},
@@ -402,19 +373,19 @@ function M.setup()
             cmd = 'GV'
         },
 
-        { 'echasnovski/mini.icons',
+        { 'nvim-mini/mini.icons',
             version = false,
             lazy = true,
             config = true,
         },
 
-        { 'echasnovski/mini.tabline',
+        { 'nvim-mini/mini.tabline',
            version = false,
            dependencies = {'mini.icons'},
            config = true,
         },
 
-        { 'echasnovski/mini.bufremove',
+        { 'nvim-mini/mini.bufremove',
             version = false,
             keys = {
                 {'bd', mode = 'n', function() require("mini.bufremove").wipeout() end,
@@ -424,13 +395,13 @@ function M.setup()
             config = true,
         },
 
-        { 'echasnovski/mini.statusline',
+        { 'nvim-mini/mini.statusline',
            version = false,
            dependencies = {'mini.icons'},
            config = true,
         },
 
-        { 'echasnovski/mini.trailspace',
+        { 'nvim-mini/mini.trailspace',
             version = false,
             lazy = true,
             ft = ft_code,
@@ -454,7 +425,7 @@ function M.setup()
             config = true,
         },
 
-        { 'echasnovski/mini.pairs',
+        { 'nvim-mini/mini.pairs',
             version = false,
             event = 'InsertEnter',
             opts = {}
@@ -609,7 +580,7 @@ function M.setup()
             ft = {'c', 'h', 'S', 'cpp'},
         },
 
-        { 'echasnovski/mini.comment',
+        { 'nvim-mini/mini.comment',
             version = false,
             ft = ft_code,
             dependencies = {'nvim-ts-context-commentstring'},
@@ -623,7 +594,7 @@ function M.setup()
             },
         },
 
-        { 'echasnovski/mini.indentscope',
+        { 'nvim-mini/mini.indentscope',
             version = false,
             ft = ft_code,
             keys = {
@@ -1020,7 +991,7 @@ function M.setup()
             ft = 'scons',
         },
 
-        { 'echasnovski/mini.surround',
+        { 'nvim-mini/mini.surround',
             version = false,
             -- stylua: ignore
             keys = function(_, keys)
