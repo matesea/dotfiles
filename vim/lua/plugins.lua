@@ -381,12 +381,14 @@ function M.setup()
 
         { 'nvim-mini/mini.tabline',
            version = false,
+           event = 'VeryLazy',
            dependencies = {'mini.icons'},
            config = true,
         },
 
         { 'nvim-mini/mini.bufremove',
             version = false,
+            lazy = true,
             keys = {
                 {'bd', mode = 'n', function() require("mini.bufremove").wipeout() end,
                     desc = 'wipeout buffer'
@@ -397,6 +399,7 @@ function M.setup()
 
         { 'nvim-mini/mini.statusline',
            version = false,
+           event = 'VeryLazy',
            dependencies = {'mini.icons'},
            config = true,
         },
@@ -993,6 +996,7 @@ function M.setup()
 
         { 'nvim-mini/mini.surround',
             version = false,
+            lazy = true,
             -- stylua: ignore
             keys = function(_, keys)
                 -- Populate the keys based on the user's options
