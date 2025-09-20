@@ -28,7 +28,9 @@ function M.setup()
                 ["ctrl-v"] = actions.buf_vsplit,
             },
         },
-        files = {previewer = false},
+        files = {
+            previewer = false,
+        },
         winopts = {
             preview = {
                 default = previewer,

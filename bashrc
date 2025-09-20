@@ -11,7 +11,6 @@ alias d='cd'
 alias ll='ls -l'
 alias la='ls -la'
 alias lh='ls -lh'
-alias g='global'
 
 alias tmux='tmux -2'
 alias recal='history |grep'
@@ -545,23 +544,15 @@ __fzf=$(which fzf 2>/dev/null)
 if [ ! -z $__fzf ] ; then
     __fd=$(which fd 2>/dev/null)
     __rg=$(which rg 2>/dev/null)
-    __ff=$(which ff 2>/dev/null)
-    __global=$(which global 2>/dev/null)
+
     # rg is even faster than fd
-    if [ ! -z ${__ff} ] && [ ! -z ${__rg} ] && [ ! -z ${__fd} ] && [ ! -z ${__global} ]; then
-        export FZF_DEFAULT_COMMAND='ff'
-    elif [ ! -z $__rg ] ; then
-        export FZF_DEFAULT_COMMAND='(global -Pol || rg --no-messages --files --no-ignore) 2>/dev/null'
-        # export FZF_DEFAULT_COMMAND='if [ ! -z $(which global) && -e ./GPATH ]; then global -Pol; else rg --no-messages --files; fi'
+    if [ ! -z $__rg ] ; then
+        export FZF_DEFAULT_COMMAND='rg --no-messages --files --no-ignore 2>/dev/null'
     elif [ ! -z $__fd ] ; then
-        # export FZF_DEFAULT_COMMAND='
-        #  (git ls-tree -r --name-only HEAD ||
-        #      fd --type f) 2>/dev/null'
-        export FZF_DEFAULT_COMMAND='(global -Pol || fd --type f) 2>/dev/null'
-        # export FZF_DEFAULT_COMMAND='if [ ! -z $(which global) && -e ./GPATH ]; then global -Pol; else fd --type f ; fi'
+        export FZF_DEFAULT_COMMAND='fd -t f -I 2>/dev/null'
     else
         export FZF_DEFAULT_COMMAND='
-         (global -Pol || git ls-tree -r --name-only HEAD ||
+         (git ls-tree -r --name-only HEAD ||
              find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
              sed s/^..//) 2> /dev/null'
     fi

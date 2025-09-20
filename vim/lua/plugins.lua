@@ -450,20 +450,40 @@ function M.setup()
             dependencies = {'fzf'},
             cmd = 'FzfLua',
             keys = {
-                {';a', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
+                {';a', '<cmd>FzfLua blines<cr>', desc = 'current buffer lines'},
+                {';A', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
+
                 {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
                 {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'find files with cwd'},
-                {';d', ':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'grep files with cwd'},
+                {';d', function()
+                        local fzf = require('fzf-lua')
+                        fzf.fzf_exec("fd -t d", {
+                                prompt = "Folder:",
+                                actions = {
+                                ["default"] = function(selected)
+                                    if selected and #selected > 0 then
+                                        fzf.live_grep({ cwd = selected[1] })
+                                    end
+                                end,
+                                },
+                        })
+                    end, desc = 'grep on selected folder'
+                },
+
                 {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
+                {';E', ':FzfLua files no_ignore=true hidden=true follow=true<cr>', desc = 'find everything'},
+
                 {';f', '<cmd>FzfLua builtin<cr>', desc = 'pick fzf-lua builtin'},
                 {';g', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},
                 {';h', '<cmd>FzfLua oldfiles<cr>', desc = 'choose file from history'},
                 {';j', '<cmd>FzfLua jumps<cr>', desc = 'pick from jumps'},
-                {';l', '<cmd>FzfLua blines<cr>', desc = 'current buffer lines'},
                 {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
                 {';r', '<cmd>FzfLua registers<cr>', desc = 'pick from registers'},
                 {';s', '<cmd>FzfLua tagstack<cr>', desc = 'pick tagstack'},
+
                 {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
+                {';T', '<cmd>FzfLua tags_live_grep<cr>', desc = 'search all tags'},
+
                 {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
                 {';z', '<cmd>FzfLua zoxide<cr>', desc = 'jump directory with zoxide'},
             },
