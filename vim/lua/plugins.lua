@@ -450,9 +450,7 @@ function M.setup()
             dependencies = {'fzf'},
             cmd = 'FzfLua',
             keys = {
-                {';a', '<cmd>FzfLua blines<cr>', desc = 'current buffer lines'},
-                {';A', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
-
+                {';a', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
                 {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
                 {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'find files with cwd'},
                 {';d', function()
@@ -471,7 +469,6 @@ function M.setup()
                 },
 
                 {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
-                {';E', ':FzfLua files no_ignore=true hidden=true follow=true<cr>', desc = 'find everything'},
 
                 {';f', '<cmd>FzfLua builtin<cr>', desc = 'pick fzf-lua builtin'},
                 {';g', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},

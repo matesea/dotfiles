@@ -18,9 +18,13 @@ function M.setup()
         },
         actions = {
             files = {
+                true,
                 ["default"] = actions.file_edit, -- align with fzf.vim
                 ["ctrl-s"] = actions.file_split,
                 ["ctrl-v"] = actions.file_vsplit,
+                ["ctrl-i"] = actions.toggle_ignore,
+                ["ctrl-h"] = actions.toggle_hidden,
+                ["ctrl-f"] = actions.toggle_follow,
             },
             buffers = {
                 ["default"] = actions.buf_edit, -- align with fzf.vim
