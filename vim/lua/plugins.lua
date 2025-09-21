@@ -742,8 +742,14 @@ function M.setup()
                 'saadparwaiz1/cmp_luasnip',
                 -- Tmux completion source for nvim-cmp
                 'andersevenrud/cmp-tmux',
+                -- rip grep source
+                "lukas-reineke/cmp-rg",
             },
-            event = 'InsertEnter',
+            event = {
+                'InsertEnter',
+                'CmdlineEnter',
+                'CmdwinEnter',
+            },
             opts = function()
                 vim.api.nvim_set_hl(
                     0,
@@ -756,10 +762,10 @@ function M.setup()
                 local completion_labels = {
                     nvim_lsp = "[LSP]",
                     nvim_lua = "[Lua]",
-                    cmdline  = "[Cmd]",
                     buffer   = "[Buf]",
                     path     = "[Path]",
                     tmux     = "[Tmux]",
+                    rg       = "[Rg]",
                 }
 
                 local function has_words_before()
@@ -775,6 +781,7 @@ function M.setup()
                     { name = 'nvim_lsp', priority = 50 },
                     { name = 'path', priority = 40 },
                     { name = 'luasnip', priority = 30 },
+                    { name = 'rg', priority = 10 },
                     {
                         name = 'tmux',
                         priority = 10,
@@ -787,6 +794,7 @@ function M.setup()
                     { name = 'path', priority = 40 },
                     { name = 'luasnip', priority = 30 },
                     { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
+                    { name = 'rg', priority = 10 },
                     {
                         name = 'tmux',
                         priority = 10,
@@ -796,17 +804,16 @@ function M.setup()
                 }
                 local cmd_sources = {
                     { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                    --[[
+                    { name = 'path', priority = 40 },
                     {
                         name = 'tmux',
                         priority = 10,
                         keyword_length = 3,
                         option = { all_panes = true, label = 'tmux' },
                     },
-                    ]]
                 }
                 local function tooBig(bufnr)
-                    local max_filesize = 1024 * 1024 -- 1MB
+                    local max_filesize = 512 * 1024 -- 512KB
                     local check_stats = (vim.uv or vim.loop).fs_stat
                     local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
                     if ok and stats and stats.size > max_filesize then
@@ -821,12 +828,22 @@ function M.setup()
                         local sources = preferred_sources
                         if not tooBig(ev.buf) then
                             sources[#sources + 1] = {name = "buffer", priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }}
-                            --[[
                             cmp.setup.cmdline(':', {
                                 mapping = cmp.mapping.preset.cmdline(),
                                 sources = cmp.config.sources(cmd_sources)
                             })
-                            ]]
+                            cmp.setup.cmdline({'/', '?'}, {
+                                mapping = cmp.mapping.preset.cmdline(),
+                                sources = cmp.config.sources({
+                                    { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
+                                    {
+                                        name = 'tmux',
+                                        priority = 10,
+                                        keyword_length = 3,
+                                        option = { all_panes = true, label = 'tmux' },
+                                    },
+                                })
+                            })
                         end
                         cmp.setup.buffer({
                             sources = cmp.config.sources(sources),
