@@ -700,37 +700,6 @@ function M.setup()
             },
         },
 
-        { 'L3MON4D3/LuaSnip',
-            build = (not jit.os:find('Windows'))
-                    and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
-                or nil,
-            dependencies = {
-                -- Preconfigured snippets for different languages
-                'rafamadriz/friendly-snippets',
-                config = function()
-                    require('luasnip.loaders.from_vscode').lazy_load()
-                    require('luasnip.loaders.from_lua').load({ paths = { './snippets' } })
-                end,
-            },
-            -- stylua: ignore
-            keys = {
-                { '<C-l>', function() require('luasnip').expand_or_jump() end, mode = { 'i', 's' } },
-            },
-            opts = {
-                history = true,
-                delete_check_events = 'TextChanged',
-                -- ft_func = function()
-                --     return vim.split(vim.bo.filetype, '.', { plain = true })
-                -- end,
-            },
-            config = function(_, opts)
-                require('luasnip').setup(opts)
-                vim.api.nvim_create_user_command('LuaSnipEdit', function()
-                    require('luasnip.loaders').edit_snippet_files()
-                end, {})
-            end,
-        },
-
         { 'hrsh7th/nvim-cmp',
             lazy = true,
             dependencies = {
@@ -738,8 +707,6 @@ function M.setup()
                 'hrsh7th/cmp-buffer',
                 -- nvim-cmp source for path
                 'hrsh7th/cmp-path',
-                -- Luasnip completion source for nvim-cmp
-                'saadparwaiz1/cmp_luasnip',
                 -- Tmux completion source for nvim-cmp
                 'andersevenrud/cmp-tmux',
                 -- rip grep source
@@ -747,8 +714,6 @@ function M.setup()
             },
             event = {
                 'InsertEnter',
-                'CmdlineEnter',
-                'CmdwinEnter',
             },
             opts = function()
                 vim.api.nvim_set_hl(
@@ -758,10 +723,7 @@ function M.setup()
                 )
                 local cmp = require('cmp')
                 local defaults = require('cmp.config.default')()
-                local luasnip = require('luasnip')
                 local completion_labels = {
-                    nvim_lsp = "[LSP]",
-                    nvim_lua = "[Lua]",
                     buffer   = "[Buf]",
                     path     = "[Path]",
                     tmux     = "[Tmux]",
@@ -778,43 +740,32 @@ function M.setup()
                 end
 
                 local preferred_sources = {
-                    { name = 'nvim_lsp', priority = 50 },
-                    { name = 'path', priority = 40 },
-                    { name = 'luasnip', priority = 30 },
-                    { name = 'rg', priority = 10 },
-                    {
-                        name = 'tmux',
-                        priority = 10,
-                        keyword_length = 3,
-                        option = { all_panes = true, label = 'tmux' },
-                    },
+                    { name = 'path', priority = 40, keyword_length = 4 },
                 }
                 local all_sources = {
-                    { name = 'nvim_lsp', priority = 50 },
-                    { name = 'path', priority = 40 },
-                    { name = 'luasnip', priority = 30 },
+                    { name = 'path', priority = 40, keyword_length = 4 },
                     { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                    { name = 'rg', priority = 10 },
+                    { name = 'rg', priority = 10, keyword_length = 4, label = 'rg' },
                     {
                         name = 'tmux',
                         priority = 10,
-                        keyword_length = 3,
+                        keyword_length = 4,
                         option = { all_panes = true, label = 'tmux' },
                     },
                 }
                 local cmd_sources = {
                     { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                    { name = 'path', priority = 40 },
+                    { name = 'path', priority = 40, keyword_length = 4 },
                     {
                         name = 'tmux',
                         priority = 10,
-                        keyword_length = 3,
+                        keyword_length = 4,
                         option = { all_panes = true, label = 'tmux' },
                     },
                 }
                 local function tooBig(bufnr)
                     local max_filesize = 512 * 1024 -- 512KB
-                    local check_stats = (vim.uv or vim.loop).fs_stat
+                    local check_stats = vim.loop.fs_stat
                     local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
                     if ok and stats and stats.size > max_filesize then
                         return true
@@ -822,15 +773,41 @@ function M.setup()
                         return false
                     end
                 end
-                vim.api.nvim_create_autocmd("BufRead", {
-                    group = vim.api.nvim_create_augroup("CmpBufferDisableGrp", { clear = true }),
+                vim.api.nvim_create_autocmd("BufReadPre", {
                     callback = function(ev)
                         local sources = preferred_sources
                         if not tooBig(ev.buf) then
-                            sources[#sources + 1] = {name = "buffer", priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }}
+                            -- insert additional completion sources if file is not too big
+                            sources[#sources + 1] = {
+                                name = "buffer",
+                                priority = 50,
+                                keyword_length = 3,
+                                option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
+                            }
+                            sources[#sources + 1] = {
+                                name = "tmux",
+                                priority = 10,
+                                keyword_length = 4,
+                                option = {all_panes = true, label = 'tmux'}
+                            }
+                            sources[#sources + 1] = {
+                                name = "rg",
+                                priority = 10,
+                                keyword_length = 4,
+                                label = 'rg',
+                            }
                             cmp.setup.cmdline(':', {
                                 mapping = cmp.mapping.preset.cmdline(),
-                                sources = cmp.config.sources(cmd_sources)
+                                sources = cmp.config.sources({
+                                    { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
+                                    { name = 'path', priority = 40 },
+                                    {
+                                        name = 'tmux',
+                                        priority = 10,
+                                        keyword_length = 3,
+                                        option = { all_panes = true, label = 'tmux' },
+                                    },
+                                })
                             })
                             cmp.setup.cmdline({'/', '?'}, {
                                 mapping = cmp.mapping.preset.cmdline(),
@@ -839,7 +816,7 @@ function M.setup()
                                     {
                                         name = 'tmux',
                                         priority = 10,
-                                        keyword_length = 3,
+                                        keyword_length = 4,
                                         option = { all_panes = true, label = 'tmux' },
                                     },
                                 })
@@ -857,11 +834,6 @@ function M.setup()
                         ghost_text = {
                             hl_group = 'Comment',
                         },
-                    },
-                    snippet = {
-                        expand = function(args)
-                            require('luasnip').lsp_expand(args.body)
-                        end,
                     },
                     sources = cmp.config.sources(all_sources),
                     performance = {
@@ -901,8 +873,6 @@ function M.setup()
                         ['<Tab>'] = cmp.mapping(function(fallback)
                             if cmp.visible() then
                                 cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                            elseif luasnip.locally_jumpable(1) then
-                                luasnip.jump(1)
                             elseif has_words_before() then
                                 cmp.complete()
                             else
@@ -912,8 +882,6 @@ function M.setup()
                         ['<S-Tab>'] = cmp.mapping(function(fallback)
                             if cmp.visible() then
                                 cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-                            elseif luasnip.locally_jumpable(-1) then
-                                luasnip.jump(-1)
                             else
                                 fallback()
                             end
