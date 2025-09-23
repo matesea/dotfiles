@@ -712,9 +712,7 @@ function M.setup()
                 -- rip grep source
                 "lukas-reineke/cmp-rg",
             },
-            event = {
-                'InsertEnter',
-            },
+            event = 'InsertEnter',
             opts = function()
                 vim.api.nvim_set_hl(
                     0,
@@ -740,30 +738,21 @@ function M.setup()
                 end
 
                 local preferred_sources = {
-                    { name = 'path', priority = 40, keyword_length = 4 },
+                    { name = 'path', priority = 40 },
                 }
+
                 local all_sources = {
-                    { name = 'path', priority = 40, keyword_length = 4 },
+                    { name = 'path', priority = 40 },
                     { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                    { name = 'rg', priority = 10, keyword_length = 4, label = 'rg' },
+                    { name = 'rg', priority = 10, label = 'rg' },
                     {
                         name = 'tmux',
                         priority = 10,
-                        keyword_length = 4,
                         option = { all_panes = true, label = 'tmux' },
                     },
                 }
-                local cmd_sources = {
-                    { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                    { name = 'path', priority = 40, keyword_length = 4 },
-                    {
-                        name = 'tmux',
-                        priority = 10,
-                        keyword_length = 4,
-                        option = { all_panes = true, label = 'tmux' },
-                    },
-                }
-                local function tooBig(bufnr)
+
+                local tooBig = function(bufnr)
                     local max_filesize = 512 * 1024 -- 512KB
                     local check_stats = vim.loop.fs_stat
                     local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
@@ -773,29 +762,35 @@ function M.setup()
                         return false
                     end
                 end
+
+                local extend_sources_per_size = function(bufnr)
+                    local sources = preferred_sources
+                    if not tooBig(bufnr) then
+                        sources[#sources + 1] = {
+                            name = "buffer",
+                            priority = 50,
+                            keyword_length = 3,
+                            option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
+                        }
+                        sources[#sources + 1] = {
+                            name = "tmux",
+                            priority = 10,
+                            option = {all_panes = true, label = 'tmux'}
+                        }
+                        sources[#sources + 1] = {
+                            name = "rg",
+                            priority = 10,
+                            label = 'rg',
+                        }
+                    end
+                    return sources
+                end
+
                 vim.api.nvim_create_autocmd("BufReadPre", {
                     callback = function(ev)
-                        local sources = preferred_sources
+                        local sources = extend_sources_per_size(ev.buf)
                         if not tooBig(ev.buf) then
                             -- insert additional completion sources if file is not too big
-                            sources[#sources + 1] = {
-                                name = "buffer",
-                                priority = 50,
-                                keyword_length = 3,
-                                option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
-                            }
-                            sources[#sources + 1] = {
-                                name = "tmux",
-                                priority = 10,
-                                keyword_length = 4,
-                                option = {all_panes = true, label = 'tmux'}
-                            }
-                            sources[#sources + 1] = {
-                                name = "rg",
-                                priority = 10,
-                                keyword_length = 4,
-                                label = 'rg',
-                            }
                             cmp.setup.cmdline(':', {
                                 mapping = cmp.mapping.preset.cmdline(),
                                 sources = cmp.config.sources({
@@ -804,7 +799,6 @@ function M.setup()
                                     {
                                         name = 'tmux',
                                         priority = 10,
-                                        keyword_length = 3,
                                         option = { all_panes = true, label = 'tmux' },
                                     },
                                 })
@@ -816,7 +810,6 @@ function M.setup()
                                     {
                                         name = 'tmux',
                                         priority = 10,
-                                        keyword_length = 4,
                                         option = { all_panes = true, label = 'tmux' },
                                     },
                                 })
@@ -835,7 +828,16 @@ function M.setup()
                             hl_group = 'Comment',
                         },
                     },
-                    sources = cmp.config.sources(all_sources),
+                    completion = {
+                        completeopt = 'menu,menuone,noinsert'
+                            .. (auto_select and '' or ',noselect'),
+                    },
+                    preselect = auto_select and cmp.PreselectMode.Item
+                        or cmp.PreselectMode.None,
+                    view = {
+                        entries = {follow_cursor = true},
+                    },
+                    sources = cmp.config.sources(extend_sources_per_size(vim.api.nvim_get_current_buf())),
                     performance = {
                         max_view_entries = 20,
                     },
