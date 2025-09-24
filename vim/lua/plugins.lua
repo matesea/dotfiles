@@ -737,10 +737,6 @@ function M.setup()
                     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
                 end
 
-                local preferred_sources = {
-                    { name = 'path', priority = 40 },
-                }
-
                 local all_sources = {
                     { name = 'path', priority = 40 },
                     { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
@@ -763,32 +759,16 @@ function M.setup()
                     end
                 end
 
-                local extend_sources_per_size = function(bufnr)
-                    local sources = preferred_sources
-                    if not tooBig(bufnr) then
-                        sources[#sources + 1] = {
-                            name = "buffer",
-                            priority = 50,
-                            keyword_length = 3,
-                            option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
-                        }
-                        sources[#sources + 1] = {
-                            name = "tmux",
-                            priority = 10,
-                            option = {all_panes = true, label = 'tmux'}
-                        }
-                        sources[#sources + 1] = {
-                            name = "rg",
-                            priority = 10,
-                            label = 'rg',
-                        }
+                local choose_sources = function(bufnr)
+                    if tooBig(bufnr) then
+                        return {}
                     end
-                    return sources
+                    return all_sources
                 end
 
                 vim.api.nvim_create_autocmd("BufReadPre", {
                     callback = function(ev)
-                        local sources = extend_sources_per_size(ev.buf)
+                        local sources = choose_sources(ev.buf)
                         if not tooBig(ev.buf) then
                             -- insert additional completion sources if file is not too big
                             cmp.setup.cmdline(':', {
@@ -837,7 +817,7 @@ function M.setup()
                     view = {
                         entries = {follow_cursor = true},
                     },
-                    sources = cmp.config.sources(extend_sources_per_size(vim.api.nvim_get_current_buf())),
+                    sources = cmp.config.sources(choose_sources(vim.api.nvim_get_current_buf())),
                     performance = {
                         max_view_entries = 20,
                     },
@@ -916,6 +896,7 @@ function M.setup()
             end,
         },
 
+        -- dim inactive window
         { 'levouh/tint.nvim',
             lazy = true,
             config = function()

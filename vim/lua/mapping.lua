@@ -53,6 +53,3 @@ map {'n', 'ZQ', ':qa!<cr>'}
 
 -- ctags jump to definition, in case of gtags/cscope not available
 map {'n', '<space>t', ':tjump <c-r><c-w><cr>', silent = true}
-
--- wipe out buffer
--- map {'n', 'bd', '<cmd>bwipeout<cr>', {desc = 'Buffer wipeout'}}
