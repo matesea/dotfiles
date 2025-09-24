@@ -738,14 +738,14 @@ function M.setup()
                 end
 
                 local all_sources = {
-                    { name = 'path', priority = 40 },
-                    { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                    { name = 'rg', priority = 10, label = 'rg' },
+                    { name = 'buffer', priority = 50, label = 'buffer', keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end } },
                     {
                         name = 'tmux',
-                        priority = 10,
-                        option = { all_panes = true, label = 'tmux' },
+                        priority = 30,
+                        option = { all_panes = true, label = 'tmux'},
                     },
+                    { name = 'path', priority = 30 },
+                    { name = 'rg', priority = 10, label = 'rg' },
                 }
 
                 local tooBig = function(bufnr)
@@ -886,13 +886,6 @@ function M.setup()
                         end,
                     },
                 }
-            end,
-            ---@param opts cmp.ConfigSchema
-            config = function(_, opts)
-                for _, source in ipairs(opts.sources) do
-                    source.group_index = source.group_index or 1
-                end
-                require('cmp').setup(opts)
             end,
         },
 
