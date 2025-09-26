@@ -17,9 +17,12 @@ local map = function(key)
   end
 end
 
--- buffers
-map {'n', ']b', ':bnext<cr>', silent = true}
-map {'n', '[b', ':bprev<cr>', silent = true}
+if not vim.fn.has('nvim-0.11') then
+    -- buffers
+    map {'n', ']b', ':bnext<cr>', silent = true}
+    map {'n', '[b', ':bprev<cr>', silent = true}
+end
+
 -- tabs
 map {'n', ']t', ':tabn<cr>', silent = true}
 map {'n', '[t', ':tabp<cr>', silent = true}
@@ -53,3 +56,16 @@ map {'n', 'ZQ', ':qa!<cr>'}
 
 -- ctags jump to definition, in case of gtags/cscope not available
 map {'n', '<space>t', ':tjump <c-r><c-w><cr>', silent = true}
+
+vim.keymap.set('n', '<leader>q',
+        function()
+            local windows = vim.fn.getwininfo()
+            for _, win in pairs(windows) do
+                if win["quickfix"] == 1 then
+                    vim.cmd.cclose()
+                    return
+                end
+            end
+            vim.cmd.copen()
+        end,
+        {desc = "toggle quickfix"})

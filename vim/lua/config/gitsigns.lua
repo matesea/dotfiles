@@ -16,6 +16,7 @@ function M.setup()
                       opts.buffer = bufnr
                       vim.keymap.set(mode, l, r, opts)
             end
+            max_file_length = 20000,
 
             -- Navigation
             -- map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})

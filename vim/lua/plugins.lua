@@ -21,10 +21,6 @@ function M.setup()
     -- cmd [[packadd nvim-yarp]]
 
     local ft_code = {'c', 'h', 'S', 'cpp', 'python', 'vim', 'sh', 'lua', 'java'}
-    local ver = vim.version()
-    local is_neovim8 = function()
-        return ver.major == 0 and ver.minor < 9
-    end
 
     --[[
     local disabled = {
@@ -275,6 +271,26 @@ function M.setup()
             end
         },
 
+        {
+            "ThePrimeagen/harpoon",
+            branch = "harpoon2",
+            dependencies = { "nvim-lua/plenary.nvim" },
+            opts = {},
+            -- stylua: ignore
+            keys = {
+                { '<Leader>ua', 'ga', desc = 'Show character under cursor' },
+                { 'ga', function() require('harpoon'):list():add() end, desc = 'Add location' },
+                { '<C-e>', function() require('harpoon').ui:toggle_quick_menu(require('harpoon'):list()) end },
+                { '<C-n>', function() require('harpoon'):list():next() end, desc = 'Next location' },
+                { '<C-p>', function() require('harpoon'):list():prev() end, desc = 'Previous location' },
+                { '<Leader>mr', function() require('harpoon'):list():remove() end, desc = 'Remove location' },
+                { '<Leader>1', function() require('harpoon'):list():select(1) end, desc = 'Harpoon select 1' },
+                { '<Leader>2', function() require('harpoon'):list():select(2) end, desc = 'Harpoon select 2' },
+                { '<Leader>3', function() require('harpoon'):list():select(3) end, desc = 'Harpoon select 3' },
+                { '<Leader>4', function() require('harpoon'):list():select(4) end, desc = 'Harpoon select 4' },
+            },
+        },
+
     }
     ]]
 
@@ -411,16 +427,6 @@ function M.setup()
             config = {
                 only_in_normal_buffers = true,
             },
-        },
-
-        { 'stevearc/qf_helper.nvim',
-            ft = 'qf',
-            keys = {
-                {'<leader>q', '<cmd>QFToggle!<cr>', desc = 'toggle quickfix'},
-                {']q', '<cmd>QNext<cr>', desc = 'next quickfix/location list item'},
-                {'[q', '<cmd>QPrev<cr>', desc = 'previous quickfix/location list item'},
-            },
-            config = true,
         },
 
         { "yorickpeterse/nvim-pqf",
@@ -711,8 +717,42 @@ function M.setup()
                 'andersevenrud/cmp-tmux',
                 -- rip grep source
                 "lukas-reineke/cmp-rg",
+                -- nvim-cmp source for cmdline
+                "hrsh7th/cmp-cmdline",
             },
-            event = 'InsertEnter',
+            event = {'InsertEnter', 'CmdlineEnter'},
+            config = function(_, opt)
+                local cmp = require('cmp')
+                cmp.setup(opt)
+                cmp.setup.cmdline(':', {
+                    mapping = cmp.mapping.preset.cmdline(),
+                    sources = cmp.config.sources({
+                        { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
+                        { name = "cmdline", priority = 40, option = {igonre_cmd = {"Man", "!"}}},
+                        { name = 'path', priority = 40 },
+                        --[[
+                        {
+                            name = 'tmux',
+                            priority = 10,
+                            option = { all_panes = true, label = 'tmux' },
+                        },
+                        ]]
+                    })
+                })
+                cmp.setup.cmdline({'/', '?'}, {
+                    mapping = cmp.mapping.preset.cmdline(),
+                    sources = cmp.config.sources({
+                        { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
+                        --[[
+                        {
+                            name = 'tmux',
+                            priority = 10,
+                            option = { all_panes = true, label = 'tmux' },
+                        },
+                        ]]
+                    })
+                })
+            end,
             opts = function()
                 vim.api.nvim_set_hl(
                     0,
@@ -726,6 +766,7 @@ function M.setup()
                     path     = "[Path]",
                     tmux     = "[Tmux]",
                     rg       = "[Rg]",
+                    cmdline  = "[Cmd]",
                 }
 
                 local function has_words_before()
@@ -748,18 +789,18 @@ function M.setup()
                     { name = 'rg', priority = 10, label = 'rg' },
                 }
 
-                local tooBig = function(bufnr)
-                    local max_filesize = 512 * 1024 -- 512KB
-                    local check_stats = vim.loop.fs_stat
-                    local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
-                    if ok and stats and stats.size > max_filesize then
-                        return true
-                    else
-                        return false
-                    end
-                end
-
                 local choose_sources = function(bufnr)
+                    local tooBig = function(bufnr)
+                        local max_filesize = 512 * 1024 -- 512KB
+                        local check_stats = vim.loop.fs_stat
+                        local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
+                        if ok and stats and stats.size > max_filesize then
+                            return true
+                        else
+                            return false
+                        end
+                    end
+
                     if tooBig(bufnr) then
                         return {}
                     end
@@ -769,32 +810,6 @@ function M.setup()
                 vim.api.nvim_create_autocmd("BufReadPre", {
                     callback = function(ev)
                         local sources = choose_sources(ev.buf)
-                        if not tooBig(ev.buf) then
-                            -- insert additional completion sources if file is not too big
-                            cmp.setup.cmdline(':', {
-                                mapping = cmp.mapping.preset.cmdline(),
-                                sources = cmp.config.sources({
-                                    { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                                    { name = 'path', priority = 40 },
-                                    {
-                                        name = 'tmux',
-                                        priority = 10,
-                                        option = { all_panes = true, label = 'tmux' },
-                                    },
-                                })
-                            })
-                            cmp.setup.cmdline({'/', '?'}, {
-                                mapping = cmp.mapping.preset.cmdline(),
-                                sources = cmp.config.sources({
-                                    { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                                    {
-                                        name = 'tmux',
-                                        priority = 10,
-                                        option = { all_panes = true, label = 'tmux' },
-                                    },
-                                })
-                            })
-                        end
                         cmp.setup.buffer({
                             sources = cmp.config.sources(sources),
                         })
@@ -870,19 +885,25 @@ function M.setup()
                         end, { 'i', 's' }),
                     }),
                     formatting = {
-                        format = function(entry, vim_item)
+                        format = function(entry, item)
                             -- Set menu source name
-                            vim_item.kind = vim_item.kind
+                            item.kind = item.kind
                             if completion_labels[entry.source.name] then
-                                vim_item.menu = completion_labels[entry.source.name]
+                                item.menu = completion_labels[entry.source.name]
                             end
 
-                            vim_item.dup = ({
-                                nvim_lua = 0,
-                                buffer = 0,
-                            })[entry.source.name] or 1
+                            local widths = {
+                                abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+                                menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+                            }
 
-                            return vim_item
+                            for key, width in pairs(widths) do
+                                if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
+                                    item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. '…'
+                                end
+                            end
+
+                            return item
                         end,
                     },
                 }
@@ -1097,26 +1118,6 @@ function M.setup()
             init = function()
                 vim.g.dsf_no_mappings = 1
             end,
-        },
-
-        {
-            "ThePrimeagen/harpoon",
-            branch = "harpoon2",
-            dependencies = { "nvim-lua/plenary.nvim" },
-            opts = {},
-            -- stylua: ignore
-            keys = {
-                { '<Leader>ua', 'ga', desc = 'Show character under cursor' },
-                { 'ga', function() require('harpoon'):list():add() end, desc = 'Add location' },
-                { '<C-e>', function() require('harpoon').ui:toggle_quick_menu(require('harpoon'):list()) end },
-                { '<C-n>', function() require('harpoon'):list():next() end, desc = 'Next location' },
-                { '<C-p>', function() require('harpoon'):list():prev() end, desc = 'Previous location' },
-                { '<Leader>mr', function() require('harpoon'):list():remove() end, desc = 'Remove location' },
-                { '<Leader>1', function() require('harpoon'):list():select(1) end, desc = 'Harpoon select 1' },
-                { '<Leader>2', function() require('harpoon'):list():select(2) end, desc = 'Harpoon select 2' },
-                { '<Leader>3', function() require('harpoon'):list():select(3) end, desc = 'Harpoon select 3' },
-                { '<Leader>4', function() require('harpoon'):list():select(4) end, desc = 'Harpoon select 4' },
-            },
         },
 
         { 'westeri/asl-vim',
