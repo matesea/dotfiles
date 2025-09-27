@@ -294,6 +294,7 @@ function M.setup()
     }
     ]]
 
+    local has_git = vim.fn.executable('git') == 1
     local plugins = {
         { "fabius/molokai.nvim",
             dependencies = "rktjmp/lush.nvim",
@@ -364,19 +365,18 @@ function M.setup()
 
         { 'tpope/vim-fugitive',
             lazy = true,
-            cmd = {'Gread', 'Gwrite', 'Git', 'Ggrep', 'Gblame', 'GV', 'Gcd'},
-        },
-
-        { 'FabijanZulj/blame.nvim',
-            lazy = true,
-            cmd = 'ToggleBlame',
+            cond = has_git,
+            cmd = {'Git', 'GV', 'Gcd'},
         },
 
         { 'lewis6991/gitsigns.nvim',
             -- version = 'release',
-            event = 'VeryLazy',
-            dependencies = {
-                'nvim-lua/plenary.nvim',
+            cond = has_git,
+            keys = {
+                {']c', function() package.loaded.gitsigns.next_hunk() end, desc = 'Next Hunk'},
+                {'[c', function() package.loaded.gitsigns.prev_hunk() end, desc = 'Previous Hunk'},
+                {'<leader>hr', function() package.loaded.gitsigns.reset_hunk() end, desc = 'Reset Hunk'},
+                {'<leader>hb', function() package.loaded.gitsigns.blame_line{full = true} end, desc = 'Blame Line'},
             },
             config = function()
                 require('config.gitsigns').setup()
@@ -385,7 +385,6 @@ function M.setup()
 
         { 'junegunn/gv.vim',
             dependencies = {'tpope/vim-fugitive'},
-            lazy = true,
             cmd = 'GV'
         },
 
@@ -430,8 +429,31 @@ function M.setup()
         },
 
         { "yorickpeterse/nvim-pqf",
+            enabled = false,
             event = 'UIEnter',
             config = true,
+        },
+
+        { 'stevearc/quicker.nvim',
+            ft = 'qf',
+            event = 'QuickFixCmdPost',
+            ---@module "quicker"
+            ---@type quicker.SetupOptions
+            opts = {
+                edit = {
+                    enabled = false,
+                    autosave = false,
+                },
+                highlight = {
+                    lsp = false,
+                    load_buffers = false,
+                },
+                -- stylua: ignore
+                keys = {
+                    { '>', function() require('quicker').expand({ before = 2, after = 2, add_to_existing = true }) end, desc = 'Expand quickfix context' },
+                    { '<', function() require('quicker').collapse() end, desc = 'Collapse quickfix context' },
+                },
+            },
         },
 
         { 'nvim-mini/mini.pairs',
@@ -443,11 +465,7 @@ function M.setup()
         { 'junegunn/fzf',
             lazy = true,
             -- fzf is loaded either by fzf to filter quickfix or caused by dependencies
-            cmd = "FzfQF",
             build ='./install --completion --key-bindings --xdg --no-update-rc',
-            config = function()
-                vim.cmd("source $VIMHOME/quick-fzf.vim")
-            end
         },
 
         { 'ibhagwan/fzf-lua',
@@ -511,8 +529,7 @@ function M.setup()
             },
         },
 
-        {
-            "gennaro-tedesco/nvim-possession",
+        { "gennaro-tedesco/nvim-possession",
             dependencies = {
                 "ibhagwan/fzf-lua",
             },
@@ -571,13 +588,13 @@ function M.setup()
         { "LunarVim/bigfile.nvim",
             init = function()
                 require("bigfile").setup {
-                    filesize = 20, -- size of the file in MiB, the plugin round file sizes to the closest MiB
+                    filesize = 10, -- size of the file in MiB, the plugin round file sizes to the closest MiB
                     pattern = { "*" }, -- autocmd pattern or function see <### Overriding the detection of big files>
                     features = { -- features to disable
                       "indent_blankline",
                       "illuminate",
                       "lsp",
-                      "treesitter",
+                      -- "treesitter",
                       "syntax",
                       "matchparen",
                       -- "vimopts",
@@ -720,29 +737,50 @@ function M.setup()
                 -- nvim-cmp source for cmdline
                 "hrsh7th/cmp-cmdline",
             },
-            event = {'InsertEnter', 'CmdlineEnter'},
+            event = {'InsertEnter'},
             config = function(_, opt)
                 local cmp = require('cmp')
                 cmp.setup(opt)
                 cmp.setup.cmdline(':', {
                     mapping = cmp.mapping.preset.cmdline(),
                     sources = cmp.config.sources({
-                        { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
-                        { name = "cmdline", priority = 40, option = {igonre_cmd = {"Man", "!"}}},
-                        { name = 'path', priority = 40 },
-                        --[[
+                        {
+                            name = 'buffer',
+                            priority = 50,
+                            keyword_length = 3,
+                            option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
+                        },
+                        {
+                            name = "cmdline",
+                            priority = 40,
+                            keyword_length = 3,
+                            option = {igonre_cmd = {"Man", "!"}}
+                        },
+                        {
+                            name = 'path',
+                            priority = 40,
+                            keyword_length = 3,
+                        },
                         {
                             name = 'tmux',
                             priority = 10,
-                            option = { all_panes = true, label = 'tmux' },
+                            keyword_length = 3,
+                            option = {
+                                all_panes = true,
+                                label = 'tmux'
+                            },
                         },
-                        ]]
                     })
                 })
                 cmp.setup.cmdline({'/', '?'}, {
                     mapping = cmp.mapping.preset.cmdline(),
                     sources = cmp.config.sources({
-                        { name = 'buffer', priority = 50, keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }},
+                        {
+                            name = 'buffer',
+                            priority = 50,
+                            keyword_length = 3,
+                            option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
+                        },
                         --[[
                         {
                             name = 'tmux',
@@ -779,19 +817,35 @@ function M.setup()
                 end
 
                 local all_sources = {
-                    { name = 'buffer', priority = 50, label = 'buffer', keyword_length = 3, option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end } },
+                    {
+                        name = 'buffer',
+                        priority = 50,
+                        label = 'buffer',
+                        keyword_length = 3,
+                        option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
+                    },
+                    {
+                        name = 'path',
+                        keyword_length = 3,
+                        priority = 30
+                    },
                     {
                         name = 'tmux',
-                        priority = 30,
+                        priority = 10,
+                        keyword_length = 3,
                         option = { all_panes = true, label = 'tmux'},
                     },
-                    { name = 'path', priority = 30 },
-                    { name = 'rg', priority = 10, label = 'rg' },
+                    {
+                        name = 'rg',
+                        priority = 10,
+                        keyword_length = 3,
+                        label = 'rg'
+                    },
                 }
 
                 local choose_sources = function(bufnr)
                     local tooBig = function(bufnr)
-                        local max_filesize = 512 * 1024 -- 512KB
+                        local max_filesize = 1024 * 1024 -- 1MB
                         local check_stats = vim.loop.fs_stat
                         local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
                         if ok and stats and stats.size > max_filesize then
@@ -918,13 +972,16 @@ function M.setup()
             end
         },
         { 'b0o/incline.nvim',
-            lazy = true,
-            event = 'VeryLazy',
+            event = 'WinEnter',
             dependencies = {'mini.icons'},
             config = function()
                 local helpers = require 'incline.helpers'
                 local mini_icons = require 'mini.icons'
                 require('incline').setup {
+                    ignore = {
+                        buftypes = 'special',
+                        filetypes = {'gitcommit'},
+                    },
                   window = {
                     padding = 0,
                     margin = { horizontal = 0 },
@@ -948,7 +1005,6 @@ function M.setup()
         },
 
         { 'beauwilliams/focus.nvim',
-            lazy = true,
             cmd = { "FocusSplitNicely", "FocusSplitCycle" , 'FocusToggle' },
             module = "focus",
             dependencies = {
@@ -1046,8 +1102,7 @@ function M.setup()
         },
 
         -- Perform diffs on blocks of code
-        {
-            'AndrewRadev/linediff.vim',
+        { 'AndrewRadev/linediff.vim',
             lazy = true,
             cmd = { 'Linediff', 'LinediffAdd' },
             keys = {
@@ -1067,16 +1122,43 @@ function M.setup()
         },
 
         { 's1n7ax/nvim-window-picker',
-            version = '2.*',
-            keys = {'sp'},
-            config = function()
-                require'window-picker'.setup()
-                vim.keymap.set("n", 'sp', function()
-                    local picker = require('window-picker')
-                    local picked_window_id = picker.pick_window() or vim.api.nvim_get_current_win()
-                    vim.api.nvim_set_current_win(picked_window_id)
-                end, { desc = "Pick a window" })
+            keys = function(_, keys)
+                local pick_window = function()
+                    local picked_window_id = require('window-picker').pick_window()
+                    if picked_window_id ~= nil then
+                        vim.api.nvim_set_current_win(picked_window_id)
+                    end
+                end
+
+                local swap_window = function()
+                    local picked_window_id = require('window-picker').pick_window()
+                    if picked_window_id ~= nil then
+                        local current_winnr = vim.api.nvim_get_current_win()
+                        local current_bufnr = vim.api.nvim_get_current_buf()
+                        local other_bufnr = vim.api.nvim_win_get_buf(picked_window_id)
+                        vim.api.nvim_win_set_buf(current_winnr, other_bufnr)
+                        vim.api.nvim_win_set_buf(picked_window_id, current_bufnr)
+                    end
+                end
+
+                local mappings = {
+                    { 'sp', pick_window, desc = 'Pick window' },
+                    { 'sw', swap_window, desc = 'Swap picked window' },
+                }
+                return vim.list_extend(mappings, keys)
             end,
+            opts = {
+                hint = 'floating-big-letter',
+                show_prompt = false,
+                filter_rules = {
+                    include_current_win = true,
+                    autoselect_one = true,
+                    bo = {
+                        filetype = { 'notify', 'noice', 'neo-tree-popup' },
+                        buftype = { 'prompt', 'nofile', 'quickfix' },
+                    },
+                },
+            },
         },
 
         { 'rainbowhxch/accelerated-jk.nvim',
@@ -1125,8 +1207,7 @@ function M.setup()
             ft = 'asl',
         },
 
-        {
-            "christoomey/vim-tmux-navigator",
+        { "christoomey/vim-tmux-navigator",
             cmd = {
               "TmuxNavigateLeft",
               "TmuxNavigateDown",
@@ -1134,12 +1215,14 @@ function M.setup()
               "TmuxNavigateRight",
               "TmuxNavigatePrevious",
             },
+            init = function()
+                vim.g.tmux_navigator_no_mappings = true
+            end,
             keys = {
-              { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-              { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-              { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-              { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-              { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+              { "<c-h>", "<cmd>TmuxNavigateLeft<cr>", mode = {'n', 't'}, desc = 'go to left window' },
+              { "<c-j>", "<cmd>TmuxNavigateDown<cr>", mode = {'n', 't'}, desc = 'go to down window' },
+              { "<c-k>", "<cmd>TmuxNavigateUp<cr>", mode = {'n', 't'}, desc = 'go to upper window' },
+              { "<c-l>", "<cmd>TmuxNavigateRight<cr>", mode = {'n', 't'}, desc = 'go to right window' },
             },
         },
 
@@ -1151,8 +1234,7 @@ function M.setup()
         },
 
         -- gb to start, j{l/c/r} to align
-        {
-            'echasnovski/mini.align',
+        { 'echasnovski/mini.align',
             version = false,
             opts = {
                 mappings = {
@@ -1166,8 +1248,7 @@ function M.setup()
             },
         },
 
-        {
-            'pechorin/any-jump.vim',
+        { 'pechorin/any-jump.vim',
             cmd = { 'AnyJump', 'AnyJumpVisual' },
             keys = {
                 { '<leader>ii', '<cmd>AnyJump<CR>', desc = 'Any Jump' },
@@ -1202,6 +1283,67 @@ function M.setup()
             config = function()
                 require('config.cscope_maps').setup()
             end,
+        },
+
+        -- Git blame visualizer
+        { 'FabijanZulj/blame.nvim',
+            cond = has_git,
+            cmd = 'BlameToggle',
+            -- stylua: ignore
+            keys = {
+                { '<leader>gb', '<cmd>BlameToggle window<CR>', desc = 'Git blame (window)' },
+            },
+            opts = {
+                date_format = '%Y-%m-%d %H:%M',
+                merge_consecutive = false,
+                max_summary_width = 30,
+                mappings = {
+                    commit_info = 'K',
+                    stack_push = '>',
+                    stack_pop = '<',
+                    show_commit = '<CR>',
+                    close = { '<Esc>', 'q' },
+                },
+            },
+        },
+
+        { 'ghillb/cybu.nvim',
+            dependencies = { 'nvim-lua/plenary.nvim' },
+            keys = {
+                { '[b', '<Plug>(CybuPrev)' },
+                { ']b', '<Plug>(CybuNext)' },
+                --[[
+                { '<C-S-Tab>', '<Plug>(CybuLastusedPrev)' },
+                { '<C-Tab>', '<Plug>(CybuLastusedNext)' },
+                ]]
+            },
+            opts = {
+                style = {
+                    devicons = { enabled = false, },
+                }
+            },
+        },
+
+        {
+          "folke/snacks.nvim",
+          ---@type snacks.Config
+          opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+            toggle = {enabled = true},
+            zen = {
+                enabled = true,
+                zoom = {
+                    show = {tabline = false},
+                    win = {backdrop = true},
+                }
+            },
+          },
+          keys = {
+              {'<c-w>Z', function() Snacks.zen() end, desc = 'toggole zen'},
+              {'<c-w>z', function() Snacks.zen.zoom() end, desc = 'toggole zoom'},
+          },
         },
     }
 

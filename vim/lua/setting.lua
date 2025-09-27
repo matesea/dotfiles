@@ -85,6 +85,10 @@ opt.ttimeoutlen = 10 -- Time out on key codes
 opt.updatetime = 200 -- idle time to write swap and trigger CursorHold
 opt.redrawtime = 2000 -- time in milliseconds for stopping display redraw
 
+if vim.fn.has('nvim-0.11') == 1 then
+	opt.tabclose:append({'uselast'})
+end
+
 opt.encoding = 'utf8'
 cmd([[
     try
@@ -135,7 +139,7 @@ opt.termguicolors = true
 opt.background = 'dark'
 
 -- set as 'a' to allow mouse scroll
-opt.mouse = ''
+opt.mouse = 'nv'
 
 --[[
  == execute command and put the results into new buffer ==
@@ -146,8 +150,10 @@ opt.mouse = ''
  eg, find pattern in current file :R rg <pattern> #
 --]]
 
- g.python3_host_skip_check = 1
- g.python_host_skip_check = 1
+g.loaded_perl_provider = 0
+g.loaded_python3_provider = 0
+g.loaded_ruby_provider = 0
+g.loaded_node_provider = 0
 
 cmd([[
     set shada=!,'300,<50,@100,s10,h,n$VIMINFO/.viminfo.shada

@@ -69,3 +69,19 @@ vim.keymap.set('n', '<leader>q',
             vim.cmd.copen()
         end,
         {desc = "toggle quickfix"})
+
+-- split tmux window vertically or horizontally based on file path in current window
+-- inspired by gtfo.vim, only support tmux 1.6+
+vim.keymap.set('n', '<leader>ts',
+        function()
+            vim.fn.system({'tmux', 'split-window', '-c',
+                vim.fn.expand('%:p:h')})
+        end,
+        {desc = "split tmux window horizontally"})
+
+vim.keymap.set('n', '<leader>tv',
+        function()
+            vim.fn.system({'tmux', 'split-window', '-h', '-c',
+                vim.fn.expand('%:p:h')})
+        end,
+        {desc = "split tmux window vertically"})
