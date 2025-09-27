@@ -74,6 +74,9 @@ vim.keymap.set('n', '<leader>q',
 -- inspired by gtfo.vim, only support tmux 1.6+
 vim.keymap.set('n', '<leader>ts',
         function()
+            if not vim.env.TMUX then
+                return
+            end
             vim.fn.system({'tmux', 'split-window', '-c',
                 vim.fn.expand('%:p:h')})
         end,
@@ -81,6 +84,9 @@ vim.keymap.set('n', '<leader>ts',
 
 vim.keymap.set('n', '<leader>tv',
         function()
+            if not vim.env.TMUX then
+                return
+            end
             vim.fn.system({'tmux', 'split-window', '-h', '-c',
                 vim.fn.expand('%:p:h')})
         end,

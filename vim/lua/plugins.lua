@@ -1208,6 +1208,7 @@ function M.setup()
         },
 
         { "christoomey/vim-tmux-navigator",
+            cond = vim.env.TMUX,
             cmd = {
               "TmuxNavigateLeft",
               "TmuxNavigateDown",

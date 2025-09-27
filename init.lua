@@ -27,10 +27,6 @@ end
 
 require('setting')
 
-if fn.empty(env.VIMHOME .. "/function.vim") == 0 then
-    cmd('source $VIMHOME/function.vim')
-end
-
 -- import local settings if exist
 local local_rc = nil
 if xdg_data ~= nil then
