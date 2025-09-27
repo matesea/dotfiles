@@ -64,11 +64,9 @@ local opts = function()
             end
         end
 
-        --[[
         if tooBig(bufnr) then
             return {}
         end
-        ]]
         return all_sources
     end
 
