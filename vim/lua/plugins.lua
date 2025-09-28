@@ -198,8 +198,11 @@ function M.setup()
             keys = {
                 {';a', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
                 {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
-                {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = 'find files with cwd'},
-                {';d', function()
+                {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>',
+                    desc = 'find files with cwd'},
+                {';d', ':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>',
+                    desc = 'grep files in the same folder of current open buffer'},
+                {';D', function()
                         local fzf = require('fzf-lua')
                         fzf.fzf_exec("fd -t d", {
                                 prompt = "Folder:",

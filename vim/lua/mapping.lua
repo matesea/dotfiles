@@ -77,10 +77,10 @@ vim.keymap.set('n', '<leader>ts',
             if not vim.env.TMUX then
                 return
             end
-            vim.fn.system({'tmux', 'split-window', '-c',
+            vim.fn.system({'tmux', 'split-window', '-v', '-c',
                 vim.fn.expand('%:p:h')})
         end,
-        {desc = "split tmux window horizontally"})
+        {desc = "split tmux window vertically"})
 
 vim.keymap.set('n', '<leader>tv',
         function()
@@ -90,4 +90,4 @@ vim.keymap.set('n', '<leader>tv',
             vim.fn.system({'tmux', 'split-window', '-h', '-c',
                 vim.fn.expand('%:p:h')})
         end,
-        {desc = "split tmux window vertically"})
+        {desc = "split tmux window horizontally"})
