@@ -60,19 +60,40 @@ map {'n', 'ZQ', ':qa!<cr>'}
 -- ctags jump to definition, in case of gtags/cscope not available
 map {'n', '<space>t', ':tjump <c-r><c-w><cr>', silent = true}
 
--- toggle quickfix window
-vim.keymap.set('n', '<leader>q',
-        function()
-            local windows = vim.fn.getwininfo()
-            for _, win in pairs(windows) do
-                if win["quickfix"] == 1 then
-                    vim.cmd.cclose()
-                    return
-                end
-            end
-            vim.cmd.copen()
-        end,
-        {desc = "toggle quickfix"})
+-- Jump to next/previous whitespace error.
+---@param direction 1 | -1
+function _G.whitespace_jump(direction) -- {{{
+	local opts = 'wz'
+	if direction < 1 then
+		opts = opts .. 'b'
+	end
+
+	-- Whitespace pattern: Trailing whitespace or mixed tabs/spaces.
+	local pat = '\\s\\+$\\| \\+\\ze\\t'
+	vim.fn.search(pat, opts)
+end -- }}}
+
+vim.keymap.set('n', ']z', function() whitespace_jump(1) end, { desc = 'Next Whitespace' })
+vim.keymap.set('n', '[z', function() whitespace_jump(-1) end, { desc = 'Previous Whitespace' })
+
+function _G.toggle_list(name)
+    for _, win in pairs(vim.api.nvim_tabpage_list_wins(0)) do
+		if vim.api.nvim_win_is_valid(win) and vim.fn.win_gettype(win) == name then
+			vim.api.nvim_win_close(win, false)
+			return
+		end
+	end
+
+	if name == 'loclist' then
+		vim.cmd([[ botright lopen ]])
+	else
+		vim.cmd([[ botright copen ]])
+	end
+end -- }}}
+
+-- toggle quickfix/location list window
+vim.keymap.set('n', '<leader>xl', function() toggle_list('loclist') end, {desc = "toggle location list"})
+vim.keymap.set('n', '<leader>xq', function() toggle_list('quickfix') end, {desc = "toggle quickfix"})
 
 if vim.env.TMUX then
     -- split tmux window vertically or horizontally based on file path in current window
