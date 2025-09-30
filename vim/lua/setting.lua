@@ -139,7 +139,7 @@ opt.termguicolors = true
 opt.background = 'dark'
 
 -- set as 'a' to allow mouse scroll
-opt.mouse = 'nv'
+opt.mouse = ''
 
 --[[
  == execute command and put the results into new buffer ==

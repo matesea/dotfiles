@@ -51,12 +51,16 @@ map {'n', '!', ':!'}
 map {'n', '<leader>gl', ':lgrep<space>'}
 map {'n', '<leader>ga', ':lgrepadd<space>'}
 
+-- delete buffer
+map{'n', 'bd', '<cmd>bdelete<CR>', { desc = 'Buffer delete' }}
+
 -- remap ZQ to quit without saving anything
 map {'n', 'ZQ', ':qa!<cr>'}
 
 -- ctags jump to definition, in case of gtags/cscope not available
 map {'n', '<space>t', ':tjump <c-r><c-w><cr>', silent = true}
 
+-- toggle quickfix window
 vim.keymap.set('n', '<leader>q',
         function()
             local windows = vim.fn.getwininfo()
@@ -70,24 +74,19 @@ vim.keymap.set('n', '<leader>q',
         end,
         {desc = "toggle quickfix"})
 
--- split tmux window vertically or horizontally based on file path in current window
--- inspired by gtfo.vim, only support tmux 1.6+
-vim.keymap.set('n', '<leader>ts',
-        function()
-            if not vim.env.TMUX then
-                return
-            end
-            vim.fn.system({'tmux', 'split-window', '-v', '-c',
-                vim.fn.expand('%:p:h')})
-        end,
-        {desc = "split tmux window vertically"})
-
-vim.keymap.set('n', '<leader>tv',
-        function()
-            if not vim.env.TMUX then
-                return
-            end
-            vim.fn.system({'tmux', 'split-window', '-h', '-c',
-                vim.fn.expand('%:p:h')})
-        end,
-        {desc = "split tmux window horizontally"})
+if vim.env.TMUX then
+    -- split tmux window vertically or horizontally based on file path in current window
+    -- inspired by gtfo.vim, only support tmux 1.6+
+    vim.keymap.set('n', '<leader>ts',
+            function()
+                vim.fn.system({'tmux', 'split-window', '-v', '-c',
+                    vim.fn.expand('%:p:h')})
+            end,
+            {desc = "split tmux window vertically"})
+    vim.keymap.set('n', '<leader>tv',
+            function()
+                vim.fn.system({'tmux', 'split-window', '-h', '-c',
+                    vim.fn.expand('%:p:h')})
+            end,
+            {desc = "split tmux window horizontally"})
+end

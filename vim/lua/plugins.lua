@@ -129,17 +129,6 @@ function M.setup()
            config = true,
         },
 
-        { 'nvim-mini/mini.bufremove',
-            version = false,
-            lazy = true,
-            keys = {
-                {'bd', mode = 'n', function() require("mini.bufremove").wipeout() end,
-                    desc = 'wipeout buffer'
-                },
-            },
-            config = true,
-        },
-
         { 'nvim-mini/mini.statusline',
            version = false,
            event = 'VeryLazy',
@@ -616,14 +605,6 @@ function M.setup()
             },
         },
 
-        { 'echasnovski/mini.cursorword',
-            version = false,
-            ft = ft_code,
-            config = function()
-                require('mini.cursorword').setup()
-            end
-        },
-
         { 's1n7ax/nvim-window-picker',
             keys = function(_, keys)
                 local pick_window = function()
@@ -762,13 +743,6 @@ function M.setup()
             },
             config = function()
                 vim.g.any_jump_disable_default_keybindings = 1
-                vim.api.nvim_create_autocmd('FileType', {
-                    group = vim.api.nvim_create_augroup('rafi.any-jump', {}),
-                    pattern = 'any-jump',
-                    callback = function()
-                        vim.opt.cursorline = true
-                    end,
-                })
             end,
         },
 
