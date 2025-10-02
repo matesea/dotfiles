@@ -92,8 +92,8 @@ function _G.toggle_list(name)
 end -- }}}
 
 -- toggle quickfix/location list window
-vim.keymap.set('n', '<leader>xl', function() toggle_list('loclist') end, {desc = "toggle location list"})
-vim.keymap.set('n', '<leader>xq', function() toggle_list('quickfix') end, {desc = "toggle quickfix"})
+vim.keymap.set('n', '<leader>l', function() toggle_list('loclist') end, {desc = "toggle location list"})
+vim.keymap.set('n', '<leader>q', function() toggle_list('quickfix') end, {desc = "toggle quickfix"})
 
 if vim.env.TMUX then
     -- split tmux window vertically or horizontally based on file path in current window

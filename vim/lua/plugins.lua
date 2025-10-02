@@ -152,7 +152,7 @@ function M.setup()
             ---@type quicker.SetupOptions
             opts = {
                 edit = {
-                    enabled = false,
+                    enabled = true,
                     autosave = false,
                 },
                 highlight = {
@@ -164,6 +164,9 @@ function M.setup()
                     { '>', function() require('quicker').expand({ before = 2, after = 2, add_to_existing = true }) end, desc = 'Expand quickfix context' },
                     { '<', function() require('quicker').collapse() end, desc = 'Collapse quickfix context' },
                 },
+                max_filename_width = function()
+                    return math.floor(vim.o.columns / 2)
+                end,
             },
         },
 
@@ -349,17 +352,6 @@ function M.setup()
                     end,
                 },
             },
-        },
-
-        { 'nvim-mini/mini.indentscope',
-            version = false,
-            ft = ft_code,
-            keys = {
-                {'<leader>iu', mode = 'n', function() require("mini.indentscope").undraw() end, desc = 'undraw indentscope'},
-            },
-            config = function()
-                require('mini.indentscope').setup{}
-            end
         },
 
         { 'dstein64/vim-startuptime',
@@ -803,12 +795,14 @@ function M.setup()
         },
 
         { "folke/snacks.nvim",
+          lazy = false,
           ---@type snacks.Config
           opts = {
             -- your configuration comes here
             -- or leave it empty to use the default settings
             -- refer to the configuration section below
             toggle = {enabled = true},
+            indent = {enabled = true},
             zen = {
                 enabled = true,
                 zoom = {
@@ -817,10 +811,26 @@ function M.setup()
                 }
             },
           },
-          keys = {
-              {'<c-w>Z', function() Snacks.zen() end, desc = 'toggole zen'},
-              {'<c-w>z', function() Snacks.zen.zoom() end, desc = 'toggole zoom'},
-          },
+          init = function()
+              vim.api.nvim_create_autocmd("User", {
+                      pattern = "VeryLazy",
+                      callback = function()
+                        -- Setup some globals for debugging (lazy-loaded)
+                        _G.dd = function(...)
+                        end
+                        _G.bt = function()
+                            Snacks.debug.backtrace()
+                        end
+                        vim.print = _G.dd -- Override print to use snacks for `:=` commmand
+
+                        Snacks.toggle.indent():map('si')
+                        Snacks.toggle.zoom():map('sz')
+                        Snacks.toggle.zen():map('sZ')
+                      end
+                  }
+
+              )
+          end,
         },
     }
 
