@@ -188,6 +188,8 @@ function M.setup()
             dependencies = {'fzf'},
             cmd = 'FzfLua',
             keys = {
+                {'<leader>;', '<cmd>FzfLua builtin<cr>', desc = 'pick fzf-lua builtin'},
+
                 {';a', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
                 {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
                 {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>',
@@ -211,7 +213,6 @@ function M.setup()
 
                 {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
 
-                {';f', '<cmd>FzfLua builtin<cr>', desc = 'pick fzf-lua builtin'},
                 {';g', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},
                 {';h', '<cmd>FzfLua oldfiles<cr>', desc = 'choose file from history'},
                 {';j', '<cmd>FzfLua jumps<cr>', desc = 'pick from jumps'},
@@ -224,6 +225,10 @@ function M.setup()
 
                 {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
                 {';z', '<cmd>FzfLua zoxide<cr>', desc = 'jump directory with zoxide'},
+
+                {';;', '<cmd>FzfLua command_history<cr>', desc = 'command history'},
+                {';:', '<cmd>FzfLua commands<cr>', desc = 'commands'},
+                {';/', '<cmd>FzfLua search_history<cr>', desc = 'search history'},
             },
             config = function()
                 require('config.fzf-lua').setup()
@@ -488,7 +493,7 @@ function M.setup()
             end,
         },
 
-        { 'beauwilliams/focus.nvim',
+        { 'nvim-focus/focus.nvim',
             cmd = { "FocusSplitNicely", "FocusSplitCycle" , 'FocusToggle' },
             module = "focus",
             dependencies = {
@@ -498,7 +503,7 @@ function M.setup()
                 {'<leader>fn', '<cmd>FocusSplitNicely<cr>', 'split focus nicely'}
             },
             config = function()
-                require("focus").setup({hybridnumber = false})
+                require("focus").setup()
             end
         },
 
