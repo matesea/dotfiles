@@ -92,8 +92,16 @@ function _G.toggle_list(name)
 end -- }}}
 
 -- toggle quickfix/location list window
-vim.keymap.set('n', '<leader>l', function() toggle_list('loclist') end, {desc = "toggle location list"})
-vim.keymap.set('n', '<leader>q', function() toggle_list('quickfix') end, {desc = "toggle quickfix"})
+vim.keymap.set('n', '<leader>l',
+        function()
+            toggle_list('loclist')
+        end,
+        {desc = "toggle location list"})
+vim.keymap.set('n', '<leader>q',
+        function()
+            toggle_list('quickfix')
+        end,
+        {desc = "toggle quickfix"})
 
 if vim.env.TMUX then
     -- split tmux window vertically or horizontally based on file path in current window
@@ -111,3 +119,6 @@ if vim.env.TMUX then
             end,
             {desc = "split tmux window horizontally"})
 end
+
+vim.keymap.set('n', 'sw', ':%s#<c-r><c-w>##gc<Left><Left><Left>',
+        { desc = 'Substitute current word' })
