@@ -120,5 +120,5 @@ if vim.env.TMUX then
             {desc = "split tmux window horizontally"})
 end
 
-vim.keymap.set('n', 'sw', ':%s#<c-r><c-w>##gc<Left><Left><Left>',
+vim.keymap.set('n', 'sw', ':%s#\\<<c-r><c-w>\\>##gc<Left><Left><Left>',
         { desc = 'Substitute current word' })
