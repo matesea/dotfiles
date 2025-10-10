@@ -15,6 +15,8 @@ function M.setup()
         'max-perf',
         defaults = {
             color_icons = false,
+            file_icons = false,
+            git_icons = false,
         },
         actions = {
             -- Below are the default actions, setting any value in these tables will override
@@ -66,6 +68,8 @@ function M.setup()
           glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
         },
         winopts = {
+            width = 0.95,
+            height = 0.95,
             preview = {
                 default = previewer,
                 layout = 'vertical',

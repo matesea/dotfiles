@@ -200,13 +200,20 @@ function M.setup()
             keys = {
                 {'<leader>;', '<cmd>FzfLua builtin<cr>', desc = 'pick fzf-lua builtin'},
 
-                -- {';a', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
-                -- {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
-                -- {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>',
-                --     desc = 'find files with cwd'},
-                -- {';d', ':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>',
-                --     desc = 'grep files in the same folder of current open buffer'},
-                {';D', function()
+                {';a', '<cmd>FzfLua lines<cr>', desc = 'all buffer lines'},
+                {';b', '<cmd>FzfLua buffers<cr>',desc = 'open buffers'},
+                {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>',
+                    desc = 'find files with cwd'},
+
+                {';e', '<cmd>FzfLua combine pickers=buffers;oldfiles;files<cr>',
+                    desc = 'find file with combined buffer/oldfiles/files pickers'},
+                {';f', '<cmd>FzfLua global<cr>',
+                    desc = 'global picker for file/buffer/tag'},
+
+                -- grep related
+                {';gc', ':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>',
+                    desc = 'grep files in the same folder of current open buffer'},
+                {';gd', function()
                         local fzf = require('fzf-lua')
                         fzf.fzf_exec("fd -t d", {
                                 prompt = "Folder:",
@@ -220,25 +227,21 @@ function M.setup()
                         })
                     end, desc = 'grep on selected folder'
                 },
+                {';gl', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},
+                {';gw', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
 
-                -- {';e', '<cmd>FzfLua files<cr>', desc = 'find files'},
-
-                -- {';g', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},
-                -- {';h', '<cmd>FzfLua oldfiles<cr>', desc = 'choose file from history'},
-                -- {';j', '<cmd>FzfLua jumps<cr>', desc = 'pick from jumps'},
-                -- {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
-                -- {';r', '<cmd>FzfLua registers<cr>', desc = 'pick from registers'},
+                {';j', '<cmd>FzfLua jumps<cr>', desc = 'pick from jumps'},
+                {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
+                {';r', '<cmd>FzfLua registers<cr>', desc = 'pick from registers'},
                 {';s', '<cmd>FzfLua tagstack<cr>', desc = 'pick tagstack'},
 
                 {';t', '<cmd>FzfLua btags<cr>', desc = 'search buffer tags'},
-                {';T', '<cmd>FzfLua tags_live_grep<cr>', desc = 'search all tags'},
 
-                -- {';w', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
-                -- {';z', '<cmd>FzfLua zoxide<cr>', desc = 'jump directory with zoxide'},
+                {';zd', '<cmd>FzfLua zoxide<cr>', desc = 'jump directory with zoxide'},
 
-                -- {';;', '<cmd>FzfLua command_history<cr>', desc = 'command history'},
-                -- {';:', '<cmd>FzfLua commands<cr>', desc = 'commands'},
-                -- {';/', '<cmd>FzfLua search_history<cr>', desc = 'search history'},
+                {';;', '<cmd>FzfLua command_history<cr>', desc = 'command history'},
+                {';:', '<cmd>FzfLua commands<cr>', desc = 'commands'},
+                {';/', '<cmd>FzfLua search_history<cr>', desc = 'search history'},
             },
             config = function()
                 require('config.fzf-lua').setup()
@@ -840,9 +843,46 @@ function M.setup()
                     win = {backdrop = true},
                 }
             },
-            picker = {enabled = true},
+            picker = {
+              win = {
+                -- Make file truncation consider window width.
+                -- <https://github.com/folke/snacks.nvim/issues/1217#issuecomment-2661465574>
+                list = {
+                  on_buf = function(self)
+                    self:execute("calculate_file_truncate_width")
+                  end,
+                },
+                preview = {
+                  on_buf = function(self)
+                    self:execute("calculate_file_truncate_width")
+                  end,
+                  on_close = function(self)
+                    self:execute("calculate_file_truncate_width")
+                  end,
+                },
+              },
+              actions = {
+                -- Make file truncation consider window width.
+                -- <https://github.com/folke/snacks.nvim/issues/1217#issuecomment-2661465574>
+                calculate_file_truncate_width = function(self)
+                  local width = self.list.win:size().width
+                  self.opts.formatters.file.truncate = width - 6
+                end,
+              },
+              layouts = {
+                default = {
+                  layout = {
+                    -- Make the default popup window use 100% of screen not 80%.
+                    width = 0,
+                    height = 0,
+                  },
+                },
+              },
+            },
           },
           keys = {
+              --[[
+
               {';a', function() Snacks.picker.grep_buffers() end, desc = 'Grep Open Buffers'},
               {';b', function() Snacks.picker.buffers() end, desc = 'Buffers'},
               {';c', function() Snacks.picker.files({cwd = vim.fn.expand('%:h')}) end, desc = 'Find Files in cwd'},
@@ -853,11 +893,13 @@ function M.setup()
               {';j', function() Snacks.picker.jumps() end, desc = 'Jumps'},
               {';q', function() Snacks.picker.qflist() end, desc = 'Quickfix List'},
               {';w', function() Snacks.picker.grep_word() end, desc = 'Grep Word'},
-              {';z', function() Snacks.picker.zoxide() end, desc = 'Open File with Zoxide'},
 
               {';;', function() Snacks.picker.command_history() end, desc = 'Command History'},
               {';:', function() Snacks.picker.commands() end, desc = 'Commands'},
               {';/', function() Snacks.picker.search_history() end, desc = 'Search History'},
+
+              ]]
+              {';zf', function() Snacks.picker.zoxide() end, desc = 'Open File with Zoxide'},
           },
           init = function()
               vim.api.nvim_create_autocmd("User", {
