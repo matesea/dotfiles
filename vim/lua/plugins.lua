@@ -101,8 +101,8 @@ function M.setup()
             -- version = 'release',
             cond = has_git,
             keys = {
-                {']c', function() package.loaded.gitsigns.next_hunk() end, desc = 'Next Hunk'},
-                {'[c', function() package.loaded.gitsigns.prev_hunk() end, desc = 'Previous Hunk'},
+                {']c', remap = true, desc = 'Next Hunk'},
+                {'[c', remap = true, desc = 'Previous Hunk'},
                 {'<leader>hr', function() package.loaded.gitsigns.reset_hunk() end, desc = 'Reset Hunk'},
                 {'<leader>hb', function() package.loaded.gitsigns.blame_line{full = true} end, desc = 'Blame Line'},
             },
