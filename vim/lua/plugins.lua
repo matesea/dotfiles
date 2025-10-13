@@ -205,8 +205,7 @@ function M.setup()
                 {';c', ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>',
                     desc = 'find files with cwd'},
 
-                {';e', '<cmd>FzfLua combine pickers=buffers;oldfiles;files<cr>',
-                    desc = 'find file with combined buffer/oldfiles/files pickers'},
+                {';e', '<cmd>FzfLua files<cr>', desc = 'pick file'},
                 {';f', '<cmd>FzfLua global<cr>',
                     desc = 'global picker for file/buffer/tag'},
 
@@ -230,6 +229,7 @@ function M.setup()
                 {';gl', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},
                 {';gw', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
 
+                {';h', '<cmd>FzfLua old_files<cr>', desc = 'pick from history'},
                 {';j', '<cmd>FzfLua jumps<cr>', desc = 'pick from jumps'},
                 {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
                 {';r', '<cmd>FzfLua registers<cr>', desc = 'pick from registers'},
