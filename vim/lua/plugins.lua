@@ -229,7 +229,7 @@ function M.setup()
                 {';gl', '<cmd>FzfLua live_grep_native<cr>', desc = 'live grep'},
                 {';gw', '<cmd>FzfLua grep_cword<cr>', desc = 'search word under cursor'},
 
-                {';h', '<cmd>FzfLua old_files<cr>', desc = 'pick from history'},
+                {';h', '<cmd>FzfLua oldfiles<cr>', desc = 'pick from history'},
                 {';j', '<cmd>FzfLua jumps<cr>', desc = 'pick from jumps'},
                 {';q', '<cmd>FzfLua quickfix<cr>', desc = 'pick from quickfix'},
                 {';r', '<cmd>FzfLua registers<cr>', desc = 'pick from registers'},
