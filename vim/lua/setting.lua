@@ -41,7 +41,11 @@ opt.showmode = true
 opt.number = true
 
 -- iwhite: ignore changes in amount of white space
-opt.diffopt:append({'filler', 'internal', 'algorithm:histogram', 'indent-heuristic'})
+opt.diffopt:append({
+	'indent-heuristic',
+	'algorithm:patience',
+	'context:999999'
+})
 
 -- less window redraw to speed up
 opt.ttyfast = true
