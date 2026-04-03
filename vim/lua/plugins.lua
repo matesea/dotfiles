@@ -387,11 +387,6 @@ function M.setup()
             },
         },
 
-        { 'dstein64/vim-startuptime',
-            lazy = true,
-            cmd = 'StartupTime'
-        },
-
         'romainl/vim-cool',
 
         { 'embear/vim-foldsearch',
@@ -429,7 +424,7 @@ function M.setup()
             -- event = 'BufRead',
             dependencies = {
                 {'nvim-treesitter-textobjects'},
-                {'nvim-ts-context-commentstring'},
+                -- {'nvim-ts-context-commentstring'},
                 {'nvim-treesitter-context'},
             },
             build = function()
