@@ -103,7 +103,49 @@ local plugins = {
             {'<leader>hb', function() package.loaded.gitsigns.blame_line{full = true} end, desc = 'Blame Line'},
         },
         config = function()
-            require('plugins.gitsigns').setup()
+            require('gitsigns').setup{
+                    on_attach = function(bufnr)
+                        local gs = package.loaded.gitsigns
+                        local function map(mode, l, r, opts)
+                                  opts = opts or {}
+                                  opts.buffer = bufnr
+                                  vim.keymap.set(mode, l, r, opts)
+                        end
+                        max_file_length = 20000,
+
+                        -- Navigation
+                        -- map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+                        -- map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+                        map('n', ']c', function()
+                            if vim.wo.diff then return ']c' end
+                            vim.schedule(function() gs.next_hunk() end)
+                            return '<Ignore>'
+                        end, {expr=true})
+                        map('n', '[c', function()
+                            if vim.wo.diff then return '[c' end
+                            vim.schedule(function() gs.prev_hunk() end)
+                            return '<Ignore>'
+                        end, {expr=true})
+
+                        -- Actions
+                        -- map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+                        -- map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+                        -- map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+                        -- map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+                        -- map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+                        -- map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+                        -- map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+                        -- map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+                        -- map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+                        -- map('n', '<leader>tb', gs.toggle_current_line_blame)
+                        map('n', '<leader>hd', gs.diffthis)
+                        -- map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+                        map('n', '<leader>td', gs.toggle_deleted)
+                        -- -- Text object
+                        -- map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+                        -- map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+                    end}
+            vim.opt.updatetime = 300
         end
     },
 
@@ -240,7 +282,101 @@ local plugins = {
             {';/', '<cmd>FzfLua search_history<cr>', desc = 'search history'},
         },
         config = function()
-            require('plugins.fzf-lua').setup()
+            local status_ok, fzf_lua = pcall(require, "fzf-lua")
+
+            if not status_ok then
+                return
+            end
+
+            local previewer = 'builtin'
+
+            local actions = require "fzf-lua.actions"
+
+            local fzf_lua_table = {
+                'max-perf',
+                defaults = {
+                    color_icons = false,
+                    file_icons = false,
+                    git_icons = false,
+                },
+                actions = {
+                    -- Below are the default actions, setting any value in these tables will override
+                  -- the defaults, to inherit from the defaults change [1] from `false` to `true`
+                  files = {
+                    true,        -- uncomment to inherit all the below in your custom config
+                    -- Pickers inheriting these actions:
+                    --   files, git_files, git_status, grep, lsp, oldfiles, quickfix, loclist,
+                    --   tags, btags, args, buffers, tabs, lines, blines
+                    -- `file_edit_or_qf` opens a single selection or sends multiple selection to quickfix
+                    -- replace `enter` with `file_edit` to open all files/bufs whether single or multiple
+                    -- replace `enter` with `file_switch_or_edit` to attempt a switch in current tab first
+                    ["enter"]       = FzfLua.actions.file_edit,
+                    ["ctrl-s"]      = FzfLua.actions.file_split,
+                    ["ctrl-v"]      = FzfLua.actions.file_vsplit,
+                    ["ctrl-t"]      = FzfLua.actions.file_tabedit,
+                    ["alt-q"]       = FzfLua.actions.file_sel_to_qf,
+                    ["alt-Q"]       = FzfLua.actions.file_sel_to_ll,
+                    ["alt-i"]       = FzfLua.actions.toggle_ignore,
+                    ["alt-h"]       = FzfLua.actions.toggle_hidden,
+                    ["alt-f"]       = FzfLua.actions.toggle_follow,
+                  },
+                },
+                files = {
+                    previewer = false,
+                },
+                oldfiles = {
+                    include_current_session = true,
+                },
+                previewers = {
+                  builtin = {
+                    -- fzf-lua is very fast, but it really struggled to preview a couple files
+                    -- in a repo. Those files were very big JavaScript files (1MB, minified, all on a single line).
+                    -- It turns out it was Treesitter having trouble parsing the files.
+                    -- With this change, the previewer will not add syntax highlighting to files larger than 100KB
+                    -- (Yes, I know you shouldn't have 100KB minified files in source control.)
+                    syntax_limit_b = 1024 * 100, -- 100KB
+                  },
+                },
+                grep = {
+                  -- One thing I missed from Telescope was the ability to live_grep and the
+                  -- run a filter on the filenames.
+                  -- Ex: Find all occurrences of "enable" but only in the "plugins" directory.
+                  -- With this change, I can sort of get the same behaviour in live_grep.
+                  -- ex: > enable --*/plugins/*
+                  -- I still find this a bit cumbersome. There's probably a better way of doing this.
+                  rg_glob = true, -- enable glob parsing
+                  glob_flag = "--iglob", -- case insensitive globs
+                  glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
+                },
+                winopts = {
+                    width = 0.95,
+                    height = 0.95,
+                    preview = {
+                        default = previewer,
+                        layout = 'vertical',
+                        vertical = 'down:45%'
+                    }
+                }
+            }
+
+            local fzf_tmux_opts = vim.env.FZF_TMUX_OPTS
+            if fzf_tmux_opts ~= nil then
+                -- FZF_TMUX_OPTS set, choose with fzf-tmux popup window
+                if vim.fn.executable('bat') == 1 then
+                    previewer = 'bat'
+                end
+                fzf_lua_table.fzf_bin = 'fzf-tmux'
+                fzf_lua_table.fzf_opts = {['--border'] = 'rounded'}
+                fzf_lua_table.fzf_tmux_opts = {['-p'] = '80%,90%'}
+                fzf_lua_table.winopts = {
+                    preview = {
+                        default = previewer,
+                        layout = 'vertical',
+                        vertical = 'down:45%'
+                    }
+                }
+            end
+            fzf_lua.setup(fzf_lua_table)
         end
     },
 
@@ -565,7 +701,228 @@ local plugins = {
         },
         event = {'InsertEnter'},
         config = function()
-            require('plugins.cmp').setup()
+            local opts = function()
+                vim.api.nvim_set_hl(
+                    0,
+                    'CmpGhostText',
+                    { link = 'Comment', default = true }
+                )
+                local cmp = require('cmp')
+                local defaults = require('cmp.config.default')()
+                local completion_labels = {
+                    buffer   = "[Buf]",
+                    path     = "[Path]",
+                    tmux     = "[Tmux]",
+                    rg       = "[Rg]",
+                    cmdline  = "[Cmd]",
+                }
+
+                local function has_words_before()
+                    if vim.bo.buftype == 'prompt' then
+                        return false
+                    end
+                    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+                    -- stylua: ignore
+                    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+                end
+
+                local all_sources = {
+                    {
+                        name = 'buffer',
+                        priority = 50,
+                        label = 'buffer',
+                        keyword_length = 3,
+                        option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
+                    },
+                    {
+                        name = 'path',
+                        keyword_length = 3,
+                        priority = 30
+                    },
+                    {
+                        name = 'tmux',
+                        priority = 10,
+                        keyword_length = 3,
+                        option = { all_panes = true, label = 'tmux'},
+                    },
+                    {
+                        name = 'rg',
+                        priority = 10,
+                        keyword_length = 3,
+                        label = 'rg'
+                    },
+                }
+
+                local choose_sources = function(bufnr)
+                    local tooBig = function(bufnr)
+                        local max_filesize = 1024 * 1024 -- 1MB
+                        local check_stats = vim.loop.fs_stat
+                        local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
+                        if ok and stats and stats.size > max_filesize then
+                            return true
+                        else
+                            return false
+                        end
+                    end
+
+                    if tooBig(bufnr) then
+                        return {}
+                    end
+                    return all_sources
+                end
+
+                vim.api.nvim_create_autocmd("BufReadPre", {
+                    callback = function(ev)
+                        local sources = choose_sources(ev.buf)
+                        cmp.setup.buffer({
+                            sources = cmp.config.sources(sources),
+                        })
+                    end,
+                })
+
+                return {
+                    sorting = defaults.sorting,
+                    experimental = {
+                        ghost_text = {
+                            hl_group = 'Comment',
+                        },
+                    },
+                    completion = {
+                        completeopt = 'menu,menuone,noinsert'
+                            .. (auto_select and '' or ',noselect'),
+                    },
+                    preselect = auto_select and cmp.PreselectMode.Item
+                        or cmp.PreselectMode.None,
+                    view = {
+                        entries = {follow_cursor = true},
+                    },
+                    sources = cmp.config.sources(choose_sources(vim.api.nvim_get_current_buf())),
+                    performance = {
+                        max_view_entries = 20,
+                    },
+                    mapping = cmp.mapping.preset.insert({
+                        -- <CR> accepts currently selected item.
+                        -- Set `select` to `false` to only confirm explicitly selected items.
+                        ['<CR>'] = cmp.mapping.confirm({ select = false }),
+                        ['<S-CR>'] = cmp.mapping.confirm({
+                            behavior = cmp.ConfirmBehavior.Replace,
+                            select = false,
+                        }),
+                        ['<C-Space>'] = cmp.mapping.complete(),
+                        ['<C-n>'] = cmp.mapping.select_next_item({
+                            behavior = cmp.SelectBehavior.Insert,
+                        }),
+                        ['<C-p>'] = cmp.mapping.select_prev_item({
+                            behavior = cmp.SelectBehavior.Insert,
+                        }),
+                        --[[ disable c-k/c-j select to not conflict with vim-tmux-navigator
+                        ['<C-j>'] = cmp.mapping.select_next_item({
+                            behavior = cmp.SelectBehavior.Insert,
+                        }),
+                        ['<C-k>'] = cmp.mapping.select_prev_item({
+                            behavior = cmp.SelectBehavior.Insert,
+                        }),
+                        ]]
+                        ['<C-d>'] = cmp.mapping.select_next_item({ count = 5 }),
+                        ['<C-u>'] = cmp.mapping.select_prev_item({ count = 5 }),
+                        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                        ['<C-c>'] = function(fallback)
+                            cmp.close()
+                            fallback()
+                        end,
+                        ['<Tab>'] = cmp.mapping(function(fallback)
+                            if cmp.visible() then
+                                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                            elseif has_words_before() then
+                                cmp.complete()
+                            else
+                                fallback()
+                            end
+                        end, { 'i', 's' }),
+                        ['<S-Tab>'] = cmp.mapping(function(fallback)
+                            if cmp.visible() then
+                                cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+                            else
+                                fallback()
+                            end
+                        end, { 'i', 's' }),
+                    }),
+                    formatting = {
+                        format = function(entry, item)
+                            -- Set menu source name
+                            item.kind = item.kind
+                            if completion_labels[entry.source.name] then
+                                item.menu = completion_labels[entry.source.name]
+                            end
+
+                            local widths = {
+                                abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+                                menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+                            }
+
+                            for key, width in pairs(widths) do
+                                if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
+                                    item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. '…'
+                                end
+                            end
+
+                            return item
+                        end,
+                    },
+                }
+            end
+            local cmp = require('cmp')
+            cmp.setup(opts())
+            cmp.setup.cmdline(':', {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    {
+                        name = 'buffer',
+                        priority = 50,
+                        keyword_length = 3,
+                        option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
+                    },
+                    {
+                        name = "cmdline",
+                        priority = 40,
+                        keyword_length = 3,
+                        option = {igonre_cmd = {"Man", "!"}}
+                    },
+                    {
+                        name = 'path',
+                        priority = 40,
+                        keyword_length = 3,
+                    },
+                    {
+                        name = 'tmux',
+                        priority = 10,
+                        keyword_length = 3,
+                        option = {
+                            all_panes = true,
+                            label = 'tmux'
+                        },
+                    },
+                })
+            })
+            cmp.setup.cmdline({'/', '?'}, {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    {
+                        name = 'buffer',
+                        priority = 50,
+                        keyword_length = 3,
+                        option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end }
+                    },
+                    --[[
+                    {
+                        name = 'tmux',
+                        priority = 10,
+                        option = { all_panes = true, label = 'tmux' },
+                    },
+                    ]]
+                })
+            })
         end,
     },
 
@@ -696,9 +1053,6 @@ local plugins = {
             {'williamboman/mason-lspconfig.nvim', lazy = true},
             {'hrsh7th/cmp-nvim-lsp', lazy = true},
         },
-        config = function()
-            require('plugins.lspconfig').setup()
-        end
     },
 
     { 'rickhowe/spotdiff.vim',
@@ -782,8 +1136,53 @@ local plugins = {
             -- {'nvim-lspconfig'},
         },
        config = function()
-            -- either 'treesitte' or 'lspconfig'
-            require('plugins.nvim-ufo').setup('treesitter')
+            local status_ok, ufo = pcall(require, "ufo")
+            if not status_ok then
+                return
+            end
+            local backend = 'treesitter'
+
+            vim.o.foldcolumn = '1' -- '0' is not bad
+            vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+            vim.o.foldlevelstart = 99
+            vim.o.foldenable = true
+
+            vim.keymap.set('n', 'K', function()
+                local winid = ufo.peekFoldedLinesUnderCursor()
+                if not winid then
+                    -- choose one of coc.nvim and nvim lsp
+                    vim.lsp.buf.hover()
+                end
+            end)
+
+            if backend == 'lspconfig' then
+                -- Option 2: nvim lsp as LSP client
+                -- Tell the server the capability of foldingRange,
+                -- Neovim hasn't added foldingRange to default capabilities, users must add it manually
+                local capabilities = vim.lsp.protocol.make_client_capabilities()
+                capabilities.textDocument.foldingRange = {
+                    dynamicRegistration = false,
+                    lineFoldingOnly = true
+                }
+                local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
+                for _, ls in ipairs(language_servers) do
+                    require('lspconfig')[ls].setup({
+                        capabilities = capabilities
+                        -- you can add other fields for setting up lsp server in this table
+                    })
+                end
+                ufo.setup()
+            elseif backend == 'treesitter' then
+                -- Option 3: treesitter as a main provider instead
+                -- Only depend on `nvim-treesitter/queries/filetype/folds.scm`,
+                -- performance and stability are better than `foldmethod=nvim_treesitter#foldexpr()`
+                ufo.setup({
+                    provider_selector = function(bufnr, filetype, buftype)
+                        return {'treesitter', 'indent'}
+                    end
+                })
+            end
+
        end
     },
 
@@ -872,7 +1271,25 @@ local plugins = {
         },
         cmd = {'Cscope'},
         config = function()
-            require('plugins.cscope_maps').setup()
+            require("cscope_maps").setup({
+                disable_maps = true, -- true disables keymaps, only :Cscope will be loaded
+                skip_input_prompt = true, -- "true" doesn't ask for input
+                cscope = {
+                    db_file = "GTAGS", -- location of cscope db file
+                    exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
+                    picker = 'quickfix', -- "telescope", "fzf-lua" or "quickfix"
+                    -- size of quickfix window
+                    qf_window_size = 10, -- any positive integer
+                    -- position of quickfix window
+                    qf_window_pos = "bottom", -- "bottom", "right", "left" or "top"
+                    skip_picker_for_single_result = true, -- jump directly to position for single result
+                    -- these args are directly passed to "cscope -f <db_file> <args>"
+                    -- db_build_cmd_args = { "-bqkv" },
+                    -- statusline indicator, default is cscope executable
+                    statusline_indicator = nil,
+
+                },
+            })
         end,
     },
 
@@ -1014,5 +1431,4 @@ local plugins = {
 
 
 lazy_init()
-local lazy = require 'lazy'
-lazy.setup(plugins)
+require('lazy').setup(plugins)
