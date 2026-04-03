@@ -25,7 +25,8 @@ else
 end
 
 
-require('setting')
+require('config')
+require('plugins')
 
 -- import local settings if exist
 local local_rc = nil
@@ -37,6 +38,3 @@ end
 if fn.empty(local_rc) == 0 then
     cmd('source ' .. local_rc)
 end
-
-require('plugins').setup()
-require('mapping')
