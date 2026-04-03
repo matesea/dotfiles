@@ -420,23 +420,123 @@ function M.setup()
         },
 
         { 'nvim-treesitter/nvim-treesitter',
-            lazy = true,
-            -- event = 'BufRead',
-            dependencies = {
-                {'nvim-treesitter-textobjects'},
-                -- {'nvim-ts-context-commentstring'},
-                {'nvim-treesitter-context'},
-            },
-            build = function()
-               local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-               ts_update()
-           end,
-           config = function()
-                require('config.treesitter')
-           end
+           branch = 'main',
+           commit = vim.fn.has("nvim-0.12") == 0 and "7caec274fd19c12b55902a5b795100d21531391f" or nil,
+           version = false,
+           lazy = true,
+           -- event = 'BufRead',
+           dependencies = {
+               {'nvim-treesitter-textobjects'},
+               -- {'nvim-ts-context-commentstring'},
+               {'nvim-treesitter-context'},
+           },
+           build = 'TSUpdate',
+           opts_extend = {'ensure_installed'},
+           opts = {
+	            ensure_installed = {
+                    'bash',
+                    'c',
+                    'cmake',
+                    'comment',
+                    'cpp',
+                    'diff',
+                    'gitattributes',
+                    'gitignore',
+                    'go',
+                    'html',
+                    'http',
+                    'java',
+                    'javascript',
+                    'jsdoc',
+                    'json',
+                    'julia',
+                    'kotlin',
+                    'llvm',
+                    'lua',
+                    'luadoc',
+                    'luap',
+                    'make',
+                    'markdown',
+                    'markdown_inline',
+                    'ninja',
+                    'nix',
+                    'perl',
+                    'printf',
+                    'python',
+                    'query',
+                    'regex',
+                    'ruby',
+                    'toml',
+                    'rust',
+                    'vim',
+                    'vimdoc',
+                    'xml',
+                    'yaml',
+                },
+
+                highlight = {
+                    enable = false,
+                    additional_vim_regex_highlighting = false,
+                },
+
+                incremental_selection = {
+                    enable = true,
+                    keymaps = {
+                        init_selection = false,
+                        node_incremental = 'v',
+                        scope_incremental = false,
+                        node_decremental = 'V',
+                    },
+                },
+
+                indent = {
+                    enable = true,
+                },
+
+                refactor = {
+                    highlight_definitions = { enable = true },
+                    highlight_current_scope = { enable = true },
+                },
+
+                -- See: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+                textobjects = {
+                    select = {
+                        enable = true,
+                        -- Automatically jump forward to textobj, similar to targets.vim
+                        lookahead = true,
+                        keymaps = {
+                            -- You can use the capture groups defined in textobjects.scm
+                            ['af'] = '@function.outer',
+                            ['if'] = '@function.inner',
+                            ['ac'] = '@class.outer',
+                            ['ic'] = '@class.inner',
+                        },
+                    },
+                    move = {
+                        enable = true,
+                        set_jumps = true,
+                        goto_next_start = {
+                            ['],'] = '@parameter.inner',
+                        },
+                        goto_previous_start = {
+                            ['[,'] = '@parameter.inner',
+                        },
+                    },
+                    swap = {
+                        enable = true,
+                        swap_next = {
+                            ['>,'] = '@parameter.inner',
+                        },
+                        swap_previous = {
+                            ['<,'] = '@parameter.inner',
+                        },
+                    },
+                },
+           },
         },
 
         { 'nvim-treesitter/nvim-treesitter-textobjects',
+            branch = 'main',
             lazy = true,
         },
 
