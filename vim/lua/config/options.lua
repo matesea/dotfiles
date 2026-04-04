@@ -36,9 +36,16 @@ end
 -- local call = vim.call
 
 g.mapleader = ','
+g.maplocalleader = ','
+g.have_nerd_font = true
 opt.cindent = true
-opt.showmode = true
+opt.showmode = false
 opt.number = true
+-- set as 'a' to allow mouse scroll
+opt.mouse = ''
+
+opt.breakindent = true
+opt.signcolumn = 'yes'
 
 -- iwhite: ignore changes in amount of white space
 opt.diffopt:append({
@@ -84,10 +91,28 @@ opt.visualbell = false
 
 opt.timeout = true
 opt.ttimeout = true
-opt.timeoutlen = 500 -- Time out on mappings
+opt.timeoutlen = 300 -- Time out on mappings
 opt.ttimeoutlen = 10 -- Time out on key codes
-opt.updatetime = 200 -- idle time to write swap and trigger CursorHold
+opt.updatetime = 250 -- idle time to write swap and trigger CursorHold
 opt.redrawtime = 2000 -- time in milliseconds for stopping display redraw
+
+-- Configure how new splits should be opened
+opt.splitright = true
+opt.splitbelow = true
+
+-- Sets how neovim will display certain whitespace characters in the editor.
+--  See `:help 'list'`
+--  and `:help 'listchars'`
+--
+--  Notice listchars is set using `vim.opt` instead of `vim.o`.
+--  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
+--   See `:help lua-options`
+--   and `:help lua-guide-options`
+vim.o.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+
+-- Preview substitutions live, as you type!
+vim.o.inccommand = 'split'
 
 if vim.fn.has('nvim-0.11') == 1 then
 	opt.tabclose:append({'uselast'})
@@ -141,9 +166,6 @@ end
 cmd('set t_Co=256')
 opt.termguicolors = true
 opt.background = 'dark'
-
--- set as 'a' to allow mouse scroll
-opt.mouse = ''
 
 --[[
  == execute command and put the results into new buffer ==
