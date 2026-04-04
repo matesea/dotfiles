@@ -1126,6 +1126,7 @@ local plugins = {
 		-- Main LSP Configuration
 		"neovim/nvim-lspconfig",
 		lazy = true,
+		ft = ft_code,
 		dependencies = {
 			-- Automatically install LSPs and related tools to stdpath for Neovim
 			-- Mason must be loaded before its dependents so we need to set it up here.
@@ -1246,9 +1247,9 @@ local plugins = {
 			--  See `:help lsp-config` for information about keys and how to configure
 			---@type table<string, vim.lsp.Config>
 			local servers = {
-				-- clangd = {},
+				clangd = {},
 				-- gopls = {},
-				-- pyright = {},
+				pyright = {},
 				-- rust_analyzer = {},
 				--
 				-- Some languages (like typescript) have entire language plugins that can be useful:
