@@ -627,7 +627,7 @@ local plugins = {
 			-- {'nvim-ts-context-commentstring'},
 			{ "nvim-treesitter-context" },
 		},
-		build = "TSUpdate",
+		build = ":TSUpdate",
 		opts_extend = { "ensure_installed" },
 		opts = {
 			ensure_installed = {
@@ -1247,9 +1247,9 @@ local plugins = {
 			--  See `:help lsp-config` for information about keys and how to configure
 			---@type table<string, vim.lsp.Config>
 			local servers = {
-				clangd = {},
+				-- clangd = {},
 				-- gopls = {},
-				pyright = {},
+				-- pyright = {},
 				-- rust_analyzer = {},
 				--
 				-- Some languages (like typescript) have entire language plugins that can be useful:
