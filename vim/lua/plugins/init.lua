@@ -21,34 +21,6 @@ local has_git = vim.fn.executable("git") == 1
 
 local plugins = {
 	{
-		"fabius/molokai.nvim",
-		dependencies = "rktjmp/lush.nvim",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			vim.cmd.colorscheme("molokai")
-		end,
-	},
-
-	{
-		"tanvirtin/monokai.nvim",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			require("monokai").setup({})
-		end,
-	},
-
-	{
-		"tamelion/neovim-molokai",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			vim.cmd.colorscheme("molokai")
-		end,
-	},
-
-	{
 		"sainnhe/sonokai",
 		lazy = false,
 		priority = 1000,
@@ -58,39 +30,6 @@ local plugins = {
 			-- vim.g.sonokai_transparent_background = 1
 			vim.g.sonokai_dim_inactive_windows = 1
 			vim.cmd.colorscheme("sonokai")
-		end,
-	},
-
-	{
-		"dasupradyumna/midnight.nvim",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			vim.cmd.colorscheme("midnight")
-		end,
-	},
-
-	{
-		"rebelot/kanagawa.nvim",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			require("kanagawa").setup({
-				dimInactive = true,
-			})
-			vim.cmd.colorscheme("kanagawa")
-		end,
-	},
-
-	{
-		"ribru17/bamboo.nvim",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			require("bamboo").setup({
-				-- optional configuration here
-			})
-			require("bamboo").load()
 		end,
 	},
 
@@ -1616,6 +1555,7 @@ local plugins = {
 
 	{
 		"folke/snacks.nvim",
+		priority = 1000,
 		lazy = false,
 		---@type snacks.Config
 		opts = {
