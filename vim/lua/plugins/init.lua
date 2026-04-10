@@ -176,33 +176,51 @@ local plugins = {
 
 	{ "junegunn/gv.vim", dependencies = { "tpope/vim-fugitive" }, cmd = "GV" },
 
-	{ "nvim-mini/mini.icons", version = false, lazy = true, config = true },
+    { 'nvim-mini/mini.nvim',
+        event = 'VeryLazy',
+        config = function()
+            require('mini.icons').setup()
+            require('mini.tabline').setup()
+            require('mini.trailspace').setup{ only_in_normal_buffers = true }
 
-	{
-		"nvim-mini/mini.tabline",
-		version = false,
-		event = "VeryLazy",
-		dependencies = { "mini.icons" },
-		config = true,
-	},
+            -- Better Around/Inside textobjects
+            --
+            -- Examples:
+            --  - va)  - [V]isually select [A]round [)]paren
+            --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
+            --  - ci'  - [C]hange [I]nside [']quote
+            require('mini.ai').setup { n_lines = 500 }
 
-	{
-		"nvim-mini/mini.statusline",
-		version = false,
-		event = "VeryLazy",
-		dependencies = { "mini.icons" },
-		config = true,
-	},
+            -- Add/delete/replace surroundings (brackets, quotes, etc.)
+            --
+            -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+            -- - sd'   - [S]urround [D]elete [']quotes
+            -- - sr)'  - [S]urround [R]eplace [)] [']
+            require('mini.surround').setup{
+			    mappings = {
+					add = "sa", -- Add surrounding in Normal and Visual modes
+					delete = "ds", -- Delete surrounding
+					find = "gzf", -- Find surrounding (to the right)
+					find_left = "gzF", -- Find surrounding (to the left)
+					highlight = "gzh", -- Highlight surrounding
+					replace = "cs", -- Replace surrounding
+					update_n_lines = "gzn", -- Update `n_lines`
+			    },
+            }
 
-	{
-		"nvim-mini/mini.trailspace",
-		version = false,
-		lazy = true,
-		ft = ft_code,
-		config = {
-			only_in_normal_buffers = true,
-		},
-	},
+            require('mini.statusline').setup{ use_icons = vim.g.have_nerd_font }
+
+            require('mini.pairs').setup()
+            --[[
+            require('mini.align').setup{
+			    mappings = {
+					start = "gb",
+					start_with_preview = "gB",
+			    },
+            }
+            ]]
+        end
+    },
 
 	{
 		"stevearc/quicker.nvim",
@@ -239,8 +257,6 @@ local plugins = {
 			end,
 		},
 	},
-
-	{ "nvim-mini/mini.pairs", version = false, event = "InsertEnter", opts = {} },
 
 	{
 		"junegunn/fzf",
@@ -1014,7 +1030,7 @@ local plugins = {
 	{
 		"b0o/incline.nvim",
 		event = "WinEnter",
-		dependencies = { "mini.icons" },
+		dependencies = { "mini.nvim" },
 		config = function()
 			local helpers = require("incline.helpers")
 			local mini_icons = require("mini.icons")
@@ -1085,42 +1101,6 @@ local plugins = {
 	{ "matesea/trace32-practice.vim", lazy = true, ft = "cmm" },
 
 	{ "vim-scripts/scons.vim", lazy = true, ft = "scons" },
-
-	{
-		"nvim-mini/mini.surround",
-		version = false,
-		lazy = true,
-        -- stylua: ignore
-        keys = function(_, keys)
-            -- Populate the keys based on the user's options
-            local plugin = require('lazy.core.config').spec.plugins['mini.surround']
-            local opts = require('lazy.core.plugin').values(plugin, 'opts', false)
-            local mappings = {
-                { opts.mappings.add, desc = 'Add surrounding', mode = { 'n', 'x' } },
-                { opts.mappings.delete, desc = 'Delete surrounding' },
-                { opts.mappings.find, desc = 'Find right surrounding' },
-                { opts.mappings.find_left, desc = 'Find left surrounding' },
-                { opts.mappings.highlight, desc = 'Highlight surrounding' },
-                { opts.mappings.replace, desc = 'Replace surrounding' },
-                { opts.mappings.update_n_lines, desc = 'Update `MiniSurround.config.n_lines`' },
-            }
-            mappings = vim.tbl_filter(function(m)
-                return m[1] and #m[1] > 0
-            end, mappings)
-            return vim.list_extend(mappings, keys)
-        end,
-		opts = {
-			mappings = {
-				add = "sa", -- Add surrounding in Normal and Visual modes
-				delete = "ds", -- Delete surrounding
-				find = "gzf", -- Find surrounding (to the right)
-				find_left = "gzF", -- Find surrounding (to the left)
-				highlight = "gzh", -- Highlight surrounding
-				replace = "cs", -- Replace surrounding
-				update_n_lines = "gzn", -- Update `n_lines`
-			},
-		},
-	},
 
 	{
 		-- Main LSP Configuration
@@ -1549,22 +1529,6 @@ local plugins = {
 		config = function()
 			require("better_escape").setup({})
 		end,
-	},
-
-	-- gb to start, j{l/c/r} to align
-	{
-		"echasnovski/mini.align",
-		version = false,
-		opts = {
-			mappings = {
-				start = "gb",
-				start_with_preview = "gB",
-			},
-		},
-		keys = {
-			{ "gb", mode = { "n", "x" } },
-			{ "gB", mode = { "n", "x" } },
-		},
 	},
 
 	{
