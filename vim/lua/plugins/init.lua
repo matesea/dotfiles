@@ -176,28 +176,29 @@ local plugins = {
 
 	{ "junegunn/gv.vim", dependencies = { "tpope/vim-fugitive" }, cmd = "GV" },
 
-    { 'nvim-mini/mini.nvim',
-        event = 'VeryLazy',
-        config = function()
-            require('mini.icons').setup()
-            require('mini.tabline').setup()
-            require('mini.trailspace').setup{ only_in_normal_buffers = true }
+	{
+		"nvim-mini/mini.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("mini.icons").setup()
+			require("mini.tabline").setup()
+			require("mini.trailspace").setup({ only_in_normal_buffers = true })
 
-            -- Better Around/Inside textobjects
-            --
-            -- Examples:
-            --  - va)  - [V]isually select [A]round [)]paren
-            --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
-            --  - ci'  - [C]hange [I]nside [']quote
-            require('mini.ai').setup { n_lines = 500 }
+			-- Better Around/Inside textobjects
+			--
+			-- Examples:
+			--  - va)  - [V]isually select [A]round [)]paren
+			--  - yinq - [Y]ank [I]nside [N]ext [Q]uote
+			--  - ci'  - [C]hange [I]nside [']quote
+			require("mini.ai").setup({ n_lines = 500 })
 
-            -- Add/delete/replace surroundings (brackets, quotes, etc.)
-            --
-            -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-            -- - sd'   - [S]urround [D]elete [']quotes
-            -- - sr)'  - [S]urround [R]eplace [)] [']
-            require('mini.surround').setup{
-			    mappings = {
+			-- Add/delete/replace surroundings (brackets, quotes, etc.)
+			--
+			-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+			-- - sd'   - [S]urround [D]elete [']quotes
+			-- - sr)'  - [S]urround [R]eplace [)] [']
+			require("mini.surround").setup({
+				mappings = {
 					add = "sa", -- Add surrounding in Normal and Visual modes
 					delete = "ds", -- Delete surrounding
 					find = "gzf", -- Find surrounding (to the right)
@@ -205,13 +206,13 @@ local plugins = {
 					highlight = "gzh", -- Highlight surrounding
 					replace = "cs", -- Replace surrounding
 					update_n_lines = "gzn", -- Update `n_lines`
-			    },
-            }
+				},
+			})
 
-            require('mini.statusline').setup{ use_icons = vim.g.have_nerd_font }
+			require("mini.statusline").setup({ use_icons = vim.g.have_nerd_font })
 
-            require('mini.pairs').setup()
-            --[[
+			require("mini.pairs").setup()
+			--[[
             require('mini.align').setup{
 			    mappings = {
 					start = "gb",
@@ -219,8 +220,8 @@ local plugins = {
 			    },
             }
             ]]
-        end
-    },
+		end,
+	},
 
 	{
 		"stevearc/quicker.nvim",
@@ -525,26 +526,6 @@ local plugins = {
 	},
 
 	{ "vladdoster/remember.nvim", config = true },
-
-	{
-		"LunarVim/bigfile.nvim",
-		init = function()
-			require("bigfile").setup({
-				filesize = 3, -- size of the file in MiB, the plugin round file sizes to the closest MiB
-				pattern = { "*" }, -- autocmd pattern or function see <### Overriding the detection of big files>
-				features = { -- features to disable
-					"indent_blankline",
-					"illuminate",
-					"lsp",
-					-- "treesitter",
-					"syntax",
-					"matchparen",
-					-- "vimopts",
-					"filetype",
-				},
-			})
-		end,
-	},
 
 	{
 		"fei6409/log-highlight.nvim",
@@ -1106,7 +1087,7 @@ local plugins = {
 		-- Main LSP Configuration
 		"neovim/nvim-lspconfig",
 		lazy = true,
-		ft = 'lua',
+		ft = "lua",
 		dependencies = {
 			-- Automatically install LSPs and related tools to stdpath for Neovim
 			-- Mason must be loaded before its dependents so we need to set it up here.
@@ -1649,6 +1630,35 @@ local plugins = {
 					show = { tabline = false },
 					win = { backdrop = true },
 				},
+			},
+			bigfile = {
+				notify = true, -- show notification when big file detected
+				size = 3 * 1024 * 1024, -- 1.5MB
+				line_length = 1000, -- average line length (useful for minified files)
+				-- Enable or disable features when big file detected
+				---@param ctx {buf: number, ft:string}
+				setup = function(ctx)
+					if vim.fn.exists(":NoMatchParen") ~= 0 then
+						vim.cmd([[NoMatchParen]])
+					end
+					Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
+					vim.b.completion = false
+					vim.b.minianimate_disable = true
+					vim.b.minihipatterns_disable = true
+					vim.schedule(function()
+						if vim.api.nvim_buf_is_valid(ctx.buf) then
+							vim.bo[ctx.buf].syntax = ctx.ft
+						end
+					end)
+					-- vimopts
+					vim.b.swapfile = false
+					vim.b.foldmethod = "manual"
+					vim.b.list = false
+					vim.b.undolevels = -1
+					vim.b.undoreload = 0
+					vim.b.syntax = "OFF"
+					vim.b.filetype = ""
+				end,
 			},
 			picker = {
 				win = {
