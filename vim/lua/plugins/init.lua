@@ -117,48 +117,54 @@ local plugins = {
 
 	{
 		"nvim-mini/mini.nvim",
-		event = "VeryLazy",
+		lazy = false,
 		config = function()
 			require("mini.icons").setup()
 			require("mini.tabline").setup()
-			require("mini.trailspace").setup({ only_in_normal_buffers = true })
-
-			-- Better Around/Inside textobjects
-			--
-			-- Examples:
-			--  - va)  - [V]isually select [A]round [)]paren
-			--  - yinq - [Y]ank [I]nside [N]ext [Q]uote
-			--  - ci'  - [C]hange [I]nside [']quote
-			require("mini.ai").setup({ n_lines = 500 })
-
-			-- Add/delete/replace surroundings (brackets, quotes, etc.)
-			--
-			-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-			-- - sd'   - [S]urround [D]elete [']quotes
-			-- - sr)'  - [S]urround [R]eplace [)] [']
-			require("mini.surround").setup({
-				mappings = {
-					add = "sa", -- Add surrounding in Normal and Visual modes
-					delete = "ds", -- Delete surrounding
-					find = "gzf", -- Find surrounding (to the right)
-					find_left = "gzF", -- Find surrounding (to the left)
-					highlight = "gzh", -- Highlight surrounding
-					replace = "cs", -- Replace surrounding
-					update_n_lines = "gzn", -- Update `n_lines`
-				},
-			})
-
 			require("mini.statusline").setup({ use_icons = vim.g.have_nerd_font })
 
-			require("mini.pairs").setup()
-			--[[
-            require('mini.align').setup{
-			    mappings = {
-					start = "gb",
-					start_with_preview = "gB",
-			    },
-            }
-            ]]
+			-- enable these modules only if filetype matches
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("code_edit", { clear = true }),
+				pattern = ft_code,
+				once = true,
+				callback = function(event)
+					require("mini.trailspace").setup({ only_in_normal_buffers = true })
+
+					-- Better Around/Inside textobjects
+					--
+					-- Examples:
+					--  - va)  - [V]isually select [A]round [)]paren
+					--  - yinq - [Y]ank [I]nside [N]ext [Q]uote
+					--  - ci'  - [C]hange [I]nside [']quote
+					require("mini.ai").setup({ n_lines = 500 })
+
+					-- Add/delete/replace surroundings (brackets, quotes, etc.)
+					--
+					-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+					-- - sd'   - [S]urround [D]elete [']quotes
+					-- - sr)'  - [S]urround [R]eplace [)] [']
+					require("mini.surround").setup({
+						mappings = {
+							add = "sa", -- Add surrounding in Normal and Visual modes
+							delete = "ds", -- Delete surrounding
+							find = "gzf", -- Find surrounding (to the right)
+							find_left = "gzF", -- Find surrounding (to the left)
+							highlight = "gzh", -- Highlight surrounding
+							replace = "cs", -- Replace surrounding
+							update_n_lines = "gzn", -- Update `n_lines`
+						},
+					})
+
+					require("mini.pairs").setup()
+					require("mini.align").setup({
+						mappings = {
+							start = "gb",
+							start_with_preview = "gB",
+						},
+					})
+				end,
+			})
 		end,
 	},
 
@@ -706,7 +712,7 @@ local plugins = {
 			-- nvim-cmp source for cmdline
 			"hrsh7th/cmp-cmdline",
 		},
-		event = { "InsertEnter" },
+		event = "InsertEnter",
 		config = function()
 			local opts = function()
 				vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
@@ -949,7 +955,7 @@ local plugins = {
 	},
 	{
 		"b0o/incline.nvim",
-		event = "WinEnter",
+		event = "VeryLazy",
 		dependencies = { "mini.nvim" },
 		config = function()
 			local helpers = require("incline.helpers")
