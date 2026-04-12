@@ -33,7 +33,38 @@ local plugins = {
 		end,
 	},
 
-	{ "tpope/vim-fugitive", lazy = true, cond = has_git, cmd = { "Git", "GV", "Gcd" } },
+	{
+		"folke/tokyonight.nvim",
+		lazy = true,
+		priority = 1000,
+		config = function()
+			require("tokyonight").setup({
+				style = "moon",
+				cache = true,
+				dim_inactive = true,
+			})
+			vim.cmd.colorscheme("tokyonight")
+		end,
+	},
+
+	{
+		"rebelot/kanagawa.nvim",
+		lazy = true,
+		init = function()
+			vim.cmd.colorscheme("kanagawa")
+		end,
+		opts = {
+			compile = true, -- enable compiling the colorscheme
+			dimInactive = true, -- dim inactive window `:h hl-NormalNC`
+		},
+	},
+
+	{
+		"tpope/vim-fugitive",
+		lazy = true,
+		cond = has_git,
+		cmd = { "Git", "GV", "Gcd" },
+	},
 
 	{
 		"lewis6991/gitsigns.nvim",
@@ -522,8 +553,6 @@ local plugins = {
 		},
 	},
 
-	"romainl/vim-cool",
-
 	{
 		"embear/vim-foldsearch",
 		lazy = true,
@@ -674,7 +703,11 @@ local plugins = {
 		},
 	},
 
-	{ "nvim-treesitter/nvim-treesitter-textobjects", branch = "main", lazy = true },
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		branch = "main",
+		lazy = true,
+	},
 
 	{
 		"nvim-treesitter/nvim-treesitter-context",
@@ -945,14 +978,14 @@ local plugins = {
 		end,
 	},
 
-	-- dim inactive window
-	{
+	{ -- dim inactive window
 		"levouh/tint.nvim",
 		lazy = true,
 		config = function()
 			require("tint").setup()
 		end,
 	},
+
 	{
 		"b0o/incline.nvim",
 		event = "VeryLazy",
@@ -989,7 +1022,11 @@ local plugins = {
 
 	{
 		"nvim-focus/focus.nvim",
-		cmd = { "FocusSplitNicely", "FocusSplitCycle", "FocusToggle" },
+		cmd = {
+			"FocusSplitNicely",
+			"FocusSplitCycle",
+			"FocusToggle",
+		},
 		module = "focus",
 		dependencies = {
 			"levouh/tint.nvim",
