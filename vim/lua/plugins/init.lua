@@ -35,6 +35,7 @@ local plugins = {
 
 	{
 		"folke/tokyonight.nvim",
+		enabled = false,
 		lazy = true,
 		priority = 1000,
 		config = function()
@@ -49,6 +50,7 @@ local plugins = {
 
 	{
 		"rebelot/kanagawa.nvim",
+		enabled = false,
 		lazy = true,
 		init = function()
 			vim.cmd.colorscheme("kanagawa")
@@ -988,6 +990,7 @@ local plugins = {
 
 	{
 		"b0o/incline.nvim",
+		lazy = true,
 		event = "VeryLazy",
 		dependencies = { "mini.nvim" },
 		config = function()
