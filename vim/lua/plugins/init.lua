@@ -152,8 +152,7 @@ local plugins = {
 		"nvim-mini/mini.nvim",
 		lazy = false,
 		config = function()
-			require("mini.icons").setup()
-			require("mini.tabline").setup()
+			require("mini.tabline").setup{show_icons = false}
 			require("mini.statusline").setup({ use_icons = vim.g.have_nerd_font })
 
 			-- enable these modules only if filetype matches
@@ -985,41 +984,6 @@ local plugins = {
 		lazy = true,
 		config = function()
 			require("tint").setup()
-		end,
-	},
-
-	{
-		"b0o/incline.nvim",
-		lazy = true,
-		event = "VeryLazy",
-		dependencies = { "mini.nvim" },
-		config = function()
-			local helpers = require("incline.helpers")
-			local mini_icons = require("mini.icons")
-			require("incline").setup({
-				ignore = {
-					buftypes = "special",
-					filetypes = { "gitcommit" },
-				},
-				window = {
-					padding = 0,
-					margin = { horizontal = 0 },
-				},
-				render = function(props)
-					local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-					if filename == "" then
-						filename = "[No Name]"
-					end
-					local ft_icon, ft_color = mini_icons.get("file", filename)
-					local modified = vim.bo[props.buf].modified
-					return {
-						" ",
-						{ filename, gui = modified and "bold,italic" or "bold" },
-						" ",
-						ft_icon and { ft_icon, " ", guibg = "none", group = ft_color } or "",
-					}
-				end,
-			})
 		end,
 	},
 
