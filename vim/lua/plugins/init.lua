@@ -152,7 +152,7 @@ local plugins = {
 		"nvim-mini/mini.nvim",
 		lazy = false,
 		config = function()
-			require("mini.tabline").setup{show_icons = false}
+			require("mini.tabline").setup({ show_icons = false })
 			require("mini.statusline").setup({ use_icons = vim.g.have_nerd_font })
 
 			-- enable these modules only if filetype matches
@@ -506,31 +506,35 @@ local plugins = {
 
 	{
 		"fei6409/log-highlight.nvim",
-		ft = "log",
-		opts = {
-			extension = "log",
-			keyword = {
-				error = {
-					"bug",
-					"panic",
-					"Panic",
-					"Oops",
-					"oops",
+		lazy = true,
+		config = function()
+			require("log-highlight").setup({
+				extension = "log",
+				keyword = {
+					error = {
+						"bug",
+						"panic",
+						"Panic",
+						"Oops",
+						"oops",
+					},
+					warning = {
+						"retry",
+						"retrying",
+						"timeout",
+						"Timed out",
+						"timed out",
+					},
+					info = {
+						"INFORMATION",
+						"INFO",
+						"info",
+					},
 				},
-				warning = {
-					"retry",
-					"retrying",
-					"timeout",
-					"Timed out",
-					"timed out",
-				},
-				info = {
-					"INFORMATION",
-					"INFO",
-					"info",
-				},
-			},
-		},
+			})
+			vim.opt_local.filetype = "log"
+			vim.opt_local.syntax = "ON"
+		end,
 	},
 
 	{ "vivien/vim-linux-coding-style", lazy = true },
