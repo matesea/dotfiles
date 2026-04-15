@@ -22,7 +22,7 @@ local has_git = vim.fn.executable("git") == 1
 local plugins = {
 	{
 		"sainnhe/sonokai",
-		lazy = false,
+		lazy = true,
 		priority = 1000,
 		config = function()
 			vim.g.sonokai_style = "default"
@@ -30,6 +30,24 @@ local plugins = {
 			-- vim.g.sonokai_transparent_background = 1
 			vim.g.sonokai_dim_inactive_windows = 1
 			vim.cmd.colorscheme("sonokai")
+		end,
+	},
+
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
+		config = function()
+			require("catppuccin").setup({
+				flavour = "macchiato", -- frappe/macchiato/mocha
+				term_colors = true,
+				dim_inactive = {
+					enabled = false, -- dims the background color of inactive window
+					shade = "dark",
+					percentage = 0.15, -- percentage of the shade to apply to the inactive window
+				},
+			})
+			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
 
@@ -1693,6 +1711,23 @@ local plugins = {
 					Snacks.toggle.zoom():map("sz")
 					Snacks.toggle.zen():map("sZ")
 				end,
+			})
+		end,
+	},
+
+	{
+		"b0o/incline.nvim",
+		event = "WinEnter", -- only for multi-window
+		config = function()
+			require("incline").setup({
+				ignore = {
+					buftypes = "special",
+					filetypes = { "gitcommit" },
+				},
+				window = {
+					padding = 0,
+					margin = { horizontal = 0 },
+				},
 			})
 		end,
 	},
