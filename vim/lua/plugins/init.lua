@@ -53,7 +53,6 @@ local plugins = {
 
 	{
 		"folke/tokyonight.nvim",
-		enabled = false,
 		lazy = true,
 		priority = 1000,
 		config = function()
@@ -68,11 +67,10 @@ local plugins = {
 
 	{
 		"rebelot/kanagawa.nvim",
-		enabled = false,
 		lazy = true,
-		init = function()
-			vim.cmd.colorscheme("kanagawa")
-		end,
+		-- init = function()
+		-- 	vim.cmd.colorscheme("kanagawa")
+		-- end,
 		opts = {
 			compile = true, -- enable compiling the colorscheme
 			dimInactive = true, -- dim inactive window `:h hl-NormalNC`
