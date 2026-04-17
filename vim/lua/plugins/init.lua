@@ -34,8 +34,18 @@ local plugins = {
 	},
 
 	{
+		"AxelGard/oneokai.nvim",
+		lazy = true,
+		priority = 1000,
+		config = function()
+			require("oneokai").load()
+		end,
+	},
+
+	{
 		"catppuccin/nvim",
 		name = "catppuccin",
+		lazy = true,
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
@@ -67,14 +77,15 @@ local plugins = {
 
 	{
 		"rebelot/kanagawa.nvim",
-		lazy = true,
-		-- init = function()
-		-- 	vim.cmd.colorscheme("kanagawa")
-		-- end,
-		opts = {
-			compile = true, -- enable compiling the colorscheme
-			dimInactive = true, -- dim inactive window `:h hl-NormalNC`
-		},
+		lazy = false,
+		config = function()
+			local kanagawa = require("kanagawa")
+			kanagawa.setup({
+				compile = true, -- enable compiling the colorscheme
+				dimInactive = true, -- dim inactive window `:h hl-NormalNC`
+			})
+			kanagawa.load("dragon")
+		end,
 	},
 
 	{
