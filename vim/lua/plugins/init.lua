@@ -22,7 +22,7 @@ local has_git = vim.fn.executable("git") == 1
 local plugins = {
 	{
 		"sainnhe/sonokai",
-		lazy = true,
+		lazy = false,
 		priority = 1000,
 		config = function()
 			vim.g.sonokai_style = "default"
@@ -77,7 +77,7 @@ local plugins = {
 
 	{
 		"rebelot/kanagawa.nvim",
-		lazy = false,
+		lazy = true,
 		config = function()
 			local kanagawa = require("kanagawa")
 			kanagawa.setup({
