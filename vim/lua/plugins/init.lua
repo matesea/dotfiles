@@ -175,6 +175,8 @@ local plugins = {
 
 	{ "junegunn/gv.vim", dependencies = { "tpope/vim-fugitive" }, cmd = "GV" },
 
+	{ "romainl/vim-cool" },
+
 	{
 		"nvim-mini/mini.nvim",
 		lazy = false,
