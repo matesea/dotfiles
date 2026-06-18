@@ -1,33 +1,33 @@
 local opt = vim.opt -- global options
-local g = vim.g     -- global variable
+local g = vim.g -- global variable
 local fn = vim.fn
 local cmd = vim.cmd
 local env = vim.env -- environment variables
 
 -- disable built-in plugins
 local disabled_built_ins = {
-    "netrw",
-    "netrwPlugin",
-    "netrwSettings",
-    "netrwFileHandlers",
-    "gzip",
-    "zip",
-    "zipPlugin",
-    "tar",
-    "tarPlugin",
-    "getscript",
-    "getscriptPlugin",
-    "vimball",
-    "vimballPlugin",
-    "2html_plugin",
-    "logipat",
-    "rrhelper",
-    "spellfile_plugin",
-    "matchit"
+	"netrw",
+	"netrwPlugin",
+	"netrwSettings",
+	"netrwFileHandlers",
+	"gzip",
+	"zip",
+	"zipPlugin",
+	"tar",
+	"tarPlugin",
+	"getscript",
+	"getscriptPlugin",
+	"vimball",
+	"vimballPlugin",
+	"2html_plugin",
+	"logipat",
+	"rrhelper",
+	"spellfile_plugin",
+	"matchit",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
-    g["loaded_" .. plugin] = 1
+	g["loaded_" .. plugin] = 1
 end
 
 -- local wopt = vim.wo -- window-local options
@@ -35,23 +35,24 @@ end
 -- local execute = vim.api.nvim_command
 -- local call = vim.call
 
-g.mapleader = ','
-g.maplocalleader = ','
+g.mapleader = ","
+g.maplocalleader = ","
 g.have_nerd_font = true
 opt.cindent = true
 opt.showmode = false
 opt.number = true
 -- set as 'a' to allow mouse scroll
-opt.mouse = ''
+opt.mouse = ""
 
 opt.breakindent = true
-opt.signcolumn = 'yes'
+opt.signcolumn = "yes"
 
 -- iwhite: ignore changes in amount of white space
 opt.diffopt:append({
-	'indent-heuristic',
-	'algorithm:patience',
-	'context:999999'
+	"iwhite",
+	"indent-heuristic",
+	"algorithm:patience",
+	"context:999999",
 })
 
 -- less window redraw to speed up
@@ -73,12 +74,12 @@ cmd([[
 -- omni completion, smart autocompletion for programs
 -- when invoked, the text before the cursor is inspected to guess what might follow
 -- A popup menu offers word completion choices that may include struct and class members, system functions
-opt.ofu = 'syntaxcomplete#Completion'
+opt.ofu = "syntaxcomplete#Completion"
 
 opt.so = 7
 opt.cmdheight = 1
 opt.hidden = true
-opt.whichwrap:append('<,>,h,l')
+opt.whichwrap:append("<,>,h,l")
 opt.magic = true
 opt.showmatch = true
 opt.mat = 2
@@ -109,23 +110,23 @@ opt.splitbelow = true
 --   See `:help lua-options`
 --   and `:help lua-guide-options`
 vim.o.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
-vim.o.inccommand = 'split'
+vim.o.inccommand = "split"
 
-if vim.fn.has('nvim-0.11') == 1 then
-	opt.tabclose:append({'uselast'})
+if vim.fn.has("nvim-0.11") == 1 then
+	opt.tabclose:append({ "uselast" })
 end
 
-opt.encoding = 'utf8'
+opt.encoding = "utf8"
 cmd([[
     try
         lang en_US
     catch
     endtry
     ]])
-opt.fileformats = {'unix', 'dos', 'mac'}
+opt.fileformats = { "unix", "dos", "mac" }
 -- opt.t_vb = ''
 
 opt.backup = false
@@ -144,28 +145,28 @@ opt.textwidth = 500
 
 opt.wrap = false
 
-opt.switchbuf = 'usetab'
+opt.switchbuf = "usetab"
 opt.showtabline = 1
 
 -- set fold
-opt.foldmethod = 'syntax'
+opt.foldmethod = "syntax"
 opt.foldlevel = 100
 
 -- setup grep parameters and format
-if fn.executable('rg') then
-    opt.grepprg = 'rg -S --vimgrep --no-heading --no-column'
-    opt.grepformat = '%f:%l:%c:%m,%f:%l:%m'
-elseif fn.executable('ag') then
-    opt.grepprg = 'ag --group --nocolor --vimgrep'
-    opt.grepformat = '%f:%1:%c%m'
+if fn.executable("rg") then
+	opt.grepprg = "rg -S --vimgrep --no-heading --no-column"
+	opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
+elseif fn.executable("ag") then
+	opt.grepprg = "ag --group --nocolor --vimgrep"
+	opt.grepformat = "%f:%1:%c%m"
 else
-    opt.grepprg = 'grep -nH'
+	opt.grepprg = "grep -nH"
 end
 
 -- setup terminal colors
-cmd('set t_Co=256')
+cmd("set t_Co=256")
 opt.termguicolors = true
-opt.background = 'dark'
+opt.background = "dark"
 
 --[[
  == execute command and put the results into new buffer ==
