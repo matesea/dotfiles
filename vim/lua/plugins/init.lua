@@ -836,6 +836,7 @@ local plugins = {
 					"tmux",
 					"ripgrep",
 				},
+				min_keyword_length = 4,
 				providers = {
 					tmux = {
 						module = "blink-cmp-tmux",
@@ -847,7 +848,7 @@ local plugins = {
 							-- * `session` - completions from current tmux session panes only
 							-- * `all`     - completions from all tmux panes
 							panes = "all",
-							min_keyword_length = 4,
+							-- min_keyword_length = 5,
 							capture_history = false,
 							-- only suggest completions from `tmux` if the `trigger_chars` are
 							-- used
@@ -864,7 +865,6 @@ local plugins = {
 									return vim.bo[bufnr].buftype == ""
 								end, vim.api.nvim_list_bufs())
 							end,
-							min_keyword_length = 4,
 							-- Maximum total number of characters (in an individual buffer) for which buffer completion runs synchronously. Above this, asynchronous processing is used.
 							max_sync_buffer_size = 20000,
 							-- Maximum total number of characters (in an individual buffer) for which buffer completion runs asynchronously. Above this, the buffer will be skipped.
@@ -961,7 +961,7 @@ local plugins = {
 		-- Main LSP Configuration
 		"neovim/nvim-lspconfig",
 		lazy = true,
-		ft = "lua",
+		ft = { "lua" },
 		dependencies = {
 			-- Automatically install LSPs and related tools to stdpath for Neovim
 			-- Mason must be loaded before its dependents so we need to set it up here.
