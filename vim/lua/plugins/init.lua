@@ -789,6 +789,10 @@ local plugins = {
 		dependencies = {
 			"mgalliou/blink-cmp-tmux",
 			"saghen/blink.lib",
+			{
+				"mikavilpas/blink-ripgrep.nvim",
+				version = "*", -- use the latest stable version
+			},
 		},
 
 		-- use a release tag to download pre-built binaries
@@ -826,20 +830,13 @@ local plugins = {
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
 				default = {
-					-- "lsp",
 					"path",
 					"snippets",
 					"buffer",
 					"tmux",
+					"ripgrep",
 				},
 				providers = {
-					--[[
-					lsp = {
-						name = "lsp",
-						module = "blink.cmp.sources.lsp",
-						fallbacks = {}, -- always show buffer
-					},
-                    ]]
 					tmux = {
 						module = "blink-cmp-tmux",
 						name = "tmux",
@@ -874,6 +871,16 @@ local plugins = {
 							max_async_buffer_size = 400000,
 							-- Maximum text size across all buffers (default: 500KB)
 							max_total_buffer_size = 1500000,
+						},
+					},
+					ripgrep = {
+						module = "blink-ripgrep",
+						name = "Ripgrep",
+						-- see the full configuration below for all available options
+						---@module "blink-ripgrep"
+						---@type blink-ripgrep.Options
+						opts = {
+							prefix_min_len = 4,
 						},
 					},
 				},
