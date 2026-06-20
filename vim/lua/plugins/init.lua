@@ -789,6 +789,10 @@ local plugins = {
 		dependencies = {
 			"mgalliou/blink-cmp-tmux",
 			"saghen/blink.lib",
+			{
+				"mikavilpas/blink-ripgrep.nvim",
+				version = "*", -- use the latest stable version
+			},
 		},
 
 		-- use a release tag to download pre-built binaries
@@ -811,7 +815,15 @@ local plugins = {
 			-- C-k: Toggle signature help (if signature.enabled = true)
 			--
 			-- See :h blink-cmp-config-keymap for defining your own keymap
-			keymap = { preset = "default" },
+			keymap = {
+				preset = "default",
+				-- 👇🏻👇🏻 (optional) add a keymap to invoke the search manually
+				["<c-g>"] = {
+					function()
+						require("blink-cmp").show({ providers = { "ripgrep" } })
+					end,
+				},
+			},
 
 			appearance = {
 				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -826,12 +838,12 @@ local plugins = {
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
 				default = {
-					"path",
 					-- "snippets",
 					"buffer",
+					"path",
 					"tmux",
+					-- "ripgrep",
 				},
-				min_keyword_length = 3,
 				providers = {
 					tmux = {
 						module = "blink-cmp-tmux",
@@ -849,6 +861,9 @@ local plugins = {
 							-- used
 							triggered_only = false,
 						},
+						min_keyword_length = 4,
+						async = true,
+						max_items = 15,
 					},
 					buffer = {
 						name = "buffer",
@@ -867,6 +882,23 @@ local plugins = {
 							-- Maximum text size across all buffers (default: 500KB)
 							max_total_buffer_size = 1500000,
 						},
+						min_keyword_length = 3,
+					},
+					ripgrep = {
+						module = "blink-ripgrep",
+						name = "Ripgrep",
+						-- see the full configuration below for all available options
+						---@module "blink-ripgrep"
+						---@type blink-ripgrep.Options
+						opts = {
+							backend = {
+								use = "ripgrep",
+							},
+							max_filesize = "200K",
+							prefix_min_len = 4,
+						},
+						async = true,
+						max_items = 15,
 					},
 				},
 			},
