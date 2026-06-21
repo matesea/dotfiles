@@ -240,6 +240,17 @@ local plugins = {
 							start_with_preview = "gB",
 						},
 					})
+
+					-- manually load nvim-ts-context-commentstring
+					require("lazy").load({ plugins = { "nvim-ts-context-commentstring" } })
+					require("mini.comment").setup({
+						options = {
+							custom_commentstring = function()
+								return require("ts_context_commentstring.internal").calculate_commentstring()
+									or vim.bo.commentstring
+							end,
+						},
+					})
 				end,
 			})
 		end,
@@ -587,21 +598,6 @@ local plugins = {
 	{ "Vimjas/vim-python-pep8-indent", lazy = true, ft = { "python" } },
 
 	{ "octol/vim-cpp-enhanced-highlight", lazy = true, ft = { "c", "h", "S", "cpp" } },
-
-	{
-		"nvim-mini/mini.comment",
-		version = false,
-		ft = ft_code,
-		dependencies = { "nvim-ts-context-commentstring" },
-		opts = {
-			options = {
-				custom_commentstring = function()
-					return require("ts_context_commentstring.internal").calculate_commentstring()
-						or vim.bo.commentstring
-				end,
-			},
-		},
-	},
 
 	{
 		"embear/vim-foldsearch",
