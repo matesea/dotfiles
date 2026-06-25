@@ -780,7 +780,7 @@ local plugins = {
 	{
 		"saghen/blink.cmp",
 		lazy = true,
-		enabled = not bigfile_current_buf(),
+		cond = not bigfile_current_buf(),
 		event = "InsertEnter",
 		dependencies = {
 			"mgalliou/blink-cmp-tmux",
@@ -1585,6 +1585,7 @@ local plugins = {
 					},
 				},
 			},
+			terminal = {},
 		},
 		keys = {
 			--[[
@@ -1611,6 +1612,13 @@ local plugins = {
 					Snacks.picker.zoxide()
 				end,
 				desc = "Open File with Zoxide",
+			},
+			{
+				";tt",
+				function()
+					Snacks.terminal()
+				end,
+				desc = "Toggle Terminal",
 			},
 		},
 		init = function()
@@ -1647,6 +1655,79 @@ local plugins = {
 				},
 			})
 		end,
+	},
+
+	{
+		"coder/claudecode.nvim",
+		cond = vim.fn.executable("claude") == 1,
+		dependencies = { "folke/snacks.nvim" },
+		config = true,
+		-- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
+		-- so `:ClaudeCode` and friends work on a fresh start. Without it, a keys-only
+		-- spec defers loading until a <leader>a* mapping is pressed and the commands
+		-- would not exist yet.
+		cmd = {
+			"ClaudeCode",
+			"ClaudeCodeFocus",
+			"ClaudeCodeSelectModel",
+			"ClaudeCodeAdd",
+			"ClaudeCodeSend",
+			"ClaudeCodeTreeAdd",
+			"ClaudeCodeStatus",
+			"ClaudeCodeStart",
+			"ClaudeCodeStop",
+			"ClaudeCodeOpen",
+			"ClaudeCodeClose",
+			"ClaudeCodeDiffAccept",
+			"ClaudeCodeDiffDeny",
+			"ClaudeCodeCloseAllDiffs",
+		},
+		keys = {
+			{ "<leader>a", nil, desc = "AI/Claude Code" },
+			{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+			{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+			{ "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+			{ "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+			{ "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+			{ "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+			{ "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+			{
+				"<leader>as",
+				"<cmd>ClaudeCodeTreeAdd<cr>",
+				desc = "Add file",
+				ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw", "snacks_picker_list" },
+			},
+			-- Diff management
+			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+		},
+	},
+
+	{
+		"pittcat/claude-fzf.nvim",
+		cond = has_claude,
+		dependencies = {
+			"ibhagwan/fzf-lua",
+			"coder/claudecode.nvim",
+		},
+		opts = {
+			auto_context = true,
+			batch_size = 10,
+			keymaps = {
+				files = "<leader>cf",
+				grep = "<leader>cg",
+				buffers = "<leader>cb",
+				git_files = "<leader>cgf",
+				directory_files = "<leader>cd",
+			},
+		},
+		keys = {
+			{ "<leader>cf", "<cmd>ClaudeFzfFiles<cr>", desc = "Claude: Add files" },
+			{ "<leader>cg", "<cmd>ClaudeFzfGrep<cr>", desc = "Claude: Search and add" },
+			{ "<leader>cb", "<cmd>ClaudeFzfBuffers<cr>", desc = "Claude: Add buffers" },
+			{ "<leader>cgf", "<cmd>ClaudeFzfGitFiles<cr>", desc = "Claude: Add Git files" },
+			{ "<leader>cd", "<cmd>ClaudeFzfDirectory<cr>", desc = "Claude: Add directory files" },
+		},
 	},
 }
 
