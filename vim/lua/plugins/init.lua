@@ -135,6 +135,7 @@ local plugins = {
 		},
 		config = function()
 			require("gitsigns").setup({
+				max_file_length = 20000,
 				on_attach = function(bufnr)
 					local gs = package.loaded.gitsigns
 					local function map(mode, l, r, opts)
@@ -142,20 +143,17 @@ local plugins = {
 						opts.buffer = bufnr
 						vim.keymap.set(mode, l, r, opts)
 					end
-					max_file_length =
-						20000,
-						-- Navigation
-						-- map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-						-- map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-						map("n", "]c", function()
-							if vim.wo.diff then
-								return "]c"
-							end
-							vim.schedule(function()
-								gs.next_hunk()
-							end)
-							return "<Ignore>"
-						end, { expr = true })
+
+					map("n", "]c", function()
+						if vim.wo.diff then
+							return "]c"
+						end
+						vim.schedule(function()
+							gs.next_hunk()
+						end)
+						return "<Ignore>"
+					end, { expr = true })
+
 					map("n", "[c", function()
 						if vim.wo.diff then
 							return "[c"
@@ -1683,7 +1681,6 @@ local plugins = {
 			"ClaudeCodeCloseAllDiffs",
 		},
 		keys = {
-			{ "<leader>a", nil, desc = "AI/Claude Code" },
 			{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
 			{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
 			{ "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
@@ -1700,33 +1697,6 @@ local plugins = {
 			-- Diff management
 			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
 			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
-		},
-	},
-
-	{
-		"pittcat/claude-fzf.nvim",
-		cond = has_claude,
-		dependencies = {
-			"ibhagwan/fzf-lua",
-			"coder/claudecode.nvim",
-		},
-		opts = {
-			auto_context = true,
-			batch_size = 10,
-			keymaps = {
-				files = "<leader>cf",
-				grep = "<leader>cg",
-				buffers = "<leader>cb",
-				git_files = "<leader>cgf",
-				directory_files = "<leader>cd",
-			},
-		},
-		keys = {
-			{ "<leader>cf", "<cmd>ClaudeFzfFiles<cr>", desc = "Claude: Add files" },
-			{ "<leader>cg", "<cmd>ClaudeFzfGrep<cr>", desc = "Claude: Search and add" },
-			{ "<leader>cb", "<cmd>ClaudeFzfBuffers<cr>", desc = "Claude: Add buffers" },
-			{ "<leader>cgf", "<cmd>ClaudeFzfGitFiles<cr>", desc = "Claude: Add Git files" },
-			{ "<leader>cd", "<cmd>ClaudeFzfDirectory<cr>", desc = "Claude: Add directory files" },
 		},
 	},
 }
