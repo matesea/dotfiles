@@ -961,7 +961,7 @@ local plugins = {
 		keys = {
 			{ "]a", "<cmd>AerialNext<cr>", desc = "[Aerial]jump to next symbol" },
 			{ "[a", "<cmd>AerialPrev<cr>", desc = "[Aerial]jump to prevoius symbol" },
-			{ "<leader>a", "<cmd>AerialToggle<cr>", desc = "toggle Aerial window" },
+			{ "<leader>aw", "<cmd>AerialToggle<cr>", desc = "toggle Aerial window" },
 		},
 		config = function()
 			require("aerial").setup({
@@ -1402,9 +1402,14 @@ local plugins = {
 	-- jk to escape
 	{
 		"max397574/better-escape.nvim",
-		config = function()
-			require("better_escape").setup({})
-		end,
+		enabled = false,
+		opts = {
+			default_mappings = false,
+			mappings = {
+				i = { j = { k = "<esc>" } },
+				v = { j = { k = "<esc>" } },
+			},
+		},
 	},
 
 	{
@@ -1707,16 +1712,105 @@ local plugins = {
 			{ "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
 			{ "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
 			{ "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+            --[[
 			{
 				"<leader>as",
 				"<cmd>ClaudeCodeTreeAdd<cr>",
 				desc = "Add file",
 				ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw", "snacks_picker_list" },
 			},
+            ]]
 			-- Diff management
 			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
 			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
 		},
+	},
+
+	{
+		"folke/sidekick.nvim",
+		cond = vim.fn.executable("agy") == 1,
+		cmd = "Sidekick",
+		opts = {
+			cli = {
+				tools = {
+					antigravity = {
+						cmd = { "agy" },
+					},
+				},
+			},
+		},
+		--[[
+		opts = function()
+			-- Accept inline suggestions or next edits
+			LazyVim.cmp.actions.ai_nes = function()
+				local Nes = require("sidekick.nes")
+				if Nes.have() and (Nes.jump() or Nes.apply()) then
+					return true
+				end
+			end
+			Snacks.toggle({
+				name = "Sidekick NES",
+				get = function()
+					return require("sidekick.nes").enabled
+				end,
+				set = function(state)
+					require("sidekick.nes").enable(state)
+				end,
+			}):map("<leader>uN")
+		end,
+        -- stylua: ignore
+        keys = {
+          -- nes is also useful in normal mode
+          { "<tab>", LazyVim.cmp.map({ "ai_nes" }, "<tab>"), mode = { "n" }, expr = true },
+          { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
+          {
+            "<c-.>",
+            function() require("sidekick.cli").focus() end,
+            desc = "Sidekick Focus",
+            mode = { "n", "t", "i", "x" },
+          },
+          {
+            "<leader>aa",
+            function() require("sidekick.cli").toggle() end,
+            desc = "Sidekick Toggle CLI",
+          },
+          {
+            "<leader>as",
+            function() require("sidekick.cli").select() end,
+            -- Or to select only installed tools:
+            -- require("sidekick.cli").select({ filter = { installed = true } })
+            desc = "Select CLI",
+          },
+          {
+            "<leader>ad",
+            function() require("sidekick.cli").close() end,
+            desc = "Detach a CLI Session",
+          },
+          {
+            "<leader>at",
+            function() require("sidekick.cli").send({ msg = "{this}" }) end,
+            mode = { "x", "n" },
+            desc = "Send This",
+          },
+          {
+            "<leader>af",
+            function() require("sidekick.cli").send({ msg = "{file}" }) end,
+            desc = "Send File",
+          },
+          {
+            "<leader>av",
+            function() require("sidekick.cli").send({ msg = "{selection}" }) end,
+            mode = { "x" },
+            desc = "Send Visual Selection",
+          },
+          {
+            "<leader>ap",
+            function() require("sidekick.cli").prompt() end,
+            mode = { "n", "x" },
+            desc = "Sidekick Select Prompt",
+          },
+        },
+        ]]
 	},
 }
 
