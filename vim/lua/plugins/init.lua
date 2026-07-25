@@ -1712,7 +1712,7 @@ local plugins = {
 			{ "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
 			{ "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
 			{ "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
-            --[[
+			--[[
 			{
 				"<leader>as",
 				"<cmd>ClaudeCodeTreeAdd<cr>",
@@ -1724,6 +1724,52 @@ local plugins = {
 			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
 			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
 		},
+	},
+
+	{
+		"pittcat/claude-fzf.nvim",
+		cond = vim.fn.executable("claude") == 1,
+		dependencies = {
+			"ibhagwan/fzf-lua",
+			"coder/claudecode.nvim",
+		},
+		opts = {
+			auto_context = true,
+			batch_size = 10,
+			keymaps = {
+				files = "<leader>cf",
+				grep = "<leader>cg",
+				buffers = "<leader>cb",
+				git_files = "<leader>cgf",
+				-- directory_files = "<leader>cd",
+			},
+		},
+		cmd = {
+			"ClaudeFzf",
+			"ClaudeFzfFiles",
+			"ClaudeFzfGrep",
+			"ClaudeFzfBuffers",
+			"ClaudeFzfGitFiles",
+			"ClaudeFzfDirectory",
+		},
+		keys = {
+			{ "<leader>cf", "<cmd>ClaudeFzfFiles<cr>", desc = "Claude: Add files" },
+			{ "<leader>cg", "<cmd>ClaudeFzfGrep<cr>", desc = "Claude: Search and add" },
+			{ "<leader>cb", "<cmd>ClaudeFzfBuffers<cr>", desc = "Claude: Add buffers" },
+			{ "<leader>cgf", "<cmd>ClaudeFzfGitFiles<cr>", desc = "Claude: Add Git files" },
+			-- { "<leader>cd", "<cmd>ClaudeFzfDirectory<cr>", desc = "Claude: Add directory files" },
+		},
+	},
+
+	{
+		"pittcat/claude-fzf-history.nvim",
+		cond = vim.fn.executable("claude") == 1,
+		dependencies = { "ibhagwan/fzf-lua" },
+		opts = {},
+		keys = {
+			{ "<leader>ch", "<cmd>ClaudeHistory<cr>", desc = "Open Claude History Picker" },
+		},
+		cmd = { "ClaudeHistory", "ClaudeHistoryDebug" },
 	},
 
 	{
