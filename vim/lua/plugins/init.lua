@@ -1629,17 +1629,18 @@ local plugins = {
 
           ]]
 			{
-				";zf",
+				";fz",
 				function()
 					Snacks.picker.zoxide()
 				end,
 				desc = "Open File with Zoxide",
 			},
 			{
-				"<leader>ft",
+				";ft",
 				function()
 					Snacks.terminal()
 				end,
+				mode = { "n", "t" },
 				desc = "Toggle Terminal",
 			},
 		},
@@ -1683,7 +1684,20 @@ local plugins = {
 		"coder/claudecode.nvim",
 		cond = vim.fn.executable("claude") == 1,
 		dependencies = { "folke/snacks.nvim" },
-		config = true,
+		opts = {
+			terminal = {
+				snacks_win_opts = {
+					position = "bottom",
+					height = 0.4,
+					width = 1.0,
+					border = "single",
+
+					-- position = "float",
+					-- height = 0.85,
+					-- width = 0.85,
+				},
+			},
+		},
 		-- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
 		-- so `:ClaudeCode` and friends work on a fresh start. Without it, a keys-only
 		-- spec defers loading until a <leader>a* mapping is pressed and the commands
@@ -1724,52 +1738,6 @@ local plugins = {
 			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
 			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
 		},
-	},
-
-	{
-		"pittcat/claude-fzf.nvim",
-		cond = vim.fn.executable("claude") == 1,
-		dependencies = {
-			"ibhagwan/fzf-lua",
-			"coder/claudecode.nvim",
-		},
-		opts = {
-			auto_context = true,
-			batch_size = 10,
-			keymaps = {
-				files = "<leader>cf",
-				grep = "<leader>cg",
-				buffers = "<leader>cb",
-				git_files = "<leader>cgf",
-				-- directory_files = "<leader>cd",
-			},
-		},
-		cmd = {
-			"ClaudeFzf",
-			"ClaudeFzfFiles",
-			"ClaudeFzfGrep",
-			"ClaudeFzfBuffers",
-			"ClaudeFzfGitFiles",
-			"ClaudeFzfDirectory",
-		},
-		keys = {
-			{ "<leader>cf", "<cmd>ClaudeFzfFiles<cr>", desc = "Claude: Add files" },
-			{ "<leader>cg", "<cmd>ClaudeFzfGrep<cr>", desc = "Claude: Search and add" },
-			{ "<leader>cb", "<cmd>ClaudeFzfBuffers<cr>", desc = "Claude: Add buffers" },
-			{ "<leader>cgf", "<cmd>ClaudeFzfGitFiles<cr>", desc = "Claude: Add Git files" },
-			-- { "<leader>cd", "<cmd>ClaudeFzfDirectory<cr>", desc = "Claude: Add directory files" },
-		},
-	},
-
-	{
-		"pittcat/claude-fzf-history.nvim",
-		cond = vim.fn.executable("claude") == 1,
-		dependencies = { "ibhagwan/fzf-lua" },
-		opts = {},
-		keys = {
-			{ "<leader>ch", "<cmd>ClaudeHistory<cr>", desc = "Open Claude History Picker" },
-		},
-		cmd = { "ClaudeHistory", "ClaudeHistoryDebug" },
 	},
 
 	{
