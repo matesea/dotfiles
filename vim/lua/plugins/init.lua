@@ -1215,8 +1215,6 @@ local plugins = {
 		},
 	},
 
-	{ "rickhowe/spotdiff.vim", lazy = true, cmd = "Diffthis" },
-
 	-- Perform diffs on blocks of code
 	{
 		"AndrewRadev/linediff.vim",
