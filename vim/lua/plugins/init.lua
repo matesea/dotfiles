@@ -529,17 +529,13 @@ local plugins = {
 		"trmckay/based.nvim",
 		lazy = true,
 		cmd = "BasedConvert",
-		config = function()
-			require("based").setup({})
-		end,
+		opts = {},
 	},
 
 	{
 		"chentoast/marks.nvim",
 		lazy = true,
-		config = function()
-			require("marks").setup()
-		end,
+		opts = {},
 	},
 
 	{
@@ -928,9 +924,6 @@ local plugins = {
 	{ -- dim inactive window
 		"levouh/tint.nvim",
 		lazy = true,
-		config = function()
-			require("tint").setup()
-		end,
 	},
 
 	{
@@ -947,9 +940,7 @@ local plugins = {
 		keys = {
 			{ "<leader>fn", "<cmd>FocusSplitNicely<cr>", "split focus nicely" },
 		},
-		config = function()
-			require("focus").setup()
-		end,
+		opts = {},
 	},
 
 	{
@@ -963,15 +954,7 @@ local plugins = {
 			{ "[a", "<cmd>AerialPrev<cr>", desc = "[Aerial]jump to prevoius symbol" },
 			{ "<leader>aw", "<cmd>AerialToggle<cr>", desc = "toggle Aerial window" },
 		},
-		config = function()
-			require("aerial").setup({
-				backends = { "treesitter" },
-			})
-
-			-- shortcut to find function in fzf mode
-			-- faster than fzf.vim/fzf-lua BTags
-			-- vim.keymap.set('n', ';z', '<cmd>call aerial#fzf()<cr>')
-		end,
+		opts = {},
 	},
 
 	{ "matesea/trace32-practice.vim", lazy = true, ft = "cmm" },
@@ -1449,26 +1432,24 @@ local plugins = {
 			},
 		},
 		cmd = { "Cscope" },
-		config = function()
-			require("cscope_maps").setup({
-				disable_maps = true, -- true disables keymaps, only :Cscope will be loaded
-				skip_input_prompt = true, -- "true" doesn't ask for input
-				cscope = {
-					db_file = "GTAGS", -- location of cscope db file
-					exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
-					picker = "quickfix", -- "telescope", "fzf-lua" or "quickfix"
-					-- size of quickfix window
-					qf_window_size = 10, -- any positive integer
-					-- position of quickfix window
-					qf_window_pos = "bottom", -- "bottom", "right", "left" or "top"
-					skip_picker_for_single_result = true, -- jump directly to position for single result
-					-- these args are directly passed to "cscope -f <db_file> <args>"
-					-- db_build_cmd_args = { "-bqkv" },
-					-- statusline indicator, default is cscope executable
-					statusline_indicator = nil,
-				},
-			})
-		end,
+		opts = {
+			disable_maps = true, -- true disables keymaps, only :Cscope will be loaded
+			skip_input_prompt = true, -- "true" doesn't ask for input
+			cscope = {
+				db_file = "GTAGS", -- location of cscope db file
+				exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
+				picker = "quickfix", -- "telescope", "fzf-lua" or "quickfix"
+				-- size of quickfix window
+				qf_window_size = 10, -- any positive integer
+				-- position of quickfix window
+				qf_window_pos = "bottom", -- "bottom", "right", "left" or "top"
+				skip_picker_for_single_result = true, -- jump directly to position for single result
+				-- these args are directly passed to "cscope -f <db_file> <args>"
+				-- db_build_cmd_args = { "-bqkv" },
+				-- statusline indicator, default is cscope executable
+				statusline_indicator = nil,
+			},
+		},
 	},
 
 	-- Git blame visualizer
@@ -1664,18 +1645,16 @@ local plugins = {
 	{
 		"b0o/incline.nvim",
 		event = "WinEnter", -- only for multi-window
-		config = function()
-			require("incline").setup({
-				ignore = {
-					buftypes = "special",
-					filetypes = { "gitcommit" },
-				},
-				window = {
-					padding = 0,
-					margin = { horizontal = 0 },
-				},
-			})
-		end,
+		opts = {
+			ignore = {
+				buftypes = "special",
+				filetypes = { "gitcommit" },
+			},
+			window = {
+				padding = 0,
+				margin = { horizontal = 0 },
+			},
+		},
 	},
 
 	{
