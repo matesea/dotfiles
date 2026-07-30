@@ -1439,10 +1439,12 @@ local plugins = {
 				db_file = "GTAGS", -- location of cscope db file
 				exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
 				picker = "quickfix", -- "telescope", "fzf-lua" or "quickfix"
-				-- size of quickfix window
-				qf_window_size = 10, -- any positive integer
-				-- position of quickfix window
-				qf_window_pos = "bottom", -- "bottom", "right", "left" or "top"
+				picker_opts = {
+					-- size of quickfix window
+					window_size = 10, -- any positive integer
+					-- position of quickfix window
+					window_pos = "bottom", -- "bottom", "right", "left" or "top"
+				},
 				skip_picker_for_single_result = true, -- jump directly to position for single result
 				-- these args are directly passed to "cscope -f <db_file> <args>"
 				-- db_build_cmd_args = { "-bqkv" },
