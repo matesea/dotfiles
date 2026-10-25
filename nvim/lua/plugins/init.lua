@@ -318,16 +318,11 @@ local plugins = {
 
 			{ ";a", "<cmd>FzfLua lines<cr>", desc = "all buffer lines" },
 			{ ";b", "<cmd>FzfLua buffers<cr>", desc = "open buffers" },
-			-- { ";c", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "find files with cwd" },
 
+			-- { ";c", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "find files with cwd" },
 			-- { ";e", "<cmd>FzfLua files<cr>", desc = "pick file" },
 
 			-- grep related
-			{
-				";gc",
-				':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>',
-				desc = "grep files in the same folder of current open buffer",
-			},
 			{
 				";gd",
 				function()
@@ -345,7 +340,13 @@ local plugins = {
 				end,
 				desc = "grep on selected folder",
 			},
-			-- { ";gl", "<cmd>FzfLua live_grep_native<cr>", desc = "live grep" },
+			--[[
+			{
+				";gc",
+				':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>',
+				desc = "grep files in the same folder of current open buffer",
+			},
+			{ ";gl", "<cmd>FzfLua live_grep_native<cr>", desc = "live grep" },
 			{
 				";gw",
 				function()
@@ -353,6 +354,7 @@ local plugins = {
 				end,
 				desc = "search word under cursor",
 			},
+            ]]
 
 			{ ";h", "<cmd>FzfLua oldfiles<cr>", desc = "pick from history" },
 			{ ";j", "<cmd>FzfLua jumps<cr>", desc = "pick from jumps" },
@@ -436,8 +438,8 @@ local plugins = {
 					glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
 				},
 				winopts = {
-					width = 0.95,
-					height = 0.95,
+					width = 0.9,
+					height = 0.9,
 					preview = {
 						default = previewer,
 						layout = "vertical",
@@ -475,6 +477,7 @@ local plugins = {
 		end,
 		opts = {
 			layout = {
+				width = 0.9,
 				prompt_position = "top",
 			},
 		},
@@ -495,6 +498,13 @@ local plugins = {
 				desc = "Find files",
 			},
 			{
+				";gc",
+				function()
+					require("fff").live_grep({ grep = { path = vim.fn.expand("%:h") } })
+				end,
+				desc = "Live grep ",
+			},
+			{
 				";gl",
 				function()
 					require("fff").live_grep()
@@ -507,6 +517,13 @@ local plugins = {
 					require("fff").live_grep({ grep = { modes = { "fuzzy", "plain" } } })
 				end,
 				desc = "Live fffuzy grep",
+			},
+			{
+				";gw",
+				function()
+					require("fff").live_grep({ query = vim.fn.expand("<cword>") })
+				end,
+				desc = "Live grep cword",
 			},
 		},
 	},
