@@ -318,10 +318,9 @@ local plugins = {
 
 			{ ";a", "<cmd>FzfLua lines<cr>", desc = "all buffer lines" },
 			{ ";b", "<cmd>FzfLua buffers<cr>", desc = "open buffers" },
-			{ ";c", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "find files with cwd" },
+			-- { ";c", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "find files with cwd" },
 
-			{ ";e", "<cmd>FzfLua files<cr>", desc = "pick file" },
-			{ ";f", "<cmd>FzfLua global<cr>", desc = "global picker for file/buffer/tag" },
+			-- { ";e", "<cmd>FzfLua files<cr>", desc = "pick file" },
 
 			-- grep related
 			{
@@ -346,8 +345,8 @@ local plugins = {
 				end,
 				desc = "grep on selected folder",
 			},
-			{ ";gl", "<cmd>FzfLua live_grep_native<cr>", desc = "live grep" },
-			{ ";gw", "<cmd>FzfLua grep_cword<cr>", desc = "search word under cursor" },
+			-- { ";gl", "<cmd>FzfLua live_grep_native<cr>", desc = "live grep" },
+			-- { ";gw", "<cmd>FzfLua grep_cword<cr>", desc = "search word under cursor" },
 
 			{ ";h", "<cmd>FzfLua oldfiles<cr>", desc = "pick from history" },
 			{ ";j", "<cmd>FzfLua jumps<cr>", desc = "pick from jumps" },
@@ -460,6 +459,58 @@ local plugins = {
 			end
 			fzf_lua.setup(fzf_lua_table)
 		end,
+	},
+
+	{
+		"dmtrKovalenko/fff",
+		build = function()
+			-- downloads a prebuilt binary or falls back to cargo build
+			require("fff.download").download_or_build_binary()
+		end,
+		opts = {
+			layout = {
+				prompt_position = "top",
+			},
+		},
+		keys = {
+			{
+				";c",
+				function()
+					require("fff").find_files_in_dir(vim.fn.expand("%:h"))
+				end,
+				mode = { "n", "x" },
+				desc = "Find files in the folder of open buffer",
+			},
+			{
+				";e",
+				function()
+					require("fff").find_files()
+				end,
+				desc = "Find files",
+			},
+			{
+				";gl",
+				function()
+					require("fff").live_grep()
+				end,
+				desc = "live grep",
+			},
+			{
+				";gf",
+				function()
+					require("fff").live_grep({ grep = { modes = { "fuzzy", "plain" } } })
+				end,
+				desc = "Live fffuzy grep",
+			},
+			{
+				";gw",
+				function()
+					require("fff").live_grep_under_cursor()
+				end,
+				mode = { "n", "x" },
+				desc = "Search current word / selection",
+			},
+		},
 	},
 
 	{
@@ -1402,7 +1453,7 @@ local plugins = {
 			{ "<leader>ib", "<cmd>AnyJumpBack<CR>", desc = "Any Jump Back" },
 			{ "<leader>il", "<cmd>AnyJumpLastResults<CR>", desc = "Any Jump Resume" },
 		},
-		config = function()
+		init = function()
 			vim.g.any_jump_disable_default_keybindings = 1
 		end,
 	},
