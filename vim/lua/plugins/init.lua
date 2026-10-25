@@ -337,7 +337,7 @@ local plugins = {
 						actions = {
 							["default"] = function(selected)
 								if selected and #selected > 0 then
-									fzf.live_grep({ cwd = selected[1] })
+									fzf.live_grep_native({ cwd = selected[1] })
 								end
 							end,
 						},
@@ -346,7 +346,13 @@ local plugins = {
 				desc = "grep on selected folder",
 			},
 			-- { ";gl", "<cmd>FzfLua live_grep_native<cr>", desc = "live grep" },
-			-- { ";gw", "<cmd>FzfLua grep_cword<cr>", desc = "search word under cursor" },
+			{
+				";gw",
+				function()
+					require("fzf-lua").live_grep_native({ search = vim.fn.expand("<cword>") })
+				end,
+				desc = "search word under cursor",
+			},
 
 			{ ";h", "<cmd>FzfLua oldfiles<cr>", desc = "pick from history" },
 			{ ";j", "<cmd>FzfLua jumps<cr>", desc = "pick from jumps" },
@@ -501,14 +507,6 @@ local plugins = {
 					require("fff").live_grep({ grep = { modes = { "fuzzy", "plain" } } })
 				end,
 				desc = "Live fffuzy grep",
-			},
-			{
-				";gw",
-				function()
-					require("fff").live_grep_under_cursor()
-				end,
-				mode = { "n", "x" },
-				desc = "Search current word / selection",
 			},
 		},
 	},
