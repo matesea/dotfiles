@@ -45,6 +45,82 @@ local function term_nav(dir)
 	end
 end
 
+local disabled_plugins = {
+	-- jk to escape
+	{
+		"max397574/better-escape.nvim",
+		enabled = false,
+		opts = {
+			default_mappings = false,
+			mappings = {
+				i = { j = { k = "<esc>" } },
+				v = { j = { k = "<esc>" } },
+			},
+		},
+	},
+
+	{
+		"coder/claudecode.nvim",
+		enabled = false,
+		cond = vim.fn.executable("claude") == 1,
+		dependencies = { "folke/snacks.nvim" },
+		opts = {
+			terminal = {
+				snacks_win_opts = {
+					position = "bottom",
+					height = 0.4,
+					width = 1.0,
+					border = "single",
+
+					-- position = "float",
+					-- height = 0.85,
+					-- width = 0.85,
+				},
+			},
+		},
+		-- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
+		-- so `:ClaudeCode` and friends work on a fresh start. Without it, a keys-only
+		-- spec defers loading until a <leader>a* mapping is pressed and the commands
+		-- would not exist yet.
+		cmd = {
+			"ClaudeCode",
+			"ClaudeCodeFocus",
+			"ClaudeCodeSelectModel",
+			"ClaudeCodeAdd",
+			"ClaudeCodeSend",
+			"ClaudeCodeTreeAdd",
+			"ClaudeCodeStatus",
+			"ClaudeCodeStart",
+			"ClaudeCodeStop",
+			"ClaudeCodeOpen",
+			"ClaudeCodeClose",
+			"ClaudeCodeDiffAccept",
+			"ClaudeCodeDiffDeny",
+			"ClaudeCodeCloseAllDiffs",
+		},
+		keys = {
+			{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+			{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+			{ "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+			{ "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+			{ "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+			{ "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+			{ "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+			--[[
+			{
+				"<leader>as",
+				"<cmd>ClaudeCodeTreeAdd<cr>",
+				desc = "Add file",
+				ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw", "snacks_picker_list" },
+			},
+            ]]
+			-- Diff management
+			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+		},
+	},
+}
+
 local plugins = {
 	{
 		"sainnhe/sonokai",
@@ -286,12 +362,12 @@ local plugins = {
                         require('quicker').expand({
                                 before = 2, after = 2,
                                 add_to_existing = true })
-                    end, desc = 'Expand quickfix context'
+                    end, desc = 'Expand Quickfix Context'
                 },
                 { '<',
                     function()
                         require('quicker').collapse()
-                    end, desc = 'Collapse quickfix context'
+                    end, desc = 'Collapse Quickfix Context'
                 },
             },
 			max_filename_width = function()
@@ -314,10 +390,10 @@ local plugins = {
 		dependencies = { "fzf" },
 		cmd = "FzfLua",
 		keys = {
-			{ "<leader>;", "<cmd>FzfLua builtin<cr>", desc = "pick fzf-lua builtin" },
+			{ "<leader>;", "<cmd>FzfLua builtin<cr>", desc = "Pick Fzf-Lua Builtin" },
 
-			{ ";a", "<cmd>FzfLua lines<cr>", desc = "all buffer lines" },
-			{ ";b", "<cmd>FzfLua buffers<cr>", desc = "open buffers" },
+			{ ";a", "<cmd>FzfLua lines<cr>", desc = "All Buffer Lines" },
+			{ ";b", "<cmd>FzfLua buffers<cr>", desc = "Open Buffers" },
 
 			-- { ";c", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "find files with cwd" },
 			-- { ";e", "<cmd>FzfLua files<cr>", desc = "pick file" },
@@ -338,7 +414,7 @@ local plugins = {
 						},
 					})
 				end,
-				desc = "grep on selected folder",
+				desc = "Grep on Selected Folder",
 			},
 			--[[
 			{
@@ -356,19 +432,19 @@ local plugins = {
 			},
             ]]
 
-			{ ";h", "<cmd>FzfLua oldfiles<cr>", desc = "pick from history" },
-			{ ";j", "<cmd>FzfLua jumps<cr>", desc = "pick from jumps" },
-			{ ";q", "<cmd>FzfLua quickfix<cr>", desc = "pick from quickfix" },
-			{ ";r", "<cmd>FzfLua registers<cr>", desc = "pick from registers" },
-			{ ";s", "<cmd>FzfLua tagstack<cr>", desc = "pick tagstack" },
+			{ ";h", "<cmd>FzfLua oldfiles<cr>", desc = "Pick File from History" },
+			{ ";j", "<cmd>FzfLua jumps<cr>", desc = "pick Jumps" },
+			{ ";q", "<cmd>FzfLua quickfix<cr>", desc = "Pick Quickfix" },
+			{ ";r", "<cmd>FzfLua registers<cr>", desc = "Pick Registers" },
+			{ ";s", "<cmd>FzfLua tagstack<cr>", desc = "Pick Tagstack" },
 
-			{ ";t", "<cmd>FzfLua btags<cr>", desc = "search buffer tags" },
+			{ ";t", "<cmd>FzfLua btags<cr>", desc = "Search Buffer Tags" },
 
-			{ ";zd", "<cmd>FzfLua zoxide<cr>", desc = "jump directory with zoxide" },
+			{ ";zd", "<cmd>FzfLua zoxide<cr>", desc = "Jump Directory with Zoxide" },
 
-			{ ";;", "<cmd>FzfLua command_history<cr>", desc = "command history" },
-			{ ";:", "<cmd>FzfLua commands<cr>", desc = "commands" },
-			{ ";/", "<cmd>FzfLua search_history<cr>", desc = "search history" },
+			{ ";;", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
+			{ ";:", "<cmd>FzfLua commands<cr>", desc = "Commands" },
+			{ ";/", "<cmd>FzfLua search_history<cr>", desc = "Search History" },
 		},
 		config = function()
 			local status_ok, fzf_lua = pcall(require, "fzf-lua")
@@ -502,14 +578,14 @@ local plugins = {
 				function()
 					require("fff").live_grep({ grep = { path = vim.fn.expand("%:h") } })
 				end,
-				desc = "Live grep ",
+				desc = "Live grep in the boffer of open buffer",
 			},
 			{
 				";gl",
 				function()
 					require("fff").live_grep()
 				end,
-				desc = "live grep",
+				desc = "Live grep",
 			},
 			{
 				";gf",
@@ -565,28 +641,28 @@ local plugins = {
 				function()
 					require("nvim-possession").list()
 				end,
-				desc = "list existing sessions",
+				desc = "List Existing Sessions",
 			},
 			{
 				"<leader>sn",
 				function()
 					require("nvim-possession").new()
 				end,
-				desc = "create new session",
+				desc = "Create New Session",
 			},
 			{
 				"<leader>su",
 				function()
 					require("nvim-possession").update()
 				end,
-				desc = "update current session",
+				desc = "Update Current Session",
 			},
 			{
 				"<leader>sd",
 				function()
 					require("nvim-possession").delete()
 				end,
-				desc = "delete current session",
+				desc = "Delete Current Session",
 			},
 		},
 	},
@@ -836,7 +912,7 @@ local plugins = {
 				function()
 					require("treesitter-context").go_to_context()
 				end,
-				desc = "jump to definition",
+				desc = "Jump to Definition",
 			},
 		},
 		opts = {
@@ -1004,7 +1080,7 @@ local plugins = {
 			"levouh/tint.nvim",
 		},
 		keys = {
-			{ "<leader>fn", "<cmd>FocusSplitNicely<cr>", "split focus nicely" },
+			{ "<leader>fn", "<cmd>FocusSplitNicely<cr>", desc = "Split Focus Nicely" },
 		},
 		opts = {},
 	},
@@ -1018,7 +1094,7 @@ local plugins = {
 		keys = {
 			{ "]a", "<cmd>AerialNext<cr>", desc = "[Aerial]jump to next symbol" },
 			{ "[a", "<cmd>AerialPrev<cr>", desc = "[Aerial]jump to prevoius symbol" },
-			{ "<leader>aw", "<cmd>AerialToggle<cr>", desc = "toggle Aerial window" },
+			{ "<leader>aw", "<cmd>AerialToggle<cr>", desc = "Toggle Aerial Window" },
 		},
 		opts = {},
 	},
@@ -1232,7 +1308,7 @@ local plugins = {
 					require("conform").format({ async = true, lsp_format = "fallback" })
 				end,
 				mode = "",
-				desc = "[F]ormat buffer",
+				desc = "Format buffer",
 			},
 		},
 		---@module 'conform'
@@ -1322,8 +1398,8 @@ local plugins = {
 		"rainbowhxch/accelerated-jk.nvim",
 		lazy = true,
 		keys = {
-			{ "j", "<Plug>(accelerated_jk_gj)", desc = "accelerated j" },
-			{ "k", "<Plug>(accelerated_jk_gk)", desc = "accelerated k" },
+			{ "j", "<Plug>(accelerated_jk_gj)", desc = "Accelerated j" },
+			{ "k", "<Plug>(accelerated_jk_gk)", desc = "Accelerated k" },
 		},
 		opts = {},
 	},
@@ -1337,21 +1413,21 @@ local plugins = {
 				function()
 					require("ufo").closeAllFolds()
 				end,
-				desc = "close all folds",
+				desc = "Close All Folds",
 			},
 			{
 				"zR",
 				function()
 					require("ufo").openAllFolds()
 				end,
-				desc = "open all folds",
+				desc = "Open All Folds",
 			},
 			{
 				"zm",
 				function()
 					require("ufo").closeFoldsWith()
 				end,
-				desc = "close fold with v:count",
+				desc = "Close Fold with v:count",
 			},
 			-- {'zr', function() require('ufo').openFoldsExceptKinds end, desc = 'open all folds'},
 		},
@@ -1439,23 +1515,10 @@ local plugins = {
 			vim.g.tmux_navigator_no_mappings = true
 		end,
 		keys = {
-			{ "<c-h>", "<cmd>TmuxNavigateLeft<cr>", mode = { "n", "t" }, desc = "go to left window" },
-			{ "<c-j>", "<cmd>TmuxNavigateDown<cr>", mode = { "n", "t" }, desc = "go to down window" },
-			{ "<c-k>", "<cmd>TmuxNavigateUp<cr>", mode = { "n", "t" }, desc = "go to upper window" },
-			{ "<c-l>", "<cmd>TmuxNavigateRight<cr>", mode = { "n", "t" }, desc = "go to right window" },
-		},
-	},
-
-	-- jk to escape
-	{
-		"max397574/better-escape.nvim",
-		enabled = false,
-		opts = {
-			default_mappings = false,
-			mappings = {
-				i = { j = { k = "<esc>" } },
-				v = { j = { k = "<esc>" } },
-			},
+			{ "<c-h>", "<cmd>TmuxNavigateLeft<cr>", mode = { "n", "t" }, desc = "Go to Left Window" },
+			{ "<c-j>", "<cmd>TmuxNavigateDown<cr>", mode = { "n", "t" }, desc = "Go to Down Window" },
+			{ "<c-k>", "<cmd>TmuxNavigateUp<cr>", mode = { "n", "t" }, desc = "Go to Upper Window" },
+			{ "<c-l>", "<cmd>TmuxNavigateRight<cr>", mode = { "n", "t" }, desc = "Go to Right Window" },
 		},
 	},
 
@@ -1477,24 +1540,24 @@ local plugins = {
 		"dhananjaylatkar/cscope_maps.nvim",
 		lazy = true,
 		keys = {
-			{ "<space>f", ":Cscope find<space>", desc = "trigger Cscope" },
+			{ "<space>f", ":Cscope find<space>", desc = "Trigger Cscope" },
 			{
 				"<space>s",
 				':Cscope find s <C-R>=expand("<cword>")<cr><cr>',
 				silent = true,
-				desc = "find all references to a token under cursor",
+				desc = "Find All References",
 			},
 			{
 				"<space>g",
 				':Cscope find g <C-R>=expand("<cword>")<cr><cr>',
 				silent = true,
-				desc = "find definition of the token under cursor",
+				desc = "Find Definition",
 			},
 			{
 				"<space>c",
 				':Cscope find c <C-R>=expand("<cword>")<cr><cr>',
 				silent = true,
-				desc = "find all calls to the function under cursor",
+				desc = "Find All Calls",
 			},
 		},
 		cmd = { "Cscope" },
@@ -1571,7 +1634,9 @@ local plugins = {
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
 			toggle = { enabled = true },
+			dim = { enabled = true },
 			indent = { enabled = true },
+			quickfile = { enabled = true },
 			zen = {
 				enabled = true,
 				zoom = {
@@ -1702,6 +1767,7 @@ local plugins = {
 					end
 					vim.print = _G.dd -- Override print to use snacks for `:=` commmand
 
+					Snacks.toggle.dim():map("sd")
 					Snacks.toggle.indent():map("si")
 					Snacks.toggle.zoom():map("sz")
 					Snacks.toggle.zen():map("sZ")
@@ -1726,102 +1792,28 @@ local plugins = {
 	},
 
 	{
-		"coder/claudecode.nvim",
-		cond = vim.fn.executable("claude") == 1,
-		dependencies = { "folke/snacks.nvim" },
-		opts = {
-			terminal = {
-				snacks_win_opts = {
-					position = "bottom",
-					height = 0.4,
-					width = 1.0,
-					border = "single",
-
-					-- position = "float",
-					-- height = 0.85,
-					-- width = 0.85,
-				},
-			},
-		},
-		-- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
-		-- so `:ClaudeCode` and friends work on a fresh start. Without it, a keys-only
-		-- spec defers loading until a <leader>a* mapping is pressed and the commands
-		-- would not exist yet.
-		cmd = {
-			"ClaudeCode",
-			"ClaudeCodeFocus",
-			"ClaudeCodeSelectModel",
-			"ClaudeCodeAdd",
-			"ClaudeCodeSend",
-			"ClaudeCodeTreeAdd",
-			"ClaudeCodeStatus",
-			"ClaudeCodeStart",
-			"ClaudeCodeStop",
-			"ClaudeCodeOpen",
-			"ClaudeCodeClose",
-			"ClaudeCodeDiffAccept",
-			"ClaudeCodeDiffDeny",
-			"ClaudeCodeCloseAllDiffs",
-		},
-		keys = {
-			{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-			{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-			{ "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-			{ "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-			{ "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-			{ "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
-			{ "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
-			--[[
-			{
-				"<leader>as",
-				"<cmd>ClaudeCodeTreeAdd<cr>",
-				desc = "Add file",
-				ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw", "snacks_picker_list" },
-			},
-            ]]
-			-- Diff management
-			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
-		},
-	},
-
-	{
 		"folke/sidekick.nvim",
-		cond = vim.fn.executable("agy") == 1,
 		cmd = "Sidekick",
 		opts = {
 			cli = {
-				tools = {
-					antigravity = {
-						cmd = { "agy" },
-					},
+				win = {
+					layout = "bottom",
 				},
 			},
 		},
-		--[[
-		opts = function()
-			-- Accept inline suggestions or next edits
-			LazyVim.cmp.actions.ai_nes = function()
-				local Nes = require("sidekick.nes")
-				if Nes.have() and (Nes.jump() or Nes.apply()) then
-					return true
-				end
-			end
-			Snacks.toggle({
-				name = "Sidekick NES",
-				get = function()
-					return require("sidekick.nes").enabled
-				end,
-				set = function(state)
-					require("sidekick.nes").enable(state)
-				end,
-			}):map("<leader>uN")
-		end,
         -- stylua: ignore
         keys = {
-          -- nes is also useful in normal mode
-          { "<tab>", LazyVim.cmp.map({ "ai_nes" }, "<tab>"), mode = { "n" }, expr = true },
-          { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
+            {
+                "<tab>",
+                function()
+                  -- if there is a next edit, jump to it, otherwise apply it if any
+                  if not require("sidekick").nes_jump_or_apply() then
+                    return "<Tab>" -- fallback to normal tab
+                  end
+                end,
+                expr = true,
+                desc = "Goto/Apply Next Edit Suggestion",
+            },
           {
             "<c-.>",
             function() require("sidekick.cli").focus() end,
@@ -1869,7 +1861,6 @@ local plugins = {
             desc = "Sidekick Select Prompt",
           },
         },
-        ]]
 	},
 }
 
