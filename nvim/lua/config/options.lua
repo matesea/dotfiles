@@ -2,7 +2,6 @@ local opt = vim.opt -- global options
 local g = vim.g -- global variable
 local fn = vim.fn
 local cmd = vim.cmd
-local env = vim.env -- environment variables
 
 -- disable built-in plugins
 local disabled_built_ins = {
@@ -35,8 +34,8 @@ end
 -- local execute = vim.api.nvim_command
 -- local call = vim.call
 
-g.mapleader = ","
-g.maplocalleader = ","
+g.mapleader = " "
+g.maplocalleader = ";"
 g.have_nerd_font = true
 opt.cindent = true
 opt.showmode = false
