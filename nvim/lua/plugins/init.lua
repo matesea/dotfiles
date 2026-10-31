@@ -1596,7 +1596,13 @@ local plugins = {
             -- your configuration comes here
             -- or leave it empty to use the default settings
             -- refer to the configuration section below
-            toggle = { enabled = true },
+            toggle = {
+                map = function(mode, lhs, rhs, opts)
+                    opts = opts or {}
+                    opts.silent = opts.silent ~= false
+                    Snacks.keymap.set(mode, lhs, rhs, opts)
+                end,
+            },
             dim = { enabled = true },
             indent = { enabled = true },
             quickfile = { enabled = true },
@@ -1742,9 +1748,15 @@ local plugins = {
                     end
                     vim.print = _G.dd -- Override print to use snacks for `:=` commmand
 
-                    Snacks.toggle.dim():map("sd")
-                    Snacks.toggle.indent():map("si")
-                    Snacks.toggle.zoom():map("sz")
+                    Snacks.toggle.zoom():map("<leader>uz")
+                    Snacks.toggle.option('wrap', { name = 'Wrap' }):map('<leader>uw')
+                    Snacks.toggle.option('relativenumber', { name = 'Relative Number' }):map('<leader>uL')
+                    Snacks.toggle.line_number():map('<leader>ul')
+                    Snacks.toggle.option('showtabline',
+                        { off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, name = 'Tabline' }):map(
+                    '<leader>ua')
+                    Snacks.toggle.dim():map('<leader>ud')
+                    Snacks.toggle.indent():map('<leader>ui')
                 end,
             })
         end,
