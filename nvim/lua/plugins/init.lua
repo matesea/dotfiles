@@ -139,7 +139,7 @@ local disabled_plugins = {
                 flavour = "macchiato", -- frappe/macchiato/mocha
                 term_colors = true,
                 dim_inactive = {
-                    enabled = false,   -- dims the background color of inactive window
+                    enabled = false, -- dims the background color of inactive window
                     shade = "dark",
                     percentage = 0.15, -- percentage of the shade to apply to the inactive window
                 },
@@ -168,7 +168,7 @@ local disabled_plugins = {
         config = function()
             local kanagawa = require("kanagawa")
             kanagawa.setup({
-                compile = true,     -- enable compiling the colorscheme
+                compile = true, -- enable compiling the colorscheme
                 dimInactive = true, -- dim inactive window `:h hl-NormalNC`
             })
             kanagawa.load("dragon")
@@ -279,12 +279,12 @@ local plugins = {
     { "romainl/vim-cool" },
 
     {
-        'sphamba/smear-cursor.nvim',
-        event = 'VeryLazy',
+        "sphamba/smear-cursor.nvim",
+        event = "VeryLazy",
         opts = {
             hide_target_hack = true,
-            cursor_color = 'none'
-        }
+            cursor_color = "none",
+        },
     },
 
     {
@@ -365,13 +365,12 @@ local plugins = {
                     -- - sr)'  - [S]urround [R]eplace [)] [']
                     require("mini.surround").setup({
                         mappings = {
-                            add = "sa",             -- Add surrounding in Normal and Visual modes
-                            delete = "ds",          -- Delete surrounding
-                            find = "gzf",           -- Find surrounding (to the right)
-                            find_left = "gzF",      -- Find surrounding (to the left)
-                            highlight = "gzh",      -- Highlight surrounding
-                            replace = "cs",         -- Replace surrounding
-                            update_n_lines = "gzn", -- Update `n_lines`
+                            add = "sa", -- Add surrounding in Normal and Visual modes
+                            delete = "ds", -- Delete surrounding
+                            find = "gzf", -- Find surrounding (to the right)
+                            find_left = "gzF", -- Find surrounding (to the left)
+                            highlight = "gzh", -- Highlight surrounding
+                            replace = "cs", -- Replace surrounding
                         },
                     })
 
@@ -508,8 +507,8 @@ local plugins = {
             { '<leader>s"',            "<cmd>FzfLua registers<cr>",       desc = "Pick Register" },
 
             -- Git
-            { '<leader>gc',            '<cmd>FzfLua git_bcommits<CR>',    desc = 'Buffer Commit' },
-            { '<leader>gb',            '<cmd>FzfLua git_blame<CR>',       desc = 'Blame' },
+            { "<leader>gc",            "<cmd>FzfLua git_bcommits<CR>",    desc = "Buffer Commit" },
+            { "<leader>gb",            "<cmd>FzfLua git_blame<CR>",       desc = "Blame" },
         },
         config = function()
             local status_ok, fzf_lua = pcall(require, "fzf-lua")
@@ -574,8 +573,8 @@ local plugins = {
                     -- With this change, I can sort of get the same behaviour in live_grep.
                     -- ex: > enable --*/plugins/*
                     -- I still find this a bit cumbersome. There's probably a better way of doing this.
-                    rg_glob = true,            -- enable glob parsing
-                    glob_flag = "--iglob",     -- case insensitive globs
+                    rg_glob = true, -- enable glob parsing
+                    glob_flag = "--iglob", -- case insensitive globs
                     glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
                 },
                 winopts = {
@@ -729,7 +728,7 @@ local plugins = {
 
     {
         "fei6409/log-highlight.nvim",
-        lazy = true,
+        ft = { "text", "log" },
         config = function()
             require("log-highlight").setup({
                 extension = "log",
@@ -1424,7 +1423,7 @@ local plugins = {
             local backend = "treesitter"
 
             vim.o.foldcolumn = "1" -- '0' is not bad
-            vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+            vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
             vim.o.foldlevelstart = 99
             vim.o.foldenable = true
 
@@ -1463,19 +1462,6 @@ local plugins = {
                     end,
                 })
             end
-        end,
-    },
-
-    {
-        "AndrewRadev/dsf.vim",
-        -- stylua: ignore
-        lazy = true,
-        keys = {
-            { "dsf", "<Plug>DsfDelete", noremap = true, desc = "Delete Surrounding Function" },
-            { "csf", "<Plug>DsfChange", noremap = true, desc = "Change Surrounding Function" },
-        },
-        init = function()
-            vim.g.dsf_no_mappings = 1
         end,
     },
 
@@ -1528,17 +1514,17 @@ local plugins = {
         },
         cmd = { "Cscope" },
         opts = {
-            disable_maps = true,       -- true disables keymaps, only :Cscope will be loaded
-            skip_input_prompt = true,  -- "true" doesn't ask for input
+            disable_maps = true, -- true disables keymaps, only :Cscope will be loaded
+            skip_input_prompt = true, -- "true" doesn't ask for input
             cscope = {
-                db_file = "GTAGS",     -- location of cscope db file
+                db_file = "GTAGS", -- location of cscope db file
                 exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
-                picker = "quickfix",   -- "telescope", "fzf-lua" or "quickfix"
+                picker = "quickfix", -- "telescope", "fzf-lua" or "quickfix"
                 picker_opts = {
                     -- size of quickfix window
-                    window_size = 10,                 -- any positive integer
+                    window_size = 10,     -- any positive integer
                     -- position of quickfix window
-                    window_pos = "bottom",            -- "bottom", "right", "left" or "top"
+                    window_pos = "bottom", -- "bottom", "right", "left" or "top"
                 },
                 skip_picker_for_single_result = true, -- jump directly to position for single result
                 -- these args are directly passed to "cscope -f <db_file> <args>"
@@ -1607,9 +1593,9 @@ local plugins = {
             indent = { enabled = true },
             quickfile = { enabled = true },
             bigfile = {
-                notify = true,          -- show notification when big file detected
+                notify = true, -- show notification when big file detected
                 size = 3 * 1024 * 1024, -- 3MB
-                line_length = 1000,     -- average line length (useful for minified files)
+                line_length = 1000, -- average line length (useful for minified files)
                 -- Enable or disable features when big file detected
                 ---@param ctx {buf: number, ft:string}
                 setup = function(ctx)
@@ -1676,8 +1662,8 @@ local plugins = {
             ]]
             terminal = {
                 win = {
-                    style = 'terminal',
-                    wo = { winbar = '' },
+                    style = "terminal",
+                    wo = { winbar = "" },
                     -- stylua: ignore
                     keys = {
                         nav_h = { '<C-h>', term_nav('h'), desc = 'Go to Left Window', expr = true, mode = 't' },
@@ -1725,38 +1711,34 @@ local plugins = {
                 function()
                     Snacks.terminal.focus(nil)
                 end,
-                mode = { 'n', 't' },
-                desc = "Terminal Focus"
+                mode = { "n", "t" },
+                desc = "Terminal Focus",
             },
             {
                 "<c-_>",
                 function()
                     Snacks.terminal.focus(nil)
                 end,
-                mode = { 'n', 't' },
-                desc = "Terminal Focus"
+                mode = { "n", "t" },
+                desc = "Terminal Focus",
             },
         },
         init = function()
             vim.api.nvim_create_autocmd("User", {
                 pattern = "VeryLazy",
                 callback = function()
-                    -- Setup some globals for debugging (lazy-loaded)
-                    _G.dd = function(...) end
-                    _G.bt = function()
-                        Snacks.debug.backtrace()
-                    end
-                    vim.print = _G.dd -- Override print to use snacks for `:=` commmand
-
                     Snacks.toggle.zoom():map("<leader>uz")
-                    Snacks.toggle.option('wrap', { name = 'Wrap' }):map('<leader>uw')
-                    Snacks.toggle.option('relativenumber', { name = 'Relative Number' }):map('<leader>uL')
-                    Snacks.toggle.line_number():map('<leader>ul')
-                    Snacks.toggle.option('showtabline',
-                        { off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, name = 'Tabline' }):map(
-                    '<leader>ua')
-                    Snacks.toggle.dim():map('<leader>ud')
-                    Snacks.toggle.indent():map('<leader>ui')
+                    Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+                    Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+                    Snacks.toggle.line_number():map("<leader>ul")
+                    Snacks.toggle
+                        .option(
+                            "showtabline",
+                            { off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, name = "Tabline" }
+                        )
+                        :map("<leader>ua")
+                    Snacks.toggle.dim():map("<leader>ud")
+                    Snacks.toggle.indent():map("<leader>ui")
                 end,
             })
         end,
@@ -1852,10 +1834,10 @@ local plugins = {
 
     -- changes the working directory to the project root when you open a file.
     {
-        'wsdjeg/rooter.nvim',
-        cmd = 'Rooter',
+        "wsdjeg/rooter.nvim",
+        cmd = "Rooter",
         opts = {},
-    }
+    },
 }
 
 lazy_init()

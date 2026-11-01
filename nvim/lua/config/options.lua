@@ -1,32 +1,32 @@
 local opt = vim.opt -- global options
-local g = vim.g -- global variable
+local g = vim.g     -- global variable
 local fn = vim.fn
 local cmd = vim.cmd
 
 -- disable built-in plugins
 local disabled_built_ins = {
-	"netrw",
-	"netrwPlugin",
-	"netrwSettings",
-	"netrwFileHandlers",
-	"gzip",
-	"zip",
-	"zipPlugin",
-	"tar",
-	"tarPlugin",
-	"getscript",
-	"getscriptPlugin",
-	"vimball",
-	"vimballPlugin",
-	"2html_plugin",
-	"logipat",
-	"rrhelper",
-	"spellfile_plugin",
-	"matchit",
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "gzip",
+    "zip",
+    "zipPlugin",
+    "tar",
+    "tarPlugin",
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    "spellfile_plugin",
+    "matchit",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
-	g["loaded_" .. plugin] = 1
+    g["loaded_" .. plugin] = 1
 end
 
 -- local wopt = vim.wo -- window-local options
@@ -48,10 +48,10 @@ opt.signcolumn = "yes"
 
 -- iwhite: ignore changes in amount of white space
 opt.diffopt:append({
-	"iwhite",
-	"indent-heuristic",
-	"algorithm:patience",
-	"context:999999",
+    "iwhite",
+    "indent-heuristic",
+    "algorithm:patience",
+    "context:999999",
 })
 
 -- less window redraw to speed up
@@ -75,7 +75,6 @@ cmd([[
 -- A popup menu offers word completion choices that may include struct and class members, system functions
 opt.ofu = "syntaxcomplete#Completion"
 
-opt.so = 7
 opt.cmdheight = 1
 opt.hidden = true
 opt.whichwrap:append("<,>,h,l")
@@ -91,9 +90,9 @@ opt.visualbell = false
 
 opt.timeout = true
 opt.ttimeout = true
-opt.timeoutlen = 300 -- Time out on mappings
-opt.ttimeoutlen = 10 -- Time out on key codes
-opt.updatetime = 250 -- idle time to write swap and trigger CursorHold
+opt.timeoutlen = 300  -- Time out on mappings
+opt.ttimeoutlen = 10  -- Time out on key codes
+opt.updatetime = 250  -- idle time to write swap and trigger CursorHold
 opt.redrawtime = 2000 -- time in milliseconds for stopping display redraw
 
 -- Configure how new splits should be opened
@@ -115,7 +114,7 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.o.inccommand = "split"
 
 if vim.fn.has("nvim-0.11") == 1 then
-	opt.tabclose:append({ "uselast" })
+    opt.tabclose:append({ "uselast" })
 end
 
 opt.encoding = "utf8"
@@ -153,13 +152,13 @@ opt.foldlevel = 100
 
 -- setup grep parameters and format
 if fn.executable("rg") then
-	opt.grepprg = "rg -S --vimgrep --no-heading --no-column"
-	opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
+    opt.grepprg = "rg -S --vimgrep --no-heading --no-column"
+    opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 elseif fn.executable("ag") then
-	opt.grepprg = "ag --group --nocolor --vimgrep"
-	opt.grepformat = "%f:%1:%c%m"
+    opt.grepprg = "ag --group --nocolor --vimgrep"
+    opt.grepformat = "%f:%1:%c:%m"
 else
-	opt.grepprg = "grep -nH"
+    opt.grepprg = "grep -nH"
 end
 
 -- setup terminal colors
