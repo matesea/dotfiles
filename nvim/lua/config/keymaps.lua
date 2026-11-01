@@ -17,7 +17,7 @@ map("c", "<C-l>", "<End>")
 map("c", "<C-f>", "<Right>")
 map("c", "<C-b>", "<Left>")
 
-map("n", "<leader>cd", ":lcd %:p:h<cr>:pwd<cr>", { desc = "Change to Current Directory" })
+map("n", "<leader>cd", ":lcd %:h<cr>:pwd<cr>", { desc = "cd File's Directory" })
 
 -- reload current buffer
 map("n", "<leader>rd", ":edit!<cr>", { desc = "Reload Buffer" })

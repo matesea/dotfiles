@@ -1592,6 +1592,7 @@ local plugins = {
             dim = { enabled = true },
             indent = { enabled = true },
             quickfile = { enabled = true },
+            git = {},
             bigfile = {
                 notify = true, -- show notification when big file detected
                 size = 3 * 1024 * 1024, -- 3MB
@@ -1722,6 +1723,15 @@ local plugins = {
                 mode = { "n", "t" },
                 desc = "Terminal Focus",
             },
+
+            {
+                "<leader>cr",
+                function()
+                    vim.fn.chdir(Snacks.git.get_root())
+                    print(vim.fn.getcwd())
+                end,
+                desc = "cd File's Project Root",
+            },
         },
         init = function()
             vim.api.nvim_create_autocmd("User", {
@@ -1830,13 +1840,6 @@ local plugins = {
                 desc = "Sidekick Select Prompt",
             },
         },
-    },
-
-    -- changes the working directory to the project root when you open a file.
-    {
-        "wsdjeg/rooter.nvim",
-        cmd = "Rooter",
-        opts = {},
     },
 }
 
