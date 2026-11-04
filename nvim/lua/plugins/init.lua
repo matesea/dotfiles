@@ -45,137 +45,6 @@ local function term_nav(dir)
     end
 end
 
-local disabled_plugins = {
-    -- jk to escape
-    {
-        "max397574/better-escape.nvim",
-        enabled = false,
-        opts = {
-            default_mappings = false,
-            mappings = {
-                i = { j = { k = "<esc>" } },
-                v = { j = { k = "<esc>" } },
-            },
-        },
-    },
-
-    {
-        "coder/claudecode.nvim",
-        enabled = false,
-        cond = vim.fn.executable("claude") == 1,
-        dependencies = { "folke/snacks.nvim" },
-        opts = {
-            terminal = {
-                snacks_win_opts = {
-                    position = "bottom",
-                    height = 0.4,
-                    width = 1.0,
-                    border = "single",
-
-                    -- position = "float",
-                    -- height = 0.85,
-                    -- width = 0.85,
-                },
-            },
-        },
-        -- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
-        -- so `:ClaudeCode` and friends work on a fresh start. Without it, a keys-only
-        -- spec defers loading until a <leader>a* mapping is pressed and the commands
-        -- would not exist yet.
-        cmd = {
-            "ClaudeCode",
-            "ClaudeCodeFocus",
-            "ClaudeCodeSelectModel",
-            "ClaudeCodeAdd",
-            "ClaudeCodeSend",
-            "ClaudeCodeTreeAdd",
-            "ClaudeCodeStatus",
-            "ClaudeCodeStart",
-            "ClaudeCodeStop",
-            "ClaudeCodeOpen",
-            "ClaudeCodeClose",
-            "ClaudeCodeDiffAccept",
-            "ClaudeCodeDiffDeny",
-            "ClaudeCodeCloseAllDiffs",
-        },
-        keys = {
-            { "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
-            { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
-            { "<leader>ar", "<cmd>ClaudeCode --resume<cr>",   desc = "Resume Claude" },
-            { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-            { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-            { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
-            { "<leader>as", "<cmd>ClaudeCodeSend<cr>",        mode = "v",                  desc = "Send to Claude" },
-            --[[
-			{
-				"<leader>as",
-				"<cmd>ClaudeCodeTreeAdd<cr>",
-				desc = "Add file",
-				ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw", "snacks_picker_list" },
-			},
-            ]]
-            -- Diff management
-            { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>",  desc = "Accept diff" },
-            { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",    desc = "Deny diff" },
-        },
-    },
-
-    {
-        "AxelGard/oneokai.nvim",
-        lazy = true,
-        priority = 1000,
-        config = function()
-            require("oneokai").load()
-        end,
-    },
-
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        lazy = true,
-        priority = 1000,
-        config = function()
-            require("catppuccin").setup({
-                flavour = "macchiato", -- frappe/macchiato/mocha
-                term_colors = true,
-                dim_inactive = {
-                    enabled = false, -- dims the background color of inactive window
-                    shade = "dark",
-                    percentage = 0.15, -- percentage of the shade to apply to the inactive window
-                },
-            })
-            vim.cmd.colorscheme("catppuccin")
-        end,
-    },
-
-    {
-        "folke/tokyonight.nvim",
-        lazy = true,
-        priority = 1000,
-        config = function()
-            require("tokyonight").setup({
-                style = "moon",
-                cache = true,
-                dim_inactive = true,
-            })
-            vim.cmd.colorscheme("tokyonight")
-        end,
-    },
-
-    {
-        "rebelot/kanagawa.nvim",
-        lazy = true,
-        config = function()
-            local kanagawa = require("kanagawa")
-            kanagawa.setup({
-                compile = true, -- enable compiling the colorscheme
-                dimInactive = true, -- dim inactive window `:h hl-NormalNC`
-            })
-            kanagawa.load("dragon")
-        end,
-    },
-}
-
 local plugins = {
     {
         "sainnhe/sonokai",
@@ -1090,7 +959,6 @@ local plugins = {
             "FocusSplitCycle",
             "FocusToggle",
         },
-        module = "focus",
         opts = {},
     },
 
@@ -1771,7 +1639,79 @@ local plugins = {
     },
 
     {
+        "coder/claudecode.nvim",
+        dependencies = { "folke/snacks.nvim" },
+        opts = {
+            git_repo_cwd = true,
+            terminal = {
+                snacks_win_opts = {
+                    position = "float",
+                    height = 0.9,
+                    width = 0.9,
+                    border = "single",
+
+                    keys = {
+                        claude_hide = {
+                            "<c-,>",
+                            function(self)
+                                self:hide()
+                            end,
+                            mode = "t",
+                            desc = "Hide",
+                        },
+                    },
+                },
+            },
+        },
+        -- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
+        -- so `:ClaudeCode` and friends work on a fresh start. Without it, a keys-only
+        -- spec defers loading until a <leader>a* mapping is pressed and the commands
+        -- would not exist yet.
+        cmd = {
+            "ClaudeCode",
+            "ClaudeCodeFocus",
+            "ClaudeCodeSelectModel",
+            "ClaudeCodeAdd",
+            "ClaudeCodeSend",
+            "ClaudeCodeTreeAdd",
+            "ClaudeCodeStatus",
+            "ClaudeCodeStart",
+            "ClaudeCodeStop",
+            "ClaudeCodeOpen",
+            "ClaudeCodeClose",
+            "ClaudeCodeDiffAccept",
+            "ClaudeCodeDiffDeny",
+            "ClaudeCodeCloseAllDiffs",
+        },
+        keys = {
+            -- { "<c-,>", "<cmd>ClaudeCodeFocus<cr>", mode = { "n", "x" } },
+            { "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
+            { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
+            { "<leader>ar", "<cmd>ClaudeCode --resume<cr>",   desc = "Resume Claude" },
+            { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+            { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+            { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
+            {
+                "<leader>as",
+                "<cmd>ClaudeCodeSend<cr>",
+                mode = "v",
+                desc = "Send to Claude",
+            },
+            {
+                "<leader>as",
+                "<cmd>ClaudeCodeTreeAdd<cr>",
+                desc = "Add file",
+                ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw", "snacks_picker_list" },
+            },
+            -- Diff management
+            { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+            { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",   desc = "Deny diff" },
+        },
+    },
+
+    {
         "folke/sidekick.nvim",
+        enabled = false,
         cmd = "Sidekick",
         opts = {
             cli = {
