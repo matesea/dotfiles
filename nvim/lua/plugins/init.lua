@@ -18,6 +18,7 @@ end
 
 local ft_code = { "c", "h", "S", "cpp", "python", "vim", "sh", "lua", "java" }
 local has_git = vim.fn.executable("git") == 1
+local has_claude = vim.fn.executable("claude") == 1
 
 local bigfile = function(bufnr)
     local max_filesize = 3 * 1024 * 1024 -- 3MB
@@ -234,12 +235,12 @@ local plugins = {
                     -- - sr)'  - [S]urround [R]eplace [)] [']
                     require("mini.surround").setup({
                         mappings = {
-                            add = "sa", -- Add surrounding in Normal and Visual modes
-                            delete = "ds", -- Delete surrounding
-                            find = "gzf", -- Find surrounding (to the right)
+                            add = "sa",        -- Add surrounding in Normal and Visual modes
+                            delete = "ds",     -- Delete surrounding
+                            find = "gzf",      -- Find surrounding (to the right)
                             find_left = "gzF", -- Find surrounding (to the left)
                             highlight = "gzh", -- Highlight surrounding
-                            replace = "cs", -- Replace surrounding
+                            replace = "cs",    -- Replace surrounding
                         },
                     })
 
@@ -442,8 +443,8 @@ local plugins = {
                     -- With this change, I can sort of get the same behaviour in live_grep.
                     -- ex: > enable --*/plugins/*
                     -- I still find this a bit cumbersome. There's probably a better way of doing this.
-                    rg_glob = true, -- enable glob parsing
-                    glob_flag = "--iglob", -- case insensitive globs
+                    rg_glob = true,            -- enable glob parsing
+                    glob_flag = "--iglob",     -- case insensitive globs
                     glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
                 },
                 winopts = {
@@ -1291,7 +1292,7 @@ local plugins = {
             local backend = "treesitter"
 
             vim.o.foldcolumn = "1" -- '0' is not bad
-            vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+            vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
             vim.o.foldlevelstart = 99
             vim.o.foldenable = true
 
@@ -1382,17 +1383,17 @@ local plugins = {
         },
         cmd = { "Cscope" },
         opts = {
-            disable_maps = true, -- true disables keymaps, only :Cscope will be loaded
-            skip_input_prompt = true, -- "true" doesn't ask for input
+            disable_maps = true,       -- true disables keymaps, only :Cscope will be loaded
+            skip_input_prompt = true,  -- "true" doesn't ask for input
             cscope = {
-                db_file = "GTAGS", -- location of cscope db file
+                db_file = "GTAGS",     -- location of cscope db file
                 exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
-                picker = "quickfix", -- "telescope", "fzf-lua" or "quickfix"
+                picker = "quickfix",   -- "telescope", "fzf-lua" or "quickfix"
                 picker_opts = {
                     -- size of quickfix window
-                    window_size = 10,     -- any positive integer
+                    window_size = 10,                 -- any positive integer
                     -- position of quickfix window
-                    window_pos = "bottom", -- "bottom", "right", "left" or "top"
+                    window_pos = "bottom",            -- "bottom", "right", "left" or "top"
                 },
                 skip_picker_for_single_result = true, -- jump directly to position for single result
                 -- these args are directly passed to "cscope -f <db_file> <args>"
@@ -1461,10 +1462,11 @@ local plugins = {
             indent = { enabled = true },
             quickfile = { enabled = true },
             git = {},
+            picker = {},
             bigfile = {
-                notify = true, -- show notification when big file detected
+                notify = true,          -- show notification when big file detected
                 size = 3 * 1024 * 1024, -- 3MB
-                line_length = 1000, -- average line length (useful for minified files)
+                line_length = 1000,     -- average line length (useful for minified files)
                 -- Enable or disable features when big file detected
                 ---@param ctx {buf: number, ft:string}
                 setup = function(ctx)
@@ -1491,44 +1493,6 @@ local plugins = {
                     vim.b.completion = false
                 end,
             },
-            --[[
-            picker = {
-                win = {
-                    -- Make file truncation consider window width.
-                    -- <https://github.com/folke/snacks.nvim/issues/1217#issuecomment-2661465574>
-                    list = {
-                        on_buf = function(self)
-                            self:execute("calculate_file_truncate_width")
-                        end,
-                    },
-                    preview = {
-                        on_buf = function(self)
-                            self:execute("calculate_file_truncate_width")
-                        end,
-                        on_close = function(self)
-                            self:execute("calculate_file_truncate_width")
-                        end,
-                    },
-                },
-                actions = {
-                    -- Make file truncation consider window width.
-                    -- <https://github.com/folke/snacks.nvim/issues/1217#issuecomment-2661465574>
-                    calculate_file_truncate_width = function(self)
-                        local width = self.list.win:size().width
-                        self.opts.formatters.file.truncate = width - 6
-                    end,
-                },
-                layouts = {
-                    default = {
-                        layout = {
-                            -- Make the default popup window use 100% of screen not 80%.
-                            width = 0.9,
-                            height = 0.9,
-                        },
-                    },
-                },
-            },
-            ]]
             terminal = {
                 win = {
                     style = "terminal",
@@ -1640,6 +1604,7 @@ local plugins = {
 
     {
         "coder/claudecode.nvim",
+        cond = has_claude,
         dependencies = { "folke/snacks.nvim" },
         opts = {
             git_repo_cwd = true,
@@ -1652,7 +1617,7 @@ local plugins = {
 
                     keys = {
                         claude_hide = {
-                            "<c-,>",
+                            "<c-\\>",
                             function(self)
                                 self:hide()
                             end,
@@ -1684,7 +1649,7 @@ local plugins = {
             "ClaudeCodeCloseAllDiffs",
         },
         keys = {
-            -- { "<c-,>", "<cmd>ClaudeCodeFocus<cr>", mode = { "n", "x" } },
+            { "<c-\\>",     "<cmd>ClaudeCodeFocus<cr>",       desc = "Toggle Claude" },
             { "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
             { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
             { "<leader>ar", "<cmd>ClaudeCode --resume<cr>",   desc = "Resume Claude" },
@@ -1712,11 +1677,10 @@ local plugins = {
     {
         "folke/sidekick.nvim",
         enabled = false,
-        cmd = "Sidekick",
         opts = {
             cli = {
                 win = {
-                    layout = "bottom",
+                    layout = "float",
                 },
             },
         },
@@ -1734,10 +1698,10 @@ local plugins = {
                 desc = "Goto/Apply Next Edit Suggestion",
             },
             {
-                "<c-.>",
-                function() require("sidekick.cli").focus() end,
-                desc = "Sidekick Focus",
-                mode = { "n", "t", "i", "x" },
+                "<c-\\>",
+                function() require("sidekick.cli").toggle() end,
+                desc = "Sidekick Toggle CLI",
+                mode = { "n", "t" },
             },
             {
                 "<leader>aa",
