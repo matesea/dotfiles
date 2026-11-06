@@ -154,6 +154,22 @@ local plugins = {
         opts = {
             hide_target_hack = true,
             cursor_color = "none",
+            -- default: 0.6, range: [0, 1]
+            stiffness = 0.8,
+            -- default: 0.45, range: [0, 1]
+            trailing_stiffness = 0.6,
+            -- default: 0.5, range: [0, 1]
+            stiffness_insert_mode = 0.7,
+            -- default: 0.5, range: [0, 1]
+            trailing_stiffness_insert_mode = 0.7,
+            -- default: 0.85, range: [0, 1]
+            damping = 0.95,
+            -- default: 0.9, range: [0, 1]
+            damping_insert_mode = 0.95,
+            -- default: 0.1, range: > 0
+            distance_stop_animating = 0.5,
+            -- ms, for low framerate machines
+            time_interval = 7,
         },
     },
 
@@ -572,19 +588,22 @@ local plugins = {
 
     {
         "azabiong/vim-highlighter",
+        keys = {
+            { "<leader>hh", ":Hi+<space>", desc = "Highlight Input" },
+            { "f<cr>",      remap = true,  desc = "Highlight Word" },
+        },
         config = function()
-            vim.api.nvim_set_keymap("n", "f<c-h>", ":Hi+<space>", { noremap = true })
             vim.cmd([[
                 nn [g <cmd>Hi {<cr>
                 nn ]g <cmd>Hi }<cr>
-                nn [f <cmd>Hi <<cr>
-                nn ]f <cmd>Hi ><cr>
+                nn [w <cmd>Hi <<cr>
+                nn ]w <cmd>Hi ><cr>
             ]])
         end,
         -- [g: jump to any highlight backward
         -- ]g: jump to any highlight forward
-        -- [f: jump to highlight under cursor backward
-        -- ]f: jump to highlight under cursor forward
+        -- [w: jump to highlight under cursor backward
+        -- ]w: jump to highlight under cursor forward
 
         -- f + <cr>: HiSet, hightlight current word
         -- f + <backspace>: HiErase
@@ -789,22 +808,49 @@ local plugins = {
         "nvim-treesitter/nvim-treesitter-textobjects",
         branch = "main",
         lazy = true,
+        keys = {
+            {
+                "]f",
+                mode = { "n", "x", "o" },
+                function()
+                    require("nvim-treesitter-textobjects.move").goto_next_start("@function.outer")
+                end,
+                desc = "Next Function Start",
+            },
+            {
+                "[f",
+                mode = { "n", "x", "o" },
+                function()
+                    require("nvim-treesitter-textobjects.move").goto_previous_start("@function.outer")
+                end,
+                desc = "Previous Function Start",
+            },
+            {
+                "]s",
+                mode = { "n", "x", "o" },
+                function()
+                    require("nvim-treesitter-textobjects.move").goto_next_start("@class.outer")
+                end,
+                desc = "Next Class Start",
+            },
+            {
+                "[s",
+                mode = { "n", "x", "o" },
+                function()
+                    require("nvim-treesitter-textobjects.move").goto_previous_start("@class.outer")
+                end,
+                desc = "Previous Class Start",
+            },
+        },
+        opts = {
+            select = { lookahead = true },
+            move = { set_jumps = true },
+        },
     },
 
     {
         "nvim-treesitter/nvim-treesitter-context",
-        lazy = true,
         ft = ft_code,
-        keys = {
-            {
-                "gd",
-                mode = "n",
-                function()
-                    require("treesitter-context").go_to_context()
-                end,
-                desc = "Jump to Definition",
-            },
-        },
         opts = {
             mode = "cursor",
             max_lines = 3,
@@ -956,30 +1002,42 @@ local plugins = {
     {
         "nvim-focus/focus.nvim",
         cmd = {
-            "FocusSplitNicely",
-            "FocusSplitCycle",
-            "FocusToggle",
+            "FocusEnable",
         },
-        opts = {},
-    },
-
-    {
-        "stevearc/aerial.nvim",
-        lazy = true,
-        dependencies = {
-            { "nvim-treesitter" },
-        },
-        keys = {
-            { "]a",         "<cmd>AerialNext<cr>",   desc = "[Aerial]jump to next symbol" },
-            { "[a",         "<cmd>AerialPrev<cr>",   desc = "[Aerial]jump to prevoius symbol" },
-            { "<leader>aw", "<cmd>AerialToggle<cr>", desc = "Toggle Aerial Window" },
-        },
-        opts = {},
+        config = function()
+            require("focus").setup()
+            if _G.Snacks then
+                Snacks.toggle({
+                    name = "Toggle Focus",
+                    get = function()
+                        return vim.g.focus_disable ~= true
+                    end,
+                    set = function(state)
+                        require("focus").focus_toggle_window()
+                    end,
+                }):map("<leader>uf")
+            end
+        end,
     },
 
     { "matesea/trace32-practice.vim", lazy = true, ft = "cmm" },
 
     { "vim-scripts/scons.vim",        lazy = true, ft = "scons" },
+
+    {
+        "MeanderingProgrammer/render-markdown.nvim",
+        ft = { "markdown", "norg", "rmd", "org", "codecompanion" },
+        config = function()
+            if _G.Snacks then
+                local rm = require("render-markdown")
+                Snacks.toggle({
+                    name = "Render Markdown",
+                    get = rm.get,
+                    set = rm.set,
+                }):map("<leader>um")
+            end
+        end,
+    },
 
     {
         -- Main LSP Configuration
