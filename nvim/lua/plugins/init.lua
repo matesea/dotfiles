@@ -46,6 +46,20 @@ local function term_nav(dir)
     end
 end
 
+--[[
+local function zoxide()
+    Snacks.picker.zoxide({
+        confirm = function(picker)
+            picker:close()
+            local item = picker:current()
+            if item and item.file then
+                vim.cmd.tcd(item.file)
+            end
+        end,
+    })
+end
+]]
+
 local plugins = {
     {
         "sainnhe/sonokai",
@@ -77,16 +91,17 @@ local plugins = {
             { "]c", remap = true, desc = "Next Hunk" },
             { "[c", remap = true, desc = "Previous Hunk" },
             {
-                "<leader>hr",
+                "<leader>ghr",
                 function()
-                    package.loaded.gitsigns.reset_hunk()
+                    require("gitsigns").reset_hunk()
                 end,
+                mode = { "n", "x" },
                 desc = "Reset Hunk",
             },
             {
-                "<leader>hb",
+                "<leader>ghb",
                 function()
-                    package.loaded.gitsigns.blame_line({ full = true })
+                    require("gitsigns").blame_line({ full = true })
                 end,
                 desc = "Blame Line",
             },
@@ -96,52 +111,76 @@ local plugins = {
                 max_file_length = 20000,
                 on_attach = function(bufnr)
                     local gs = package.loaded.gitsigns
-                    local function map(mode, l, r, opts)
-                        opts = opts or {}
-                        opts.buffer = bufnr
-                        vim.keymap.set(mode, l, r, opts)
+
+                    local function map(mode, l, r, desc)
+                        vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc, silent = true })
                     end
 
                     map("n", "]c", function()
                         if vim.wo.diff then
-                            return "]c"
+                            vim.cmd.normal({ "]c", bang = true })
+                        else
+                            gs.nav_hunk("next")
                         end
-                        vim.schedule(function()
-                            gs.next_hunk()
-                        end)
-                        return "<Ignore>"
-                    end, { expr = true })
+                    end, "Next Hunk")
 
                     map("n", "[c", function()
                         if vim.wo.diff then
-                            return "[c"
+                            vim.cmd.normal({ "[c", bang = true })
+                        else
+                            gs.nav_hunk("prev")
                         end
-                        vim.schedule(function()
-                            gs.prev_hunk()
-                        end)
-                        return "<Ignore>"
-                    end, { expr = true })
+                    end, "Prev Hunk")
 
                     -- Actions
-                    -- map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-                    -- map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-                    -- map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-                    -- map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-                    -- map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
-                    -- map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
-                    -- map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
-                    -- map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
-                    -- map('n', '<leader>hb', function() gs.blame_line{full=true} end)
-                    -- map('n', '<leader>tb', gs.toggle_current_line_blame)
-                    map("n", "<leader>hd", gs.diffthis)
-                    -- map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
-                    map("n", "<leader>td", gs.toggle_deleted)
+                    map({ "n", "x" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+                    map({ "n", "x" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+                    map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
+                    map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Buffer")
+                    map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
+                    map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
+                    map("n", "<leader>ghb", function()
+                        gs.blame_line({ full = true })
+                    end, "Blame Line")
+                    map("n", "<leader>ghB", function()
+                        gs.blame()
+                    end, "Blame Buffer")
+                    map("n", "<leader>ghd", gs.diffthis, "Diff This")
+
                     -- -- Text object
-                    -- map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-                    -- map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+                    map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
                 end,
             })
             vim.opt.updatetime = 300
+
+            ---@param fn string
+            local function gs(fn)
+                return function()
+                    require("gitsigns")[fn]()
+                end
+            end
+
+            local function map(lhs, rhs, desc, opts)
+                opts = vim.tbl_extend("force", { desc = desc }, opts or {})
+                vim.keymap.set("n", lhs, rhs, opts)
+            end
+            map("<leader>ghtb", gs("toggle_current_line_blame"), "Toggle Git line blame")
+            map("<leader>ghtd", gs("toggle_deleted"), "Toggle Git deleted")
+            map("<leader>ghtw", gs("toggle_word_diff"), "Toggle Git word diff")
+            map("<leader>ghtn", gs("toggle_numhl"), "Toggle Git number highlight")
+            map("<leader>ghts", gs("toggle_signs"), "Toggle Git signs")
+
+            if _G.Snacks then
+                Snacks.toggle({
+                    name = "Git Signs",
+                    get = function()
+                        return require("gitsigns.config").config.signcolumn
+                    end,
+                    set = function(state)
+                        require("gitsigns").toggle_signs(state)
+                    end,
+                }):map("<leader>uG")
+            end
         end,
     },
 
@@ -154,6 +193,7 @@ local plugins = {
         opts = {
             hide_target_hack = true,
             cursor_color = "none",
+            delay_disable = 50,
             -- default: 0.6, range: [0, 1]
             stiffness = 0.8,
             -- default: 0.45, range: [0, 1]
@@ -225,6 +265,7 @@ local plugins = {
 
                     -- `s` key
                     { mode = "n", keys = "s" },
+                    { mode = "x", keys = "s" },
                 },
             })
 
@@ -251,12 +292,12 @@ local plugins = {
                     -- - sr)'  - [S]urround [R]eplace [)] [']
                     require("mini.surround").setup({
                         mappings = {
-                            add = "sa",        -- Add surrounding in Normal and Visual modes
-                            delete = "ds",     -- Delete surrounding
-                            find = "gzf",      -- Find surrounding (to the right)
+                            add = "sa", -- Add surrounding in Normal and Visual modes
+                            delete = "ds", -- Delete surrounding
+                            find = "gzf", -- Find surrounding (to the right)
                             find_left = "gzF", -- Find surrounding (to the left)
                             highlight = "gzh", -- Highlight surrounding
-                            replace = "cs",    -- Replace surrounding
+                            replace = "cs", -- Replace surrounding
                         },
                     })
 
@@ -393,8 +434,8 @@ local plugins = {
             { '<leader>s"',            "<cmd>FzfLua registers<cr>",       desc = "Pick Register" },
 
             -- Git
-            { "<leader>gc",            "<cmd>FzfLua git_bcommits<CR>",    desc = "Buffer Commit" },
-            { "<leader>gb",            "<cmd>FzfLua git_blame<CR>",       desc = "Blame" },
+            { "<leader>gc",            "<cmd>FzfLua git_bcommits<CR>",    desc = "Git Log File" },
+            { "<leader>gb",            "<cmd>FzfLua git_blame<CR>",       desc = "Git Blame" },
         },
         config = function()
             local status_ok, fzf_lua = pcall(require, "fzf-lua")
@@ -459,8 +500,8 @@ local plugins = {
                     -- With this change, I can sort of get the same behaviour in live_grep.
                     -- ex: > enable --*/plugins/*
                     -- I still find this a bit cumbersome. There's probably a better way of doing this.
-                    rg_glob = true,            -- enable glob parsing
-                    glob_flag = "--iglob",     -- case insensitive globs
+                    rg_glob = true, -- enable glob parsing
+                    glob_flag = "--iglob", -- case insensitive globs
                     glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
                 },
                 winopts = {
@@ -1001,9 +1042,7 @@ local plugins = {
 
     {
         "nvim-focus/focus.nvim",
-        cmd = {
-            "FocusEnable",
-        },
+        cmd = { "FocusEnable" },
         config = function()
             require("focus").setup()
             if _G.Snacks then
@@ -1304,8 +1343,8 @@ local plugins = {
         "rainbowhxch/accelerated-jk.nvim",
         lazy = true,
         keys = {
-            { "j", "<Plug>(accelerated_jk_gj)", desc = "Accelerated j" },
-            { "k", "<Plug>(accelerated_jk_gk)", desc = "Accelerated k" },
+            { "j", "<Plug>(accelerated_jk_gj)", desc = "Accel j" },
+            { "k", "<Plug>(accelerated_jk_gk)", desc = "Accel k" },
         },
         opts = {},
     },
@@ -1350,7 +1389,7 @@ local plugins = {
             local backend = "treesitter"
 
             vim.o.foldcolumn = "1" -- '0' is not bad
-            vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+            vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
             vim.o.foldlevelstart = 99
             vim.o.foldenable = true
 
@@ -1441,17 +1480,17 @@ local plugins = {
         },
         cmd = { "Cscope" },
         opts = {
-            disable_maps = true,       -- true disables keymaps, only :Cscope will be loaded
-            skip_input_prompt = true,  -- "true" doesn't ask for input
+            disable_maps = true, -- true disables keymaps, only :Cscope will be loaded
+            skip_input_prompt = true, -- "true" doesn't ask for input
             cscope = {
-                db_file = "GTAGS",     -- location of cscope db file
+                db_file = "GTAGS", -- location of cscope db file
                 exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
-                picker = "quickfix",   -- "telescope", "fzf-lua" or "quickfix"
+                picker = "quickfix", -- "telescope", "fzf-lua" or "quickfix"
                 picker_opts = {
                     -- size of quickfix window
-                    window_size = 10,                 -- any positive integer
+                    window_size = 10,     -- any positive integer
                     -- position of quickfix window
-                    window_pos = "bottom",            -- "bottom", "right", "left" or "top"
+                    window_pos = "bottom", -- "bottom", "right", "left" or "top"
                 },
                 skip_picker_for_single_result = true, -- jump directly to position for single result
                 -- these args are directly passed to "cscope -f <db_file> <args>"
@@ -1462,36 +1501,12 @@ local plugins = {
         },
     },
 
-    -- Git blame visualizer
-    {
-        "FabijanZulj/blame.nvim",
-        cond = has_git,
-        cmd = "BlameToggle",
-        -- stylua: ignore
-        opts = {
-            date_format = "%Y-%m-%d %H:%M",
-            merge_consecutive = false,
-            max_summary_width = 30,
-            mappings = {
-                commit_info = "K",
-                stack_push = ">",
-                stack_pop = "<",
-                show_commit = "<CR>",
-                close = { "<Esc>", "q" },
-            },
-        },
-    },
-
     {
         "ghillb/cybu.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         keys = {
-            { "[b", "<Plug>(CybuPrev)" },
-            { "]b", "<Plug>(CybuNext)" },
-            --[[
-            { '<C-S-Tab>', '<Plug>(CybuLastusedPrev)' },
-            { '<C-Tab>', '<Plug>(CybuLastusedNext)' },
-            ]]
+            { "[b", "<Plug>(CybuPrev)", desc = "Prev Buffer" },
+            { "]b", "<Plug>(CybuNext)", desc = "Next Buffer" },
         },
         opts = {
             style = {
@@ -1522,9 +1537,9 @@ local plugins = {
             git = {},
             picker = {},
             bigfile = {
-                notify = true,          -- show notification when big file detected
+                notify = true, -- show notification when big file detected
                 size = 3 * 1024 * 1024, -- 3MB
-                line_length = 1000,     -- average line length (useful for minified files)
+                line_length = 1000, -- average line length (useful for minified files)
                 -- Enable or disable features when big file detected
                 ---@param ctx {buf: number, ft:string}
                 setup = function(ctx)
@@ -1570,25 +1585,23 @@ local plugins = {
         keys = {
             --[[
 
-          {'<leader>sb', function() Snacks.picker.lines() end, desc = 'Lines'},
-          {'<leader>fb', function() Snacks.picker.buffers() end, desc = 'Buffers'},
-          -- {'<leader>ff', function() Snacks.picker.smart() end, desc = 'Smart Find Files'},
-          {'<leader>fr', function() Snacks.picker.recent() end, desc = 'Recent'},
-          {'<leader>s"', function() Snacks.picker.registers() end, desc = 'Registers'},
-          {'<leader>s/', function() Snacks.picker.search_history() end, desc = 'History'},
-          {'<leader>sC', function() Snacks.picker.commands() end, desc = 'Commands'},
-          {'<leader>sc', function() Snacks.picker.command_history() end, desc = 'Command History'},
-          {'<leader>sj', function() Snacks.picker.jumps() end, desc = 'Jumps'},
-          {'<leader>sm', function() Snacks.picker.marks() end, desc = 'Marks'},
-          {'<leader>sq', function() Snacks.picker.qflist() end, desc = 'Quickfix List'},
+            {'<leader><localleader>', function() Snacks.picker() end, 'Pickers'},
+            {'<leader>sz', zoxide, 'Zoxide'},
+            {'<leader>sb', function() Snacks.picker.lines() end, desc = 'Lines'},
+            {'<leader>fb', function() Snacks.picker.buffers() end, desc = 'Buffers'},
+            {'<leader>fr', function() Snacks.picker.picker('oldfiles') end, desc = 'Recent'},
+            {'<leader>s"', function() Snacks.picker.registers() end, desc = 'Registers'},
+            {'<leader>s/', function() Snacks.picker.search_history() end, desc = 'Search History'},
+            {'<leader>sC', function() Snacks.picker.commands() end, desc = 'Commands'},
+            {'<leader>sc', function() Snacks.picker.command_history() end, desc = 'Command History'},
+            {'<leader>sj', function() Snacks.picker.jumps() end, desc = 'Jumps'},
+            {'<leader>sm', function() Snacks.picker.marks() end, desc = 'Marks'},
+            {'<leader>sq', function() Snacks.picker.qflist() end, desc = 'Quickfix List'},
 
-            {
-                "<leader>sz",
-                function()
-                    Snacks.picker.zoxide()
-                end,
-                desc = "Open File after Zoxide",
-            },
+            -- git
+            {'<leader>gb', function() Snacks.picker.git_log_line() end, desc = 'Git Blame Line'},
+            {'<leader>gc', function() Snacks.picker.git_log_file() end, desc = 'Git Log File'},
+
           ]]
             {
                 "<leader>ft",
@@ -1622,11 +1635,34 @@ local plugins = {
                 end,
                 desc = "cd File's Project Root",
             },
+            {
+                "<leader>bd",
+                function()
+                    Snacks.bufdelete()
+                end,
+                desc = "Delete Buffer",
+            },
+            {
+                "<leader>bo",
+                function()
+                    Snacks.bufdelete.other()
+                end,
+                desc = "Delete Other Buffer",
+            },
+            {
+                "<leader>bi",
+                function()
+                    Snacks.bufdelete.invisible()
+                end,
+                desc = "Delete Invisible Buffer",
+            },
         },
         init = function()
             vim.api.nvim_create_autocmd("User", {
                 pattern = "VeryLazy",
                 callback = function()
+                    Snacks.toggle.zoom():map('sz')
+                    Snacks.toggle.zen():map('sZ')
                     Snacks.toggle.zoom():map("<leader>uz")
                     Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
                     Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
@@ -1647,15 +1683,10 @@ local plugins = {
     -- floating status line
     {
         "b0o/incline.nvim",
-        event = "VeryLazy", -- only for multi-window
+        event = "VeryLazy",
         opts = {
             ignore = {
-                buftypes = "special",
                 filetypes = { "gitcommit" },
-            },
-            window = {
-                padding = 0,
-                margin = { horizontal = 0 },
             },
         },
     },
@@ -1665,7 +1696,6 @@ local plugins = {
         cond = has_claude,
         dependencies = { "folke/snacks.nvim" },
         opts = {
-            git_repo_cwd = true,
             terminal = {
                 snacks_win_opts = {
                     position = "float",
@@ -1684,6 +1714,11 @@ local plugins = {
                         },
                     },
                 },
+                cwd_provider = function(ctx)
+                    -- Prefer repo root; fallback to file's directory
+                    local cwd = require("claudecode.cwd").git_root(ctx.file_dir or ctx.cwd) or ctx.file_dir or ctx.cwd
+                    return cwd
+                end,
             },
         },
         -- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
