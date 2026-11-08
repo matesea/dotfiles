@@ -88,23 +88,13 @@ local plugins = {
         -- version = 'release',
         cond = has_git,
         keys = {
-            { "]c", remap = true, desc = "Next Hunk" },
-            { "[c", remap = true, desc = "Previous Hunk" },
-            {
-                "<leader>ghr",
-                function()
-                    require("gitsigns").reset_hunk()
-                end,
-                mode = { "n", "x" },
-                desc = "Reset Hunk",
-            },
-            {
-                "<leader>ghb",
-                function()
-                    require("gitsigns").blame_line({ full = true })
-                end,
-                desc = "Blame Line",
-            },
+            -- stylua: ignore start
+            { "]c",          remap = true,                                                   desc = "Next Hunk" },
+            { "[c",          remap = true,                                                   desc = "Previous Hunk" },
+            { "<leader>ghr", function() require("gitsigns").reset_hunk() end,                mode = { "n", "x" },   desc = "Reset Hunk", },
+            { "<leader>ghb", function() require("gitsigns").blame_line({ full = true }) end, desc = "Blame Line", },
+            { "<leader>ghB", function() require("gitsigns").blame() end,                     desc = "Blame Buffer", },
+            --stylua: ignore end
         },
         config = function()
             require("gitsigns").setup({
@@ -380,45 +370,29 @@ local plugins = {
         dependencies = { "fzf" },
         cmd = "FzfLua",
         keys = {
+            -- stylua: ignore start
             { "<leader><localleader>", "<cmd>FzfLua builtin<cr>",         desc = "Pick Fzf-Lua Builtin" },
 
             { "<leader>sb",            "<cmd>FzfLua lines<cr>",           desc = "Buffer Lines" },
             { "<leader>fb",            "<cmd>FzfLua buffers<cr>",         desc = "Buffers" },
 
-            -- { "<leader>c", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "find files with cwd" },
-            -- { "<leader>e", "<cmd>FzfLua files<cr>", desc = "pick file" },
+            -- { "<leader>fe", "<cmd>FzfLua files<cr>", desc = "Files" },
+            -- { "<leader>fE", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "Files in Current Directory" },
 
             -- grep related
             --[[
-            {
-                "<leader>gd",
-                function()
-                    local fzf = require("fzf-lua")
-                    fzf.fzf_exec("fd -t d", {
-                        prompt = "Folder:",
-                        actions = {
-                            ["default"] = function(selected)
-                                if selected and #selected > 0 then
-                                    fzf.live_grep_native({ cwd = selected[1] })
-                                end
-                            end,
-                        },
-                    })
-                end,
-                desc = "Select Folder and Grep",
-            },
 			{
-				"<leader>gc",
+				"<leader>sG",
 				':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>',
 				desc = "grep files in the same folder of current open buffer",
 			},
-			{ "<leader>gl", "<cmd>FzfLua live_grep_native<cr>", desc = "live grep" },
+			{ "<leader>sg", "<cmd>FzfLua live_grep_native<cr>", desc = "Live Grep" },
 			{
-				"<leader>gw",
+				"<leader>sw",
 				function()
 					require("fzf-lua").live_grep_native({ search = vim.fn.expand("<cword>") })
 				end,
-				desc = "search word under cursor",
+				desc = "Live Grep cword",
 			},
             ]]
 
@@ -436,6 +410,7 @@ local plugins = {
             -- Git
             { "<leader>gc",            "<cmd>FzfLua git_bcommits<CR>",    desc = "Git Log File" },
             { "<leader>gb",            "<cmd>FzfLua git_blame<CR>",       desc = "Git Blame" },
+            -- stylua: ignore end
         },
         config = function()
             local status_ok, fzf_lua = pcall(require, "fzf-lua")
@@ -551,48 +526,14 @@ local plugins = {
             },
         },
         keys = {
-            {
-                "<leader>fc",
-                function()
-                    require("fff").find_files_in_dir(vim.fn.expand("%:h"))
-                end,
-                desc = "Find Files in Current Directory",
-            },
-            {
-                "<leader>ff",
-                function()
-                    require("fff").find_files()
-                end,
-                desc = "Find files",
-            },
-            {
-                "<leader>sG",
-                function()
-                    require("fff").live_grep({ cwd = vim.fn.expand("%:h") })
-                end,
-                desc = "Live Grep in Curent Directory",
-            },
-            {
-                "<leader>sg",
-                function()
-                    require("fff").live_grep()
-                end,
-                desc = "Live Grep",
-            },
-            {
-                "<leader>sf",
-                function()
-                    require("fff").live_grep({ grep = { modes = { "fuzzy", "plain" } } })
-                end,
-                desc = "Live Fuzy Grep",
-            },
-            {
-                "<leader>sw",
-                function()
-                    require("fff").live_grep({ query = vim.fn.expand("<cword>") })
-                end,
-                desc = "Live Grep cword",
-            },
+            -- stylua: ignore start
+            { "<leader>fE", function() require("fff").find_files_in_dir(vim.fn.expand("%:h")) end,                desc = "Find Files in Current Directory", },
+            { "<leader>ff", function() require("fff").find_files() end,                                           desc = "Find files", },
+            { "<leader>sG", function() require("fff").live_grep({ cwd = vim.fn.expand("%:h") }) end,              desc = "Live Grep in Curent Directory", },
+            { "<leader>sg", function() require("fff").live_grep() end,                                            desc = "Live Grep", },
+            { "<leader>sf", function() require("fff").live_grep({ grep = { modes = { "fuzzy", "plain" } } }) end, desc = "Live Fuzy Grep", },
+            { "<leader>sw", function() require("fff").live_grep({ query = vim.fn.expand("<cword>") }) end,        desc = "Live Grep cword", },
+            -- stylua: ignore end
         },
     },
 
@@ -850,11 +791,13 @@ local plugins = {
         branch = "main",
         lazy = true,
         keys = {
+            -- stylua: ignore start
             {
                 "]f",
                 mode = { "n", "x", "o" },
                 function()
-                    require("nvim-treesitter-textobjects.move").goto_next_start("@function.outer")
+                    require("nvim-treesitter-textobjects.move").goto_next_start(
+                        "@function.outer")
                 end,
                 desc = "Next Function Start",
             },
@@ -862,7 +805,8 @@ local plugins = {
                 "[f",
                 mode = { "n", "x", "o" },
                 function()
-                    require("nvim-treesitter-textobjects.move").goto_previous_start("@function.outer")
+                    require("nvim-treesitter-textobjects.move").goto_previous_start(
+                        "@function.outer")
                 end,
                 desc = "Previous Function Start",
             },
@@ -870,7 +814,8 @@ local plugins = {
                 "]s",
                 mode = { "n", "x", "o" },
                 function()
-                    require("nvim-treesitter-textobjects.move").goto_next_start("@class.outer")
+                    require("nvim-treesitter-textobjects.move").goto_next_start(
+                        "@class.outer")
                 end,
                 desc = "Next Class Start",
             },
@@ -878,10 +823,12 @@ local plugins = {
                 "[s",
                 mode = { "n", "x", "o" },
                 function()
-                    require("nvim-treesitter-textobjects.move").goto_previous_start("@class.outer")
+                    require("nvim-treesitter-textobjects.move").goto_previous_start(
+                        "@class.outer")
                 end,
                 desc = "Previous Class Start",
             },
+            -- stylua: ignore end
         },
         opts = {
             select = { lookahead = true },
@@ -1353,28 +1300,12 @@ local plugins = {
         "kevinhwang91/nvim-ufo",
         lazy = true,
         keys = {
-            {
-                "zM",
-                function()
-                    require("ufo").closeAllFolds()
-                end,
-                desc = "Close All Folds",
-            },
-            {
-                "zR",
-                function()
-                    require("ufo").openAllFolds()
-                end,
-                desc = "Open All Folds",
-            },
-            {
-                "zm",
-                function()
-                    require("ufo").closeFoldsWith()
-                end,
-                desc = "Close Fold with v:count",
-            },
+            -- stylua: ignore start
+            { "zM", function() require("ufo").closeAllFolds() end,  desc = "Close All Folds", },
+            { "zR", function() require("ufo").openAllFolds() end,   desc = "Open All Folds", },
+            { "zm", function() require("ufo").closeFoldsWith() end, desc = "Close Fold with v:count", },
             -- {'zr', function() require('ufo').openFoldsExceptKinds end, desc = 'open all folds'},
+            -- stylua: ignore end
         },
         dependencies = {
             { "kevinhwang91/promise-async", lazy = true },
@@ -1458,25 +1389,12 @@ local plugins = {
         "dhananjaylatkar/cscope_maps.nvim",
         lazy = true,
         keys = {
-            { "<leader>cf", ":Cscope find<space>", desc = "Trigger Cscope" },
-            {
-                "<leader>cs",
-                ':Cscope find s <C-R>=expand("<cword>")<cr><cr>',
-                silent = true,
-                desc = "Cscope: Find All References",
-            },
-            {
-                "<leader>cg",
-                ':Cscope find g <C-R>=expand("<cword>")<cr><cr>',
-                silent = true,
-                desc = "Cscope: Find Definition",
-            },
-            {
-                "<leader>cc",
-                ':Cscope find c <C-R>=expand("<cword>")<cr><cr>',
-                silent = true,
-                desc = "Cscope: Find All Calls",
-            },
+            -- stylua: ignore start
+            { "<leader>cf", ":Cscope find<space>",                            desc = "Cscope" },
+            { "<leader>cs", ':Cscope find s <C-R>=expand("<cword>")<cr><cr>', desc = "Cscope: Find All References", },
+            { "<leader>cg", ':Cscope find g <C-R>=expand("<cword>")<cr><cr>', desc = "Cscope: Find Definition", },
+            { "<leader>cc", ':Cscope find c <C-R>=expand("<cword>")<cr><cr>', desc = "Cscope: Find All Calls", },
+            -- stylua: ignore end
         },
         cmd = { "Cscope" },
         opts = {
@@ -1583,6 +1501,7 @@ local plugins = {
             },
         },
         keys = {
+            -- stylua: ignore start
             --[[
 
             {'<leader><localleader>', function() Snacks.picker() end, 'Pickers'},
@@ -1598,34 +1517,19 @@ local plugins = {
             {'<leader>sm', function() Snacks.picker.marks() end, desc = 'Marks'},
             {'<leader>sq', function() Snacks.picker.qflist() end, desc = 'Quickfix List'},
 
+            -- grep
+            { '<leader>sg', function() Snacks.picker.grep() end, desc = "Live Grep"},
+            { '<leader>sG', function() Snacks.picker.grep({cwd = vim.fn.expand("%:h")}) end, desc = "Live Grep in Current Directory"},
+            { '<leader>sw', function() Snacks.picker.grep_word() end, desc = "Live Grep cword"},
+
             -- git
             {'<leader>gb', function() Snacks.picker.git_log_line() end, desc = 'Git Blame Line'},
             {'<leader>gc', function() Snacks.picker.git_log_file() end, desc = 'Git Log File'},
 
           ]]
-            {
-                "<leader>ft",
-                function()
-                    Snacks.terminal()
-                end,
-                desc = "Toggle Terminal",
-            },
-            {
-                "<c-/>",
-                function()
-                    Snacks.terminal.focus(nil)
-                end,
-                mode = { "n", "t" },
-                desc = "Terminal Focus",
-            },
-            {
-                "<c-_>",
-                function()
-                    Snacks.terminal.focus(nil)
-                end,
-                mode = { "n", "t" },
-                desc = "Terminal Focus",
-            },
+            { "<leader>ft", function() Snacks.terminal() end,          desc = "Toggle Terminal", },
+            { "<c-/>",      function() Snacks.terminal.focus(nil) end, mode = { "n", "t" },      desc = "Terminal Focus", },
+            { "<c-_>",      function() Snacks.terminal.focus(nil) end, mode = { "n", "t" },      desc = "Terminal Focus", },
 
             {
                 "<leader>cr",
@@ -1635,34 +1539,17 @@ local plugins = {
                 end,
                 desc = "cd File's Project Root",
             },
-            {
-                "<leader>bd",
-                function()
-                    Snacks.bufdelete()
-                end,
-                desc = "Delete Buffer",
-            },
-            {
-                "<leader>bo",
-                function()
-                    Snacks.bufdelete.other()
-                end,
-                desc = "Delete Other Buffer",
-            },
-            {
-                "<leader>bi",
-                function()
-                    Snacks.bufdelete.invisible()
-                end,
-                desc = "Delete Invisible Buffer",
-            },
+            { "<leader>bd", function() Snacks.bufdelete() end,           desc = "Delete Buffer", },
+            { "<leader>bo", function() Snacks.bufdelete.other() end,     desc = "Delete Other Buffer", },
+            { "<leader>bi", function() Snacks.bufdelete.invisible() end, desc = "Delete Invisible Buffer", },
+            --stylua: ignore end
         },
         init = function()
             vim.api.nvim_create_autocmd("User", {
                 pattern = "VeryLazy",
                 callback = function()
-                    Snacks.toggle.zoom():map('sz')
-                    Snacks.toggle.zen():map('sZ')
+                    Snacks.toggle.zoom():map("sz")
+                    Snacks.toggle.zen():map("sZ")
                     Snacks.toggle.zoom():map("<leader>uz")
                     Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
                     Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
@@ -1742,6 +1629,7 @@ local plugins = {
             "ClaudeCodeCloseAllDiffs",
         },
         keys = {
+            -- stylua: ignore start
             { "<c-\\>",     "<cmd>ClaudeCodeFocus<cr>",       desc = "Toggle Claude" },
             { "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
             { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
@@ -1764,6 +1652,7 @@ local plugins = {
             -- Diff management
             { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
             { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",   desc = "Deny diff" },
+            -- stylua: ignore end
         },
     },
 
@@ -1777,14 +1666,12 @@ local plugins = {
                 },
             },
         },
-        -- stylua: ignore
         keys = {
             {
                 "<tab>",
                 function()
-                    -- if there is a next edit, jump to it, otherwise apply it if any
                     if not require("sidekick").nes_jump_or_apply() then
-                        return "<Tab>" -- fallback to normal tab
+                        return "<Tab>"
                     end
                 end,
                 expr = true,
@@ -1792,47 +1679,61 @@ local plugins = {
             },
             {
                 "<c-\\>",
-                function() require("sidekick.cli").toggle() end,
+                function()
+                    require("sidekick.cli").toggle()
+                end,
                 desc = "Sidekick Toggle CLI",
                 mode = { "n", "t" },
             },
             {
                 "<leader>aa",
-                function() require("sidekick.cli").toggle() end,
+                function()
+                    require("sidekick.cli").toggle()
+                end,
                 desc = "Sidekick Toggle CLI",
             },
             {
                 "<leader>as",
-                function() require("sidekick.cli").select() end,
-                -- Or to select only installed tools:
-                -- require("sidekick.cli").select({ filter = { installed = true } })
+                function()
+                    require("sidekick.cli").select({ filter = { installed = true } })
+                end,
                 desc = "Select CLI",
             },
             {
                 "<leader>ad",
-                function() require("sidekick.cli").close() end,
+                function()
+                    require("sidekick.cli").close()
+                end,
                 desc = "Detach a CLI Session",
             },
             {
                 "<leader>at",
-                function() require("sidekick.cli").send({ msg = "{this}" }) end,
+                function()
+                    require("sidekick.cli").send({ msg = "{this}" })
+                end,
                 mode = { "x", "n" },
                 desc = "Send This",
             },
             {
                 "<leader>af",
-                function() require("sidekick.cli").send({ msg = "{file}" }) end,
+                function()
+                    require("sidekick.cli").send({ msg = "{file}" })
+                end,
                 desc = "Send File",
             },
             {
                 "<leader>av",
-                function() require("sidekick.cli").send({ msg = "{selection}" }) end,
+                function()
+                    require("sidekick.cli").send({ msg = "{selection}" })
+                end,
                 mode = { "x" },
                 desc = "Send Visual Selection",
             },
             {
                 "<leader>ap",
-                function() require("sidekick.cli").prompt() end,
+                function()
+                    require("sidekick.cli").prompt()
+                end,
                 mode = { "n", "x" },
                 desc = "Sidekick Select Prompt",
             },
