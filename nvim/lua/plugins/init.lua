@@ -282,12 +282,12 @@ local plugins = {
                     -- - sr)'  - [S]urround [R]eplace [)] [']
                     require("mini.surround").setup({
                         mappings = {
-                            add = "sa", -- Add surrounding in Normal and Visual modes
-                            delete = "ds", -- Delete surrounding
-                            find = "gzf", -- Find surrounding (to the right)
+                            add = "sa",        -- Add surrounding in Normal and Visual modes
+                            delete = "ds",     -- Delete surrounding
+                            find = "gzf",      -- Find surrounding (to the right)
                             find_left = "gzF", -- Find surrounding (to the left)
                             highlight = "gzh", -- Highlight surrounding
-                            replace = "cs", -- Replace surrounding
+                            replace = "cs",    -- Replace surrounding
                         },
                     })
 
@@ -475,8 +475,8 @@ local plugins = {
                     -- With this change, I can sort of get the same behaviour in live_grep.
                     -- ex: > enable --*/plugins/*
                     -- I still find this a bit cumbersome. There's probably a better way of doing this.
-                    rg_glob = true, -- enable glob parsing
-                    glob_flag = "--iglob", -- case insensitive globs
+                    rg_glob = true,            -- enable glob parsing
+                    glob_flag = "--iglob",     -- case insensitive globs
                     glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
                 },
                 winopts = {
@@ -571,8 +571,12 @@ local plugins = {
     {
         "azabiong/vim-highlighter",
         keys = {
-            { "<leader>hh", ":Hi+<space>", desc = "Highlight Input" },
-            { "f<cr>",      remap = true,  desc = "Highlight Word" },
+            { "<leader>hh", ":Hi+<space>",
+                desc = "Highlight Input" },
+            { "f<cr>",
+                mode = { 'n', 'v' },
+                remap = true,
+                desc = "Highlight Word" },
         },
         config = function()
             vim.cmd([[
@@ -1320,7 +1324,7 @@ local plugins = {
             local backend = "treesitter"
 
             vim.o.foldcolumn = "1" -- '0' is not bad
-            vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+            vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
             vim.o.foldlevelstart = 99
             vim.o.foldenable = true
 
@@ -1398,17 +1402,17 @@ local plugins = {
         },
         cmd = { "Cscope" },
         opts = {
-            disable_maps = true, -- true disables keymaps, only :Cscope will be loaded
-            skip_input_prompt = true, -- "true" doesn't ask for input
+            disable_maps = true,       -- true disables keymaps, only :Cscope will be loaded
+            skip_input_prompt = true,  -- "true" doesn't ask for input
             cscope = {
-                db_file = "GTAGS", -- location of cscope db file
+                db_file = "GTAGS",     -- location of cscope db file
                 exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
-                picker = "quickfix", -- "telescope", "fzf-lua" or "quickfix"
+                picker = "quickfix",   -- "telescope", "fzf-lua" or "quickfix"
                 picker_opts = {
                     -- size of quickfix window
-                    window_size = 10,     -- any positive integer
+                    window_size = 10,                 -- any positive integer
                     -- position of quickfix window
-                    window_pos = "bottom", -- "bottom", "right", "left" or "top"
+                    window_pos = "bottom",            -- "bottom", "right", "left" or "top"
                 },
                 skip_picker_for_single_result = true, -- jump directly to position for single result
                 -- these args are directly passed to "cscope -f <db_file> <args>"
@@ -1455,9 +1459,9 @@ local plugins = {
             git = {},
             picker = {},
             bigfile = {
-                notify = true, -- show notification when big file detected
+                notify = true,          -- show notification when big file detected
                 size = 3 * 1024 * 1024, -- 3MB
-                line_length = 1000, -- average line length (useful for minified files)
+                line_length = 1000,     -- average line length (useful for minified files)
                 -- Enable or disable features when big file detected
                 ---@param ctx {buf: number, ft:string}
                 setup = function(ctx)
