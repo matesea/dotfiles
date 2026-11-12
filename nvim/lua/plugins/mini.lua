@@ -1,3 +1,5 @@
+local ft_code = { "c", "h", "S", "cpp", "python", "vim", "sh", "lua", "java" }
+
 return {
 	{
 		"nvim-mini/mini.nvim",
