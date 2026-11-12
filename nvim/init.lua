@@ -6,6 +6,21 @@ local xdg_config = env.XDG_CONFIG_HOME
 local xdg_data = env.XDG_DATA_HOME
 local home = env.HOME
 
+local function lazy_init()
+    local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+    if not (vim.uv or vim.loop).fs_stat(lazypath) then
+        vim.fn.system({
+            "git",
+            "clone",
+            "--filter=blob:none",
+            "https://github.com/folke/lazy.nvim.git",
+            "--branch=stable", -- latest stable release
+            lazypath,
+        })
+    end
+    vim.opt.rtp:prepend(lazypath)
+end
+
 if xdg_config ~= nil then
     if fn.isdirectory(xdg_config .. '/nvim') then
         env.VIMHOME = xdg_config .. '/nvim'
@@ -26,7 +41,8 @@ end
 
 
 require('config')
-require('plugins')
+lazy_init()
+require("lazy").setup("plugins")
 
 -- import local settings if exist
 local local_rc = nil

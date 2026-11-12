@@ -38,9 +38,6 @@ map("x", "<leader>w", "<esc>:write<cr>", { desc = "Save File" })
 map("n", "!", ":!", { desc = "Enter Command" })
 map("n", "<leader>qq", "<cmd>quitall!<cr>", { desc = "Quit All" })
 
--- ctags jump to definition, in case of gtags/cscope not available
-map("n", "<leader>t", ":tjump <c-r><c-w><cr>", { desc = "CTAGS jump" })
-
 -- Jump to next/previous whitespace error.
 ---@param direction 1 | -1
 function _G.whitespace_jump(direction) -- {{{
