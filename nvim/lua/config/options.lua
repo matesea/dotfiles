@@ -68,7 +68,6 @@ cmd([[
     syntax sync minlines=250
 ]])
 
--- cmd("set shada=!,'300,<50,@100,s10,h,n$VIMINFO/.viminfo.shada")
 
 -- omni completion, smart autocompletion for programs
 -- when invoked, the text before the cursor is inspected to guess what might follow
@@ -181,7 +180,7 @@ g.loaded_ruby_provider = 0
 g.loaded_node_provider = 0
 
 cmd([[
-    set shada=!,'300,<50,@100,s10,h,n$VIMINFO/.viminfo.shada
+    set shada=!,'300,<50,@100,s10,h
 ]])
 
 -- exclude quickfix from bnext/bprev
