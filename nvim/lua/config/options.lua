@@ -153,9 +153,6 @@ opt.foldlevel = 100
 if fn.executable("rg") then
     opt.grepprg = "rg -S --vimgrep --no-heading --no-column"
     opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
-elseif fn.executable("ag") then
-    opt.grepprg = "ag --group --nocolor --vimgrep"
-    opt.grepformat = "%f:%1:%c:%m"
 else
     opt.grepprg = "grep -nH"
 end
@@ -164,15 +161,6 @@ end
 cmd("set t_Co=256")
 opt.termguicolors = true
 opt.background = "dark"
-
---[[
- == execute command and put the results into new buffer ==
- # alternative file name which is the last edit file, % for current file name
- they are readonly registers
- check https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
- or https://www.brianstorti.com/vim-registers/
- eg, find pattern in current file :R rg <pattern> #
---]]
 
 g.loaded_perl_provider = 0
 g.loaded_python3_provider = 0

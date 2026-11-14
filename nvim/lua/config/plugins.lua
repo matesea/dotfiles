@@ -14,4 +14,13 @@ local function lazy_init()
 end
 
 lazy_init()
-require("lazy").setup("plugins")
+require("lazy").setup({
+    spec = {
+        { import = "plugins" },
+    },
+    change_detection = {
+        -- automatically check for config file changes and reload the ui
+        enabled = false,
+        notify = false, -- get a notification when changes are found
+    },
+})

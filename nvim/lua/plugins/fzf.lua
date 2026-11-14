@@ -19,11 +19,11 @@ return {
             { "<leader>sb",            "<cmd>FzfLua lines<cr>",           desc = "Buffer Lines" },
             { "<leader>fb",            "<cmd>FzfLua buffers<cr>",         desc = "Buffers" },
 
-            -- { "<leader>fe", "<cmd>FzfLua files<cr>", desc = "Files" },
-            -- { "<leader>fE", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "Files in Current Directory" },
+            --[[
+            { "<leader>fe", "<cmd>FzfLua files<cr>", desc = "Files" },
+            { "<leader>fE", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "Files in Current Directory" },
 
             -- grep related
-            --[[
 			{
 				"<leader>sG",
 				':FzfLua live_grep_native cwd=<C-R>=expand("%:h")<cr><cr>',
