@@ -8,7 +8,6 @@ return {
 
     {
         "ibhagwan/fzf-lua",
-        -- url = 'https://gitlab.com/ibhagwan/fzf-lua', -- XXX: github fzf-lua not found
         lazy = true,
         dependencies = { "fzf" },
         cmd = "FzfLua",
