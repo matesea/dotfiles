@@ -63,8 +63,6 @@ return {
 
             local previewer = "builtin"
 
-            local actions = require("fzf-lua.actions")
-
             local fzf_lua_table = {
                 "max-perf",
                 defaults = {

@@ -1,5 +1,3 @@
-local ft_code = { "c", "h", "S", "cpp", "python", "vim", "sh", "lua", "java" }
-
 return {
 	{
 		"fei6409/log-highlight.nvim",
