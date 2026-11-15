@@ -43,6 +43,9 @@ export HISTTIMEFORMAT="%F %T "
 [[ $PROMPT_COMMAND == *"history -a"* ]] ||
     PROMPT_COMMAND="history -a${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
 
+# force render 256color
+ [ "$TERM" = "xterm" ] && export TERM=xterm-256color
+
 # go up N-th level or directory name match regex
 function cd_up() {
     case $1 in
