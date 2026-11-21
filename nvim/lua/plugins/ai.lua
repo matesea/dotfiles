@@ -1,9 +1,8 @@
-local has_claude = vim.fn.executable("claude") == 1
-
 return {
     {
         "coder/claudecode.nvim",
-        cond = has_claude,
+        enabled = false,
+        cond = vim.fn.executable('claude') == 1,
         dependencies = { "folke/snacks.nvim" },
         opts = {
             terminal = {
@@ -81,7 +80,9 @@ return {
 
     {
         "folke/sidekick.nvim",
-        enabled = false,
+        cond = vim.fn.executable('claude') == 1 or
+            vim.fn.executable('codex') == 1 or
+            vim.fn.executable('cursor') == 1,
         opts = {
             cli = {
                 win = {

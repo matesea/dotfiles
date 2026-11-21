@@ -14,6 +14,10 @@ end
 vim.keymap.set("n", "]t", ":tabn<cr>", { desc = "Next Tab" })
 vim.keymap.set("n", "[t", ":tabp<cr>", { desc = "Previous Tab" })
 
+-- Clear highlights on search when pressing <Esc> in normal mode
+--  See `:help hlsearch`
+vim.keymap.set("n", "<esc>", "<cmd>nohlsearch<cr>")
+
 -- command mode
 map("c", "<C-h>", "<Home>")
 map("c", "<C-l>", "<End>")

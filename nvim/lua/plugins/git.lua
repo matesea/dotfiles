@@ -12,7 +12,6 @@ return {
 
     {
         "lewis6991/gitsigns.nvim",
-        -- version = 'release',
         cond = has_git,
         keys = {
             -- stylua: ignore start

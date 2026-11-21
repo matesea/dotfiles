@@ -74,7 +74,7 @@ cmd([[
 -- A popup menu offers word completion choices that may include struct and class members, system functions
 opt.ofu = "syntaxcomplete#Completion"
 
-opt.cmdheight = 1
+opt.cmdheight = 0
 opt.hidden = true
 opt.whichwrap:append("<,>,h,l")
 opt.magic = true
@@ -141,6 +141,7 @@ opt.linebreak = true
 opt.textwidth = 500
 
 opt.wrap = false
+opt.winborder = "single"
 
 opt.switchbuf = "usetab"
 opt.showtabline = 1
@@ -150,7 +151,7 @@ opt.foldmethod = "syntax"
 opt.foldlevel = 100
 
 -- setup grep parameters and format
-if fn.executable("rg") then
+if fn.executable("rg") == 1 then
     opt.grepprg = "rg -S --vimgrep --no-heading --no-column"
     opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 else
@@ -166,14 +167,61 @@ g.loaded_python3_provider = 0
 g.loaded_ruby_provider = 0
 g.loaded_node_provider = 0
 
-cmd([[
-    set shada=!,'300,<50,@100,s10,h
-]])
+--[[
+  ShDa (viminfo for vim): session data history
+  --------------------------------------------
+  ! - Save and restore global variables (their names should be without lowercase letter).
+  ' - Specify the maximum number of marked files remembered. It also saves the jump list and the change list.
+  < - Maximum of lines saved for each register. All the lines are saved if this is not included, <0 to disable pessistent registers.
+  % - Save and restore the buffer list. You can specify the maximum number of buffer stored with a number.
+  / or : - Number of search patterns and entries from the command-line history saved. vim.o.history is used if it’s not specified.
+  f - Store file (uppercase) marks, use 'f0' to disable.
+  s - Specify the maximum size of an item’s content in KiB (kilobyte).
+      For the viminfo file, it only applies to register.
+      For the shada file, it applies to all items except for the buffer list and header.
+  h - Disable the effect of 'hlsearch' when loading the shada file.
 
--- exclude quickfix from bnext/bprev
-cmd([[
-augroup qf
-    autocmd!
-    autocmd FileType qf set nobuflisted
-augroup END
-]])
+  :oldfiles - all files with a mark in the shada file
+  :rshada   - read the shada file (:rviminfo for vim)
+  :wshada   - write the shada file (:wrviminfo for vim)
+]]
+vim.o.shada = [[!,'10000,<0,s100,h]]
+
+-- For floating cmdline and messages
+require("vim._core.ui2").enable({
+	enable = true,
+	msg = {
+		targets = {
+			[""] = "msg",
+			empty = "cmd",
+			bufwrite = "msg",
+			confirm = "cmd",
+			emsg = "pager",
+			echo = "msg",
+			echomsg = "msg",
+			echoerr = "pager",
+			completion = "cmd",
+			list_cmd = "pager",
+			lua_error = "pager",
+			lua_print = "msg",
+			progress = "pager",
+			rpc_error = "pager",
+			quickfix = "msg",
+			search_cmd = "cmd",
+			search_count = "cmd",
+			shell_cmd = "pager",
+			shell_err = "pager",
+			shell_out = "pager",
+			shell_ret = "msg",
+			undo = "msg",
+			verbose = "pager",
+			wildlist = "cmd",
+			wmsg = "msg",
+			typed_cmd = "cmd",
+		},
+		cmd = { height = 0.5 },
+		dialog = { height = 0.5 },
+		msg = { height = 0.3, timeout = 5000 },
+		pager = { height = 0.5 },
+	},
+})

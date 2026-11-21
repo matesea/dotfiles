@@ -29,9 +29,6 @@ return {
         lazy = false,
         ---@type snacks.Config
         opts = {
-            -- your configuration comes here
-            -- or leave it empty to use the default settings
-            -- refer to the configuration section below
             toggle = {
                 map = function(mode, lhs, rhs, opts)
                     opts = opts or {}
@@ -43,7 +40,12 @@ return {
             indent = { enabled = true },
             quickfile = { enabled = true },
             git = {},
-            picker = {},
+            picker = {
+                layouts = {
+                    -- Dim behind pickers, but keep the explorer (zindex 30) visible.
+                    default = { layout = { backdrop = { win = { zindex = 29 } } } },
+                },
+            },
             bigfile = {
                 notify = true, -- show notification when big file detected
                 size = 3 * 1024 * 1024, -- 3MB
@@ -76,8 +78,8 @@ return {
             },
             terminal = {
                 win = {
-                    style = "terminal",
-                    wo = { winbar = "" },
+                    position = "float",
+                    border = "single",
                     -- stylua: ignore
                     keys = {
                         nav_h = { '<C-h>', term_nav('h'), desc = 'Go to Left Window', expr = true, mode = 't' },
@@ -94,29 +96,31 @@ return {
             -- stylua: ignore start
             --[[
 
-            {'<leader><localleader>', function() Snacks.picker() end, 'Pickers'},
-            {'<leader>sz', zoxide, 'Zoxide'},
-            {'<leader>sb', function() Snacks.picker.lines() end, desc = 'Lines'},
-            {'<leader>fb', function() Snacks.picker.buffers() end, desc = 'Buffers'},
-            {'<leader>fr', function() Snacks.picker.picker('oldfiles') end, desc = 'Recent'},
-            {'<leader>s"', function() Snacks.picker.registers() end, desc = 'Registers'},
-            {'<leader>s/', function() Snacks.picker.search_history() end, desc = 'Search History'},
-            {'<leader>sC', function() Snacks.picker.commands() end, desc = 'Commands'},
-            {'<leader>sc', function() Snacks.picker.command_history() end, desc = 'Command History'},
-            {'<leader>sj', function() Snacks.picker.jumps() end, desc = 'Jumps'},
-            {'<leader>sm', function() Snacks.picker.marks() end, desc = 'Marks'},
-            {'<leader>sq', function() Snacks.picker.qflist() end, desc = 'Quickfix List'},
+            { '<leader><localleader>', function() Snacks.picker() end,                                   'Pickers' },
+            { '<leader>sz',            zoxide,                                                           'Zoxide' },
+            { '<leader>ff',            function() Snacks.picker.files() end,                             desc = 'Files' },
+            { '<leader>fE',            function() Snacks.picker.files({ cwd = vim.fn.expand("%:h") }) end, desc = 'Files in Current Directory' },
+            { '<leader>sb',            function() Snacks.picker.lines() end,                             desc = 'Lines' },
+            { '<leader>fb',            function() Snacks.picker.buffers() end,                           desc = 'Buffers' },
+            { '<leader>fr',            function() Snacks.picker.picker('oldfiles') end,                  desc = 'Recent' },
+            { '<leader>s"',            function() Snacks.picker.registers() end,                         desc = 'Registers' },
+            { '<leader>s/',            function() Snacks.picker.search_history() end,                    desc = 'Search History' },
+            { '<leader>sC',            function() Snacks.picker.commands() end,                          desc = 'Commands' },
+            { '<leader>sc',            function() Snacks.picker.command_history() end,                   desc = 'Command History' },
+            { '<leader>sj',            function() Snacks.picker.jumps() end,                             desc = 'Jumps' },
+            { '<leader>sm',            function() Snacks.picker.marks() end,                             desc = 'Marks' },
+            { '<leader>sq',            function() Snacks.picker.qflist() end,                            desc = 'Quickfix List' },
 
             -- grep
-            { '<leader>sg', function() Snacks.picker.grep() end, desc = "Live Grep"},
-            { '<leader>sG', function() Snacks.picker.grep({cwd = vim.fn.expand("%:h")}) end, desc = "Live Grep in Current Directory"},
-            { '<leader>sw', function() Snacks.picker.grep_word() end, desc = "Live Grep cword"},
+            { '<leader>sg',            function() Snacks.picker.grep() end,                              desc = "Live Grep" },
+            { '<leader>sG',            function() Snacks.picker.grep({ cwd = vim.fn.expand("%:h") }) end, desc = "Live Grep in Current Directory" },
+            { '<leader>sw',            function() Snacks.picker.grep_word() end,                         desc = "Live Grep cword" },
 
             -- git
-            {'<leader>gb', function() Snacks.picker.git_log_line() end, desc = 'Git Blame Line'},
-            {'<leader>gc', function() Snacks.picker.git_log_file() end, desc = 'Git Log File'},
+            { '<leader>gb',            function() Snacks.picker.git_log_line() end,                      desc = 'Git Blame Line' },
+            { '<leader>gc',            function() Snacks.picker.git_log_file() end,                      desc = 'Git Log File' },
+            ]]
 
-          ]]
             { "<leader>ft", function() Snacks.terminal() end,          desc = "Toggle Terminal", },
             { "<c-/>",      function() Snacks.terminal.focus(nil) end, mode = { "n", "t" },      desc = "Terminal Focus", },
             { "<c-_>",      function() Snacks.terminal.focus(nil) end, mode = { "n", "t" },      desc = "Terminal Focus", },

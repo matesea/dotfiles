@@ -18,8 +18,7 @@ return {
             { "<leader>sb",            "<cmd>FzfLua lines<cr>",           desc = "Buffer Lines" },
             { "<leader>fb",            "<cmd>FzfLua buffers<cr>",         desc = "Buffers" },
 
-            --[[
-            { "<leader>fe", "<cmd>FzfLua files<cr>", desc = "Files" },
+            { "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Files" },
             { "<leader>fE", ':FzfLua files cwd=<C-R>=expand("%:h")<cr><cr>', desc = "Files in Current Directory" },
 
             -- grep related
@@ -36,7 +35,6 @@ return {
 				end,
 				desc = "Live Grep cword",
 			},
-            ]]
 
             { "<leader>fr",            "<cmd>FzfLua oldfiles<cr>",        desc = "Recent File" },
             { "<leader>s/",            "<cmd>FzfLua search_history<cr>",  desc = "Search History" },
@@ -155,6 +153,7 @@ return {
 
     {
         "dmtrKovalenko/fff",
+        enabled = false,
         build = function()
             -- downloads a prebuilt binary or falls back to cargo build
             require("fff.download").download_or_build_binary()
