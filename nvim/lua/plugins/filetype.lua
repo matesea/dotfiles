@@ -42,6 +42,8 @@ return {
 
 	{ "vim-scripts/scons.vim", lazy = true, ft = "scons" },
 
+	{ "habamax/vim-rst", ft = "rst" },
+
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		ft = { "markdown", "norg", "rmd", "org", "codecompanion" },

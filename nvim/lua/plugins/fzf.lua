@@ -150,30 +150,4 @@ return {
             fzf_lua.setup(fzf_lua_table)
         end,
     },
-
-    {
-        "dmtrKovalenko/fff",
-        enabled = false,
-        build = function()
-            -- downloads a prebuilt binary or falls back to cargo build
-            require("fff.download").download_or_build_binary()
-        end,
-        opts = {
-            layout = {
-                width = 0.9,
-                prompt_position = "top",
-            },
-        },
-        keys = {
-            -- stylua: ignore start
-            { "<leader>fE", function() require("fff").find_files_in_dir(vim.fn.expand("%:h")) end,                desc = "Find Files in Current Directory", },
-            { "<leader>ff", function() require("fff").find_files() end,                                           desc = "Find files", },
-            { "<leader>sG", function() require("fff").live_grep({ cwd = vim.fn.expand("%:h") }) end,              desc = "Live Grep in Curent Directory", },
-            { "<leader>sg", function() require("fff").live_grep() end,                                            desc = "Live Grep", },
-            { "<leader>sf", function() require("fff").live_grep({ grep = { modes = { "fuzzy", "plain" } } }) end, desc = "Live Fuzy Grep", },
-            { "<leader>sw", function() require("fff").live_grep({ query = vim.fn.expand("<cword>") }) end,        desc = "Live Grep cword", },
-            -- stylua: ignore end
-        },
-    },
-
 }
