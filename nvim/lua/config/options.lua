@@ -38,6 +38,7 @@ g.mapleader = " "
 g.maplocalleader = ";"
 g.have_nerd_font = true
 opt.cindent = true
+opt.laststatus = 3 -- global statusline
 opt.showmode = false
 opt.number = true
 -- set as 'a' to allow mouse scroll
@@ -67,7 +68,6 @@ cmd([[
     filetype plugin indent off
     syntax sync minlines=250
 ]])
-
 
 -- omni completion, smart autocompletion for programs
 -- when invoked, the text before the cursor is inspected to guess what might follow
@@ -187,41 +187,53 @@ g.loaded_node_provider = 0
 ]]
 vim.o.shada = [[!,'10000,<0,s100,h]]
 
--- For floating cmdline and messages
-require("vim._core.ui2").enable({
-	enable = true,
-	msg = {
-		targets = {
-			[""] = "msg",
-			empty = "cmd",
-			bufwrite = "msg",
-			confirm = "cmd",
-			emsg = "pager",
-			echo = "msg",
-			echomsg = "msg",
-			echoerr = "pager",
-			completion = "cmd",
-			list_cmd = "pager",
-			lua_error = "pager",
-			lua_print = "msg",
-			progress = "pager",
-			rpc_error = "pager",
-			quickfix = "msg",
-			search_cmd = "cmd",
-			search_count = "cmd",
-			shell_cmd = "pager",
-			shell_err = "pager",
-			shell_out = "pager",
-			shell_ret = "msg",
-			undo = "msg",
-			verbose = "pager",
-			wildlist = "cmd",
-			wmsg = "msg",
-			typed_cmd = "cmd",
-		},
-		cmd = { height = 0.5 },
-		dialog = { height = 0.5 },
-		msg = { height = 0.3, timeout = 5000 },
-		pager = { height = 0.5 },
-	},
-})
+if vim.fn.has("nvim-0.12") == 1 then
+    -- For floating cmdline and messages
+    require("vim._core.ui2").enable({
+        enable = true,
+        msg = {
+            targets = {
+                [""] = "msg",
+                empty = "cmd",
+                bufwrite = "msg",
+                confirm = "cmd",
+                emsg = "pager",
+                echo = "msg",
+                echomsg = "msg",
+                echoerr = "pager",
+                completion = "cmd",
+                list_cmd = "pager",
+                lua_error = "pager",
+                lua_print = "msg",
+                progress = "pager",
+                rpc_error = "pager",
+                quickfix = "msg",
+                search_cmd = "cmd",
+                search_count = "cmd",
+                shell_cmd = "pager",
+                shell_err = "pager",
+                shell_out = "pager",
+                shell_ret = "msg",
+                undo = "msg",
+                verbose = "pager",
+                wildlist = "cmd",
+                wmsg = "msg",
+                typed_cmd = "cmd",
+            },
+            cmd = { height = 0.5 },
+            dialog = { height = 0.5 },
+            msg = { height = 0.3, timeout = 5000 },
+            pager = { height = 0.5 },
+        },
+    })
+end
+
+-- automatically clear hlsearch
+vim.on_key(function(char)
+    if vim.fn.mode() == "n" then
+        local new_hlsearch = vim.tbl_contains({ "<CR>", "n", "N", "*", "#", "?", "/" }, vim.fn.keytrans(char))
+        if vim.opt.hlsearch:get() ~= new_hlsearch then
+            vim.opt.hlsearch = new_hlsearch
+        end
+    end
+end, vim.api.nvim_create_namespace("auto_hlsearch"))

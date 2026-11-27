@@ -10,6 +10,7 @@ return {
             require("mini.cmdline").setup()
             require("mini.tabline").setup({ show_icons = true })
             require("mini.statusline").setup({ use_icons = vim.g.have_nerd_font })
+            -- require("mini.notify").setup()
             -- require('mini.animate').setup()
             require("mini.clue").setup({
                 clues = {

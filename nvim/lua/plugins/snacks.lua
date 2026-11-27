@@ -40,6 +40,7 @@ return {
             indent = { enabled = true },
             quickfile = { enabled = true },
             git = {},
+            notifier = {},
             picker = {
                 layouts = {
                     -- Dim behind pickers, but keep the explorer (zindex 30) visible.

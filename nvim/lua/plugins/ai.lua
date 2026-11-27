@@ -1,7 +1,15 @@
-return {
+local ai = require("utils.persistent-ai-loader")
+
+-- Used when no state file exists (or it names an unknown/disabled plugin).
+ai.default = "sidekick"
+
+-- Each entry: id -> lazy.nvim spec. Only the enabled one (see `:AIPick`) is loaded.
+-- `enabled = false` on an entry removes it from the selectable list as well.
+-- To add another AI plugin, append an entry here; `cond` is the usual availability check.
+local specs = {
     {
+        "claudecode",
         "coder/claudecode.nvim",
-        enabled = false,
         cond = vim.fn.executable('claude') == 1,
         dependencies = { "folke/snacks.nvim" },
         opts = {
@@ -79,14 +87,81 @@ return {
     },
 
     {
+        "sidekick",
         "folke/sidekick.nvim",
-        cond = vim.fn.executable('claude') == 1 or
-            vim.fn.executable('codex') == 1 or
-            vim.fn.executable('cursor') == 1,
         opts = {
             cli = {
                 win = {
                     layout = "float",
+                    -- Dim the rest of the editor while the floating agent window is open.
+                    -- sidekick has no native backdrop option, so draw a full-screen
+                    -- blended float just below the terminal float (default zindex 50).
+                    config = function(terminal)
+                        local blend = 60 -- 0 = opaque black, 100 = no dimming
+                        local backdrop ---@type integer?
+
+                        local function close()
+                            if backdrop and vim.api.nvim_win_is_valid(backdrop) then
+                                pcall(vim.api.nvim_win_close, backdrop, true)
+                            end
+                            backdrop = nil
+                        end
+
+                        local function show()
+                            local win = terminal.win
+                            if not (win and vim.api.nvim_win_is_valid(win)) then
+                                return
+                            end
+                            if vim.api.nvim_win_get_config(win).relative == "" then
+                                return -- not a float
+                            end
+                            local cfg = {
+                                relative = "editor",
+                                row = 0,
+                                col = 0,
+                                width = vim.o.columns,
+                                height = vim.o.lines,
+                                focusable = false,
+                                style = "minimal",
+                                zindex = 40,
+                            }
+                            if backdrop and vim.api.nvim_win_is_valid(backdrop) then
+                                vim.api.nvim_win_set_config(backdrop, cfg)
+                                return
+                            end
+                            local buf = vim.api.nvim_create_buf(false, true)
+                            vim.bo[buf].bufhidden = "wipe"
+                            backdrop = vim.api.nvim_open_win(buf, false, cfg)
+                            vim.wo[backdrop].winblend = blend
+                            vim.wo[backdrop].winhighlight = "Normal:SidekickBackdrop,NormalFloat:SidekickBackdrop"
+                        end
+
+                        vim.api.nvim_set_hl(0, "SidekickBackdrop", { bg = "#000000", default = true })
+
+                        -- terminal.win is assigned after nvim_open_win returns, so defer.
+                        vim.api.nvim_create_autocmd("WinNew", {
+                            group = terminal.group,
+                            callback = function()
+                                vim.schedule(show)
+                            end,
+                        })
+                        vim.api.nvim_create_autocmd("WinClosed", {
+                            group = terminal.group,
+                            callback = function(args)
+                                if tonumber(args.match) == terminal.win then
+                                    close()
+                                end
+                            end,
+                        })
+                        vim.api.nvim_create_autocmd("VimResized", {
+                            group = terminal.group,
+                            callback = function()
+                                if backdrop then
+                                    show()
+                                end
+                            end,
+                        })
+                    end,
                 },
             },
         },
@@ -164,3 +239,34 @@ return {
         },
     },
 }
+
+-- Evaluate a lazy.nvim `enabled`/`cond` value (boolean, function, or nil => true).
+local function truthy(v, spec)
+    if type(v) == "function" then
+        v = v(spec)
+    end
+    return v ~= false
+end
+
+-- Register every id first so the persisted choice can be validated against the full list.
+-- Specs with `enabled = false` are never selectable (lazy.nvim drops them anyway).
+for _, entry in ipairs(specs) do
+    if truthy(entry.enabled, entry) then
+        ai.register(entry[1])
+    end
+end
+
+-- Turn `{ id, "owner/repo", ... }` into a real lazy spec gated on the persisted choice.
+-- `enabled` is left untouched for lazy.nvim; `cond` keeps the original availability check
+-- AND requires this spec to be the chosen one.
+local result = {}
+for _, entry in ipairs(specs) do
+    local id = table.remove(entry, 1)
+    local orig_cond = entry.cond
+    entry.cond = function(plugin)
+        return ai.is_enabled(id) and truthy(orig_cond, plugin)
+    end
+    table.insert(result, entry)
+end
+
+return result
